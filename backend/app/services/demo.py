@@ -17,6 +17,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.core.errors import FeatureDisabledError, NotFoundError
 from app.core.logging import get_logger
 from app.core.privacy import hash_author_id
@@ -44,14 +45,24 @@ class DemoChannelInfo:
 
 
 def _fixtures_dir() -> Path:
-    if FIXTURES_DIR.exists():
-        return FIXTURES_DIR
-    # Alternativa cuando el backend se ejecuta desde su propio directorio.
-    candidate = Path.cwd() / "fixtures"
-    if candidate.exists():
-        return candidate
-    candidate = Path.cwd().parent / "fixtures"
-    return candidate
+    """Localiza el directorio de fixtures.
+
+    Prioriza `FIXTURES_DIR` del entorno (que es lo que fija la imagen de
+    Docker) y sólo si no está definido busca las ubicaciones habituales de
+    desarrollo.
+    """
+    if settings.fixtures_dir:
+        return Path(settings.fixtures_dir)
+
+    candidates = (
+        FIXTURES_DIR,
+        Path.cwd() / "fixtures",
+        Path.cwd().parent / "fixtures",
+    )
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return FIXTURES_DIR
 
 
 @lru_cache(maxsize=1)

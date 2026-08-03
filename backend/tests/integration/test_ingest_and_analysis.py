@@ -445,3 +445,35 @@ def test_reanalysis_replaces_previous_results(session: Session) -> None:
     AnalysisOrchestrator(session).execute(first.id)
     topics_again = len(ResultsRepository(session).topics(first.id))
     assert topics_first == topics_again
+
+
+def test_fixtures_dir_setting_is_honoured(monkeypatch: pytest.MonkeyPatch, tmp_path: Any) -> None:
+    """`FIXTURES_DIR` manda sobre la búsqueda automática (así lo fija Docker)."""
+    import json
+
+    from app.services import demo
+
+    (tmp_path / "index.json").write_text(
+        json.dumps(
+            {
+                "channels": [
+                    {
+                        "file": "x.json",
+                        "youtube_channel_id": "UCx",
+                        "handle": "canalficticio",
+                        "title": "Canal ficticio",
+                        "videos": 1,
+                        "comments": 2,
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(settings, "fixtures_dir", str(tmp_path))
+    demo.list_demo_channels.cache_clear()
+    try:
+        channels = demo.list_demo_channels()
+        assert [c.handle for c in channels] == ["canalficticio"]
+    finally:
+        demo.list_demo_channels.cache_clear()

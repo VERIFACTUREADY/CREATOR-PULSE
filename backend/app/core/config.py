@@ -98,6 +98,11 @@ class Settings(BaseSettings):
     author_hash_salt: str = "change-me-author-salt"
 
     # --- Observabilidad -----------------------------------------------
+    #: Directorio de datos de demostración. Vacío = búsqueda automática
+    #: relativa al repositorio (útil en desarrollo). En Docker se fija a
+    #: `/fixtures`, que es donde los copia la imagen.
+    fixtures_dir: str = ""
+
     log_level: str = "INFO"
     log_json: bool = True
     enable_demo_mode: bool = True

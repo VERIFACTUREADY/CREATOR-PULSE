@@ -1,0 +1,262 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # La CI no necesita credenciales de Azure ni de YouTube: todo se ejecuta
+  # contra servicios locales y con el modo demostración.
+  PYTHONUNBUFFERED: '1'
+  NEXT_TELEMETRY_DISABLED: '1'
+
+jobs:
+  backend:
+    name: Backend (lint, tipos y pruebas)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_DB: creator_signal
+          POSTGRES_USER: creator_signal
+          POSTGRES_PASSWORD: change-me
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U creator_signal"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+
+    env:
+      DATABASE_URL: postgresql+psycopg://creator_signal:change-me@localhost:5432/creator_signal
+      REDIS_URL: redis://localhost:6379/0
+      APP_ENV: test
+      LOG_JSON: 'false'
+      LOG_LEVEL: WARNING
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: backend/pyproject.toml
+
+      - name: Instalar dependencias
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
+
+      - name: Linter (ruff)
+        working-directory: backend
+        run: ruff check .
+
+      - name: Formato (ruff format)
+        working-directory: backend
+        run: ruff format --check .
+
+      - name: Comprobación de tipos (mypy)
+        working-directory: backend
+        run: mypy app
+
+      - name: Migraciones
+        working-directory: backend
+        run: alembic upgrade head
+
+      - name: Pruebas
+        working-directory: backend
+        run: pytest -q
+
+  frontend:
+    name: Frontend (lint, tipos y pruebas)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependencias
+        working-directory: frontend
+        run: npm ci --no-audit --no-fund
+
+      - name: Linter (ESLint)
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Comprobación de tipos (tsc)
+        working-directory: frontend
+        run: npm run typecheck
+
+      - name: Pruebas de componentes (Vitest)
+        working-directory: frontend
+        run: npm test
+
+      - name: Construcción
+        working-directory: frontend
+        run: npm run build
+
+  e2e:
+    name: Prueba de extremo a extremo (modo demostración)
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_DB: creator_signal
+          POSTGRES_USER: creator_signal
+          POSTGRES_PASSWORD: change-me
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U creator_signal"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+
+    env:
+      DATABASE_URL: postgresql+psycopg://creator_signal:change-me@localhost:5432/creator_signal
+      REDIS_URL: redis://localhost:6379/0
+      APP_ENV: development
+      LOG_JSON: 'false'
+      ENABLE_DEMO_MODE: 'true'
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: backend/pyproject.toml
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar backend
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
+
+      - name: Migraciones
+        working-directory: backend
+        run: alembic upgrade head
+
+      - name: Arrancar API y worker
+        working-directory: backend
+        run: |
+          nohup python -m app.workers.main > worker.log 2>&1 &
+          nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 > api.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8000/api/health > /dev/null; then
+              echo "API lista"; exit 0
+            fi
+            sleep 2
+          done
+          echo "La API no ha arrancado"; cat api.log; exit 1
+
+      - name: Instalar frontend
+        working-directory: frontend
+        run: npm ci --no-audit --no-fund
+
+      - name: Construir frontend
+        working-directory: frontend
+        run: npm run build
+
+      - name: Instalar navegador de Playwright
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: Prueba de extremo a extremo
+        working-directory: frontend
+        run: npx playwright test
+
+      - name: Publicar informe si falla
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 7
+
+      - name: Publicar registros si falla
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-logs
+          path: |
+            backend/api.log
+            backend/worker.log
+          retention-days: 7
+
+  docker:
+    name: Construcción de imágenes Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Validar docker-compose.yml
+        run: |
+          cp .env.example .env
+          docker compose config --quiet
+
+      - name: Construir imagen del backend
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: backend/Dockerfile
+          push: false
+          load: true
+          tags: creator-signal-backend:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Construir imagen del frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: false
+          load: true
+          tags: creator-signal-frontend:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

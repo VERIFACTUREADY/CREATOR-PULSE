@@ -90,9 +90,34 @@ Plan de implementación interno. Estado: `[x]` hecho, `[~]` parcial, `[ ]` pendi
 - [x] Documentación de despliegue y checklist de producción
 - [x] Workflow de CI
 
+## Estado de verificación
+
+Ejecutado y comprobado en este entorno:
+
+| Comprobación | Resultado |
+| --- | --- |
+| `ruff check` + `ruff format --check` | Sin incidencias (81 ficheros) |
+| `mypy app` | Sin incidencias (65 ficheros) |
+| `pytest` | 306 pruebas en verde |
+| `npm run lint` (ESLint) | Sin avisos ni errores |
+| `npm run typecheck` (tsc) | Sin errores |
+| `npm test` (Vitest) | 63 pruebas en verde |
+| `npm run build` (Next.js) | Construcción correcta, 10 rutas |
+| `npx playwright test` | 5 pruebas E2E en verde contra el sistema real |
+| `alembic upgrade head` | Esquema creado con `vector(384)` nativo |
+| `docker compose config` | Válido |
+| Flujo completo por HTTP | Análisis encolado → worker → dashboard → export CSV/JSON |
+
 ## Limitaciones conocidas del entorno de construcción
-- El registro de imágenes Docker está bloqueado por la política de red del entorno de
-  construcción, por lo que `docker compose up --build` no pudo ejecutarse aquí. Los
-  Dockerfiles y el `docker-compose.yml` se validaron con `docker compose config` y el
-  sistema se verificó de extremo a extremo ejecutando los servicios de forma nativa
-  (PostgreSQL 16 + pgvector 0.6, Redis 7, uvicorn, worker RQ, Next.js).
+
+- **El registro de imágenes de Docker está bloqueado** por la política de red de este
+  entorno (403 al descargar `python:3.11-slim-bookworm` y `node:22-slim`), así que
+  `docker compose up --build` **no pudo ejecutarse aquí**. Lo que sí se hizo:
+  - `docker compose config` valida el fichero y los seis servicios.
+  - Las rutas `COPY` de los Dockerfiles se revisaron contra el contexto de
+    construcción real (raíz del repositorio para el backend, `frontend/` para el
+    frontend).
+  - El sistema se verificó de extremo a extremo ejecutando los servicios de forma
+    nativa: PostgreSQL 16 con pgvector 0.6, Redis 7, uvicorn, worker RQ y Next.js.
+- La construcción de las imágenes está cubierta por el trabajo `docker` del
+  workflow de CI, que sí tiene acceso al registro.
