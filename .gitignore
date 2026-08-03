@@ -1,0 +1,40 @@
+# Entornos y dependencias
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+node_modules/
+.next/
+out/
+dist/
+build/
+*.egg-info/
+
+# Secretos y configuración local
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Herramientas
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Datos locales
+postgres_data/
+redis_data/

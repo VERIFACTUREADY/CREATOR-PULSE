@@ -1,0 +1,31 @@
+{
+  "note_es": "Datos de demostración generados artificialmente. No corresponden a ningún canal ni persona real de YouTube.",
+  "generator": "scripts/generate_fixtures.py",
+  "seed": 20240517,
+  "channels": [
+    {
+      "file": "demo_luciaglowdemo.json",
+      "youtube_channel_id": "UCdemoBEAUTY0000000000a",
+      "handle": "luciaglowdemo",
+      "title": "Lucía Glow (demo)",
+      "videos": 12,
+      "comments": 575
+    },
+    {
+      "file": "demo_pixelraptordemo.json",
+      "youtube_channel_id": "UCdemoGAMING0000000000b",
+      "handle": "pixelraptordemo",
+      "title": "PixelRaptor (demo)",
+      "videos": 13,
+      "comments": 530
+    },
+    {
+      "file": "demo_codigoclarodemo.json",
+      "youtube_channel_id": "UCdemoTECH00000000000c",
+      "handle": "codigoclarodemo",
+      "title": "Código Claro (demo)",
+      "videos": 12,
+      "comments": 496
+    }
+  ]
+}
