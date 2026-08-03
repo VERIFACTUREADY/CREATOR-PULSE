@@ -38,3 +38,6 @@ Thumbs.db
 # Datos locales
 postgres_data/
 redis_data/
+
+# Caché de compilación de TypeScript
+*.tsbuildinfo
