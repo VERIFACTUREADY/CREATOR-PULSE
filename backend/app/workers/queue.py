@@ -47,6 +47,15 @@ def check_redis() -> bool:
         return False
 
 
+def analysis_job_id(run_id: uuid.UUID) -> str:
+    """ID de trabajo derivado de la ejecución.
+
+    RQ sólo admite letras, números, guiones y guiones bajos, así que no se
+    puede usar `:` como separador.
+    """
+    return f"analysis-{run_id}"
+
+
 def enqueue_analysis(run_id: uuid.UUID, *, correlation_id: str | None = None) -> bool:
     """Encola una ejecución de análisis. Devuelve `False` si Redis falla."""
     try:
@@ -54,7 +63,7 @@ def enqueue_analysis(run_id: uuid.UUID, *, correlation_id: str | None = None) ->
             "app.workers.jobs.run_analysis_job",
             str(run_id),
             correlation_id,
-            job_id=f"analysis:{run_id}",
+            job_id=analysis_job_id(run_id),
             result_ttl=3600,
             failure_ttl=86400,
         )
@@ -72,6 +81,7 @@ def queue_depth() -> int:
 
 
 __all__ = [
+    "analysis_job_id",
     "check_redis",
     "enqueue_analysis",
     "get_queue",

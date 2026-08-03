@@ -429,3 +429,16 @@ def test_owner_oauth_start_is_blocked(client: TestClient) -> None:
     response = client.get("/api/oauth/google/start")
     assert response.status_code == 400
     assert response.json()["error"]["code"] == "modo_propietario_desactivado"
+
+
+# --- Cola de trabajos -------------------------------------------------------
+
+
+def test_job_id_is_valid_for_rq() -> None:
+    """RQ sólo admite letras, números, guiones y guiones bajos en el ID."""
+    import re
+
+    from app.workers.queue import analysis_job_id
+
+    job_id = analysis_job_id(uuid.uuid4())
+    assert re.fullmatch(r"[A-Za-z0-9_-]+", job_id), job_id
