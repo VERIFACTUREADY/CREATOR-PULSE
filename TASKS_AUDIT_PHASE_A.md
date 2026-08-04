@@ -1,0 +1,74 @@
+# Fase A — Saneamiento tras la auditoría
+
+Plan de trabajo derivado de la auditoría independiente del 4 de agosto de 2026.
+Cada bloque se cierra con su propio commit y sus pruebas de regresión.
+
+**Suite base antes de tocar nada: 381 pruebas de backend en verde.**
+
+---
+
+## Bloque 1 — Integridad de la muestra por ejecución ✅
+
+- [x] Entidad `AnalysisRunComment` (`run_id`, `comment_id`, `sampling_bucket`,
+      `selection_order`, `selected_at`, único `(run_id, comment_id)`)
+- [x] Migración `0003_muestra_por_ejecucion` (no se toca la 0001 ya publicada)
+- [x] `CommentRepository.upsert_many` devuelve los IDs reales vía
+      `ON CONFLICT DO UPDATE ... RETURNING`
+- [x] `register_run_sample`, `list_for_run` y `count_for_run`
+- [x] La ingesta ancla la muestra y aplica el tope global **tras** deduplicar
+- [x] El orquestador lee sólo por `run_id`, nunca todos los comentarios del vídeo
+- [x] El modo demo construye también su muestra por ejecución
+- [x] 6 pruebas de regresión → **387 en verde**
+
+## Bloque 2 — Respuestas de comentarios completas
+
+- [ ] Iterador paginado `comments.list(parentId=...)` en el cliente
+- [ ] Comparación con `totalReplyCount` y descarga de las que faltan
+- [ ] Deduplicación entre respuestas embebidas y paginadas
+- [ ] Respeto de límites por vídeo y por canal
+- [ ] Registro de cuota de `comments.list`
+- [ ] Pruebas de regresión
+
+## Bloque 3 — Verificación de propiedad en OAuth
+
+- [ ] `channels.list(mine=true)` tras el canje del código
+- [ ] Coincidencia exacta con `youtube_channel_id`
+- [ ] Si no coincide: no guardar, revocar y redirigir con `oauth_canal_no_coincide`
+- [ ] Pruebas de regresión
+
+## Bloque 4 — Seguridad de despliegue
+
+- [ ] `AUTH_MODE`, cabecera de confianza y redes de confianza
+- [ ] Producción sin autenticación no arranca
+- [ ] Rutas protegidas salvo health y callback
+- [ ] Pruebas de regresión
+
+## Bloque 5 — Retención y texto de privacidad
+
+- [ ] Corregir el texto que promete una purga automática inexistente
+- [ ] Dos políticas: resultados y comentarios brutos
+- [ ] Purga segura de huérfanos con `--simular`
+- [ ] Pruebas de regresión
+
+## Bloque 6 — Puntuación de calidad más honesta
+
+- [ ] Ruido, backends de respaldo y confianza media dentro de la nota
+- [ ] Topes explícitos
+- [ ] Factores expuestos y explicados
+- [ ] Pruebas de regresión
+
+## Bloque 7 — Marca
+
+- [ ] Textos visibles unificados como `CreatorPulse AI`
+- [ ] Sin renombrar tablas, revisiones de Alembic ni paquetes
+
+---
+
+## Estado de verificación
+
+Se actualiza al cerrar cada bloque. Sólo se anota lo que se ha ejecutado.
+
+| Comprobación | Resultado |
+| --- | --- |
+| Suite base (antes de la Fase A) | 381 en verde |
+| Tras el Bloque 1 | `ruff`, `mypy` y 387 pruebas en verde |

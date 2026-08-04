@@ -10,7 +10,7 @@ from sqlalchemy import delete, func, select
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session
 
-from app.models.entities import Channel, Comment, Video
+from app.models.entities import AnalysisRunComment, Channel, Comment, Video
 from app.models.enums import DataSource
 
 _CHANNEL_UPDATABLE = (
@@ -170,14 +170,17 @@ class CommentRepository:
         comments: list[dict[str, Any]],
         *,
         source: str = DataSource.YOUTUBE_API,
-    ) -> int:
+    ) -> dict[str, uuid.UUID]:
         """Inserta comentarios deduplicando por `youtube_comment_id`.
 
-        Devuelve el número de filas enviadas. El conflicto sólo actualiza los
-        contadores volátiles (likes y respuestas), no el texto original.
+        Devuelve `{youtube_comment_id: id}` con los identificadores reales de
+        cada comentario, tanto de los recién insertados como de los que ya
+        existían. Quien llama los necesita para anclar la muestra exacta a la
+        ejecución. El conflicto sólo actualiza los contadores volátiles (likes y
+        respuestas), nunca el texto original.
         """
         if not comments:
-            return 0
+            return {}
         deduped: dict[str, dict[str, Any]] = {}
         for comment in comments:
             key = comment.get("youtube_comment_id")
@@ -192,21 +195,85 @@ class CommentRepository:
 
         rows = list(deduped.values())
         if not rows:
-            return 0
+            return {}
 
-        stmt = pg_insert(Comment).values(rows)
-        stmt = stmt.on_conflict_do_update(
+        insert_stmt = pg_insert(Comment).values(rows)
+        # `DO UPDATE ... RETURNING` devuelve fila tanto si se insertó como si ya
+        # existía, que es justo lo que hace falta aquí: el identificador real de
+        # cada comentario para anclarlo a la ejecución. Con `DO NOTHING`, las
+        # filas ya existentes no volverían y se perderían de la muestra.
+        returning_stmt = insert_stmt.on_conflict_do_update(
             index_elements=[Comment.youtube_comment_id],
             set_={
-                "like_count": stmt.excluded.like_count,
-                "reply_count": stmt.excluded.reply_count,
-                "updated_at_source": stmt.excluded.updated_at_source,
-                "sampling_bucket": stmt.excluded.sampling_bucket,
+                "like_count": insert_stmt.excluded.like_count,
+                "reply_count": insert_stmt.excluded.reply_count,
+                "updated_at_source": insert_stmt.excluded.updated_at_source,
+                "sampling_bucket": insert_stmt.excluded.sampling_bucket,
             },
+        ).returning(Comment.youtube_comment_id, Comment.id)
+        result = self.session.execute(returning_stmt)
+        ids = {str(external): row_id for external, row_id in result.all()}
+        self.session.flush()
+        return ids
+
+    def register_run_sample(
+        self,
+        run_id: uuid.UUID,
+        selections: list[tuple[uuid.UUID, str | None]],
+    ) -> int:
+        """Ancla a la ejecución la muestra exacta que va a analizar.
+
+        `selections` son pares `(comment_id, sampling_bucket)` ya ordenados: la
+        posición en la lista se guarda como `selection_order`, lo que hace la
+        muestra reproducible. Es idempotente, así que reintentar el mismo
+        trabajo no duplica asociaciones ni altera el orden original.
+        """
+        if not selections:
+            return 0
+
+        seen: set[uuid.UUID] = set()
+        rows: list[dict[str, Any]] = []
+        now = datetime.now(UTC)
+        for comment_id, bucket in selections:
+            if comment_id in seen:
+                continue
+            seen.add(comment_id)
+            rows.append(
+                {
+                    "id": uuid.uuid4(),
+                    "run_id": run_id,
+                    "comment_id": comment_id,
+                    "sampling_bucket": bucket,
+                    "selection_order": len(rows),
+                    "selected_at": now,
+                }
+            )
+
+        stmt = pg_insert(AnalysisRunComment).values(rows)
+        stmt = stmt.on_conflict_do_nothing(
+            index_elements=[AnalysisRunComment.run_id, AnalysisRunComment.comment_id]
         )
         self.session.execute(stmt)
         self.session.flush()
         return len(rows)
+
+    def list_for_run(self, run_id: uuid.UUID) -> list[Comment]:
+        """Devuelve **sólo** los comentarios muestreados por esa ejecución."""
+        stmt = (
+            select(Comment)
+            .join(AnalysisRunComment, AnalysisRunComment.comment_id == Comment.id)
+            .where(AnalysisRunComment.run_id == run_id)
+            .order_by(AnalysisRunComment.selection_order)
+        )
+        return list(self.session.execute(stmt).scalars().all())
+
+    def count_for_run(self, run_id: uuid.UUID) -> int:
+        stmt = (
+            select(func.count())
+            .select_from(AnalysisRunComment)
+            .where(AnalysisRunComment.run_id == run_id)
+        )
+        return int(self.session.execute(stmt).scalar_one())
 
     def list_for_videos(
         self, video_ids: list[uuid.UUID], limit: int | None = None

@@ -198,10 +198,49 @@ class AnalysisRun(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     video_metrics: Mapped[list[VideoMetric]] = relationship(
         back_populates="run", cascade="all, delete-orphan", passive_deletes=True
     )
+    sampled_comments: Mapped[list[AnalysisRunComment]] = relationship(
+        back_populates="run", cascade="all, delete-orphan", passive_deletes=True
+    )
 
     @property
     def is_demo(self) -> bool:
         return self.source == DataSource.DEMO
+
+
+class AnalysisRunComment(UUIDPrimaryKeyMixin, Base):
+    """La muestra exacta de comentarios que analizó una ejecución.
+
+    Sin esta tabla, una ejecución leería todos los comentarios que hubiera en la
+    base de datos para sus vídeos, incluidos los descargados por ejecuciones
+    anteriores. Eso rompía tres cosas a la vez: los límites solicitados, la
+    estrategia de muestreo y la reproducibilidad. Los comentarios se conservan
+    compartidos entre ejecuciones (la tabla `comment` está deduplicada por
+    `youtube_comment_id`); lo que es propio de cada ejecución es **qué
+    subconjunto miró**, y eso es justo lo que guarda esta tabla.
+    """
+
+    __tablename__ = "analysis_run_comment"
+    __table_args__ = (
+        UniqueConstraint("run_id", "comment_id", name="uq_analysis_run_comment"),
+        Index("ix_analysis_run_comment_run_order", "run_id", "selection_order"),
+    )
+
+    run_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("analysis_run.id", ondelete="CASCADE"), nullable=False
+    )
+    comment_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("comment.id", ondelete="CASCADE"), nullable=False
+    )
+    #: Bucket de muestreo (`recent`, `relevant`, `demo`…) con el que entró.
+    sampling_bucket: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    #: Posición dentro de la muestra. Hace la ejecución reproducible.
+    selection_order: Mapped[int] = mapped_column(Integer, nullable=False)
+    selected_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utcnow, nullable=False
+    )
+
+    run: Mapped[AnalysisRun] = relationship(back_populates="sampled_comments")
+    comment: Mapped[Comment] = relationship()
 
 
 class CommentAnalysis(UUIDPrimaryKeyMixin, Base):
@@ -429,6 +468,7 @@ class OAuthToken(UUIDPrimaryKeyMixin, TimestampMixin, Base):
 
 __all__ = [
     "AnalysisRun",
+    "AnalysisRunComment",
     "ApiUsage",
     "Channel",
     "Comment",

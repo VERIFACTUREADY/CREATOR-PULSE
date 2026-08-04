@@ -44,6 +44,18 @@ class IngestResult:
     used_cache: bool = False
     sampling_buckets: dict[str, int] = field(default_factory=dict)
     ledger: UsageLedger | None = None
+    #: Muestra exacta de esta ejecución: `(comment_id, sampling_bucket)` en
+    #: orden de selección. Es lo que se ancla a la `AnalysisRun`.
+    selected_comments: list[tuple[uuid.UUID, str | None]] = field(default_factory=list)
+
+
+def count_sampling_buckets(selected: list[tuple[uuid.UUID, str | None]]) -> dict[str, int]:
+    """Recuento por bucket de la muestra realmente seleccionada."""
+    counts: dict[str, int] = {}
+    for _, bucket in selected:
+        key = bucket or "sin_bucket"
+        counts[key] = counts.get(key, 0) + 1
+    return counts
 
 
 def resolve_channel_payload(client: YouTubeClient, reference: ChannelReference) -> dict[str, Any]:
@@ -172,21 +184,37 @@ class YouTubeIngestService:
                 continue
 
             budget = min(per_video_cap, remaining_budget)
-            fetched, buckets = self._ingest_comments_for_video(
+            selected, buckets = self._ingest_comments_for_video(
                 video,
                 budget=budget,
                 strategy=sampling_strategy,
                 include_replies=include_replies,
             )
+
+            # El tope global se aplica aquí, después de deduplicar y combinar
+            # buckets, y no sobre lo descargado: así `max_comments_per_channel`
+            # es un límite real de la muestra analizada, no una estimación.
+            if len(selected) > remaining_budget:
+                selected = selected[:remaining_budget]
+
+            fetched = len(selected)
             if fetched == 0:
                 result.videos_with_zero_comments += 1
             remaining_budget -= fetched
             result.comments_fetched += fetched
+            result.selected_comments.extend(selected)
             for bucket, count in buckets.items():
                 result.sampling_buckets[bucket] = result.sampling_buckets.get(bucket, 0) + count
 
             if on_progress is not None:
                 on_progress(index + 1, len(videos))
+
+        # Los buckets deben describir la muestra final, no lo que se llegó a
+        # descargar antes de recortar por el tope global.
+        result.sampling_buckets = count_sampling_buckets(result.selected_comments)
+
+        if run_id is not None:
+            self.comments.register_run_sample(run_id, result.selected_comments)
 
         return result
 
@@ -228,7 +256,7 @@ class YouTubeIngestService:
         budget: int,
         strategy: SamplingStrategy,
         include_replies: bool,
-    ) -> tuple[int, dict[str, int]]:
+    ) -> tuple[list[tuple[uuid.UUID, str | None]], dict[str, int]]:
         collected: dict[str, dict[str, Any]] = {}
         buckets: dict[str, int] = {}
 
@@ -250,11 +278,19 @@ class YouTubeIngestService:
             buckets[bucket] = buckets.get(bucket, 0) + (len(collected) - before)
 
         if not collected:
-            return 0, buckets
+            return [], buckets
 
         rows = list(collected.values())[:budget]
-        self.comments.upsert_many(video.id, rows, source=DataSource.YOUTUBE_API)
-        return len(rows), buckets
+        stored = self.comments.upsert_many(video.id, rows, source=DataSource.YOUTUBE_API)
+
+        # Se conserva el orden de descarga: es lo que hace reproducible la
+        # muestra. Si un comentario no vuelve del upsert, no se inventa.
+        selected: list[tuple[uuid.UUID, str | None]] = []
+        for row in rows:
+            comment_id = stored.get(str(row["youtube_comment_id"]))
+            if comment_id is not None:
+                selected.append((comment_id, row.get("sampling_bucket")))
+        return selected, buckets
 
     def touch_channel(self, channel: Channel) -> None:
         channel.last_fetched_at = datetime.now(UTC)

@@ -50,7 +50,7 @@ from app.services.analysis.pipeline import (
 from app.services.recommendations.generator import generate_recommendations
 from app.services.recommendations.ideas import build_ideas_from_recommendations
 from app.services.youtube.client import UsageLedger, YouTubeClient
-from app.services.youtube.ingest import YouTubeIngestService
+from app.services.youtube.ingest import YouTubeIngestService, count_sampling_buckets
 
 logger = get_logger(__name__)
 
@@ -112,6 +112,40 @@ class AnalysisOrchestrator:
             self.session.commit()
             return run
 
+    def _register_demo_sample(self, run: AnalysisRun, videos: list[Video]) -> dict[str, int]:
+        """Construye y ancla la muestra de una ejecución de demostración.
+
+        Los comentarios de demostración ya están cargados, así que aquí no se
+        descarga nada: se **elige** un subconjunto aplicando los mismos límites
+        y la misma estrategia que en un análisis real. Es determinista, de modo
+        que dos ejecuciones con los mismos parámetros ven lo mismo.
+        """
+        strategy = SamplingStrategy(run.sampling_strategy)
+        selections: list[tuple[uuid.UUID, str | None]] = []
+        remaining = run.max_comments_per_channel
+
+        for video in videos:
+            if remaining <= 0:
+                break
+            comments = self.comments.list_for_videos([video.id])
+            if strategy is SamplingStrategy.RELEVANT:
+                bucket = "relevant"
+                comments.sort(key=lambda c: (c.like_count, c.id.hex), reverse=True)
+            else:
+                bucket = "recent" if strategy is SamplingStrategy.RECENT else "demo"
+                comments.sort(
+                    key=lambda c: (c.published_at is not None, c.published_at, c.id.hex),
+                    reverse=True,
+                )
+
+            take = min(run.max_comments_per_video, remaining)
+            chosen = comments[:take]
+            selections.extend((c.id, bucket) for c in chosen)
+            remaining -= len(chosen)
+
+        self.comments.register_run_sample(run.id, selections)
+        return count_sampling_buckets(selections)
+
     def _execute_inner(self, run: AnalysisRun, started_total: float) -> AnalysisRun:
         channel = self.channels.get(run.channel_id)
         if channel is None:
@@ -132,12 +166,14 @@ class AnalysisOrchestrator:
         }
 
         if is_demo:
-            # Los datos de demostración ya están en la base de datos.
+            # Los datos de demostración ya están en la base de datos, pero la
+            # ejecución necesita su propia muestra igual que una real: si no,
+            # los límites solicitados no significarían nada en modo demo.
             videos = self.videos.list_recent_for_channel(channel.id, run.max_videos)
             ingest_stats["videos_with_comments_disabled"] = sum(
                 1 for v in videos if v.comments_disabled
             )
-            ingest_stats["sampling_buckets"] = {"demo": 0}
+            ingest_stats["sampling_buckets"] = self._register_demo_sample(run, videos)
         else:
             service = YouTubeIngestService(self.session, client=self._youtube_client, ledger=ledger)
             result = service.ingest_channel(
@@ -155,8 +191,10 @@ class AnalysisOrchestrator:
             ingest_stats["sampling_buckets"] = result.sampling_buckets
             self.usage.record_many(run.id, ledger.records)
 
-        video_ids = [v.id for v in videos]
-        db_comments = self.comments.list_for_videos(video_ids)
+        # Sólo la muestra anclada a esta ejecución. Nunca «todo lo que haya en
+        # la base de datos para estos vídeos»: eso arrastraría comentarios de
+        # ejecuciones anteriores y saltaría los límites solicitados.
+        db_comments = self.comments.list_for_run(run.id)
 
         run.videos_fetched = len(videos)
         run.comments_fetched = len(db_comments)
