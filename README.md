@@ -596,6 +596,22 @@ Todas están documentadas en [`.env.example`](.env.example). Las más relevantes
 | `OPENAI_API_KEY` / `OPENAI_MODEL` | vacío | Proveedor OpenAI |
 | `OLLAMA_BASE_URL` / `OLLAMA_MODEL` | `http://host.docker.internal:11434` | Modelo local, sin coste por llamada |
 
+### Control de acceso
+
+Esta aplicación **no tiene usuarios propios**. Para exponerla hay que ponerla
+detrás de un proxy que autentique (Cloudflare Access, Azure Easy Auth, un
+reverse proxy con OIDC) y que inyecte una cabecera compartida.
+
+| Variable | Por defecto | Para qué |
+| --- | --- | --- |
+| `AUTH_MODE` | `none` | `none` (sólo desarrollo) o `trusted_proxy`. Con `APP_ENV=production` y `none`, **la aplicación no arranca** |
+| `TRUSTED_AUTH_HEADER` | `X-Auth-Token` | Cabecera que inyecta el proxy |
+| `TRUSTED_AUTH_VALUE` | vacío | Su valor secreto. Se compara en tiempo constante |
+| `TRUSTED_PROXY_NETWORKS` | `127.0.0.1/32,::1/128` | Redes desde las que se acepta la cabecera. Fuera de ellas se rechaza aunque el valor sea correcto |
+
+`/api/health` queda siempre abierto, y el retorno de OAuth también: lo abre el
+navegador del creador y está protegido por su `state` de un solo uso.
+
 ### Modo propietario (OAuth)
 
 | Variable | Por defecto | Para qué |
@@ -610,7 +626,8 @@ Todas están documentadas en [`.env.example`](.env.example). Las más relevantes
 
 | Variable | Por defecto | Para qué |
 | --- | --- | --- |
-| `DATA_RETENTION_DAYS` | `90` | Antigüedad máxima de los análisis |
+| `DATA_RETENTION_DAYS` | `90` | Antigüedad máxima de los **resultados de análisis** |
+| `COMMENT_RETENTION_DAYS` | `180` | Antigüedad máxima de los **comentarios brutos**. Sólo se borran si además ya no los usa ningún análisis conservado |
 | `ANONYMIZE_COMMENT_AUTHORS` | `true` | Oculta handles, correos y URLs en los ejemplos |
 | `AUTHOR_HASH_SALT` | `change-me-author-salt` | **Cámbiala en producción** |
 
@@ -813,8 +830,15 @@ Google Cloud.
   cd backend && .venv/bin/python -m app.cli purgar --dias 30
   ```
 
-  La purga elimina los **análisis** caducados. Los canales guardados se
-  conservan: borrarlos es siempre una acción explícita tuya.
+  La purga aplica **dos políticas separadas**: elimina los análisis caducados
+  y, aparte, los comentarios que han superado su propia retención **y** ya no
+  están asociados a ningún análisis conservado. Los canales y vídeos que
+  quedan huérfanos se cuentan en el informe pero no se borran: eliminarlos es
+  siempre una acción explícita tuya.
+
+  **La retención no se aplica sola.** Es un comando que tienes que programar
+  (cron, un job de Azure Container Apps, un `systemd timer`). La pantalla de
+  configuración muestra cuándo se ejecutó por última vez, o dice que nunca.
 * Los registros nunca incluyen claves de API, tokens, prompts completos ni
   datasets de comentarios.
 * Si conectas tu canal con el **modo propietario**, los tokens de OAuth se
