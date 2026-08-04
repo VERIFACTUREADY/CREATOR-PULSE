@@ -9,8 +9,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.deps import Protected
 from app.api.errors import register_error_handlers
 from app.api.routes import channels, comparisons, health, oauth, runs
+from app.core.auth import verify_startup_configuration
 from app.core.config import settings
 from app.core.logging import bind_correlation_id, configure_logging, get_logger
 from app.db.session import detect_pgvector
@@ -44,6 +46,10 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
 
 
 def create_app() -> FastAPI:
+    # Un despliegue de producción sin control de acceso falla aquí, en el
+    # arranque, en lugar de quedar abierto sin que nadie se entere.
+    verify_startup_configuration()
+
     app = FastAPI(
         title=settings.app_name,
         description=DESCRIPTION,
@@ -85,11 +91,16 @@ def create_app() -> FastAPI:
 
     register_error_handlers(app)
 
+    # `health` queda fuera del control de acceso: un chequeo de salud tiene que
+    # responder aunque el proxy no esté delante. Su ruta de configuración sí se
+    # protege, dentro del propio router.
     app.include_router(health.router, prefix="/api")
-    app.include_router(channels.router, prefix="/api")
-    app.include_router(runs.router, prefix="/api")
-    app.include_router(runs.export_router, prefix="/api")
-    app.include_router(comparisons.router, prefix="/api")
+    app.include_router(channels.router, prefix="/api", dependencies=[Protected])
+    app.include_router(runs.router, prefix="/api", dependencies=[Protected])
+    app.include_router(runs.export_router, prefix="/api", dependencies=[Protected])
+    app.include_router(comparisons.router, prefix="/api", dependencies=[Protected])
+    # El router de OAuth se protege ruta a ruta: el retorno de Google no puede
+    # exigir la cabecera, porque quien llega ahí es el navegador del creador.
     app.include_router(oauth.router, prefix="/api")
 
     @app.get("/", include_in_schema=False)

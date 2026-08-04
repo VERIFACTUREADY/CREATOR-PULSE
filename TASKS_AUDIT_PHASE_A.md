@@ -41,12 +41,19 @@ Cada bloque se cierra con su propio commit y sus pruebas de regresión.
 - [x] Nunca se registran tokens ni códigos
 - [x] 8 pruebas nuevas + la existente actualizada → **403 en verde**
 
-## Bloque 4 — Seguridad de despliegue
+## Bloque 4 — Seguridad de despliegue ✅
 
-- [ ] `AUTH_MODE`, cabecera de confianza y redes de confianza
-- [ ] Producción sin autenticación no arranca
-- [ ] Rutas protegidas salvo health y callback
-- [ ] Pruebas de regresión
+- [x] `AUTH_MODE=none|trusted_proxy`, `TRUSTED_AUTH_HEADER`,
+      `TRUSTED_AUTH_VALUE`, `TRUSTED_PROXY_NETWORKS`
+- [x] `APP_ENV=production` con `AUTH_MODE=none` **no arranca**
+- [x] `trusted_proxy` incompleto tampoco arranca en producción
+- [x] La cabecera sólo se acepta desde las redes de confianza
+- [x] Comparación en tiempo constante del valor
+- [x] Protegidas: canales, análisis, comparador, exportaciones, uso de API,
+      configuración y OAuth (salvo el retorno de Google)
+- [x] `/api/health` sigue abierto
+- [x] Aviso al arrancar en desarrollo sin protección
+- [x] 21 pruebas de regresión → **424 en verde**
 
 ## Bloque 5 — Retención y texto de privacidad
 
@@ -79,3 +86,4 @@ Se actualiza al cerrar cada bloque. Sólo se anota lo que se ha ejecutado.
 | Tras el Bloque 1 | `ruff`, `mypy` y 387 pruebas en verde |
 | Tras el Bloque 2 | `ruff`, `mypy` y 395 pruebas en verde |
 | Tras el Bloque 3 | `ruff`, `mypy` y 403 pruebas en verde |
+| Tras el Bloque 4 | `ruff`, `mypy` y 424 pruebas en verde |

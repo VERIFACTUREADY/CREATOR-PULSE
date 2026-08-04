@@ -39,6 +39,18 @@ class Settings(BaseSettings):
     api_url: str = "http://localhost:8000"
     cors_origins: str = "http://localhost:3000"
 
+    # --- Control de acceso --------------------------------------------
+    # La aplicación no tiene usuarios propios. En una beta privada el acceso se
+    # delega en un proxy autenticado (Cloudflare Access, Azure Easy Auth, un
+    # reverse proxy…) que inyecta una cabecera. `none` sólo vale para
+    # desarrollo: en producción la aplicación se niega a arrancar con él.
+    auth_mode: Literal["none", "trusted_proxy"] = "none"
+    trusted_auth_header: str = "X-Auth-Token"
+    trusted_auth_value: str = ""
+    #: Redes desde las que se acepta la cabecera de autenticación, separadas
+    #: por comas (CIDR o IP). Sin esto, cualquiera podría falsificarla.
+    trusted_proxy_networks: str = "127.0.0.1/32,::1/128"
+
     # --- Base de datos ------------------------------------------------
     database_url: str = (
         "postgresql+psycopg://creator_signal:change-me@localhost:5432/creator_signal"
@@ -123,6 +135,21 @@ class Settings(BaseSettings):
     @property
     def is_production(self) -> bool:
         return self.app_env == "production"
+
+    @property
+    def trusted_proxy_network_list(self) -> list[str]:
+        return [n.strip() for n in self.trusted_proxy_networks.split(",") if n.strip()]
+
+    @property
+    def auth_configured(self) -> bool:
+        """`True` si el modo `trusted_proxy` tiene todo lo que necesita."""
+        if self.auth_mode != "trusted_proxy":
+            return False
+        return bool(
+            self.trusted_auth_header.strip()
+            and self.trusted_auth_value.strip()
+            and self.trusted_proxy_network_list
+        )
 
     @property
     def youtube_configured(self) -> bool:

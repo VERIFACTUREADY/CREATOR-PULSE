@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Response, status
 
+from app.api.deps import Protected
 from app.core.config import ALGORITHM_VERSION, settings
 from app.db.session import check_database
 from app.schemas.common import HealthComponent, HealthResponse, PublicConfig
@@ -53,6 +54,7 @@ def health(response: Response) -> HealthResponse:
     "/config/public",
     response_model=PublicConfig,
     summary="Configuración pública (sin secretos)",
+    dependencies=[Protected],
 )
 def public_config() -> PublicConfig:
     """Configuración que necesita el frontend. Nunca expone claves."""

@@ -18,7 +18,7 @@ from typing import Any
 from fastapi import APIRouter, Query
 from fastapi.responses import RedirectResponse
 
-from app.api.deps import DbSession, RateLimited
+from app.api.deps import DbSession, Protected, RateLimited
 from app.core.config import settings
 from app.core.crypto import encryption_available
 from app.core.errors import FeatureDisabledError, NotFoundError
@@ -68,7 +68,12 @@ OWNER_ONLY_METRICS = (
 )
 
 
-@router.get("/status", response_model=OwnerStatus, summary="Estado del modo propietario")
+@router.get(
+    "/status",
+    response_model=OwnerStatus,
+    summary="Estado del modo propietario",
+    dependencies=[Protected],
+)
 def oauth_status(session: DbSession) -> Any:
     """Informa de si el modo propietario está listo y qué canales hay conectados."""
     configured = bool(settings.google_oauth_client_id and settings.google_oauth_client_secret)
@@ -113,7 +118,7 @@ def oauth_status(session: DbSession) -> Any:
 @router.get(
     "/google/start",
     response_model=StartAuthorization,
-    dependencies=[RateLimited],
+    dependencies=[Protected, RateLimited],
     summary="Inicia la autorización con Google",
 )
 def start_oauth(
@@ -234,6 +239,7 @@ def oauth_callback(
     "/google/{channel_id}",
     response_model=OwnerConnection,
     summary="Desconecta un canal y revoca el acceso",
+    dependencies=[Protected],
 )
 def disconnect(channel_id: uuid.UUID, session: DbSession) -> Any:
     """Revoca el token en Google y lo elimina de la base de datos."""
@@ -261,7 +267,7 @@ def disconnect(channel_id: uuid.UUID, session: DbSession) -> Any:
 @router.get(
     "/analytics/{channel_id}",
     response_model=OwnerAnalyticsOut,
-    dependencies=[RateLimited],
+    dependencies=[Protected, RateLimited],
     summary="Analíticas privadas del canal conectado",
 )
 def owner_analytics(

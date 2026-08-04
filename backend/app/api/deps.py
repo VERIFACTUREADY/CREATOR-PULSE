@@ -9,6 +9,7 @@ from typing import Annotated
 from fastapi import Depends, Request
 from sqlalchemy.orm import Session
 
+from app.core.auth import require_access
 from app.core.config import Settings, get_settings, settings
 from app.core.errors import RateLimitError
 from app.db.session import get_db
@@ -52,10 +53,14 @@ def reset_rate_limits() -> None:
 
 
 RateLimited = Depends(rate_limit)
+#: Protege una ruta con el control de acceso configurado. Con `AUTH_MODE=none`
+#: no hace nada, y en producción ese modo impide arrancar.
+Protected = Depends(require_access)
 
 __all__ = [
     "AppSettings",
     "DbSession",
+    "Protected",
     "RateLimited",
     "client_key",
     "rate_limit",
