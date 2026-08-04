@@ -10,9 +10,11 @@ from __future__ import annotations
 
 import uuid
 from collections.abc import Iterator
+from types import SimpleNamespace
+from typing import Any
 
 import pytest
-from app.api.deps import get_db
+from app.api.deps import client_key, get_db
 from app.core.auth import InsecureDeploymentError, verify_startup_configuration
 from app.core.config import settings
 from app.main import create_app
@@ -204,3 +206,94 @@ def test_trusted_proxy_mal_configurado_da_error_de_servidor(
     respuesta = client.get("/api/channels")
     assert respuesta.status_code == 500
     assert respuesta.json()["error"]["code"] == "autenticacion_mal_configurada"
+
+
+# --- Superficie cerrada en producción --------------------------------------
+
+
+def test_en_produccion_no_se_publica_la_documentacion(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Docs y esquema describen toda la superficie de la API."""
+    monkeypatch.setattr(settings, "app_env", "production")
+    monkeypatch.setattr(settings, "auth_mode", "trusted_proxy")
+    monkeypatch.setattr(settings, "trusted_auth_header", CABECERA)
+    monkeypatch.setattr(settings, "trusted_auth_value", SECRETO)
+    monkeypatch.setattr(settings, "trusted_proxy_networks", "127.0.0.1/32")
+
+    app = create_app()
+    with TestClient(app, raise_server_exceptions=False, client=("127.0.0.1", 1)) as cliente:
+        for ruta in ("/docs", "/redoc", "/openapi.json"):
+            assert cliente.get(ruta).status_code == 404, f"{ruta} sigue publicada"
+
+        # La raíz existe, pero exige la cabecera.
+        assert cliente.get("/").status_code == 401
+        assert cliente.get("/", headers={CABECERA: SECRETO}).status_code == 200
+
+        # Health sigue abierto.
+        assert cliente.get("/api/health").status_code in {200, 503}
+
+
+def test_en_desarrollo_la_documentacion_sigue_disponible(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(settings, "auth_mode", "none")
+    assert client.get("/docs").status_code == 200
+    assert client.get("/openapi.json").status_code == 200
+
+
+def test_la_raiz_esta_protegida(client: TestClient, proxy_auth: None) -> None:
+    assert client.get("/").status_code == 401
+    assert client.get("/", headers={CABECERA: SECRETO}).status_code == 200
+
+
+# --- Modo propietario sin autenticación ------------------------------------
+
+
+def test_el_modo_propietario_no_arranca_sin_autenticacion(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Da acceso a tokens de Google y a métricas privadas de un canal real."""
+    monkeypatch.setattr(settings, "app_env", "development")
+    monkeypatch.setattr(settings, "auth_mode", "none")
+    monkeypatch.setattr(settings, "enable_owner_mode", True)
+
+    with pytest.raises(InsecureDeploymentError) as excinfo:
+        verify_startup_configuration()
+
+    assert "ENABLE_OWNER_MODE" in str(excinfo.value)
+
+
+def test_el_modo_propietario_con_proxy_si_arranca(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(settings, "app_env", "development")
+    monkeypatch.setattr(settings, "auth_mode", "trusted_proxy")
+    monkeypatch.setattr(settings, "trusted_auth_header", CABECERA)
+    monkeypatch.setattr(settings, "trusted_auth_value", SECRETO)
+    monkeypatch.setattr(settings, "trusted_proxy_networks", "127.0.0.1/32")
+    monkeypatch.setattr(settings, "enable_owner_mode", True)
+
+    verify_startup_configuration()  # no debe lanzar
+
+
+# --- Rate limit y cabeceras falsificadas -----------------------------------
+
+
+def _peticion_simulada(*, origen: str, forwarded: str) -> Any:
+    """Petición mínima con la forma que `client_key` necesita."""
+    return SimpleNamespace(
+        headers={"x-forwarded-for": forwarded},
+        client=SimpleNamespace(host=origen),
+    )
+
+
+def test_un_cliente_directo_no_puede_falsificar_su_identidad(proxy_auth: None) -> None:
+    """Con `X-Forwarded-For` a mano se esquivaba el límite de peticiones.
+
+    Bastaba con cambiar el valor en cada llamada para no agotarlo nunca.
+    """
+    # Desde una red no confiable se ignora la cabecera y manda la IP real.
+    falsa = _peticion_simulada(origen="203.0.113.7", forwarded="1.2.3.4")
+    assert client_key(falsa) == "203.0.113.7"
+
+
+def test_desde_un_proxy_de_confianza_si_se_cree_la_cabecera(proxy_auth: None) -> None:
+    confiable = _peticion_simulada(origen="127.0.0.1", forwarded="9.9.9.9, 10.0.0.1")
+    assert client_key(confiable) == "9.9.9.9"

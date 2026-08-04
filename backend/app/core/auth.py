@@ -56,6 +56,18 @@ def verify_startup_configuration() -> None:
     Se llama al construir la aplicación, no en cada petición: un despliegue mal
     configurado debe fallar de inmediato y de forma visible.
     """
+    # El modo propietario maneja tokens de Google de canales reales. Dejarlo
+    # accesible sin ninguna protección de acceso es peor que en el modo
+    # público: cualquiera con acceso de red podría iniciar una conexión OAuth
+    # o leer las analíticas privadas de un canal ya conectado.
+    if settings.enable_owner_mode and settings.auth_mode == "none":
+        raise InsecureDeploymentError(
+            "ENABLE_OWNER_MODE=true con AUTH_MODE=none. El modo propietario da acceso a "
+            "métricas privadas y a la conexión OAuth de un canal real, así que exige "
+            "control de acceso. Configura AUTH_MODE=trusted_proxy o desactiva el modo "
+            "propietario."
+        )
+
     if not settings.is_production:
         if settings.auth_mode == "none":
             logger.warning(
@@ -82,7 +94,7 @@ def verify_startup_configuration() -> None:
         )
 
 
-def _peer_is_trusted(request: Request) -> bool:
+def peer_is_trusted(request: Request) -> bool:
     """¿La conexión viene de una red desde la que se acepta la cabecera?"""
     peer = request.client.host if request.client else None
     if not peer:
@@ -112,7 +124,7 @@ def require_access(request: Request) -> None:
     if not settings.auth_configured:
         raise AuthMisconfiguredError(detail="trusted_proxy sin cabecera, valor o redes")
 
-    if not _peer_is_trusted(request):
+    if not peer_is_trusted(request):
         # No se dice si la cabecera era válida: desde fuera de la red de
         # confianza la respuesta es siempre la misma.
         logger.warning("acceso_desde_red_no_confiable")
@@ -127,6 +139,7 @@ __all__ = [
     "AuthMisconfiguredError",
     "AuthenticationRequiredError",
     "InsecureDeploymentError",
+    "peer_is_trusted",
     "require_access",
     "verify_startup_configuration",
 ]

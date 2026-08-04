@@ -53,7 +53,8 @@ az deployment group what-if \
   --resource-group rg-creator-signal-dev \
   --template-file infra/azure/main.bicep \
   --parameters @infra/azure/parameters.dev.json \
-  --parameters postgresAdminPassword="$(openssl rand -base64 24)"
+  --parameters postgresAdminPassword="$(openssl rand -base64 24)" \
+  --parameters proxyAuthSecret="$(openssl rand -base64 36)"
 ```
 
 ## 3. Desplegar
@@ -62,16 +63,20 @@ az deployment group what-if \
 
 ```bash
 PG_PASSWORD="$(openssl rand -base64 24)"
+# Secreto compartido entre el frontend y la API. Guárdalo: sin él, el frontend
+# no puede hablar con la API.
+PROXY_SECRET="$(openssl rand -base64 36)"
 
 az deployment group create \
   --resource-group rg-creator-signal-dev \
   --template-file infra/azure/main.bicep \
   --parameters @infra/azure/parameters.dev.json \
   --parameters postgresAdminPassword="$PG_PASSWORD" \
+  --parameters proxyAuthSecret="$PROXY_SECRET" \
   --parameters youtubeApiKey="$YOUTUBE_API_KEY"
 ```
 
-Guarda `PG_PASSWORD` en un gestor de secretos: la plantilla la escribe en Key
+Guarda `PG_PASSWORD` y `PROXY_SECRET` en un gestor de secretos: la plantilla la escribe en Key
 Vault, pero no se puede recuperar del despliegue.
 
 ## 4. Construir y publicar las imágenes
@@ -134,6 +139,51 @@ Si la extensión no estuviera disponible, la aplicación sigue funcionando: el
 tipo `EmbeddingVector` degrada a JSONB automáticamente cuando
 `PGVECTOR_MODE=auto`.
 
+## Control de acceso: cómo está resuelto
+
+Esta aplicación **no tiene usuarios propios**, y la API se niega a arrancar con
+`APP_ENV=production` y `AUTH_MODE=none`. La plantilla no evita ese bloqueo
+bajando a `development`: lo resuelve de verdad.
+
+```mermaid
+flowchart LR
+    N["Navegador"] -->|"HTTPS público"| W["Container App: web<br/>(Next.js)"]
+    W -->|"añade X-Auth-Token<br/>desde el servidor"| A["Container App: api<br/>ingress INTERNO"]
+    A --- P[("PostgreSQL")]
+    A --- R[("Redis")]
+```
+
+* **La API no tiene ingress público** (`external: false`). Sólo la alcanza el
+  frontend, desde dentro del entorno de Container Apps.
+* El frontend lleva un **proxy de servidor** en `/api/*` que añade la cabecera
+  compartida. El navegador nunca ve el secreto: las variables se llaman
+  `API_INTERNAL_URL`, `TRUSTED_AUTH_HEADER` y `TRUSTED_AUTH_VALUE`, **sin**
+  prefijo `NEXT_PUBLIC_`, que es lo que incrustaría el valor en el bundle.
+* La API sólo acepta la cabecera si la petición llega desde
+  `TRUSTED_PROXY_NETWORKS`.
+* `proxyAuthSecret` es un parámetro `@secure()` **obligatorio y de al menos 32
+  caracteres**: si falta, el despliegue falla antes de crear nada, en lugar de
+  dejar una instalación que no arranca.
+
+Genera el secreto con:
+
+```bash
+openssl rand -base64 36
+```
+
+Si prefieres otra estrategia —Cloudflare Access, Azure Easy Auth, API
+Management— la API la admite igual: lo único que necesita es que algo delante
+autentique y añada la cabecera desde una red de confianza.
+
+### Limitación conocida
+
+Sin una red virtual propia, el rango de origen dentro del entorno de Container
+Apps no es predecible, así que `trustedProxyNetworks` viene con los rangos
+privados habituales. Para una beta con datos reales, despliega el entorno
+**integrado en una VNet** y deja en ese parámetro únicamente el CIDR de su
+subred: es lo que convierte la comprobación de red en una garantía y no en una
+aproximación.
+
 ## Variables de entorno de producción
 
 | Variable | Origen | Notas |
@@ -145,7 +195,12 @@ tipo `EmbeddingVector` degrada a JSONB automáticamente cuando
 | `CORS_ORIGINS` | Literal | URL exacta del frontend, nunca `*` |
 | `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` | Key Vault | Sólo si se activa la IA externa |
 | `AUTHOR_HASH_SALT` | Key Vault | **Cámbiala**: la de ejemplo no es secreta |
-| `OAUTH_TOKEN_ENCRYPTION_KEY` | Key Vault | Sólo cuando se implemente el modo propietario |
+| `OAUTH_TOKEN_ENCRYPTION_KEY` | Key Vault | Sólo si se activa el modo propietario |
+| `AUTH_MODE` | Literal (`trusted_proxy`) | Sin esto la API no arranca en producción |
+| `TRUSTED_AUTH_HEADER` | Parámetro | Cabecera que añade el frontend |
+| `TRUSTED_AUTH_VALUE` | Secreto (`proxy-auth-secret`) | Compartido entre frontend y API. **Nunca** con prefijo `NEXT_PUBLIC_` |
+| `TRUSTED_PROXY_NETWORKS` | Parámetro | Redes desde las que se acepta la cabecera |
+| `COMMENT_RETENTION_DAYS` | Literal | Retención de los comentarios brutos (por defecto 180) |
 
 ## Escalado del worker
 
@@ -186,7 +241,12 @@ az keyvault purge --name <nombre del key vault> --location westeurope
 
 ## Lista de comprobación antes de producción
 
-- [ ] `APP_ENV=production` (oculta los detalles técnicos en las respuestas de error).
+- [ ] `APP_ENV=production` (oculta los detalles técnicos y desactiva `/docs`, `/redoc` y `/openapi.json`).
+- [ ] `proxyAuthSecret` generado aleatoriamente (mínimo 32 caracteres) y guardado como secreto.
+- [ ] La API tiene `external: false`: comprobado que su FQDN no responde desde fuera.
+- [ ] `trustedProxyNetworks` acotado al CIDR real de la subred, con el entorno integrado en una VNet.
+- [ ] Verificado que el bundle del navegador no contiene el secreto (`grep` sobre `.next/static`).
+- [ ] `ENABLE_OWNER_MODE=false`, o con `AUTH_MODE=trusted_proxy`: con `none` la API no arranca.
 - [ ] `CORS_ORIGINS` apunta sólo al dominio del frontend.
 - [ ] `AUTHOR_HASH_SALT` cambiada por un valor aleatorio y guardada en Key Vault.
 - [ ] La clave de la API de YouTube está restringida a la YouTube Data API v3 en la consola de Google Cloud.

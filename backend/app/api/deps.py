@@ -9,7 +9,7 @@ from typing import Annotated
 from fastapi import Depends, Request
 from sqlalchemy.orm import Session
 
-from app.core.auth import require_access
+from app.core.auth import peer_is_trusted, require_access
 from app.core.config import Settings, get_settings, settings
 from app.core.errors import RateLimitError
 from app.db.session import get_db
@@ -23,8 +23,15 @@ _windows: dict[str, deque[float]] = defaultdict(deque)
 
 
 def client_key(request: Request) -> str:
+    """Identifica al cliente para el límite de peticiones.
+
+    `X-Forwarded-For` sólo se cree si la conexión viene de una red de
+    confianza. Un cliente directo puede poner esa cabecera a mano, así que
+    fiarse de ella sin comprobar el origen convertía el límite en decorativo:
+    bastaba con cambiar el valor en cada petición para no agotarlo nunca.
+    """
     forwarded = request.headers.get("x-forwarded-for")
-    if forwarded:
+    if forwarded and peer_is_trusted(request):
         return forwarded.split(",")[0].strip()
     return request.client.host if request.client else "anon"
 

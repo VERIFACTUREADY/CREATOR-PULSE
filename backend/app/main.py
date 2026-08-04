@@ -50,13 +50,18 @@ def create_app() -> FastAPI:
     # arranque, en lugar de quedar abierto sin que nadie se entere.
     verify_startup_configuration()
 
+    # En producción no se publican la documentación interactiva ni el esquema:
+    # describen toda la superficie de la API y no aportan nada a quien la usa a
+    # través del frontend. En desarrollo siguen disponibles.
+    docs_visibles = not settings.is_production
+
     app = FastAPI(
         title=settings.app_name,
         description=DESCRIPTION,
         version="0.1.0",
-        docs_url="/docs",
-        redoc_url="/redoc",
-        openapi_url="/openapi.json",
+        docs_url="/docs" if docs_visibles else None,
+        redoc_url="/redoc" if docs_visibles else None,
+        openapi_url="/openapi.json" if docs_visibles else None,
         lifespan=lifespan,
     )
 
@@ -103,11 +108,11 @@ def create_app() -> FastAPI:
     # exigir la cabecera, porque quien llega ahí es el navegador del creador.
     app.include_router(oauth.router, prefix="/api")
 
-    @app.get("/", include_in_schema=False)
+    @app.get("/", include_in_schema=False, dependencies=[Protected])
     async def root() -> dict[str, str]:
         return {
             "name": settings.app_name,
-            "docs": "/docs",
+            "docs": "/docs" if docs_visibles else "no disponible en producción",
             "health": "/api/health",
         }
 

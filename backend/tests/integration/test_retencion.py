@@ -171,22 +171,46 @@ def test_un_comentario_reciente_no_se_toca(session: Session) -> None:
 # --- Simulación y registro --------------------------------------------------
 
 
-def test_la_simulacion_no_modifica_la_base_de_datos(session: Session) -> None:
+def test_la_simulacion_no_escribe_absolutamente_nada(session: Session) -> None:
+    """Cero escrituras: ni borrados, ni su propio registro de mantenimiento."""
     canal = _canal(session)
     _run(session, canal.id, edad_dias=200)
     _envejecer_comentarios(session, dias=400, limite=6)
-    runs_antes = _total(session, AnalysisRun)
-    comentarios_antes = _total(session, Comment)
+
+    antes = {
+        modelo.__name__: _total(session, modelo)
+        for modelo in (AnalysisRun, Comment, AnalysisRunComment, MaintenanceRun)
+    }
 
     informe = purge(session, run_retention_days=90, comment_retention_days=180, dry_run=True)
+
+    # La sesión no debe tener nada pendiente de escribir antes de confirmar.
+    assert not session.new, "la simulación ha añadido objetos a la sesión"
+    assert not session.dirty, "la simulación ha modificado objetos"
+    assert not session.deleted, "la simulación ha marcado objetos para borrar"
+
     session.commit()
 
     assert informe.dry_run is True
     assert informe.runs_deleted == 1
     assert informe.comments_deleted >= 6
-    # Pero nada ha cambiado.
-    assert _total(session, AnalysisRun) == runs_antes
-    assert _total(session, Comment) == comentarios_antes
+    despues = {
+        modelo.__name__: _total(session, modelo)
+        for modelo in (AnalysisRun, Comment, AnalysisRunComment, MaintenanceRun)
+    }
+    assert despues == antes
+
+
+def test_la_simulacion_no_altera_marcas_de_tiempo(session: Session) -> None:
+    canal = _canal(session)
+    run = _run(session, canal.id, edad_dias=10)
+    creado = run.created_at
+
+    purge(session, run_retention_days=90, comment_retention_days=180, dry_run=True)
+    session.commit()
+
+    session.refresh(run)
+    assert run.created_at == creado
 
 
 def test_el_informe_desglosa_por_entidad(session: Session) -> None:
@@ -215,15 +239,27 @@ def test_la_purga_queda_registrada(session: Session) -> None:
     assert "runs_deleted" in registro.details
 
 
-def test_una_simulacion_no_cuenta_como_ultima_purga(session: Session) -> None:
+def test_una_simulacion_no_deja_registro_de_mantenimiento(session: Session) -> None:
     _canal(session)
 
     purge(session, run_retention_days=90, dry_run=True)
     session.commit()
 
     assert last_purge(session) is None
-    # Pero sí queda constancia de que se simuló.
+    # Y tampoco queda una fila marcada como simulación: la traza va al log.
+    assert _total(session, MaintenanceRun) == 0
+
+
+def test_una_purga_real_si_deja_registro(session: Session) -> None:
+    _canal(session)
+
+    purge(session, run_retention_days=90, dry_run=True)
+    purge(session, run_retention_days=90)
+    session.commit()
+
     assert _total(session, MaintenanceRun) == 1
+    registro = last_purge(session)
+    assert registro is not None and registro.dry_run is False
 
 
 def test_los_canales_no_se_borran_por_la_purga(session: Session) -> None:

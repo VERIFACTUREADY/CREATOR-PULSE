@@ -37,6 +37,24 @@ param youtubeApiKey string = ''
 @description('Objeto (principal) que podrá leer los secretos de Key Vault.')
 param keyVaultAdminObjectId string = ''
 
+// --- Control de acceso ------------------------------------------------------
+// La API se niega a arrancar con APP_ENV=production y AUTH_MODE=none, y eso es
+// deliberado: esta aplicación no tiene usuarios propios. La estrategia de esta
+// plantilla es dejar la API **sin ingress público** y que sólo la alcance el
+// frontend, que añade la cabecera compartida desde el servidor. El navegador
+// nunca ve el secreto.
+@description('Secreto compartido entre el frontend y la API. Obligatorio: sin él el despliegue no es seguro y la plantilla falla.')
+@secure()
+@minLength(32)
+param proxyAuthSecret string
+
+@description('Cabecera con la que el frontend se identifica ante la API.')
+param trustedAuthHeader string = 'X-Auth-Token'
+
+@description('Redes desde las que la API acepta la cabecera. Debe cubrir el rango interno del entorno de Container Apps.')
+param trustedProxyNetworks string = '10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,127.0.0.1/32'
+
+
 var suffix = uniqueString(resourceGroup().id)
 var baseName = '${namePrefix}-${environment}'
 var tags = {
@@ -223,6 +241,7 @@ var commonSecrets = [
   { name: 'redis-url', value: redisUrl }
   { name: 'registry-password', value: containerRegistry.listCredentials().passwords[0].value }
   { name: 'youtube-api-key', value: youtubeApiKey }
+  { name: 'proxy-auth-secret', value: proxyAuthSecret }
 ]
 
 var registryConfig = [
@@ -235,6 +254,12 @@ var registryConfig = [
 
 var commonEnvVars = [
   { name: 'APP_ENV', value: 'production' }
+  // Sin estas tres, la API no arranca. Es la comprobación que impide desplegar
+  // una instalación de producción abierta sin darse cuenta.
+  { name: 'AUTH_MODE', value: 'trusted_proxy' }
+  { name: 'TRUSTED_AUTH_HEADER', value: trustedAuthHeader }
+  { name: 'TRUSTED_AUTH_VALUE', secretRef: 'proxy-auth-secret' }
+  { name: 'TRUSTED_PROXY_NETWORKS', value: trustedProxyNetworks }
   { name: 'DATABASE_URL', secretRef: 'database-url' }
   { name: 'REDIS_URL', secretRef: 'redis-url' }
   { name: 'YOUTUBE_API_KEY', secretRef: 'youtube-api-key' }
@@ -253,14 +278,12 @@ resource apiApp 'Microsoft.App/containerApps@2024-03-01' = {
     configuration: {
       activeRevisionsMode: 'Single'
       ingress: {
-        external: true
+        // NO público: sólo alcanzable desde dentro del entorno de Container
+        // Apps, es decir, desde el frontend. Exponerla exigiría poner delante
+        // algo que autentique, y esta plantilla no lo crea.
+        external: false
         targetPort: 8000
         transport: 'auto'
-        corsPolicy: {
-          allowedOrigins: ['https://${baseName}-web.${containerEnv.properties.defaultDomain}']
-          allowedMethods: ['GET', 'POST', 'DELETE', 'OPTIONS']
-          allowedHeaders: ['Content-Type', 'X-Request-ID']
-        }
       }
       secrets: commonSecrets
       registries: registryConfig
@@ -346,6 +369,9 @@ resource frontendApp 'Microsoft.App/containerApps@2024-03-01' = {
       }
       secrets: [
         { name: 'registry-password', value: containerRegistry.listCredentials().passwords[0].value }
+        // El frontend necesita el secreto para añadir la cabecera desde el
+        // servidor. Nunca sale de aquí hacia el navegador.
+        { name: 'proxy-auth-secret', value: proxyAuthSecret }
       ]
       registries: registryConfig
     }
@@ -357,7 +383,13 @@ resource frontendApp 'Microsoft.App/containerApps@2024-03-01' = {
           resources: { cpu: json('0.5'), memory: '1Gi' }
           env: [
             { name: 'NODE_ENV', value: 'production' }
-            { name: 'NEXT_PUBLIC_API_URL', value: 'https://${apiApp.properties.configuration.ingress.fqdn}' }
+            // Sin `NEXT_PUBLIC_API_URL`: el navegador usa rutas relativas y
+            // habla sólo con este frontend. Las tres variables siguientes son
+            // de servidor y NUNCA llevan el prefijo NEXT_PUBLIC_, porque eso
+            // las incrustaría en el bundle del cliente.
+            { name: 'API_INTERNAL_URL', value: 'https://${apiApp.properties.configuration.ingress.fqdn}' }
+            { name: 'TRUSTED_AUTH_HEADER', value: trustedAuthHeader }
+            { name: 'TRUSTED_AUTH_VALUE', secretRef: 'proxy-auth-secret' }
           ]
         }
       ]
@@ -371,7 +403,8 @@ resource frontendApp 'Microsoft.App/containerApps@2024-03-01' = {
 
 // --- Salidas ----------------------------------------------------------------
 
-output apiUrl string = 'https://${apiApp.properties.configuration.ingress.fqdn}'
+// La API no es pública: su FQDN sólo resuelve dentro del entorno.
+output apiInternalUrl string = 'https://${apiApp.properties.configuration.ingress.fqdn}'
 output frontendUrl string = 'https://${frontendApp.properties.configuration.ingress.fqdn}'
 output containerRegistryLoginServer string = containerRegistry.properties.loginServer
 output postgresFqdn string = postgres.properties.fullyQualifiedDomainName

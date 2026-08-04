@@ -200,15 +200,20 @@ def purge(
         ).scalar_one()
     )
 
-    session.add(
-        MaintenanceRun(
-            kind=PURGE_KIND,
-            executed_at=now,
-            dry_run=dry_run,
-            details=report.to_dict(),
+    if not dry_run:
+        # Una simulación **no escribe nada**, ni siquiera su propio registro:
+        # `--simular` existe para poder mirar antes de tocar, y si dejara rastro
+        # en la base dejaría de ser una simulación. La traza de las
+        # simulaciones vive en el log.
+        session.add(
+            MaintenanceRun(
+                kind=PURGE_KIND,
+                executed_at=now,
+                dry_run=False,
+                details=report.to_dict(),
+            )
         )
-    )
-    session.flush()
+        session.flush()
 
     logger.info(
         "retention_purge",
@@ -219,12 +224,19 @@ def purge(
     return report
 
 
-def last_purge(session: Session, *, include_dry_runs: bool = False) -> MaintenanceRun | None:
-    """Última purga registrada, para poder mostrarla en la interfaz."""
-    stmt = select(MaintenanceRun).where(MaintenanceRun.kind == PURGE_KIND)
-    if not include_dry_runs:
-        stmt = stmt.where(MaintenanceRun.dry_run.is_(False))
-    stmt = stmt.order_by(MaintenanceRun.executed_at.desc()).limit(1)
+def last_purge(session: Session) -> MaintenanceRun | None:
+    """Última purga **real** registrada, para poder mostrarla en la interfaz.
+
+    Las simulaciones no se registran, así que aquí no hay nada que filtrar. El
+    predicado sobre `dry_run` se mantiene por si quedan filas de una versión
+    anterior que sí las guardaba.
+    """
+    stmt = (
+        select(MaintenanceRun)
+        .where(MaintenanceRun.kind == PURGE_KIND, MaintenanceRun.dry_run.is_(False))
+        .order_by(MaintenanceRun.executed_at.desc())
+        .limit(1)
+    )
     return session.execute(stmt).scalar_one_or_none()
 
 
