@@ -85,6 +85,11 @@ Plan de implementación interno. Estado: `[x]` hecho, `[~]` parcial, `[ ]` pendi
 - [x] Playwright E2E sobre modo demostración
 - [x] Arranque real del sistema y prueba del flujo completo
 
+## Fase 9 — Preparación de nube
+- [x] Bicep para Azure Container Apps + PostgreSQL + Redis + Key Vault + ACR
+- [x] Documentación de despliegue y checklist de producción
+- [x] Workflow de CI
+
 ## Fase 10 — Cierre de huecos (tras la verificación)
 - [x] CLI de administración (`estado`, `cargar-demo`, `purgar`): la política de
       retención existía como función pero nada podía invocarla
@@ -94,11 +99,6 @@ Plan de implementación interno. Estado: `[x]` hecho, `[~]` parcial, `[ ]` pendi
 - [x] Corregida la incoherencia entre el texto y la evidencia de las
       recomendaciones de fortaleza (detectada al revisar las capturas)
 - [x] Corregida la concordancia de «suscriptores ocultos»
-
-## Fase 9 — Preparación de nube
-- [x] Bicep para Azure Container Apps + PostgreSQL + Redis + Key Vault + ACR
-- [x] Documentación de despliegue y checklist de producción
-- [x] Workflow de CI
 
 ## Estado de verificación
 
