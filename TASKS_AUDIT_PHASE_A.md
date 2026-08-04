@@ -31,12 +31,15 @@ Cada bloque se cierra con su propio commit y sus pruebas de regresión.
 - [x] Un hilo no se paga dos veces aunque la estrategia lo recorra dos veces
 - [x] 8 pruebas de regresión → **395 en verde**
 
-## Bloque 3 — Verificación de propiedad en OAuth
+## Bloque 3 — Verificación de propiedad en OAuth ✅
 
-- [ ] `channels.list(mine=true)` tras el canje del código
-- [ ] Coincidencia exacta con `youtube_channel_id`
-- [ ] Si no coincide: no guardar, revocar y redirigir con `oauth_canal_no_coincide`
-- [ ] Pruebas de regresión
+- [x] `channels.list(mine=true)` tras el canje del código
+- [x] Coincidencia exacta con `youtube_channel_id`
+- [x] Si no coincide: no guardar, revocar y redirigir con `oauth_canal_no_coincide`
+- [x] Cuenta sin canal → `oauth_sin_canal`, tampoco se guarda
+- [x] Un fallo de `channels.list` no persiste nada
+- [x] Nunca se registran tokens ni códigos
+- [x] 8 pruebas nuevas + la existente actualizada → **403 en verde**
 
 ## Bloque 4 — Seguridad de despliegue
 
@@ -75,3 +78,4 @@ Se actualiza al cerrar cada bloque. Sólo se anota lo que se ha ejecutado.
 | Suite base (antes de la Fase A) | 381 en verde |
 | Tras el Bloque 1 | `ruff`, `mypy` y 387 pruebas en verde |
 | Tras el Bloque 2 | `ruff`, `mypy` y 395 pruebas en verde |
+| Tras el Bloque 3 | `ruff`, `mypy` y 403 pruebas en verde |

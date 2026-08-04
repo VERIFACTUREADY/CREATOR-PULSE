@@ -74,6 +74,21 @@ class OAuthDeniedError(AppError):
     message = "Has cancelado la autorización o Google la ha denegado."
 
 
+class OAuthChannelMismatchError(AppError):
+    code = "oauth_canal_no_coincide"
+    status_code = 403
+    message = (
+        "La cuenta de Google que has autorizado no es la propietaria del canal "
+        "seleccionado. Conéctate con la cuenta dueña del canal."
+    )
+
+
+class OAuthNoChannelError(AppError):
+    code = "oauth_sin_canal"
+    status_code = 403
+    message = "La cuenta de Google autorizada no tiene ningún canal de YouTube asociado."
+
+
 @dataclass(frozen=True, slots=True)
 class TokenBundle:
     """Tokens devueltos por Google."""
@@ -226,6 +241,43 @@ def refresh_access_token(refresh_token: str, *, client: httpx.Client | None = No
     return _parse_token_response(response.json(), fallback_refresh=refresh_token)
 
 
+def fetch_authorised_channel_id(access_token: str, *, client: httpx.Client | None = None) -> str:
+    """Devuelve el ID del canal que realmente pertenece a la cuenta autorizada.
+
+    Es el control que impide asociar el token de una cuenta al canal de otra:
+    quien elige el canal en la pantalla es el usuario, y esa elección no prueba
+    nada. La respuesta de Google sí.
+    """
+    owns_client = client is None
+    http = client or httpx.Client(timeout=settings.ai_request_timeout_seconds)
+    try:
+        response = http.get(
+            f"{settings.youtube_api_base_url}/channels",
+            params={"part": "id,snippet", "mine": "true"},
+            headers={"Authorization": f"Bearer {access_token}"},
+        )
+    except httpx.HTTPError as exc:
+        logger.warning("oauth_identity_request_failed", error=str(exc))
+        raise OAuthExchangeError(detail="no se ha podido consultar el canal autorizado") from exc
+    finally:
+        if owns_client:
+            http.close()
+
+    if response.status_code != 200:
+        # Nunca se registra el token, sólo el código de estado.
+        logger.warning("oauth_identity_rejected", status_code=response.status_code)
+        raise OAuthExchangeError(detail=f"channels.list(mine=true) devolvió {response.status_code}")
+
+    items = (response.json() or {}).get("items") or []
+    if not items:
+        raise OAuthNoChannelError(detail="channels.list(mine=true) no devolvió canales")
+
+    channel_id = str(items[0].get("id") or "")
+    if not channel_id:
+        raise OAuthNoChannelError(detail="el canal autorizado no trae identificador")
+    return channel_id
+
+
 def revoke_token(token: str, *, client: httpx.Client | None = None) -> bool:
     """Revoca el token en Google. Devuelve si la revocación fue aceptada.
 
@@ -253,8 +305,10 @@ __all__ = [
     "STATE_KEY_PREFIX",
     "STATE_TTL_SECONDS",
     "TOKEN_ENDPOINT",
+    "OAuthChannelMismatchError",
     "OAuthDeniedError",
     "OAuthExchangeError",
+    "OAuthNoChannelError",
     "OAuthNotConfiguredError",
     "OAuthStateError",
     "TokenBundle",
@@ -263,6 +317,7 @@ __all__ = [
     "create_state",
     "ensure_enabled",
     "exchange_code",
+    "fetch_authorised_channel_id",
     "refresh_access_token",
     "revoke_token",
 ]

@@ -74,6 +74,16 @@ def _channel(session: Session) -> Channel:
     return channel
 
 
+CHANNELS_ENDPOINT = "https://www.googleapis.com/youtube/v3/channels"
+
+
+def _mock_authorised_channel(channel_id: str) -> None:
+    """Simula `channels.list(mine=true)`: de quién es la cuenta autorizada."""
+    respx.get(CHANNELS_ENDPOINT).mock(
+        return_value=httpx.Response(200, json={"items": [{"id": channel_id}]})
+    )
+
+
 def _bundle(**overrides: object) -> TokenBundle:
     defaults = {
         "access_token": "ya29.acceso",
@@ -350,6 +360,8 @@ def test_callback_stores_the_token_and_redirects(
             },
         )
     )
+    # La cuenta autorizada es dueña del canal elegido.
+    _mock_authorised_channel(channel.youtube_channel_id)
 
     response = client.get(
         f"/api/oauth/google/callback?code=codigo&state={start['state']}",
