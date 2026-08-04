@@ -267,7 +267,7 @@ CHANNELS: list[dict[str, Any]] = [
         "handle": "luciaglowdemo",
         "title": "Lucía Glow (demo)",
         "description": (
-            "Canal ficticio de belleza y estilo de vida creado para probar Creator Signal AI. "
+            "Canal ficticio de belleza y estilo de vida creado para probar CreatorPulse AI. "
             "Rutinas, maquillaje y cuidado de la piel sin filtros."
         ),
         "subscriber_count": 84_300,
@@ -299,7 +299,7 @@ CHANNELS: list[dict[str, Any]] = [
         "handle": "pixelraptordemo",
         "title": "PixelRaptor (demo)",
         "description": (
-            "Canal ficticio de gaming creado para probar Creator Signal AI. "
+            "Canal ficticio de gaming creado para probar CreatorPulse AI. "
             "Partidas comentadas, retos imposibles y mucho humor."
         ),
         "subscriber_count": None,
@@ -332,7 +332,7 @@ CHANNELS: list[dict[str, Any]] = [
         "handle": "codigoclarodemo",
         "title": "Código Claro (demo)",
         "description": (
-            "Canal ficticio de tecnología y programación creado para probar Creator Signal AI. "
+            "Canal ficticio de tecnología y programación creado para probar CreatorPulse AI. "
             "Explicaciones claras de conceptos difíciles."
         ),
         "subscriber_count": 27_800,

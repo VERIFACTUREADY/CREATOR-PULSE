@@ -1,4 +1,4 @@
-# Creator Signal AI
+# CreatorPulse AI
 
 Convierte los comentarios y las métricas públicas de un canal de YouTube en
 **decisiones de contenido con evidencia**: qué reforzar, qué corregir y qué
@@ -40,7 +40,7 @@ de un solo vídeo viral o cuando el clasificador tiene poca certeza.
 
 ## 1. Qué hace
 
-Creator Signal AI responde a las preguntas que un creador emergente se hace de
+CreatorPulse AI responde a las preguntas que un creador emergente se hace de
 verdad:
 
 * ¿Qué le gusta más a mi audiencia de mí o de mi contenido?
@@ -770,7 +770,7 @@ oficiales por llamada:
 | `comments.list` | 1 |
 | `search.list` | **100** |
 
-Creator Signal AI evita `search.list` salvo para resolver URLs personalizadas
+CreatorPulse AI evita `search.list` salvo para resolver URLs personalizadas
 heredadas que la API no puede resolver de otra forma.
 
 Ejemplo real: 20 vídeos × 250 comentarios ≈ **82 unidades**, es decir unos 120
@@ -971,7 +971,7 @@ decisión está documentado en el README de infraestructura.
 
 ## Aviso
 
-> Creator Signal AI ofrece análisis automatizados basados en una muestra de
+> CreatorPulse AI ofrece análisis automatizados basados en una muestra de
 > comentarios y métricas públicas. Las clasificaciones y recomendaciones pueden
 > contener errores y no garantizan crecimiento. Las asociaciones estadísticas no
 > demuestran causalidad.

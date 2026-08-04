@@ -1,5 +1,5 @@
 /**
- * Cliente HTTP de la API de Creator Signal AI.
+ * Cliente HTTP de la API de CreatorPulse AI.
  *
  * Toda la comunicación pasa por aquí para que el manejo de errores sea
  * uniforme: la API devuelve un envoltorio con `code` y un mensaje en español,

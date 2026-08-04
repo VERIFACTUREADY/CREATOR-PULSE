@@ -83,10 +83,14 @@ Cada bloque se cierra con su propio commit y sus pruebas de regresión.
 - [x] **Efecto medido**: el canal de demostración pasa de 95,3 % «alta» a
       65,5 % «media», con la explicación visible
 
-## Bloque 7 — Marca
+## Bloque 7 — Marca ✅
 
-- [ ] Textos visibles unificados como `CreatorPulse AI`
-- [ ] Sin renombrar tablas, revisiones de Alembic ni paquetes
+- [x] Textos visibles unificados como `CreatorPulse AI` (README, interfaz,
+      metadatos del navegador, API, CLI, fixtures, Makefile, Bicep, `.env.example`)
+- [x] **No** se renombran: tablas, revisiones de Alembic, nombre del paquete
+      Python, nombre del paquete npm, servicios ni volúmenes de Docker
+- [x] La migración `0001` conserva el nombre antiguo en su docstring a
+      propósito: es un registro histórico ya publicado
 
 ---
 
@@ -103,3 +107,4 @@ Se actualiza al cerrar cada bloque. Sólo se anota lo que se ha ejecutado.
 | Tras el Bloque 4 | `ruff`, `mypy` y 424 pruebas en verde |
 | Tras el Bloque 5 | `ruff`, `mypy`, 439 pruebas, `tsc` y `eslint` en verde |
 | Tras el Bloque 6 | `ruff`, `mypy`, 453 pruebas, `tsc`, `eslint` y 85 de Vitest en verde |
+| **Final (bloque 7)** | Todo lo anterior más `npm run build` (10 rutas), 12 pruebas E2E contra el sistema real y `alembic downgrade 0002` → `upgrade head` |

@@ -27,7 +27,7 @@ from app.repositories.channels import VideoRepository
 from app.services.analysis.aspects import aspect_label_es
 
 DISCLAIMER_ES = (
-    "Creator Signal AI ofrece análisis automatizados basados en una muestra de comentarios y "
+    "CreatorPulse AI ofrece análisis automatizados basados en una muestra de comentarios y "
     "métricas públicas. Las clasificaciones y recomendaciones pueden contener errores y no "
     "garantizan crecimiento. Las asociaciones estadísticas no demuestran causalidad."
 )

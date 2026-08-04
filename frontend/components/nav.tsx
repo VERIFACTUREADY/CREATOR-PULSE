@@ -33,7 +33,7 @@ export function Nav() {
           >
             CS
           </span>
-          <span className="hidden sm:inline">Creator Signal AI</span>
+          <span className="hidden sm:inline">CreatorPulse AI</span>
         </Link>
 
         <nav aria-label="Navegación principal" className="hidden md:block">

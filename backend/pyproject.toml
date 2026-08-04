@@ -1,7 +1,7 @@
 [project]
 name = "creator-signal-ai-backend"
 version = "0.1.0"
-description = "Creator Signal AI — API y motor de análisis"
+description = "CreatorPulse AI — API y motor de análisis"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.115",

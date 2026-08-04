@@ -34,7 +34,7 @@ class Settings(BaseSettings):
 
     # --- Aplicación ---------------------------------------------------
     app_env: Literal["development", "test", "production"] = "development"
-    app_name: str = "Creator Signal AI"
+    app_name: str = "CreatorPulse AI"
     frontend_url: str = "http://localhost:3000"
     api_url: str = "http://localhost:8000"
     cors_origins: str = "http://localhost:3000"

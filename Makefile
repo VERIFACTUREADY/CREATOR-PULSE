@@ -1,4 +1,4 @@
-# Creator Signal AI — comandos de desarrollo
+# CreatorPulse AI — comandos de desarrollo
 #
 # Uso rápido con Docker:
 #   cp .env.example .env && make up

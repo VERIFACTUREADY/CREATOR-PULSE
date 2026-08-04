@@ -40,7 +40,7 @@ export default function UsagePage() {
     <div className="space-y-6">
       <SectionTitle
         title="Uso de la API de YouTube"
-        description="Consumo aproximado calculado por Creator Signal AI a partir de sus propias llamadas."
+        description="Consumo aproximado calculado por CreatorPulse AI a partir de sus propias llamadas."
       />
 
       <Callout tone="warning" title="Esto es una estimación">

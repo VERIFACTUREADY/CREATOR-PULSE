@@ -1,4 +1,4 @@
-"""Comandos de administración de Creator Signal AI.
+"""Comandos de administración de CreatorPulse AI.
 
 Uso:
     python -m app.cli purgar --dias 90
@@ -149,7 +149,7 @@ def cmd_generar_clave(_args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m app.cli",
-        description="Comandos de administración de Creator Signal AI.",
+        description="Comandos de administración de CreatorPulse AI.",
     )
     sub = parser.add_subparsers(dest="comando", required=True)
 

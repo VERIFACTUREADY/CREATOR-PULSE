@@ -10,7 +10,7 @@ import { channelReferenceSchema, buildAnalysisFormSchema, collectErrors } from '
 import type { PublicConfig, RunStatus } from '@/lib/types';
 
 const config: PublicConfig = {
-  app_name: 'Creator Signal AI',
+  app_name: 'CreatorPulse AI',
   app_env: 'test',
   demo_mode_enabled: true,
   youtube_configured: false,

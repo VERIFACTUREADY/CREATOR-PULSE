@@ -29,7 +29,7 @@ export default function HomePage() {
           Convierte tus comentarios en decisiones de contenido
         </h1>
         <p className="max-w-3xl text-muted-foreground">
-          Creator Signal AI analiza los comentarios y las métricas públicas de un canal de YouTube y
+          CreatorPulse AI analiza los comentarios y las métricas públicas de un canal de YouTube y
           los transforma en recomendaciones concretas: qué reforzar, qué corregir y qué publicar a
           continuación. Cada recomendación viene con las cifras que la respaldan.
         </p>

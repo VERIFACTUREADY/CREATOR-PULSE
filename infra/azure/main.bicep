@@ -1,4 +1,4 @@
-// Creator Signal AI — infraestructura de Azure.
+// CreatorPulse AI — infraestructura de Azure.
 //
 // Decisión: se usa **Bicep** en lugar de Terraform porque el destino es
 // exclusivamente Azure, no requiere gestionar estado remoto y el despliegue se

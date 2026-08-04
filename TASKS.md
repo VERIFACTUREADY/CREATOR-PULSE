@@ -1,4 +1,4 @@
-# TASKS — Creator Signal AI
+# TASKS — CreatorPulse AI
 
 Plan de implementación interno. Estado: `[x]` hecho, `[~]` parcial, `[ ]` pendiente.
 

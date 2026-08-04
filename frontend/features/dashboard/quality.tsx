@@ -18,6 +18,12 @@ const CLUSTERING_LABELS: Record<string, string> = {
 };
 
 export function QualityTab({ quality }: { quality: DataQuality }) {
+  // Los análisis guardados antes de que existieran estos campos no los traen
+  // en su JSON persistido. Sin este respaldo, abrir un análisis antiguo
+  // rompería toda la pestaña.
+  const factores = quality.score_factors ?? [];
+  const explicaciones = quality.score_explanations_es ?? [];
+
   const coverage = quality.date_coverage as {
     first?: string | null;
     last?: string | null;
@@ -55,8 +61,8 @@ export function QualityTab({ quality }: { quality: DataQuality }) {
         />
         <Metric
           label="Confianza semántica"
-          value={`${Math.round(quality.semantic_confidence * 100)} / 100`}
-          hint={`Nivel ${quality.semantic_confidence_level}`}
+          value={`${Math.round((quality.semantic_confidence ?? 0) * 100)} / 100`}
+          hint={`Nivel ${quality.semantic_confidence_level ?? 'baja'}`}
           tone={
             quality.semantic_confidence_level === 'alta'
               ? 'positive'
@@ -78,7 +84,7 @@ export function QualityTab({ quality }: { quality: DataQuality }) {
           tener buena calidad de datos y baja confianza semántica.
         </p>
         <ul className="space-y-2">
-          {quality.score_factors.map((factor) => (
+          {factores.map((factor) => (
             <li key={factor.nombre} className="border-b border-border pb-2 text-sm last:border-0">
               <div className="flex items-center justify-between gap-3">
                 <span className="font-medium">{factor.nombre.replaceAll('_', ' ')}</span>
@@ -90,9 +96,9 @@ export function QualityTab({ quality }: { quality: DataQuality }) {
             </li>
           ))}
         </ul>
-        {quality.score_explanations_es.length > 0 ? (
+        {explicaciones.length > 0 ? (
           <div className="mt-3 space-y-1">
-            {quality.score_explanations_es.map((texto) => (
+            {explicaciones.map((texto) => (
               <p key={texto} className="text-sm text-warning">
                 • {texto}
               </p>

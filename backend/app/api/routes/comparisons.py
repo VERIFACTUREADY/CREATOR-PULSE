@@ -53,7 +53,7 @@ def youtube_usage(
         **summary,
         "daily_quota_reference": DEFAULT_DAILY_QUOTA,
         "note_es": (
-            "Estas cifras son una estimación calculada por Creator Signal AI a partir de las "
+            "Estas cifras son una estimación calculada por CreatorPulse AI a partir de las "
             "llamadas que ella misma ha realizado. No reflejan la cuota real restante de tu "
             "proyecto de Google Cloud: consúltala en la consola de Google."
         ),

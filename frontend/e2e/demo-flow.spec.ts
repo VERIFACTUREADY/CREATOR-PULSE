@@ -62,7 +62,9 @@ test.describe('Modo demostración', () => {
     // --- Calidad de los datos ---
     await page.getByRole('tab', { name: 'Calidad de los datos' }).click();
     await expect(page.getByRole('heading', { name: 'Calidad de los datos' })).toBeVisible();
-    await expect(page.getByText('Puntuación de calidad')).toBeVisible();
+    // `exact` distingue la etiqueta de la métrica de la prosa que la explica.
+    await expect(page.getByText('Puntuación de calidad', { exact: true })).toBeVisible();
+    await expect(page.getByText('Confianza semántica', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Posibles sesgos de la muestra' })).toBeVisible();
   });
 

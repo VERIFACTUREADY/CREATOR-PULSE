@@ -314,17 +314,18 @@ export interface DataQuality {
   topics_found: number;
   noise_share: number;
   /** Cohesión media de los grupos. `null` cuando no se pudo medir: no se inventa. */
-  cluster_coherence: number | null;
-  mean_classifier_confidence: number;
+  cluster_coherence?: number | null;
+  mean_classifier_confidence?: number;
   /** `false` significa que no se sabe qué comentarios miró la ejecución. */
-  sample_bound_to_run: boolean;
+  sample_bound_to_run?: boolean;
   /** Distinta de `score`: mide si el motor entendió, no cuántos datos había. */
-  semantic_confidence: number;
-  semantic_confidence_level: ConfidenceLevel;
-  score_factors: QualityScoreFactor[];
-  score_explanations_es: string[];
-  include_replies: boolean;
-  replies_incomplete: boolean;
+  /* Opcionales: los análisis anteriores a estos campos no los tienen guardados. */
+  semantic_confidence?: number;
+  semantic_confidence_level?: ConfidenceLevel;
+  score_factors?: QualityScoreFactor[];
+  score_explanations_es?: string[];
+  include_replies?: boolean;
+  replies_incomplete?: boolean;
   ai_used: boolean;
   ai_provider: string;
   algorithm_version: string;

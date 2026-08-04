@@ -6,7 +6,7 @@ import { Providers } from '@/components/providers';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Creator Signal AI',
+  title: 'CreatorPulse AI',
   description:
     'Convierte los comentarios y las métricas públicas de tu canal de YouTube en decisiones de contenido con evidencia.',
   robots: { index: false, follow: false },
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 /** Aviso obligatorio, visible en todas las pantallas. */
 const DISCLAIMER =
-  'Creator Signal AI ofrece análisis automatizados basados en una muestra de comentarios y ' +
+  'CreatorPulse AI ofrece análisis automatizados basados en una muestra de comentarios y ' +
   'métricas públicas. Las clasificaciones y recomendaciones pueden contener errores y no ' +
   'garantizan crecimiento. Las asociaciones estadísticas no demuestran causalidad.';
 

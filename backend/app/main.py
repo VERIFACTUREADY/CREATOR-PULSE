@@ -1,4 +1,4 @@
-"""Aplicación FastAPI de Creator Signal AI."""
+"""Aplicación FastAPI de CreatorPulse AI."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ from app.db.session import detect_pgvector
 logger = get_logger(__name__)
 
 DESCRIPTION = """
-API de **Creator Signal AI**: analiza canales públicos de YouTube y convierte los
+API de **CreatorPulse AI**: analiza canales públicos de YouTube y convierte los
 comentarios y las métricas públicas en recomendaciones de contenido con evidencia.
 
 * Sólo se usan endpoints oficiales de la YouTube Data API v3.

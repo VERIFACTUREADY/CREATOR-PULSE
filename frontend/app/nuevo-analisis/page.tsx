@@ -1,7 +1,7 @@
 import { AnalysisForm } from '@/features/analysis-form';
 import { SectionTitle } from '@/components/ui';
 
-export const metadata = { title: 'Nuevo análisis · Creator Signal AI' };
+export const metadata = { title: 'Nuevo análisis · CreatorPulse AI' };
 
 export default function NewAnalysisPage() {
   return (
