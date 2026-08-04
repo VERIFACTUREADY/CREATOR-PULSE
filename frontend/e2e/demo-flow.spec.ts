@@ -169,3 +169,46 @@ test.describe('Responsive y accesibilidad', () => {
     await expect(page.locator('html')).toHaveClass(/dark/);
   });
 });
+
+test.describe('Modo propietario', () => {
+  test('está desactivado y no muestra ninguna métrica privada', async ({ page }) => {
+    await page.goto('/modo-propietario');
+
+    await expect(
+      page.getByRole('heading', { name: 'Modo propietario', exact: true }),
+    ).toBeVisible();
+    await expect(page.getByText('Falta configuración')).toBeVisible();
+    await expect(page.getByText('ENABLE_OWNER_MODE=true')).toBeVisible();
+
+    // Con el modo apagado no hay botón de conexión ni canales conectados.
+    await expect(page.getByRole('button', { name: /conectar con google/i })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /ver métricas/i })).toHaveCount(0);
+
+    // La página explica qué métricas aportaría, pero no renderiza ningún panel
+    // de valores: «Periodo:» sólo aparece cuando hay datos reales de Analytics.
+    await expect(page.getByText(/^Periodo:/)).toHaveCount(0);
+  });
+
+  test('declara que sólo pide permisos de lectura y no la contraseña', async ({ page }) => {
+    await page.goto('/modo-propietario');
+
+    await expect(page.getByText('Qué autorizas exactamente')).toBeVisible();
+    await expect(page.getByText(/nunca se te pedirá tu contraseña/i)).toBeVisible();
+    await expect(page.getByText(/yt-analytics\.readonly/)).toBeVisible();
+    await expect(page.getByText(/youtube\.readonly/).first()).toBeVisible();
+  });
+
+  test('la API rechaza las métricas privadas con el modo apagado', async ({ request }) => {
+    // La garantía real no es que falte un texto en la pantalla, sino que el
+    // servidor no entregue datos de propietario cuando la función está apagada.
+    const base = process.env.E2E_API_URL ?? 'http://localhost:8000';
+    const status = await (await request.get(`${base}/api/oauth/status`)).json();
+    expect(status.enabled).toBe(false);
+    expect(status.ready).toBe(false);
+    expect(status.connections).toEqual([]);
+
+    const denied = await request.get(`${base}/api/oauth/analytics/${crypto.randomUUID()}`);
+    expect(denied.status()).toBe(400);
+    expect((await denied.json()).error.code).toBe('modo_propietario_desactivado');
+  });
+});

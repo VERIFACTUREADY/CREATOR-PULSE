@@ -12,6 +12,7 @@ const LINKS = [
   { href: '/nuevo-analisis', label: 'Nuevo análisis' },
   { href: '/comparador', label: 'Comparador' },
   { href: '/uso-api', label: 'Uso de API' },
+  { href: '/modo-propietario', label: 'Modo propietario' },
   { href: '/configuracion', label: 'Configuración' },
   { href: '/demostracion', label: 'Modo demostración' },
 ] as const;

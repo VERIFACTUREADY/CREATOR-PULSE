@@ -98,7 +98,11 @@ export default function SettingsPage() {
           <StatusRow
             label="Modo propietario (OAuth)"
             ok={config.owner_mode_enabled}
-            detail={config.owner_mode_enabled ? undefined : 'Aún no disponible en esta versión'}
+            detail={
+              config.owner_mode_enabled
+                ? 'Conecta tu canal desde «Modo propietario»'
+                : 'Desactivado (ENABLE_OWNER_MODE=false)'
+            }
           />
         </ul>
       </Card>

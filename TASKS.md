@@ -100,25 +100,48 @@ Plan de implementación interno. Estado: `[x]` hecho, `[~]` parcial, `[ ]` pendi
       recomendaciones de fortaleza (detectada al revisar las capturas)
 - [x] Corregida la concordancia de «suscriptores ocultos»
 
+## Fase 11 — Modo propietario (OAuth + YouTube Analytics)
+- [x] Cifrado de tokens en reposo con Fernet (`app/core/crypto.py`). Si falta la
+      clave, se rechaza guardar el token en vez de escribirlo en claro
+- [x] Flujo OAuth 2.0 de Google con `state` de un solo uso en Redis (CSRF),
+      `access_type=offline` + `prompt=consent` para obtener refresh token
+- [x] Sólo permisos de lectura: `youtube.readonly` y `yt-analytics.readonly`
+- [x] Repositorio de tokens: refresco automático, conservación del refresh token
+      cuando Google no lo reenvía, y desconexión que revoca en Google y borra
+      localmente aunque la revocación remota falle
+- [x] Cliente de YouTube Analytics v2: métricas centrales, series diarias,
+      fuentes de tráfico, geografía y vídeos destacados. Impresiones y CTR en
+      consulta aparte para que su ausencia no tumbe el informe
+- [x] Ventana del informe terminada 3 días antes de hoy (retraso de Analytics);
+      lo no disponible se marca como tal, nunca se estima
+- [x] Endpoints `/api/oauth/{status,google/start,google/callback,analytics}`
+      y desconexión; ningún esquema expone tokens
+- [x] Migración `0002_modo_propietario` con `server_default` temporal para no
+      romper filas existentes
+- [x] Pantalla «Modo propietario» en español, con el estado de configuración y
+      el aviso de que nunca se pide la contraseña
+- [x] 61 pruebas nuevas (37 unitarias + 24 de integración) y 8 de interfaz
+
 ## Estado de verificación
 
 Ejecutado y comprobado en este entorno:
 
 | Comprobación | Resultado |
 | --- | --- |
-| `ruff check` + `ruff format --check` | Sin incidencias (83 ficheros) |
-| `mypy app` | Sin incidencias (66 ficheros) |
-| `pytest` | 319 pruebas en verde |
+| `ruff check` + `ruff format --check` | Sin incidencias (91 ficheros) |
+| `mypy app` | Sin incidencias (71 ficheros) |
+| `pytest` | 381 pruebas en verde |
 | `npm run lint` (ESLint) | Sin avisos ni errores |
 | `npm run typecheck` (tsc) | Sin errores |
-| `npm test` (Vitest) | 72 pruebas en verde |
-| `npm run build` (Next.js) | Construcción correcta, 10 rutas |
-| `npx playwright test` | 9 pruebas E2E en verde contra el sistema real |
+| `npm test` (Vitest) | 80 pruebas en verde |
+| `npm run build` (Next.js) | Construcción correcta, 11 rutas |
+| `npx playwright test` | 12 pruebas E2E en verde contra el sistema real |
 | `alembic upgrade head` | Esquema creado con `vector(384)` nativo |
 | `docker compose config` | Válido |
 | Flujo completo por HTTP | Análisis encolado → worker → dashboard → export CSV/JSON |
 | `python -m app.cli` | `estado`, `cargar-demo` y `purgar` ejecutados |
 | Capturas del README | 13 generadas del sistema real, todas referenciadas |
+| Modo propietario | Verificado con respuestas simuladas (`respx`) y por HTTP con el modo apagado: la API responde `modo_propietario_desactivado` y no entrega ninguna métrica privada |
 
 ## Limitaciones conocidas del entorno de construcción
 
@@ -133,3 +156,11 @@ Ejecutado y comprobado en este entorno:
     nativa: PostgreSQL 16 con pgvector 0.6, Redis 7, uvicorn, worker RQ y Next.js.
 - La construcción de las imágenes está cubierta por el trabajo `docker` del
   workflow de CI, que sí tiene acceso al registro.
+- **No hay credenciales en este entorno**: ni `YOUTUBE_API_KEY` ni
+  `GOOGLE_OAUTH_CLIENT_ID`/`SECRET`. Por tanto:
+  - El flujo completo se verificó con el **modo demostración** y con el cliente
+    de YouTube mockeado (`respx`), no contra la API real de Google.
+  - El modo propietario **no se ha ejecutado contra Google**. Están probadas la
+    construcción de la URL de autorización, el intercambio y el refresco de
+    tokens, el cifrado, la revocación, el rechazo de `state` reutilizado y el
+    parseo de las respuestas de Analytics, todo con respuestas simuladas.

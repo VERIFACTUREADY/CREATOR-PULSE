@@ -21,6 +21,7 @@ from datetime import UTC, datetime, timedelta
 from sqlalchemy import func, select
 
 from app.core.config import settings
+from app.core.crypto import encryption_available, generate_key
 from app.core.logging import configure_logging, get_logger
 from app.db.session import check_database, detect_pgvector, session_scope
 from app.models.entities import AnalysisRun, Channel, Comment, Video
@@ -81,6 +82,11 @@ def cmd_estado(_args: argparse.Namespace) -> int:
     print(f"Clave YouTube : {'configurada' if settings.youtube_configured else 'sin configurar'}")
     print(f"Proveedor IA  : {settings.ai_provider}{'' if settings.ai_enabled else ' (inactivo)'}")
     print(f"Modo demo     : {'activado' if settings.enable_demo_mode else 'desactivado'}")
+    if settings.enable_owner_mode:
+        cifrado = "listo" if encryption_available() else "SIN CLAVE DE CIFRADO"
+        print(f"Modo propietar: activado (cifrado de tokens: {cifrado})")
+    else:
+        print("Modo propietar: desactivado")
     print(f"Retención     : {settings.data_retention_days} días")
 
     with session_scope() as session:
@@ -136,6 +142,17 @@ def cmd_cargar_demo(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_generar_clave(_args: argparse.Namespace) -> int:
+    """Genera una clave de cifrado para los tokens del modo propietario."""
+    print("Añade esta línea a tu fichero .env:\n")
+    print(f"OAUTH_TOKEN_ENCRYPTION_KEY={generate_key()}")
+    print(
+        "\nGuárdala como un secreto. Si la cambias, los canales conectados\n"
+        "tendrán que volver a autorizarse."
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m app.cli",
@@ -163,6 +180,11 @@ def build_parser() -> argparse.ArgumentParser:
     demo = sub.add_parser("cargar-demo", help="Carga los canales de demostración")
     demo.add_argument("--handle", default=None, help="Carga sólo este canal (por defecto, todos)")
     demo.set_defaults(func=cmd_cargar_demo)
+
+    clave = sub.add_parser(
+        "generar-clave", help="Genera la clave de cifrado de tokens del modo propietario"
+    )
+    clave.set_defaults(func=cmd_generar_clave)
 
     return parser
 

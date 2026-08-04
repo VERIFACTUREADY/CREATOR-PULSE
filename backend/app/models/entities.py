@@ -415,10 +415,16 @@ class OAuthToken(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     channel_id: Mapped[uuid.UUID | None] = mapped_column(
         PgUUID(as_uuid=True), ForeignKey("channel.id", ondelete="CASCADE"), nullable=True
     )
+    #: Cifrados con Fernet (`app.core.crypto`). Nunca se guardan en claro.
     access_token_encrypted: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
     refresh_token_encrypted: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
+    token_type: Mapped[str] = mapped_column(String(32), default="Bearer", nullable=False)
     scopes: Mapped[list[str] | None] = mapped_column(JSONB, nullable=True)
     expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    last_refreshed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    revoked: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
 
 __all__ = [

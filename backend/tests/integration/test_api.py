@@ -418,17 +418,33 @@ def test_usage_endpoint_states_it_is_an_estimate(client: TestClient) -> None:
 # --- Modo propietario -------------------------------------------------------
 
 
-def test_owner_mode_is_disabled(client: TestClient) -> None:
+def test_owner_mode_is_disabled_by_default(client: TestClient) -> None:
+    """El modo propietario existe, pero viene apagado de fábrica."""
     body = client.get("/api/oauth/status").json()
     assert body["enabled"] is False
-    assert body["implemented"] is False
+    assert body["ready"] is False
+    assert "ENABLE_OWNER_MODE=true" in body["missing_config"]
     assert "contraseña" in body["message_es"]
 
 
-def test_owner_oauth_start_is_blocked(client: TestClient) -> None:
-    response = client.get("/api/oauth/google/start")
-    assert response.status_code == 400
-    assert response.json()["error"]["code"] == "modo_propietario_desactivado"
+def test_owner_endpoints_are_blocked_when_disabled(client: TestClient, session: Session) -> None:
+    """Con el modo apagado, ningún endpoint de propietario responde datos."""
+    channel = DemoLoader(session).load("luciaglowdemo")
+    session.commit()
+
+    for response in (
+        client.get(f"/api/oauth/google/start?channel_id={channel.id}"),
+        client.get(f"/api/oauth/analytics/{channel.id}"),
+        client.request("DELETE", f"/api/oauth/google/{channel.id}"),
+    ):
+        assert response.status_code == 400
+        assert response.json()["error"]["code"] == "modo_propietario_desactivado"
+
+
+def test_owner_status_declares_only_readonly_scopes(client: TestClient) -> None:
+    body = client.get("/api/oauth/status").json()
+    assert body["scopes"]
+    assert all("readonly" in scope for scope in body["scopes"])
 
 
 # --- Cola de trabajos -------------------------------------------------------

@@ -453,3 +453,62 @@ export interface UsageSummary {
   daily_quota_reference: number;
   note_es: string;
 }
+
+// --- Modo propietario -------------------------------------------------------
+
+export interface OwnerConnectionInfo {
+  provider: string;
+  channel_id: string | null;
+  channel_title: string | null;
+  external_account_id: string;
+  scopes: string[];
+  expires_at: string | null;
+  last_refreshed_at: string | null;
+  connected_at: string | null;
+  has_refresh_token: boolean;
+}
+
+export interface OwnerStatus {
+  enabled: boolean;
+  configured: boolean;
+  encryption_ready: boolean;
+  ready: boolean;
+  missing_config: string[];
+  scopes: string[];
+  owner_only_metrics: string[];
+  connections: OwnerConnectionInfo[];
+  message_es: string;
+}
+
+export interface StartAuthorization {
+  authorization_url: string;
+  state: string;
+  scopes: string[];
+  message_es: string;
+}
+
+/** `null` significa «no disponible», nunca cero. */
+export interface OwnerAnalytics {
+  channel_id: string;
+  channel_title: string;
+  start_date: string;
+  end_date: string;
+  views: number | null;
+  estimated_minutes_watched: number | null;
+  average_view_duration_seconds: number | null;
+  average_view_percentage: number | null;
+  subscribers_gained: number | null;
+  subscribers_lost: number | null;
+  net_subscribers: number | null;
+  likes: number | null;
+  comments: number | null;
+  shares: number | null;
+  impressions: number | null;
+  impressions_ctr: number | null;
+  daily: Record<string, unknown>[];
+  traffic_sources: Record<string, unknown>[];
+  geography: Record<string, unknown>[];
+  top_videos: Record<string, unknown>[];
+  unavailable_es: string[];
+  note_es: string;
+}

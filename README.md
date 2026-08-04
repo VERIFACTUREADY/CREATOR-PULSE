@@ -201,22 +201,97 @@ tamaño de la muestra y sus sesgos.
 
 ## 5. Modo propietario
 
-Está **preparado pero desactivado** (`ENABLE_OWNER_MODE=false`). Cuando se
-implemente, permitirá conectar tu propio canal por OAuth de Google, con permisos
-de **sólo lectura**, para acceder a métricas privadas de YouTube Analytics:
-tiempo de visualización, duración media, porcentaje visto, suscriptores ganados
-y perdidos, impresiones, CTR, fuentes de tráfico y geografía.
+El modo público analiza cualquier canal con datos que ve todo el mundo. El
+**modo propietario** añade lo que sólo el dueño del canal puede ver: si
+conectas *tu* canal por OAuth de Google, la aplicación consulta la YouTube
+Analytics API y muestra tiempo de visualización, duración media, porcentaje
+visto, suscriptores ganados y perdidos, impresiones, CTR, fuentes de tráfico,
+geografía de la audiencia y tus vídeos con más minutos vistos.
 
-En esta versión existen:
+Viene **desactivado de fábrica** (`ENABLE_OWNER_MODE=false`) porque requiere
+credenciales propias de Google Cloud. Todo el modo público funciona sin él.
 
-* Las rutas `/api/oauth/google/*`, que devuelven un error claro mientras esté
-  desactivado.
-* La tabla `oauth_token`, con columnas para tokens cifrados.
-* El endpoint `/api/oauth/status`, que documenta qué aportará.
+### 5.1 Qué se te pide y qué no
 
-**Nunca se te pedirá tu contraseña de YouTube ni de Google.** Y mientras el modo
-propietario esté desactivado, la aplicación no muestra ninguna métrica de
-propietario: no las tiene y no las inventa.
+* **Nunca se te pide tu contraseña de YouTube ni de Google.** La autorización
+  ocurre en el dominio de Google; esta aplicación sólo recibe un código.
+* Se solicitan dos permisos, ambos de **sólo lectura**:
+  `youtube.readonly` y `yt-analytics.readonly`. No se puede publicar,
+  editar ni borrar nada en tu canal.
+* Los tokens se guardan **cifrados en reposo** con Fernet (AES-128-CBC +
+  HMAC-SHA256). Si falta la clave de cifrado, la aplicación se niega a
+  guardar el token en lugar de escribirlo en claro.
+* Los tokens nunca salen por la API ni aparecen en los registros: el endpoint
+  de estado devuelve sólo metadatos (fecha de conexión, caducidad, permisos).
+* Puedes desconectar el canal cuando quieras. Se revoca el token en Google y
+  se borra de la base de datos; si la revocación remota falla, el borrado
+  local se hace igualmente.
+
+### 5.2 Crear las credenciales de Google
+
+1. Entra en [Google Cloud Console](https://console.cloud.google.com/) y crea
+   un proyecto (o reutiliza el de la clave de YouTube).
+2. En **APIs y servicios → Biblioteca**, habilita **YouTube Data API v3** y
+   **YouTube Analytics API**.
+3. En **Pantalla de consentimiento de OAuth**, elige tipo «Externo», rellena
+   los datos básicos y añade los permisos
+   `.../auth/youtube.readonly` y `.../auth/yt-analytics.readonly`.
+   Mientras la aplicación esté en modo «Prueba», añade tu propia cuenta de
+   Google en **Usuarios de prueba**.
+4. En **Credenciales → Crear credenciales → ID de cliente de OAuth**, tipo
+   **Aplicación web**. En «URI de redirección autorizados» añade exactamente:
+
+   ```text
+   http://localhost:8000/api/oauth/google/callback
+   ```
+
+   Debe coincidir carácter a carácter con `GOOGLE_OAUTH_REDIRECT_URI`.
+5. Copia el **ID de cliente** y el **secreto de cliente**.
+
+### 5.3 Configurar la aplicación
+
+Genera la clave de cifrado de tokens:
+
+```bash
+cd backend && .venv/bin/python -m app.cli generar-clave
+```
+
+Y añade al `.env`:
+
+```dotenv
+ENABLE_OWNER_MODE=true
+GOOGLE_OAUTH_CLIENT_ID=xxxxx.apps.googleusercontent.com
+GOOGLE_OAUTH_CLIENT_SECRET=xxxxx
+GOOGLE_OAUTH_REDIRECT_URI=http://localhost:8000/api/oauth/google/callback
+OAUTH_TOKEN_ENCRYPTION_KEY=<lo que ha impreso generar-clave>
+```
+
+Aplica las migraciones (`make migrate`) y reinicia la API. Si falta alguna de
+las cuatro variables, `/api/oauth/status` lo dice explícitamente en
+`missing_config` y el flujo no arranca a medias.
+
+### 5.4 Conectar el canal
+
+1. Analiza primero tu canal en modo público, para que exista en «Canales».
+2. Ve a **Modo propietario**, elige tu canal y pulsa «Conectar con Google».
+3. Autoriza en la pantalla de Google. Vuelves a la aplicación ya conectado.
+4. Consulta el informe privado con la ventana que prefieras (7, 28 o 90 días).
+
+La solicitud lleva `state` de un solo uso contra CSRF: si vuelve un `state`
+desconocido, caducado o ya usado, el retorno se rechaza.
+
+### 5.5 Limitaciones honestas
+
+* **YouTube Analytics tiene unos 3 días de retraso.** La ventana del informe
+  termina tres días antes de hoy, y la pantalla muestra siempre el periodo
+  exacto consultado. No se extrapola para «rellenar» los días que faltan.
+* Las **impresiones y el CTR** no están habilitados en todas las cuentas. Se
+  piden en una consulta aparte: si fallan, el resto del informe llega igual y
+  esas métricas aparecen como no disponibles, nunca como cero.
+* Una métrica ausente se muestra como «no disponible». **No se inventa ni se
+  estima ningún dato de propietario.**
+* Con el modo desactivado, la API responde `modo_propietario_desactivado` y la
+  aplicación no muestra ninguna métrica privada: no las tiene y no las simula.
 
 ---
 
@@ -521,6 +596,16 @@ Todas están documentadas en [`.env.example`](.env.example). Las más relevantes
 | `OPENAI_API_KEY` / `OPENAI_MODEL` | vacío | Proveedor OpenAI |
 | `OLLAMA_BASE_URL` / `OLLAMA_MODEL` | `http://host.docker.internal:11434` | Modelo local, sin coste por llamada |
 
+### Modo propietario (OAuth)
+
+| Variable | Por defecto | Para qué |
+| --- | --- | --- |
+| `ENABLE_OWNER_MODE` | `false` | Activa la conexión OAuth y las métricas privadas |
+| `GOOGLE_OAUTH_CLIENT_ID` | vacío | ID de cliente de Google Cloud |
+| `GOOGLE_OAUTH_CLIENT_SECRET` | vacío | Secreto de cliente. Sólo en el servidor |
+| `GOOGLE_OAUTH_REDIRECT_URI` | `http://localhost:8000/api/oauth/google/callback` | Debe coincidir con la URI autorizada en Google |
+| `OAUTH_TOKEN_ENCRYPTION_KEY` | vacío | Clave Fernet para cifrar los tokens. Genérala con `python -m app.cli generar-clave` |
+
 ### Privacidad
 
 | Variable | Por defecto | Para qué |
@@ -732,6 +817,9 @@ Google Cloud.
   conservan: borrarlos es siempre una acción explícita tuya.
 * Los registros nunca incluyen claves de API, tokens, prompts completos ni
   datasets de comentarios.
+* Si conectas tu canal con el **modo propietario**, los tokens de OAuth se
+  guardan cifrados (Fernet), nunca se devuelven por la API y se revocan al
+  desconectar. Sólo se piden permisos de lectura y jamás tu contraseña.
 
 La detección de toxicidad existe como **función de seguridad para el creador**
 (revisar la moderación), no como herramienta de vigilancia. No identifica
@@ -827,8 +915,8 @@ decisión está documentado en el README de infraestructura.
 ## 21. Limitaciones actuales
 
 * **Sólo YouTube.** No hay integración con Instagram, TikTok ni X.
-* **Sólo datos públicos.** El modo propietario está preparado pero no
-  implementado.
+* **El modo propietario requiere credenciales propias de Google Cloud** y viene
+  desactivado. Sin él, el análisis usa exclusivamente datos públicos.
 * **Sin autenticación de usuarios.** La instalación es de un solo inquilino; no
   la expongas a internet sin poner un proxy con autenticación delante.
 * **El rate limiting es por proceso.** Con varias réplicas de la API conviene
@@ -841,19 +929,23 @@ decisión está documentado en el README de infraestructura.
   muestra, no por un calendario fijo.
 * **Las asociaciones tema ↔ rendimiento son correlaciones** sobre muestras
   pequeñas. Están etiquetadas como hipótesis a propósito.
-* El almacenamiento cifrado de tokens OAuth está **diseñado, no implementado**:
-  la tabla existe pero no se usa.
+* **El modo propietario no se ha probado contra la API real de Google**: no hay
+  credenciales de OAuth en este entorno. La lógica está cubierta por pruebas
+  con respuestas simuladas (`respx`), incluidas las de error y caducidad.
+* **Las métricas privadas todavía no se cruzan con los temas** de los
+  comentarios: el informe de propietario se muestra aparte del panel público.
 
 ---
 
 ## 22. Hoja de ruta
 
-**Siguiente fase — modo propietario**
+**Siguiente fase — sacar partido al modo propietario**
 
-* Flujo OAuth de Google completo con almacenamiento cifrado de tokens (Fernet).
-* Adaptador de YouTube Analytics: tiempo de visualización, duración media,
-  impresiones, CTR y fuentes de tráfico.
-* Correlación entre los temas de los comentarios y la retención real.
+* Correlacionar los temas de los comentarios con la retención real: qué asuntos
+  aparecen en los vídeos con mejor porcentaje visto.
+* Integrar las métricas privadas en el panel principal en lugar de mostrarlas
+  en una pantalla aparte.
+* Alertas de caída de retención por vídeo.
 
 **Después**
 

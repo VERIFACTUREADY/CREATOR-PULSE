@@ -18,6 +18,9 @@ import type {
   ResolvedChannel,
   RunStatus,
   SamplingStrategy,
+  OwnerAnalytics,
+  OwnerStatus,
+  StartAuthorization,
   UsageSummary,
   WorkloadEstimate,
 } from './types';
@@ -152,6 +155,21 @@ export const createComparison = (runIds: string[]) =>
 // --- Uso de API ------------------------------------------------------------
 
 export const getUsage = (days = 7) => request<UsageSummary>(`/api/usage/youtube?days=${days}`);
+
+// --- Modo propietario ------------------------------------------------------
+
+export const getOwnerStatus = () => request<OwnerStatus>('/api/oauth/status');
+
+export const startOwnerAuthorization = (channelId: string) =>
+  request<StartAuthorization>(`/api/oauth/google/start?channel_id=${channelId}`);
+
+export const disconnectOwnerChannel = (channelId: string) =>
+  request<{ connected: boolean; message_es: string }>(`/api/oauth/google/${channelId}`, {
+    method: 'DELETE',
+  });
+
+export const getOwnerAnalytics = (channelId: string, days = 28) =>
+  request<OwnerAnalytics>(`/api/oauth/analytics/${channelId}?days=${days}`);
 
 export const exportUrl = (runId: string, format: 'json' | 'csv') =>
   `${API_BASE_URL}/api/export/${runId}.${format}`;
