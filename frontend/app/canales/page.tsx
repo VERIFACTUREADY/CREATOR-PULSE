@@ -16,7 +16,7 @@ import {
   SectionTitle,
 } from '@/components/ui';
 import { ApiError, deleteChannel, listChannels, refreshChannel } from '@/lib/api';
-import { formatCompact, formatNumber, formatRelative, formatSubscribers } from '@/lib/format';
+import { formatCompact, formatNumber, formatRelative, subscribersLabel } from '@/lib/format';
 import type { AnalysisRunBrief, ChannelListItem } from '@/lib/types';
 
 function StatusBadge({ run }: { run: AnalysisRunBrief | null }) {
@@ -68,8 +68,7 @@ function ChannelRow({ item }: { item: ChannelListItem }) {
           <p className="mt-0.5 text-sm text-muted-foreground">
             {channel.handle ? `@${channel.handle}` : channel.youtube_channel_id}
             {' · '}
-            {formatSubscribers(channel.subscriber_count, channel.subscriber_count_hidden)}{' '}
-            suscriptores
+            {subscribersLabel(channel.subscriber_count, channel.subscriber_count_hidden)}
           </p>
           {item.top_opportunity_es ? (
             <p className="mt-2 text-sm">

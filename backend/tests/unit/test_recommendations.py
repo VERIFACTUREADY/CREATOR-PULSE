@@ -373,3 +373,43 @@ def test_ideas_are_deduplicated_per_topic() -> None:
     ideas = build_ideas_from_recommendations(context, generate_recommendations(context))
     keys = [idea.topic_cluster_key for idea in ideas if idea.topic_cluster_key]
     assert len(keys) == len(set(keys))
+
+
+def test_evidence_matches_the_claim_of_each_category() -> None:
+    """La cifra de evidencia debe contar lo mismo que afirma el texto.
+
+    Si la explicación habla de comentarios positivos y la evidencia muestra el
+    total del tema, el creador ve dos números distintos para la misma
+    conclusión y deja de fiarse del informe.
+    """
+    topic = _topic(
+        "c0",
+        comments=50,
+        positive=30,
+        negative=8,
+        requests=12,
+        questions=9,
+        videos=6,
+    )
+    context = _context([topic], [_comment(i, "c0") for i in range(50)])
+
+    by_category = {r.category: r for r in generate_recommendations(context)}
+
+    assert by_category[RecommendationCategory.DOUBLE_DOWN].evidence.supporting_comments == 30
+    assert by_category[RecommendationCategory.AUDIENCE_DEMAND].evidence.supporting_comments == 12
+    assert (
+        by_category[RecommendationCategory.COMMUNITY_OPPORTUNITY].evidence.supporting_comments == 9
+    )
+
+
+def test_issue_evidence_counts_negative_comments() -> None:
+    topic = _topic("c0", comments=20, positive=1, negative=11, videos=4, aspects=["audio"])
+    context = _context([topic], [_comment(i, "c0") for i in range(20)])
+
+    issues = [
+        r
+        for r in generate_recommendations(context)
+        if r.category == RecommendationCategory.FIX_ISSUE
+    ]
+    assert issues
+    assert issues[0].evidence.supporting_comments == 11

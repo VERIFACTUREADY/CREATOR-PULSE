@@ -111,3 +111,61 @@ test.describe('Modo demostración', () => {
     await expect(page.getByText('Esto es una estimación')).toBeVisible();
   });
 });
+
+test.describe('Responsive y accesibilidad', () => {
+  test('la navegación funciona en móvil', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/canales');
+
+    // En móvil el menú está plegado tras el botón de hamburguesa.
+    const menuBtn = page.getByRole('button', { name: 'Abrir menú de navegación' });
+    await expect(menuBtn).toBeVisible();
+    await expect(menuBtn).toHaveAttribute('aria-expanded', 'false');
+
+    await menuBtn.click();
+    await expect(menuBtn).toHaveAttribute('aria-expanded', 'true');
+
+    const menu = page.getByRole('navigation', { name: /móvil/i });
+    await expect(menu.getByRole('link', { name: 'Modo demostración' })).toBeVisible();
+
+    await menu.getByRole('link', { name: 'Modo demostración' }).click();
+    await expect(page).toHaveURL(/\/demostracion/);
+    await expect(page.getByRole('heading', { name: 'Modo demostración' })).toBeVisible();
+  });
+
+  test('la página no desborda horizontalmente en móvil', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/canales');
+    await expect(page.getByRole('heading', { name: 'Canales' })).toBeVisible();
+
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(1);
+  });
+
+  test('se puede navegar por las pestañas con el teclado', async ({ page }) => {
+    await page.goto('/demostracion');
+    await page.getByRole('button', { name: 'Analizar este canal' }).first().click();
+    await expect(page.getByRole('tab', { name: 'Resumen' })).toBeVisible({ timeout: 90_000 });
+
+    await page.getByRole('tab', { name: 'Resumen' }).focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByRole('tab', { name: 'Temas' })).toHaveAttribute('aria-selected', 'true');
+
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.getByRole('tab', { name: 'Resumen' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+  });
+
+  test('el modo oscuro se activa y persiste al navegar', async ({ page }) => {
+    await page.goto('/canales');
+    await page.getByRole('button', { name: /modo oscuro/i }).click();
+    await expect(page.locator('html')).toHaveClass(/dark/);
+
+    await page.goto('/uso-api');
+    await expect(page.locator('html')).toHaveClass(/dark/);
+  });
+});

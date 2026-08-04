@@ -85,6 +85,16 @@ Plan de implementación interno. Estado: `[x]` hecho, `[~]` parcial, `[ ]` pendi
 - [x] Playwright E2E sobre modo demostración
 - [x] Arranque real del sistema y prueba del flujo completo
 
+## Fase 10 — Cierre de huecos (tras la verificación)
+- [x] CLI de administración (`estado`, `cargar-demo`, `purgar`): la política de
+      retención existía como función pero nada podía invocarla
+- [x] Capturas reales del README generadas desde el sistema en marcha
+- [x] Pruebas E2E de responsive, navegación por teclado y modo oscuro:
+      afirmaciones que estaban sin verificar
+- [x] Corregida la incoherencia entre el texto y la evidencia de las
+      recomendaciones de fortaleza (detectada al revisar las capturas)
+- [x] Corregida la concordancia de «suscriptores ocultos»
+
 ## Fase 9 — Preparación de nube
 - [x] Bicep para Azure Container Apps + PostgreSQL + Redis + Key Vault + ACR
 - [x] Documentación de despliegue y checklist de producción
@@ -96,17 +106,19 @@ Ejecutado y comprobado en este entorno:
 
 | Comprobación | Resultado |
 | --- | --- |
-| `ruff check` + `ruff format --check` | Sin incidencias (81 ficheros) |
-| `mypy app` | Sin incidencias (65 ficheros) |
-| `pytest` | 306 pruebas en verde |
+| `ruff check` + `ruff format --check` | Sin incidencias (83 ficheros) |
+| `mypy app` | Sin incidencias (66 ficheros) |
+| `pytest` | 319 pruebas en verde |
 | `npm run lint` (ESLint) | Sin avisos ni errores |
 | `npm run typecheck` (tsc) | Sin errores |
-| `npm test` (Vitest) | 63 pruebas en verde |
+| `npm test` (Vitest) | 72 pruebas en verde |
 | `npm run build` (Next.js) | Construcción correcta, 10 rutas |
-| `npx playwright test` | 5 pruebas E2E en verde contra el sistema real |
+| `npx playwright test` | 9 pruebas E2E en verde contra el sistema real |
 | `alembic upgrade head` | Esquema creado con `vector(384)` nativo |
 | `docker compose config` | Válido |
 | Flujo completo por HTTP | Análisis encolado → worker → dashboard → export CSV/JSON |
+| `python -m app.cli` | `estado`, `cargar-demo` y `purgar` ejecutados |
+| Capturas del README | 13 generadas del sistema real, todas referenciadas |
 
 ## Limitaciones conocidas del entorno de construcción
 

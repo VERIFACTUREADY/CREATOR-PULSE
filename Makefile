@@ -83,6 +83,18 @@ downgrade: ## Revierte la última migración
 fixtures: ## Regenera los datos de demostración
 	python3 scripts/generate_fixtures.py
 
+.PHONY: seed-demo
+seed-demo: ## Carga los canales de demostración en la base de datos
+	cd $(BACKEND) && .venv/bin/python -m app.cli cargar-demo
+
+.PHONY: status
+status: ## Estado de los servicios y recuento de datos
+	cd $(BACKEND) && .venv/bin/python -m app.cli estado
+
+.PHONY: purge
+purge: ## Aplica la política de retención (usa --simular primero)
+	cd $(BACKEND) && .venv/bin/python -m app.cli purgar --simular
+
 # --- Desarrollo -------------------------------------------------------------
 
 .PHONY: api

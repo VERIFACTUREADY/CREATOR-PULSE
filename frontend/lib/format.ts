@@ -96,11 +96,24 @@ export function formatDuration(seconds: number | null | undefined): string {
   return hours > 0 ? `${hours}:${pad(minutes)}:${pad(rest)}` : `${minutes}:${pad(rest)}`;
 }
 
-/** Suscriptores, respetando que el canal pueda ocultarlos. */
+/** Suscriptores para una celda de tabla, respetando que el canal los oculte. */
 export function formatSubscribers(count: number | null, hidden: boolean): string {
   if (hidden) return 'Ocultos';
   if (count === null) return '—';
   return formatCompact(count);
+}
+
+/**
+ * Frase completa de suscriptores.
+ *
+ * Devuelve el sintagma entero en lugar de un valor al que el llamador añade
+ * «suscriptores»: si no, un canal que los oculta mostraría «Ocultos
+ * suscriptores», que no es español correcto.
+ */
+export function subscribersLabel(count: number | null, hidden: boolean): string {
+  if (hidden) return 'suscriptores ocultos';
+  if (count === null) return 'suscriptores no disponibles';
+  return `${formatCompact(count)} suscriptores`;
 }
 
 const TREND_ICONS: Record<string, string> = {

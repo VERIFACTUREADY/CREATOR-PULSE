@@ -206,6 +206,10 @@ def build_strength_recommendations(context: AnalysisContext) -> list[GeneratedRe
     for topic in candidates[:3]:
         confidence = _confidence_for_topic(topic, context)
         evidence = _evidence_from_topic(topic, context)
+        # La afirmación habla del feedback *positivo*, así que la evidencia debe
+        # contar lo mismo. Si dejara el total del tema, el texto y la evidencia
+        # mostrarían dos cifras distintas para la misma conclusión.
+        evidence.supporting_comments = topic.positive_count
         aspect = topic.top_aspects[0] if topic.top_aspects else None
         aspect_text = aspect_label_es(aspect).lower() if aspect else topic.label_es.lower()
 

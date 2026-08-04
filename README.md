@@ -58,27 +58,83 @@ aislado nunca genera una recomendación.
 
 ## 2. Capturas
 
-<!--
-Sustituye estos marcadores por capturas reales de tu instalación:
+Todas están tomadas del modo demostración, así que puedes reproducirlas tal
+cual siguiendo la [sección 15](#15-modo-demostración).
 
-  docs/capturas/01-canales.png          Lista de canales analizados
-  docs/capturas/02-nuevo-analisis.png   Formulario con la carga estimada
-  docs/capturas/03-progreso.png         Progreso por etapas
-  docs/capturas/04-resumen.png          Pestaña Resumen del dashboard
-  docs/capturas/05-temas.png            Temas con tendencia y confianza
-  docs/capturas/06-ideas.png            Ideas de contenido con evidencia
-  docs/capturas/07-calidad.png          Calidad de los datos y sesgos
-  docs/capturas/08-comparador.png       Comparación entre canales
--->
+### Recomendaciones con su evidencia
 
-| Pantalla | Captura |
-| --- | --- |
-| Canales | _pendiente_ |
-| Nuevo análisis | _pendiente_ |
-| Dashboard · Resumen | _pendiente_ |
-| Dashboard · Ideas de contenido | _pendiente_ |
-| Dashboard · Calidad de los datos | _pendiente_ |
-| Comparador | _pendiente_ |
+Es la pantalla que resume el producto: cada recomendación lleva la cifra que la
+respalda, en cuántos vídeos aparece y su nivel de confianza.
+
+![Ideas de contenido con evidencia y confianza](docs/capturas/06-ideas.png)
+
+### Resumen del análisis
+
+![Resumen: vídeos y comentarios analizados, sentimiento y señales principales](docs/capturas/04-resumen.png)
+
+### Temas detectados
+
+![Temas con menciones, cobertura entre vídeos, tendencia y confianza](docs/capturas/05-temas.png)
+
+### Calidad de los datos
+
+La sección que distingue un patrón real de una anécdota: tamaño de la muestra,
+avisos y sesgos.
+
+![Calidad de los datos con avisos y sesgos de la muestra](docs/capturas/08-calidad.png)
+
+### Críticas (modo oscuro)
+
+Separadas por tipo, con la crítica constructiva agrupada por aspecto y marcada
+como patrón accionable cuando se repite en varios vídeos.
+
+![Críticas separadas por tipo, en modo oscuro](docs/capturas/10-criticas-oscuro.png)
+
+### Resto de pantallas
+
+<details>
+<summary>Ver las demás capturas</summary>
+
+**Lista de canales**
+
+![Lista de canales con estado, métricas y oportunidad principal](docs/capturas/01-canales.png)
+
+**Nuevo análisis, con la carga estimada**
+
+![Formulario de nuevo análisis con el aviso de cuota estimada](docs/capturas/02-nuevo-analisis.png)
+
+**Progreso por etapas**
+
+![Progreso del análisis etapa por etapa](docs/capturas/03-progreso.png)
+
+**Tabla de vídeos**
+
+![Tabla de vídeos ordenable con métricas relativas a la mediana del canal](docs/capturas/07-videos.png)
+
+**Modo demostración**
+
+![Canales de demostración disponibles](docs/capturas/09-demostracion.png)
+
+**Comparador de canales**
+
+![Comparación de métricas públicas entre dos canales](docs/capturas/11-comparador.png)
+
+**Uso de la API**
+
+![Consumo estimado de la cuota de la API de YouTube](docs/capturas/12-uso-api.png)
+
+**Móvil**
+
+![Lista de canales en un viewport de móvil](docs/capturas/13-movil.png)
+
+</details>
+
+Para regenerarlas con tus propios datos:
+
+```bash
+# Requiere la API, el worker y el frontend en marcha
+cd frontend && CAPTURAS=1 npx playwright test capturas
+```
 
 ---
 
@@ -515,6 +571,18 @@ docker compose logs -f worker
 Cada réplica procesa un trabajo a la vez. Para más concurrencia, arranca varios
 procesos: RQ reparte los trabajos entre todos.
 
+### Comandos de administración
+
+```bash
+make status       # estado de los servicios y recuento de datos
+make seed-demo    # carga los canales de demostración sin analizarlos
+make purge        # simula la purga por retención (sin borrar)
+```
+
+Equivalen a `python -m app.cli {estado,cargar-demo,purgar}` dentro de
+`backend/`. `python -m app.cli --help` los detalla. Ninguno imprime
+credenciales: `estado` sólo indica si la clave de la API está configurada.
+
 ---
 
 ## 14. Ejecutar las pruebas
@@ -651,8 +719,17 @@ Google Cloud.
   ejemplos ya anonimizados, nunca la base de datos completa.
 * Puedes eliminar un canal con todos sus datos desde la pantalla «Canales», y
   un análisis concreto desde la API.
-* Los análisis con más de `DATA_RETENTION_DAYS` días se pueden purgar con el
-  trabajo `purge_expired_data_job`.
+* La retención se aplica con un comando reproducible, pensado para programarlo
+  con cron o con un trabajo de Azure Container Apps:
+
+  ```bash
+  make purge                                    # simulación: no borra nada
+  cd backend && .venv/bin/python -m app.cli purgar          # aplica DATA_RETENTION_DAYS
+  cd backend && .venv/bin/python -m app.cli purgar --dias 30
+  ```
+
+  La purga elimina los **análisis** caducados. Los canales guardados se
+  conservan: borrarlos es siempre una acción explícita tuya.
 * Los registros nunca incluyen claves de API, tokens, prompts completos ni
   datasets de comentarios.
 

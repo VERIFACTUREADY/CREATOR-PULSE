@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import { Badge, Callout, Card, DemoBadge, ErrorState, LoadingState } from '@/components/ui';
 import { ApiError, exportUrl, getDashboard } from '@/lib/api';
-import { formatCompact, formatDateTime, formatSubscribers } from '@/lib/format';
+import { formatCompact, formatDateTime, subscribersLabel } from '@/lib/format';
 
 import { CriticismTab, RequestsTab, StrengthsTab } from './feedback';
 import { IdeasTab } from './ideas';
@@ -59,8 +59,8 @@ export function Dashboard({ runId }: { runId: string }) {
             </div>
             <p className="mt-1 text-sm text-muted-foreground">
               {channel.handle ? `@${channel.handle}` : channel.youtube_channel_id} ·{' '}
-              {formatSubscribers(channel.subscriber_count, channel.subscriber_count_hidden)}{' '}
-              suscriptores · {formatCompact(summary.comments_analysed)} comentarios analizados en{' '}
+              {subscribersLabel(channel.subscriber_count, channel.subscriber_count_hidden)} ·{' '}
+              {formatCompact(summary.comments_analysed)} comentarios analizados en{' '}
               {summary.videos_analysed} vídeos
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
