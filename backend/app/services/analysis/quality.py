@@ -32,6 +32,19 @@ class DataQuality:
     videos_with_zero_comments: int = 0
     include_replies: bool = False
     replies_incomplete: bool = False
+    #: Cohesión media de los grupos (0-1). `None` si no se pudo calcular.
+    cluster_coherence: float | None = None
+    #: Confianza media del clasificador de sentimiento sobre la muestra.
+    mean_classifier_confidence: float = 0.0
+    #: `False` si la muestra no está anclada a la ejecución. Es un error, no un
+    #: aviso: sin eso el análisis no es reproducible ni respeta sus límites.
+    sample_bound_to_run: bool = True
+    #: Confianza semántica del modelo, separada de la calidad de los datos.
+    semantic_confidence: float = 0.0
+    semantic_confidence_level: str = "baja"
+    #: Desglose de por qué la nota es la que es.
+    score_factors: list[dict[str, Any]] = field(default_factory=list)
+    score_explanations_es: list[str] = field(default_factory=list)
     videos_missing_views: int = 0
     videos_missing_likes: int = 0
     sampling_strategy: str = "mixed"
@@ -66,6 +79,13 @@ class DataQuality:
             "videos_with_zero_comments": self.videos_with_zero_comments,
             "include_replies": self.include_replies,
             "replies_incomplete": self.replies_incomplete,
+            "cluster_coherence": self.cluster_coherence,
+            "mean_classifier_confidence": self.mean_classifier_confidence,
+            "sample_bound_to_run": self.sample_bound_to_run,
+            "semantic_confidence": self.semantic_confidence,
+            "semantic_confidence_level": self.semantic_confidence_level,
+            "score_factors": self.score_factors,
+            "score_explanations_es": self.score_explanations_es,
             "videos_missing_views": self.videos_missing_views,
             "videos_missing_likes": self.videos_missing_likes,
             "sampling_strategy": self.sampling_strategy,
@@ -95,27 +115,195 @@ def language_distribution(languages: list[str]) -> dict[str, int]:
     return dict(counter.most_common())
 
 
-def finalise_quality(quality: DataQuality) -> DataQuality:
-    """Calcula la puntuación global y redacta avisos y sesgos en español."""
-    warnings: list[str] = []
-    biases: list[str] = []
+#: Backends deterministas que funcionan sin descargar modelos. Son
+#: explicables y rápidos, pero no entienden el significado como un modelo
+#: neuronal, así que la nota no puede fingir que sí.
+FALLBACK_EMBEDDING_BACKENDS = frozenset({"hashing"})
+FALLBACK_SENTIMENT_BACKENDS = frozenset({"lexicon"})
 
-    # --- Puntuación (0-1) ---------------------------------------------
+#: Con estos backends la calidad no puede declararse «alta».
+FALLBACK_SCORE_CAP = 0.69
+#: Con más de este ruido no se puede pasar de «media» sin cohesión demostrada.
+NOISE_CAP_THRESHOLD = 0.30
+NOISE_CAP_SCORE = 0.69
+#: Cohesión a partir de la cual se considera que los grupos son compactos.
+STRONG_COHERENCE = 0.55
+#: Por debajo de `MIN_COMMENTS_FOR_TOPICS` la nota no puede pasar de «baja».
+SMALL_SAMPLE_SCORE = 0.39
+
+
+def _level(score: float) -> str:
+    return "alta" if score >= 0.7 else "media" if score >= 0.4 else "baja"
+
+
+def _score_quality(quality: DataQuality) -> None:
+    """Calcula la nota de calidad de datos y la confianza semántica.
+
+    Son **dos cosas distintas** y antes se mezclaban: se puede tener una muestra
+    grande y limpia (buena calidad de datos) analizada con un motor heurístico
+    que agrupa mal (baja confianza semántica). La nota anterior sólo miraba lo
+    primero, y por eso daba 95 % con un 40 % de comentarios sin agrupar.
+    """
+    factors: list[dict[str, Any]] = []
+    explanations: list[str] = []
+
+    def add(nombre: str, valor: float, peso: float, texto: str) -> float:
+        factors.append(
+            {
+                "nombre": nombre,
+                "valor": round(valor, 4),
+                "peso": peso,
+                "aportacion": round(valor * peso, 4),
+                "explicacion_es": texto,
+            }
+        )
+        return valor * peso
+
+    # --- Calidad y cobertura de los datos ------------------------------
     comment_factor = min(1.0, quality.comments_analysed / GOOD_COMMENT_SAMPLE)
     video_factor = min(1.0, quality.videos_sampled / GOOD_VIDEO_SAMPLE)
     coverage_factor = 1.0 - min(0.6, quality.dominant_video_share)
-    cleanliness = 1.0
+
     total_sampled = max(1, quality.comments_sampled)
     discarded = (
         quality.comments_discarded_spam
         + quality.comments_discarded_duplicate
         + quality.comments_discarded_empty
     )
-    cleanliness -= min(0.5, discarded / total_sampled)
+    cleanliness = 1.0 - min(0.5, discarded / total_sampled)
 
-    score = 0.4 * comment_factor + 0.3 * video_factor + 0.15 * coverage_factor + 0.15 * cleanliness
+    datos = 0.0
+    datos += add(
+        "tamaño_de_muestra",
+        comment_factor,
+        0.30,
+        f"{quality.comments_analysed} comentarios analizados "
+        f"(una muestra holgada son {GOOD_COMMENT_SAMPLE}).",
+    )
+    datos += add(
+        "vídeos_analizados",
+        video_factor,
+        0.20,
+        f"{quality.videos_sampled} vídeos (una muestra holgada son {GOOD_VIDEO_SAMPLE}).",
+    )
+    datos += add(
+        "reparto_entre_vídeos",
+        coverage_factor,
+        0.10,
+        f"El vídeo con más comentarios aporta el {quality.dominant_video_share:.0%} de la muestra.",
+    )
+    datos += add(
+        "limpieza",
+        cleanliness,
+        0.10,
+        f"{discarded} de {total_sampled} comentarios descartados por spam, duplicado o vacío.",
+    )
+
+    # --- Confianza semántica del modelo --------------------------------
+    noise_factor = 1.0 - min(1.0, quality.noise_share)
+    datos += add(
+        "comentarios_agrupados",
+        noise_factor,
+        0.15,
+        f"El {quality.noise_share:.0%} de los comentarios no encaja en ningún tema.",
+    )
+
+    if quality.cluster_coherence is None:
+        coherence_factor = 0.5
+        coherence_text = "No se ha podido medir la cohesión de los grupos."
+    else:
+        coherence_factor = max(0.0, min(1.0, quality.cluster_coherence))
+        coherence_text = (
+            f"Cohesión media de los grupos: {quality.cluster_coherence:.2f} "
+            "(cuánto se parecen entre sí los comentarios de un mismo tema)."
+        )
+    datos += add("cohesión_de_los_temas", coherence_factor, 0.10, coherence_text)
+
+    confidence_factor = max(0.0, min(1.0, quality.mean_classifier_confidence))
+    datos += add(
+        "confianza_del_clasificador",
+        confidence_factor,
+        0.05,
+        f"Confianza media del clasificador de sentimiento: {confidence_factor:.2f}.",
+    )
+
+    score = max(0.0, min(1.0, datos))
+
+    # --- Topes explícitos ----------------------------------------------
+    embedding_fallback = quality.embedding_backend in FALLBACK_EMBEDDING_BACKENDS
+    sentiment_fallback = quality.sentiment_backend in FALLBACK_SENTIMENT_BACKENDS
+
+    if quality.comments_analysed < MIN_COMMENTS_FOR_TOPICS and score > SMALL_SAMPLE_SCORE:
+        score = SMALL_SAMPLE_SCORE
+        explanations.append(
+            f"La nota está limitada a «baja» porque sólo se han analizado "
+            f"{quality.comments_analysed} comentarios: por debajo de "
+            f"{MIN_COMMENTS_FOR_TOPICS} cualquier patrón puede ser casualidad."
+        )
+
+    if embedding_fallback and score > FALLBACK_SCORE_CAP:
+        score = FALLBACK_SCORE_CAP
+        explanations.append(
+            "La nota se limita porque los embeddings son de tipo «hashing»: agrupan por "
+            "parecido de caracteres, no por significado. Con un modelo multilingüe real "
+            "(EMBEDDING_BACKEND=sentence-transformers) esta limitación desaparece."
+        )
+    if sentiment_fallback:
+        score *= 0.95
+        explanations.append(
+            "Penalización moderada por usar sentimiento por diccionario: es explicable y "
+            "rápido, pero capta peor la ironía y el sarcasmo que un modelo neuronal."
+        )
+
+    coherencia_fuerte = (
+        quality.cluster_coherence is not None and quality.cluster_coherence >= STRONG_COHERENCE
+    )
+    if (
+        quality.noise_share > NOISE_CAP_THRESHOLD
+        and not coherencia_fuerte
+        and score > NOISE_CAP_SCORE
+    ):
+        score = NOISE_CAP_SCORE
+        explanations.append(
+            f"La nota no puede ser «alta» porque el {quality.noise_share:.0%} de los comentarios "
+            "se queda fuera de todo tema y los grupos formados no son lo bastante compactos."
+        )
+
     quality.score = round(max(0.0, min(1.0, score)), 3)
-    quality.level = "alta" if quality.score >= 0.7 else "media" if quality.score >= 0.4 else "baja"
+    quality.level = _level(quality.score)
+
+    # La confianza semántica va aparte: mide si el motor ha entendido los
+    # comentarios, no si había muchos.
+    semantica = 0.45 * noise_factor + 0.35 * coherence_factor + 0.20 * confidence_factor
+    if embedding_fallback:
+        semantica *= 0.75
+    if sentiment_fallback:
+        semantica *= 0.9
+    quality.semantic_confidence = round(max(0.0, min(1.0, semantica)), 3)
+    quality.semantic_confidence_level = _level(quality.semantic_confidence)
+
+    if not quality.sample_bound_to_run:
+        # No es un matiz: sin muestra anclada el análisis no es reproducible ni
+        # respeta sus propios límites, así que la nota no significa nada.
+        quality.score = 0.0
+        quality.level = "baja"
+        quality.semantic_confidence = 0.0
+        quality.semantic_confidence_level = "baja"
+        explanations.append(
+            "ERROR: la muestra de comentarios no está asociada a esta ejecución, así que no "
+            "se puede garantizar qué se ha analizado. La nota se fija en cero a propósito."
+        )
+
+    quality.score_factors = factors
+    quality.score_explanations_es = explanations
+
+
+def finalise_quality(quality: DataQuality) -> DataQuality:
+    """Calcula la puntuación global y redacta avisos y sesgos en español."""
+    warnings: list[str] = []
+    biases: list[str] = []
+
+    _score_quality(quality)
 
     # --- Avisos --------------------------------------------------------
     if quality.comments_analysed < MIN_COMMENTS_FOR_TOPICS:
@@ -152,9 +340,26 @@ def finalise_quality(quality: DataQuality) -> DataQuality:
             "No había muestra suficiente para agrupar comentarios por significado. "
             "Los temas se han agregado por palabras clave y aspectos."
         )
-    if quality.noise_share > 0.5 and quality.topics_found > 0:
+    if quality.noise_share > NOISE_CAP_THRESHOLD and quality.topics_found > 0:
         warnings.append(
-            f"El {quality.noise_share:.0%} de los comentarios no encaja en ningún tema claro."
+            f"El {quality.noise_share:.0%} de los comentarios no encaja en ningún tema claro. "
+            "Los temas detectados describen sólo una parte de lo que dice tu audiencia."
+        )
+    if quality.embedding_backend in FALLBACK_EMBEDDING_BACKENDS:
+        warnings.append(
+            "Los temas se agrupan con embeddings «hashing», que comparan parecido de "
+            "caracteres y no significado. Sirven para detectar patrones repetidos, pero "
+            "confunden expresiones distintas que quieren decir lo mismo."
+        )
+    if quality.sentiment_backend in FALLBACK_SENTIMENT_BACKENDS:
+        warnings.append(
+            "El sentimiento se calcula con diccionarios. Es explicable y no depende de "
+            "ningún servicio externo, pero se le escapan la ironía y el sarcasmo."
+        )
+    if not quality.sample_bound_to_run:
+        warnings.append(
+            "ERROR: no se ha podido determinar qué comentarios analizó esta ejecución. "
+            "No uses estos resultados: vuelve a lanzar el análisis."
         )
 
     # --- Sesgos --------------------------------------------------------

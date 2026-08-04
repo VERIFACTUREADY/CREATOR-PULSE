@@ -53,7 +53,53 @@ export function QualityTab({ quality }: { quality: DataQuality }) {
           value={formatNumber(quality.topics_found)}
           hint={`${formatPercent(quality.noise_share)} sin tema claro`}
         />
+        <Metric
+          label="Confianza semántica"
+          value={`${Math.round(quality.semantic_confidence * 100)} / 100`}
+          hint={`Nivel ${quality.semantic_confidence_level}`}
+          tone={
+            quality.semantic_confidence_level === 'alta'
+              ? 'positive'
+              : quality.semantic_confidence_level === 'baja'
+                ? 'negative'
+                : 'neutral'
+          }
+        />
       </div>
+
+      {/* La calidad de los datos y la confianza del modelo son cosas distintas:
+          se puede tener una muestra amplia y limpia que el motor agrupa mal. */}
+      <Card>
+        <h3 className="mb-2 font-semibold">Cómo se calcula esta nota</h3>
+        <p className="mb-3 text-sm text-muted-foreground">
+          La <strong>puntuación de calidad</strong> mide cuántos datos hay y en qué estado
+          llegaron. La <strong>confianza semántica</strong> mide algo distinto: si el motor ha
+          entendido lo que dicen. Una muestra enorme analizada con un motor heurístico puede
+          tener buena calidad de datos y baja confianza semántica.
+        </p>
+        <ul className="space-y-2">
+          {quality.score_factors.map((factor) => (
+            <li key={factor.nombre} className="border-b border-border pb-2 text-sm last:border-0">
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-medium">{factor.nombre.replaceAll('_', ' ')}</span>
+                <span className="text-xs text-muted-foreground">
+                  {Math.round(factor.valor * 100)} / 100 · peso {Math.round(factor.peso * 100)}%
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground">{factor.explicacion_es}</p>
+            </li>
+          ))}
+        </ul>
+        {quality.score_explanations_es.length > 0 ? (
+          <div className="mt-3 space-y-1">
+            {quality.score_explanations_es.map((texto) => (
+              <p key={texto} className="text-sm text-warning">
+                • {texto}
+              </p>
+            ))}
+          </div>
+        ) : null}
+      </Card>
 
       {quality.is_demo ? (
         <Callout tone="info" title="Datos de demostración">

@@ -130,6 +130,7 @@ class AnalysisPipeline:
         videos_with_comments_disabled: int = 0,
         include_replies: bool = False,
         replies_incomplete: bool = False,
+        sample_bound_to_run: bool = True,
         is_demo: bool = False,
         now: datetime | None = None,
     ) -> PipelineResult:
@@ -180,6 +181,7 @@ class AnalysisPipeline:
             videos_with_comments_disabled=videos_with_comments_disabled,
             include_replies=include_replies,
             replies_incomplete=replies_incomplete,
+            sample_bound_to_run=sample_bound_to_run,
             is_demo=is_demo,
         )
 
@@ -563,6 +565,7 @@ class AnalysisPipeline:
         videos_with_comments_disabled: int,
         include_replies: bool,
         replies_incomplete: bool,
+        sample_bound_to_run: bool,
         is_demo: bool,
     ) -> DataQuality:
         counts_by_video = Counter(c.youtube_video_id for c in usable)
@@ -597,6 +600,13 @@ class AnalysisPipeline:
             clustering_strategy=assignment.strategy,
             topics_found=sum(1 for t in topics if not t.is_noise),
             noise_share=round(noise_count / len(usable), 4) if usable else 0.0,
+            cluster_coherence=assignment.coherence,
+            mean_classifier_confidence=(
+                round(float(np.mean([c.sentiment_confidence for c in analysed])), 4)
+                if analysed
+                else 0.0
+            ),
+            sample_bound_to_run=sample_bound_to_run,
             ai_used=False,
             ai_provider=settings.ai_provider,
             algorithm_version=ALGORITHM_VERSION,

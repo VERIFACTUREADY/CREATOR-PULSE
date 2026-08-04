@@ -198,6 +198,13 @@ class AnalysisOrchestrator:
         # ejecuciones anteriores y saltaría los límites solicitados.
         db_comments = self.comments.list_for_run(run.id)
 
+        # Integridad de la muestra: si los vídeos tienen comentarios guardados
+        # pero esta ejecución no tiene ninguno asociado, algo ha fallado al
+        # registrarla. No es un matiz de calidad, es un resultado no fiable.
+        sample_bound = bool(db_comments) or not self.comments.list_for_videos(
+            [v.id for v in videos], limit=1
+        )
+
         run.videos_fetched = len(videos)
         run.comments_fetched = len(db_comments)
         self.session.commit()
@@ -216,6 +223,7 @@ class AnalysisOrchestrator:
             videos_with_comments_disabled=ingest_stats["videos_with_comments_disabled"],
             include_replies=run.include_replies,
             replies_incomplete=ingest_stats["replies_incomplete"],
+            sample_bound_to_run=sample_bound,
             is_demo=is_demo,
         )
         context = pipeline_result.context

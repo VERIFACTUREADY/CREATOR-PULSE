@@ -68,12 +68,20 @@ Cada bloque se cierra con su propio commit y sus pruebas de regresión.
 - [x] Los canales y vídeos huérfanos se cuentan pero no se borran
 - [x] 15 pruebas nuevas + `test_cli` actualizado → **439 en verde**
 
-## Bloque 6 — Puntuación de calidad más honesta
+## Bloque 6 — Puntuación de calidad más honesta ✅
 
-- [ ] Ruido, backends de respaldo y confianza media dentro de la nota
-- [ ] Topes explícitos
-- [ ] Factores expuestos y explicados
-- [ ] Pruebas de regresión
+- [x] Entran en la nota: ruido, cohesión de los grupos, confianza media del
+      clasificador, backends de embeddings y sentimiento, integridad de la
+      muestra, concentración por vídeo, limpieza y tamaño
+- [x] Cohesión real de los grupos (similitud coseno al centroide)
+- [x] Topes: embeddings hash no llegan a «alta»; sentimiento léxico penaliza;
+      ruido >30 % no pasa de «media» sin cohesión fuerte; muestra pequeña
+      limitada a «baja»; muestra no anclada = nota 0 y error
+- [x] Separadas calidad de datos y confianza semántica del modelo
+- [x] Factores y explicaciones expuestos por la API y mostrados en la interfaz
+- [x] 14 pruebas de regresión → **453 en verde**
+- [x] **Efecto medido**: el canal de demostración pasa de 95,3 % «alta» a
+      65,5 % «media», con la explicación visible
 
 ## Bloque 7 — Marca
 
@@ -94,3 +102,4 @@ Se actualiza al cerrar cada bloque. Sólo se anota lo que se ha ejecutado.
 | Tras el Bloque 3 | `ruff`, `mypy` y 403 pruebas en verde |
 | Tras el Bloque 4 | `ruff`, `mypy` y 424 pruebas en verde |
 | Tras el Bloque 5 | `ruff`, `mypy`, 439 pruebas, `tsc` y `eslint` en verde |
+| Tras el Bloque 6 | `ruff`, `mypy`, 453 pruebas, `tsc`, `eslint` y 85 de Vitest en verde |

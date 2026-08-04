@@ -46,6 +46,10 @@ class ClusterAssignment:
     noise_count: int
     parameters: dict[str, Any] = field(default_factory=dict)
     centroids: dict[int, np.ndarray] = field(default_factory=dict)
+    #: Cohesión media de los grupos (0-1). `None` si no se pudo calcular.
+    #: Es la similitud coseno media de cada comentario con el centroide de su
+    #: grupo: mide si los temas son compactos o un cajón de sastre.
+    coherence: float | None = None
 
 
 def _compute_centroids(vectors: np.ndarray, labels: list[int]) -> dict[int, np.ndarray]:
@@ -245,7 +249,32 @@ def _finalise(
         noise_count=noise_count,
         parameters={**parameters, "min_cluster_size_effective": absolute_min},
         centroids=centroids,
+        coherence=compute_coherence(vectors, labels, centroids),
     )
+
+
+def compute_coherence(
+    vectors: np.ndarray, labels: list[int], centroids: dict[int, np.ndarray]
+) -> float | None:
+    """Cohesión media de los grupos: ¿son compactos o un cajón de sastre?
+
+    Es la similitud coseno media entre cada comentario agrupado y el centroide
+    de su grupo. Devuelve `None` si no hay ningún grupo, porque en ese caso el
+    número no significaría nada y un cero sería engañoso.
+    """
+    similitudes: list[float] = []
+    for index, label in enumerate(labels):
+        centroid = centroids.get(label)
+        if label < 0 or centroid is None:
+            continue
+        vector = vectors[index]
+        norma = float(np.linalg.norm(vector))
+        if norma == 0:
+            continue
+        similitudes.append(float(np.dot(vector / norma, centroid)))
+    if not similitudes:
+        return None
+    return round(float(np.mean(similitudes)), 4)
 
 
 __all__ = [
@@ -254,4 +283,5 @@ __all__ = [
     "MIN_CLUSTER_SHARE",
     "ClusterAssignment",
     "cluster_embeddings",
+    "compute_coherence",
 ]
