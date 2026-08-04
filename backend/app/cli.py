@@ -16,7 +16,6 @@ from __future__ import annotations
 
 import argparse
 import sys
-from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import func, select
 
@@ -25,8 +24,8 @@ from app.core.crypto import encryption_available, generate_key
 from app.core.logging import configure_logging, get_logger
 from app.db.session import check_database, detect_pgvector, session_scope
 from app.models.entities import AnalysisRun, Channel, Comment, Video
-from app.repositories.analysis import AnalysisRunRepository
 from app.services.demo import DemoLoader, list_demo_channels
+from app.services.retention import last_purge, purge
 from app.workers.queue import check_redis
 
 logger = get_logger(__name__)
@@ -38,32 +37,19 @@ def _count(session: object, model: type) -> int:
 
 
 def cmd_purgar(args: argparse.Namespace) -> int:
-    """Elimina los análisis más antiguos que la ventana de retención."""
-    days = args.dias if args.dias is not None else settings.data_retention_days
-    cutoff = datetime.now(UTC) - timedelta(days=days)
-
+    """Aplica las dos políticas de retención: análisis y comentarios brutos."""
     with session_scope() as session:
-        affected = int(
-            session.execute(
-                select(func.count()).select_from(AnalysisRun).where(AnalysisRun.created_at < cutoff)
-            ).scalar_one()
+        report = purge(
+            session,
+            run_retention_days=args.dias,
+            comment_retention_days=args.dias_comentarios,
+            dry_run=bool(args.simular),
         )
+        texto = report.as_text()
 
-        if args.simular:
-            print(
-                f"Simulación: se eliminarían {affected} análisis anteriores a "
-                f"{cutoff.date().isoformat()} (retención de {days} días)."
-            )
-            print("No se ha borrado nada. Quita --simular para aplicarlo.")
-            return 0
-
-        deleted = AnalysisRunRepository(session).purge_older_than(days)
-
-    logger.info("retention_purge", deleted_runs=deleted, days=days)
-    print(
-        f"Eliminados {deleted} análisis anteriores a {cutoff.date().isoformat()} "
-        f"(retención de {days} días)."
-    )
+    print(texto)
+    if args.simular:
+        print("\nNo se ha borrado nada. Quita --simular para aplicarlo.")
     return 0
 
 
@@ -104,6 +90,13 @@ def cmd_estado(_args: argparse.Namespace) -> int:
             ).scalar_one()
         )
         print(f"  Completados  : {completados}")
+
+        ultima = last_purge(session)
+        if ultima is None:
+            print("\nÚltima purga  : nunca. La retención NO se aplica sola:")
+            print("                prográmala con cron o un job de tu plataforma.")
+        else:
+            print(f"\nÚltima purga  : {ultima.executed_at.isoformat()}")
     return 0
 
 
@@ -168,9 +161,19 @@ def build_parser() -> argparse.ArgumentParser:
         help=f"Días de retención (por defecto: DATA_RETENTION_DAYS={settings.data_retention_days})",
     )
     purgar.add_argument(
+        "--dias-comentarios",
+        type=int,
+        default=None,
+        help=(
+            "Días de retención de los comentarios brutos (por defecto: "
+            f"COMMENT_RETENTION_DAYS={settings.comment_retention_days}). "
+            "Un comentario sólo se borra si además ya no lo usa ninguna ejecución."
+        ),
+    )
+    purgar.add_argument(
         "--simular",
         action="store_true",
-        help="Muestra qué se borraría sin borrar nada",
+        help="Muestra qué se borraría, por entidad, sin borrar nada",
     )
     purgar.set_defaults(func=cmd_purgar)
 

@@ -169,8 +169,26 @@ export default function SettingsPage() {
           </li>
           <li>• Los comentarios públicos no se usan para entrenar ningún modelo.</li>
           <li>
-            • Puedes eliminar un canal y todos sus análisis desde la pantalla «Canales». Los datos
-            se purgan automáticamente pasados {config.data_retention_days} días.
+            • Puedes eliminar un canal y todos sus análisis desde la pantalla «Canales». Ese
+            borrado es inmediato.
+          </li>
+          <li>
+            • La retención <strong>no se aplica sola</strong>: es un comando que el administrador
+            de esta instalación tiene que programar (<code>python -m app.cli purgar</code>).
+            Cuando se ejecuta, elimina los análisis de más de {config.data_retention_days} días y
+            los comentarios de más de {config.comment_retention_days} días que ya no use ningún
+            análisis conservado.
+          </li>
+          <li>
+            •{' '}
+            {config.last_purge_at ? (
+              <>
+                Última purga ejecutada:{' '}
+                <strong>{new Date(config.last_purge_at).toLocaleString('es-ES')}</strong>.
+              </>
+            ) : (
+              <strong>Todavía no se ha ejecutado ninguna purga en esta instalación.</strong>
+            )}
           </li>
           <li>
             • Si activas un proveedor de IA externo, se le envían resúmenes y ejemplos de

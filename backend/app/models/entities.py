@@ -423,6 +423,27 @@ class ApiUsage(UUIDPrimaryKeyMixin, Base):
     )
 
 
+class MaintenanceRun(UUIDPrimaryKeyMixin, Base):
+    """Registro de las tareas de mantenimiento ejecutadas.
+
+    Existe para poder decir en la interfaz **cuándo se purgó por última vez**
+    en lugar de afirmar que los datos «se purgan automáticamente», que era una
+    promesa que la aplicación no podía cumplir por sí sola: la purga es un
+    comando que alguien tiene que programar.
+    """
+
+    __tablename__ = "maintenance_run"
+    __table_args__ = (Index("ix_maintenance_run_kind_executed", "kind", "executed_at"),)
+
+    kind: Mapped[str] = mapped_column(String(32), nullable=False)
+    executed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utcnow, nullable=False
+    )
+    #: Una simulación se registra igual, pero marcada: no ha borrado nada.
+    dry_run: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    details: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+
+
 class Comparison(UUIDPrimaryKeyMixin, Base):
     """Comparación guardada entre canales analizados."""
 
@@ -475,6 +496,7 @@ __all__ = [
     "CommentAnalysis",
     "Comparison",
     "ContentIdea",
+    "MaintenanceRun",
     "OAuthToken",
     "Recommendation",
     "TopicCluster",

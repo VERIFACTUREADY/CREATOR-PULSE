@@ -58,6 +58,9 @@ class PublicConfig(BaseModel):
     toxicity_analysis_enabled: bool
     anonymize_comment_authors: bool
     data_retention_days: int
+    comment_retention_days: int
+    #: Fecha de la última purga real. `None` = nunca se ha ejecutado.
+    last_purge_at: str | None = None
     algorithm_version: str
     embedding_backend: str
     sentiment_backend: str

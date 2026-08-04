@@ -47,6 +47,9 @@ export interface PublicConfig {
   toxicity_analysis_enabled: boolean;
   anonymize_comment_authors: boolean;
   data_retention_days: number;
+  comment_retention_days: number;
+  /** Fecha ISO de la última purga real; `null` si nunca se ha ejecutado. */
+  last_purge_at: string | null;
   algorithm_version: string;
   embedding_backend: string;
   sentiment_backend: string;

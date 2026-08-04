@@ -85,7 +85,9 @@ def test_purge_removes_only_expired_runs(
 
     assert _count_runs(cli_session) == 1
     assert cli_session.get(AnalysisRun, reciente.id) is not None
-    assert "Eliminados 1" in capsys.readouterr().out
+    salida = capsys.readouterr().out
+    assert "Purga aplicada" in salida
+    assert "Análisis eliminados: 1" in salida
 
 
 def test_purge_dry_run_deletes_nothing(

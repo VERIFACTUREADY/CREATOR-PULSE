@@ -55,12 +55,18 @@ Cada bloque se cierra con su propio commit y sus pruebas de regresión.
 - [x] Aviso al arrancar en desarrollo sin protección
 - [x] 21 pruebas de regresión → **424 en verde**
 
-## Bloque 5 — Retención y texto de privacidad
+## Bloque 5 — Retención y texto de privacidad ✅
 
-- [ ] Corregir el texto que promete una purga automática inexistente
-- [ ] Dos políticas: resultados y comentarios brutos
-- [ ] Purga segura de huérfanos con `--simular`
-- [ ] Pruebas de regresión
+- [x] Corregido el texto que prometía una purga automática inexistente
+- [x] Dos políticas: `DATA_RETENTION_DAYS` (resultados) y
+      `COMMENT_RETENTION_DAYS` (comentarios brutos)
+- [x] Un comentario sólo se borra si ha caducado **y** ninguna ejecución viva
+      lo referencia
+- [x] `--simular` con recuentos por entidad
+- [x] Tabla `maintenance_run` (migración 0004) y fecha de la última purga en la
+      interfaz y en `/api/config/public`
+- [x] Los canales y vídeos huérfanos se cuentan pero no se borran
+- [x] 15 pruebas nuevas + `test_cli` actualizado → **439 en verde**
 
 ## Bloque 6 — Puntuación de calidad más honesta
 
@@ -87,3 +93,4 @@ Se actualiza al cerrar cada bloque. Sólo se anota lo que se ha ejecutado.
 | Tras el Bloque 2 | `ruff`, `mypy` y 395 pruebas en verde |
 | Tras el Bloque 3 | `ruff`, `mypy` y 403 pruebas en verde |
 | Tras el Bloque 4 | `ruff`, `mypy` y 424 pruebas en verde |
+| Tras el Bloque 5 | `ruff`, `mypy`, 439 pruebas, `tsc` y `eslint` en verde |

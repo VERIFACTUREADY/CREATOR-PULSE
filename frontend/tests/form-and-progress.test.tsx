@@ -20,6 +20,8 @@ const config: PublicConfig = {
   toxicity_analysis_enabled: true,
   anonymize_comment_authors: true,
   data_retention_days: 90,
+  comment_retention_days: 180,
+  last_purge_at: null,
   algorithm_version: '1.0.0',
   embedding_backend: 'hashing',
   sentiment_backend: 'lexicon',

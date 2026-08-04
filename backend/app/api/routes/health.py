@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Response, status
+from sqlalchemy.orm import Session
 
-from app.api.deps import Protected
+from app.api.deps import DbSession, Protected
 from app.core.config import ALGORITHM_VERSION, settings
 from app.db.session import check_database
 from app.schemas.common import HealthComponent, HealthResponse, PublicConfig
 from app.services.dashboard import CRITICISM_NOTICE_ES, DISCLAIMER_ES
+from app.services.retention import last_purge
 from app.workers.queue import check_redis, queue_depth
 
 router = APIRouter(tags=["sistema"])
@@ -50,13 +52,19 @@ def health(response: Response) -> HealthResponse:
     )
 
 
+def _last_purge_iso(session: Session) -> str | None:
+    """Cuándo se purgó de verdad por última vez, o `None` si nunca."""
+    registro = last_purge(session)
+    return registro.executed_at.isoformat() if registro else None
+
+
 @router.get(
     "/config/public",
     response_model=PublicConfig,
     summary="Configuración pública (sin secretos)",
     dependencies=[Protected],
 )
-def public_config() -> PublicConfig:
+def public_config(session: DbSession) -> PublicConfig:
     """Configuración que necesita el frontend. Nunca expone claves."""
     return PublicConfig(
         app_name=settings.app_name,
@@ -69,6 +77,8 @@ def public_config() -> PublicConfig:
         toxicity_analysis_enabled=settings.enable_toxicity_analysis,
         anonymize_comment_authors=settings.anonymize_comment_authors,
         data_retention_days=settings.data_retention_days,
+        comment_retention_days=settings.comment_retention_days,
+        last_purge_at=_last_purge_iso(session),
         algorithm_version=ALGORITHM_VERSION,
         embedding_backend=settings.embedding_backend,
         sentiment_backend=settings.sentiment_backend,

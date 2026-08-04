@@ -51,6 +51,12 @@ class Settings(BaseSettings):
     #: por comas (CIDR o IP). Sin esto, cualquiera podría falsificarla.
     trusted_proxy_networks: str = "127.0.0.1/32,::1/128"
 
+    # --- Retención ----------------------------------------------------
+    # Son dos políticas distintas a propósito: los resultados de un análisis
+    # caducan antes que los comentarios brutos, que se comparten entre
+    # ejecuciones y volver a descargarlos cuesta cuota.
+    comment_retention_days: int = 180
+
     # --- Base de datos ------------------------------------------------
     database_url: str = (
         "postgresql+psycopg://creator_signal:change-me@localhost:5432/creator_signal"

@@ -76,7 +76,9 @@ def session(engine: Any) -> Iterator[Session]:
         db.rollback()
         db.close()
         with engine.connect() as conn:
-            conn.execute(text("TRUNCATE channel, comparison, api_usage CASCADE"))
+            # `maintenance_run` no cuelga de `channel`, así que hay que nombrarla:
+            # si no, los registros de purga se filtran entre pruebas.
+            conn.execute(text("TRUNCATE channel, comparison, api_usage, maintenance_run CASCADE"))
             conn.commit()
 
 
