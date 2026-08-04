@@ -370,3 +370,145 @@ def test_no_se_registran_los_identificadores_de_otros_canales(
         _callback(client, state)
 
     assert "UCsecretodetercero00aa" not in caplog.text
+
+
+# --- El `state` se exige y consume en todos los caminos --------------------
+
+
+@respx.mock
+def test_un_retorno_con_error_tambien_exige_state(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    """Antes, `?error=access_denied` entraba sin state y dejaba el pendiente vivo."""
+    respuesta = client.get("/api/oauth/google/callback?error=access_denied", follow_redirects=False)
+
+    assert respuesta.status_code == 400
+    assert respuesta.json()["error"]["code"] == "oauth_estado_invalido"
+
+
+@respx.mock
+def test_un_retorno_con_error_y_state_valido_lo_consume(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    channel = _channel(session)
+    state = _start(client, channel)
+
+    primera = client.get(
+        f"/api/oauth/google/callback?error=access_denied&state={state}", follow_redirects=False
+    )
+    assert primera.status_code == 303
+    assert "oauth=denegado" in primera.headers["location"]
+
+    # El state queda consumido: repetirlo ya no vale.
+    segunda = client.get(
+        f"/api/oauth/google/callback?error=access_denied&state={state}", follow_redirects=False
+    )
+    assert segunda.status_code == 400
+    assert segunda.json()["error"]["code"] == "oauth_estado_invalido"
+
+
+@respx.mock
+def test_el_vinculo_con_el_canal_se_borra_aunque_el_flujo_falle(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    """Un vínculo huérfano sobreviviría hasta caducar."""
+    channel = _channel(session)
+    state = _start(client, channel)
+    assert fake_redis.get(f"oauth:channel:{state}") is not None
+
+    _mock_token_exchange()
+    respx.get(CHANNELS_ENDPOINT).mock(return_value=httpx.Response(500, json={"error": {}}))
+    respx.post(REVOKE_ENDPOINT).mock(return_value=httpx.Response(200))
+
+    client.get(f"/api/oauth/google/callback?code=codigo&state={state}", follow_redirects=False)
+
+    assert fake_redis.get(f"oauth:channel:{state}") is None
+
+
+@respx.mock
+def test_el_vinculo_se_borra_tambien_cuando_el_usuario_cancela(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    channel = _channel(session)
+    state = _start(client, channel)
+
+    client.get(
+        f"/api/oauth/google/callback?error=access_denied&state={state}", follow_redirects=False
+    )
+
+    assert fake_redis.get(f"oauth:channel:{state}") is None
+
+
+@respx.mock
+def test_un_code_con_state_invalido_no_llega_a_canjearse(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    ruta = respx.post(TOKEN_ENDPOINT).mock(return_value=httpx.Response(200, json={}))
+
+    respuesta = client.get(
+        "/api/oauth/google/callback?code=codigo&state=inventado", follow_redirects=False
+    )
+
+    assert respuesta.status_code == 400
+    assert not ruta.called, "no se debe hablar con Google sin un state válido"
+
+
+# --- Paginación acotada sin resultados parciales ---------------------------
+
+
+@respx.mock
+def test_si_hay_mas_paginas_de_las_permitidas_no_se_acepta_la_lista(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    """Una lista truncada rechazaría a un propietario legítimo sin decir por qué."""
+    channel = _channel(session)
+    state = _start(client, channel)
+    _mock_token_exchange()
+    # Cinco páginas y todas con `nextPageToken`: nunca termina.
+    respx.get(CHANNELS_ENDPOINT).mock(
+        return_value=httpx.Response(200, json=_pagina(["UCajeno000000000000aa"], token="siguiente"))
+    )
+    revoke = respx.post(REVOKE_ENDPOINT).mock(return_value=httpx.Response(200))
+
+    respuesta = _callback(client, state)
+
+    assert "oauth=oauth_identidad_incompleta" in respuesta.headers["location"]
+    assert OAuthTokenRepository(session).get_for_channel(channel.id) is None
+    assert revoke.called
+
+
+@respx.mock
+def test_un_cuerpo_que_no_es_json_se_trata_como_error(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    channel = _channel(session)
+    state = _start(client, channel)
+    _mock_token_exchange()
+    respx.get(CHANNELS_ENDPOINT).mock(
+        return_value=httpx.Response(200, content=b"<html>no soy json</html>")
+    )
+    revoke = respx.post(REVOKE_ENDPOINT).mock(return_value=httpx.Response(200))
+
+    respuesta = _callback(client, state)
+
+    assert "oauth=oauth_intercambio_fallido" in respuesta.headers["location"]
+    assert OAuthTokenRepository(session).get_for_channel(channel.id) is None
+    assert revoke.called
+
+
+@respx.mock
+def test_una_estructura_inesperada_tampoco_se_da_por_buena(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    channel = _channel(session)
+    state = _start(client, channel)
+    _mock_token_exchange()
+    respx.get(CHANNELS_ENDPOINT).mock(
+        return_value=httpx.Response(200, json={"items": "esto no es una lista"})
+    )
+    respx.post(REVOKE_ENDPOINT).mock(return_value=httpx.Response(200))
+
+    respuesta = _callback(client, state)
+
+    assert OAuthTokenRepository(session).get_for_channel(channel.id) is None
+    assert "oauth=conectado" not in respuesta.headers["location"]

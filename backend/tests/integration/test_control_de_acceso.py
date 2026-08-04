@@ -276,10 +276,10 @@ def test_el_modo_propietario_con_proxy_si_arranca(monkeypatch: pytest.MonkeyPatc
 # --- Rate limit y cabeceras falsificadas -----------------------------------
 
 
-def _peticion_simulada(*, origen: str, forwarded: str) -> Any:
+def _peticion_simulada(*, origen: str, **cabeceras: str) -> Any:
     """Petición mínima con la forma que `client_key` necesita."""
     return SimpleNamespace(
-        headers={"x-forwarded-for": forwarded},
+        headers={clave.replace("_", "-"): valor for clave, valor in cabeceras.items()},
         client=SimpleNamespace(host=origen),
     )
 
@@ -290,10 +290,46 @@ def test_un_cliente_directo_no_puede_falsificar_su_identidad(proxy_auth: None) -
     Bastaba con cambiar el valor en cada llamada para no agotarlo nunca.
     """
     # Desde una red no confiable se ignora la cabecera y manda la IP real.
-    falsa = _peticion_simulada(origen="203.0.113.7", forwarded="1.2.3.4")
-    assert client_key(falsa) == "203.0.113.7"
+    falsa = _peticion_simulada(origen="203.0.113.7", x_forwarded_for="1.2.3.4")
+    assert client_key(falsa) == "ip:203.0.113.7"
 
 
 def test_desde_un_proxy_de_confianza_si_se_cree_la_cabecera(proxy_auth: None) -> None:
-    confiable = _peticion_simulada(origen="127.0.0.1", forwarded="9.9.9.9, 10.0.0.1")
-    assert client_key(confiable) == "9.9.9.9"
+    confiable = _peticion_simulada(origen="127.0.0.1", x_forwarded_for="9.9.9.9, 10.0.0.1")
+    assert client_key(confiable) == "ip:9.9.9.9"
+
+
+def test_la_identidad_del_proxy_manda_sobre_x_forwarded_for(proxy_auth: None) -> None:
+    """El proxy fija una identidad que el visitante no puede escoger."""
+    peticion = _peticion_simulada(
+        origen="127.0.0.1",
+        x_forwarded_for="1.2.3.4",
+        x_creatorpulse_identity="abc123identidadfirmada",
+    )
+    assert client_key(peticion) == "id:abc123identidadfirmada"
+
+
+def test_una_identidad_con_forma_invalida_se_descarta(proxy_auth: None) -> None:
+    """Nada de meter cualquier cadena en el diccionario de ventanas."""
+    peticion = _peticion_simulada(
+        origen="127.0.0.1",
+        x_creatorpulse_identity="con espacios y símbolos ñ/\\",
+    )
+    assert client_key(peticion) == "ip:127.0.0.1"
+
+
+def test_una_clave_larguisima_no_entra_en_el_diccionario(proxy_auth: None) -> None:
+    """Sin tope de longitud se podía inflar la memoria del proceso."""
+    from app.api.deps import MAX_KEY_LENGTH
+
+    peticion = _peticion_simulada(origen="127.0.0.1", x_creatorpulse_identity="a" * 5000)
+    clave = client_key(peticion)
+
+    assert len(clave) <= MAX_KEY_LENGTH + len("id:")
+
+
+def test_la_identidad_no_se_acepta_desde_una_red_no_confiable(proxy_auth: None) -> None:
+    peticion = _peticion_simulada(
+        origen="203.0.113.7", x_creatorpulse_identity="identidadinventada"
+    )
+    assert client_key(peticion) == "ip:203.0.113.7"

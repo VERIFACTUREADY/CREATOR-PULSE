@@ -54,7 +54,10 @@ az deployment group what-if \
   --template-file infra/azure/main.bicep \
   --parameters @infra/azure/parameters.dev.json \
   --parameters postgresAdminPassword="$(openssl rand -base64 24)" \
-  --parameters proxyAuthSecret="$(openssl rand -base64 36)"
+  --parameters proxyAuthSecret="$(openssl rand -base64 36)" \
+  --parameters betaAccessPassword="$(openssl rand -base64 18)" \
+  --parameters betaSessionSecret="$(openssl rand -base64 36)" \
+  --parameters authorHashSalt="$(openssl rand -base64 24)"
 ```
 
 ## 3. Desplegar
@@ -66,6 +69,9 @@ PG_PASSWORD="$(openssl rand -base64 24)"
 # Secreto compartido entre el frontend y la API. Guárdalo: sin él, el frontend
 # no puede hablar con la API.
 PROXY_SECRET="$(openssl rand -base64 36)"
+BETA_PASSWORD="$(openssl rand -base64 18)"   # se la das a quien entre en la beta
+BETA_SECRET="$(openssl rand -base64 36)"
+AUTHOR_SALT="$(openssl rand -base64 24)"     # cambiarla invalida los hashes ya guardados
 
 az deployment group create \
   --resource-group rg-creator-signal-dev \
@@ -73,6 +79,9 @@ az deployment group create \
   --parameters @infra/azure/parameters.dev.json \
   --parameters postgresAdminPassword="$PG_PASSWORD" \
   --parameters proxyAuthSecret="$PROXY_SECRET" \
+  --parameters betaAccessPassword="$BETA_PASSWORD" \
+  --parameters betaSessionSecret="$BETA_SECRET" \
+  --parameters authorHashSalt="$AUTHOR_SALT" \
   --parameters youtubeApiKey="$YOUTUBE_API_KEY"
 ```
 
@@ -145,13 +154,22 @@ Esta aplicación **no tiene usuarios propios**, y la API se niega a arrancar con
 `APP_ENV=production` y `AUTH_MODE=none`. La plantilla no evita ese bloqueo
 bajando a `development`: lo resuelve de verdad.
 
+Hay **dos capas de acceso distintas**, y confundirlas fue el error de la
+versión anterior: el secreto compartido autentica al *servicio*, nunca a la
+*persona*.
+
 ```mermaid
 flowchart LR
-    N["Navegador"] -->|"HTTPS público"| W["Container App: web<br/>(Next.js)"]
-    W -->|"añade X-Auth-Token<br/>desde el servidor"| A["Container App: api<br/>ingress INTERNO"]
+    N["Navegador"] -->|"1. contraseña de beta<br/>cookie firmada"| W["Container App: web<br/>(Next.js)"]
+    W -->|"2. X-Auth-Token<br/>añadido en el servidor"| A["Container App: api<br/>ingress INTERNO"]
     A --- P[("PostgreSQL")]
     A --- R[("Redis")]
 ```
+
+1. **usuario → frontend**: contraseña de la beta y cookie de sesión firmada
+   (`BETA_ACCESS_*`). Sin ella, un visitante no ve nada ni puede lanzar nada.
+2. **frontend → API**: secreto de servicio (`TRUSTED_AUTH_VALUE`). Impide
+   llamar a la API por otro camino.
 
 * **La API no tiene ingress público** (`external: false`). Sólo la alcanza el
   frontend, desde dentro del entorno de Container Apps.
@@ -165,10 +183,18 @@ flowchart LR
   caracteres**: si falta, el despliegue falla antes de crear nada, en lugar de
   dejar una instalación que no arranca.
 
-Genera el secreto con:
+> **Precisión sobre dónde vive el secreto.** `proxyAuthSecret` se guarda como
+> *secreto de Container Apps*, no en Key Vault. Es seguro —viaja como parámetro
+> `@secure()` y no aparece en logs de despliegue—, pero no es lo mismo que Key
+> Vault: no tiene rotación ni auditoría de acceso. Si necesitas eso, añade la
+> referencia a Key Vault explícitamente.
+
+Genera los secretos con:
 
 ```bash
-openssl rand -base64 36
+openssl rand -base64 36   # proxyAuthSecret
+openssl rand -base64 36   # betaSessionSecret
+openssl rand -base64 24   # authorHashSalt
 ```
 
 Si prefieres otra estrategia —Cloudflare Access, Azure Easy Auth, API
@@ -200,7 +226,36 @@ aproximación.
 | `TRUSTED_AUTH_HEADER` | Parámetro | Cabecera que añade el frontend |
 | `TRUSTED_AUTH_VALUE` | Secreto (`proxy-auth-secret`) | Compartido entre frontend y API. **Nunca** con prefijo `NEXT_PUBLIC_` |
 | `TRUSTED_PROXY_NETWORKS` | Parámetro | Redes desde las que se acepta la cabecera |
+| `BETA_ACCESS_ENABLED` | Literal (`true`) | Puerta de acceso de visitantes |
+| `BETA_ACCESS_PASSWORD` | Secreto (`beta-access-password`) | Contraseña de la beta |
+| `BETA_SESSION_SECRET` | Secreto (`beta-session-secret`) | Firma de la cookie de sesión |
+| `AUTHOR_HASH_SALT` | Secreto (`author-hash-salt`) | Obligatorio: el valor de ejemplo no es secreto |
+| `FRONTEND_URL` | Derivado | URL pública del frontend |
 | `COMMENT_RETENTION_DAYS` | Literal | Retención de los comentarios brutos (por defecto 180) |
+
+## Escalado de la API: una sola réplica
+
+`maxReplicas: 1` en la API es deliberado. El límite de peticiones se guarda en
+la memoria del proceso, así que con tres réplicas el tope efectivo sería el
+triple y se reiniciaría cada vez que Container Apps moviera el tráfico. Es
+preferible un límite pequeño y real que uno grande e imaginario.
+
+Para subir de una réplica hay que mover antes el rate limit a Redis. El worker
+sí escala: procesa de una cola compartida.
+
+### Modo propietario en Azure
+
+Viene **apagado** (`ENABLE_OWNER_MODE=false`) y la plantilla no crea sus
+secretos. Para activarlo hacen falta, además de lo anterior:
+
+* `GOOGLE_OAUTH_CLIENT_ID` y `GOOGLE_OAUTH_CLIENT_SECRET` como secretos;
+* `OAUTH_TOKEN_ENCRYPTION_KEY` (`python -m app.cli generar-clave`);
+* `GOOGLE_OAUTH_REDIRECT_URI` apuntando a
+  `https://<frontend>/api/oauth/google/callback`, y esa misma URI autorizada en
+  Google Cloud Console.
+
+`FRONTEND_URL` ya lo fija la plantilla a la URL pública del frontend, que es a
+donde vuelve el creador tras autorizar.
 
 ## Escalado del worker
 
@@ -248,7 +303,10 @@ az keyvault purge --name <nombre del key vault> --location westeurope
 - [ ] Verificado que el bundle del navegador no contiene el secreto (`grep` sobre `.next/static`).
 - [ ] `ENABLE_OWNER_MODE=false`, o con `AUTH_MODE=trusted_proxy`: con `none` la API no arranca.
 - [ ] `CORS_ORIGINS` apunta sólo al dominio del frontend.
-- [ ] `AUTHOR_HASH_SALT` cambiada por un valor aleatorio y guardada en Key Vault.
+- [ ] `authorHashSalt` generada aleatoriamente. La plantilla la exige: el valor de ejemplo ya no es posible.
+- [ ] `betaAccessPassword` y `betaSessionSecret` generados y compartidos sólo con quien deba entrar.
+- [ ] Comprobado que un visitante sin contraseña no puede usar la aplicación ni sus rutas `/api/*`.
+- [ ] Una sola réplica de la API, o el rate limit movido a Redis (ver más abajo).
 - [ ] La clave de la API de YouTube está restringida a la YouTube Data API v3 en la consola de Google Cloud.
 - [ ] `POSTGRES_PASSWORD` generada aleatoriamente y sólo en Key Vault.
 - [ ] Copias de seguridad de PostgreSQL con la retención adecuada.

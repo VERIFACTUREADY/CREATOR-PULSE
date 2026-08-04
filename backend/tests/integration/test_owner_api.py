@@ -385,11 +385,26 @@ def test_callback_rejects_a_forged_state(
 
 
 def test_callback_handles_user_denial(
-    client: TestClient, owner_ready: None, fake_redis: _FakeRedis
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
 ) -> None:
-    response = client.get("/api/oauth/google/callback?error=access_denied", follow_redirects=False)
+    """Cancelar en Google devuelve al frontend, pero exige `state` igualmente.
+
+    Un retorno sin `state` válido no se procesa aunque traiga `error`: si no,
+    el `state` pendiente quedaría vivo hasta caducar.
+    """
+    channel = _channel(session)
+    state = client.get(f"/api/oauth/google/start?channel_id={channel.id}").json()["state"]
+
+    response = client.get(
+        f"/api/oauth/google/callback?error=access_denied&state={state}", follow_redirects=False
+    )
     assert response.status_code == 303
     assert "oauth=denegado" in response.headers["location"]
+
+    sin_estado = client.get(
+        "/api/oauth/google/callback?error=access_denied", follow_redirects=False
+    )
+    assert sin_estado.status_code == 400
 
 
 def test_disconnect_endpoint(client: TestClient, session: Session, owner_ready: None) -> None:

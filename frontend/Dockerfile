@@ -16,8 +16,12 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# `NEXT_PUBLIC_*` se incrusta en el bundle, así que debe estar en build time.
-ARG NEXT_PUBLIC_API_URL=http://localhost:8000
+# `NEXT_PUBLIC_*` se incrusta en el bundle, así que sólo puede fijarse en build
+# time. Por eso **no lleva valor por defecto**: si lo llevara, una imagen
+# construida sin pasar el argumento saldría compilada para hablar con el
+# `localhost` de quien abre el navegador, y nunca usaría el proxy interno.
+# Vacío significa «sin configurar», y entonces el cliente usa rutas relativas.
+ARG NEXT_PUBLIC_API_URL=
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 RUN npm run build

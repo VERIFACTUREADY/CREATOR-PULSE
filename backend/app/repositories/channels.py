@@ -259,7 +259,14 @@ class CommentRepository:
         ese caso se descartan las filas parciales y se registra entera, para
         que el orden no tenga huecos ni posiciones repetidas.
         """
-        run = self.session.get(AnalysisRun, run_id)
+        # `FOR UPDATE` serializa el cierre de la muestra: si dos workers cogen
+        # el mismo trabajo, el segundo espera aquí y, cuando entra, ya ve la
+        # muestra cerrada por el primero. Sin el bloqueo ambos verían
+        # `sample_finalized_at=NULL` y competirían por borrar e insertar, con
+        # el resultado de una muestra corrupta o un IntegrityError.
+        run = self.session.execute(
+            select(AnalysisRun).where(AnalysisRun.id == run_id).with_for_update()
+        ).scalar_one_or_none()
         if run is None:
             raise ValueError(f"la ejecución {run_id} no existe")
 

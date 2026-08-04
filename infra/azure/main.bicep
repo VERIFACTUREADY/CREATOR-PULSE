@@ -54,6 +54,27 @@ param trustedAuthHeader string = 'X-Auth-Token'
 @description('Redes desde las que la API acepta la cabecera. Debe cubrir el rango interno del entorno de Container Apps.')
 param trustedProxyNetworks string = '10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,127.0.0.1/32'
 
+// --- Acceso de visitantes ---------------------------------------------------
+// El secreto de arriba autentica al SERVICIO, no a la persona. Sin esto, el
+// frontend seguiría siendo público y cualquiera podría lanzar análisis.
+@description('Contraseña de la beta privada. Obligatoria: sin ella el frontend quedaría abierto.')
+@secure()
+@minLength(12)
+param betaAccessPassword string
+
+@description('Secreto con el que se firma la cookie de sesión de la beta.')
+@secure()
+@minLength(32)
+param betaSessionSecret string
+
+@description('Horas que dura una sesión de la beta.')
+param betaSessionTtlHours int = 12
+
+@description('Sal para el hash de los identificadores de autor. No puede quedarse en el valor de ejemplo.')
+@secure()
+@minLength(16)
+param authorHashSalt string
+
 
 var suffix = uniqueString(resourceGroup().id)
 var baseName = '${namePrefix}-${environment}'
@@ -242,6 +263,7 @@ var commonSecrets = [
   { name: 'registry-password', value: containerRegistry.listCredentials().passwords[0].value }
   { name: 'youtube-api-key', value: youtubeApiKey }
   { name: 'proxy-auth-secret', value: proxyAuthSecret }
+  { name: 'author-hash-salt', value: authorHashSalt }
 ]
 
 var registryConfig = [
@@ -254,12 +276,20 @@ var registryConfig = [
 
 var commonEnvVars = [
   { name: 'APP_ENV', value: 'production' }
+  { name: 'FRONTEND_URL', value: 'https://${baseName}-web.${containerEnv.properties.defaultDomain}' }
   // Sin estas tres, la API no arranca. Es la comprobación que impide desplegar
   // una instalación de producción abierta sin darse cuenta.
   { name: 'AUTH_MODE', value: 'trusted_proxy' }
   { name: 'TRUSTED_AUTH_HEADER', value: trustedAuthHeader }
   { name: 'TRUSTED_AUTH_VALUE', secretRef: 'proxy-auth-secret' }
   { name: 'TRUSTED_PROXY_NETWORKS', value: trustedProxyNetworks }
+  // Sin una sal propia, los identificadores de autor de dos instalaciones
+  // distintas coincidirían y dejarían de ser anónimos entre sí.
+  { name: 'AUTHOR_HASH_SALT', secretRef: 'author-hash-salt' }
+  { name: 'COMMENT_RETENTION_DAYS', value: '180' }
+  // El modo propietario se queda apagado mientras no se configuren sus
+  // credenciales: activarlo sin ellas sólo daría errores al creador.
+  { name: 'ENABLE_OWNER_MODE', value: 'false' }
   { name: 'DATABASE_URL', secretRef: 'database-url' }
   { name: 'REDIS_URL', secretRef: 'redis-url' }
   { name: 'YOUTUBE_API_KEY', secretRef: 'youtube-api-key' }
@@ -308,8 +338,13 @@ resource apiApp 'Microsoft.App/containerApps@2024-03-01' = {
         }
       ]
       scale: {
+        // Una sola réplica **a propósito**: el límite de peticiones vive en la
+        // memoria del proceso, así que con varias réplicas el tope efectivo se
+        // multiplicaría y se reiniciaría en cada una. Antes de subir esto hay
+        // que mover el rate limit a Redis; fingir un límite global con
+        // `maxReplicas: 3` sería peor que no tenerlo.
         minReplicas: environment == 'prod' ? 1 : 0
-        maxReplicas: 3
+        maxReplicas: 1
         rules: [
           {
             name: 'http-scaling'
@@ -372,6 +407,8 @@ resource frontendApp 'Microsoft.App/containerApps@2024-03-01' = {
         // El frontend necesita el secreto para añadir la cabecera desde el
         // servidor. Nunca sale de aquí hacia el navegador.
         { name: 'proxy-auth-secret', value: proxyAuthSecret }
+        { name: 'beta-access-password', value: betaAccessPassword }
+        { name: 'beta-session-secret', value: betaSessionSecret }
       ]
       registries: registryConfig
     }
@@ -390,6 +427,12 @@ resource frontendApp 'Microsoft.App/containerApps@2024-03-01' = {
             { name: 'API_INTERNAL_URL', value: 'https://${apiApp.properties.configuration.ingress.fqdn}' }
             { name: 'TRUSTED_AUTH_HEADER', value: trustedAuthHeader }
             { name: 'TRUSTED_AUTH_VALUE', secretRef: 'proxy-auth-secret' }
+            // Puerta de la beta: usuario -> frontend. Es una capa distinta del
+            // secreto de servicio de arriba.
+            { name: 'BETA_ACCESS_ENABLED', value: 'true' }
+            { name: 'BETA_ACCESS_PASSWORD', secretRef: 'beta-access-password' }
+            { name: 'BETA_SESSION_SECRET', secretRef: 'beta-session-secret' }
+            { name: 'BETA_SESSION_TTL_HOURS', value: string(betaSessionTtlHours) }
           ]
         }
       ]

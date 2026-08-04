@@ -83,6 +83,15 @@ class OAuthChannelMismatchError(AppError):
     )
 
 
+class OAuthIdentityIncompleteError(AppError):
+    code = "oauth_identidad_incompleta"
+    status_code = 502
+    message = (
+        "No se ha podido comprobar por completo qué canales pertenecen a tu cuenta. "
+        "Vuelve a intentarlo."
+    )
+
+
 class OAuthNoChannelError(AppError):
     code = "oauth_sin_canal"
     status_code = 403
@@ -294,8 +303,26 @@ def fetch_authorised_channel_ids(
                     detail=f"channels.list(mine=true) devolvió {response.status_code}"
                 )
 
-            payload = response.json() or {}
-            for item in payload.get("items") or []:
+            try:
+                payload = response.json() or {}
+            except ValueError as exc:
+                # Un cuerpo que no es JSON no puede darse por bueno: sin la
+                # lista completa no se puede afirmar que el canal sea suyo.
+                logger.warning("oauth_identity_invalid_payload")
+                raise OAuthExchangeError(
+                    detail="channels.list(mine=true) devolvió un cuerpo no interpretable"
+                ) from exc
+            if not isinstance(payload, dict):
+                raise OAuthExchangeError(
+                    detail="channels.list(mine=true) devolvió una estructura inesperada"
+                )
+
+            items = payload.get("items") or []
+            if not isinstance(items, list):
+                raise OAuthExchangeError(detail="`items` no es una lista")
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
                 channel_id = str(item.get("id") or "")
                 if channel_id:
                     ids.add(channel_id)
@@ -303,6 +330,15 @@ def fetch_authorised_channel_ids(
             page_token = payload.get("nextPageToken")
             if not page_token:
                 break
+        else:
+            # Se agotaron las páginas permitidas y Google dice que hay más. Un
+            # conjunto truncado haría rechazar a un propietario legítimo, así
+            # que se falla en lugar de devolver una respuesta a medias.
+            if page_token:
+                logger.warning("oauth_identity_too_many_pages", pages=MAX_IDENTITY_PAGES)
+                raise OAuthIdentityIncompleteError(
+                    detail=f"channels.list(mine=true) supera {MAX_IDENTITY_PAGES} páginas"
+                )
     finally:
         if owns_client:
             http.close()
@@ -344,6 +380,7 @@ __all__ = [
     "OAuthChannelMismatchError",
     "OAuthDeniedError",
     "OAuthExchangeError",
+    "OAuthIdentityIncompleteError",
     "OAuthNoChannelError",
     "OAuthNotConfiguredError",
     "OAuthStateError",

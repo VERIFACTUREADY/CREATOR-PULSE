@@ -79,4 +79,45 @@ describe('el secreto del proxy no se expone al navegador', () => {
     expect(cliente).not.toContain('TRUSTED_AUTH');
     expect(cliente).not.toContain('X-Auth-Token');
   });
+
+  it('los secretos de la beta tampoco llevan prefijo público', () => {
+    const fuentes = [
+      ...ficherosDe(join(RAIZ, 'app'), ['.ts', '.tsx']),
+      ...ficherosDe(join(RAIZ, 'lib'), ['.ts', '.tsx']),
+      ...ficherosDe(join(RAIZ, 'features'), ['.ts', '.tsx']),
+      ...ficherosDe(join(RAIZ, 'components'), ['.ts', '.tsx']),
+    ];
+
+    const infractores = fuentes.filter((ruta) =>
+      /NEXT_PUBLIC_BETA/.test(readFileSync(ruta, 'utf8')),
+    );
+
+    expect(infractores).toEqual([]);
+  });
+
+  it('la pantalla de acceso no guarda la contraseña en ningún sitio persistente', () => {
+    const pantalla = readFileSync(join(RAIZ, 'app', 'acceso', 'page.tsx'), 'utf8');
+    // Se buscan usos reales, no menciones en comentarios: el propio fichero
+    // documenta que NO usa estos almacenes.
+    const sinComentarios = pantalla
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .replace(/^\s*\/\/.*$/gm, '');
+
+    for (const prohibido of [
+      'localStorage.',
+      'sessionStorage.',
+      'document.cookie',
+      'window.name',
+    ]) {
+      expect(sinComentarios, `la pantalla no debe usar ${prohibido}`).not.toContain(prohibido);
+    }
+  });
+
+  it('el proxy borra las cabeceras de reenvío que envía el cliente', () => {
+    const proxy = readFileSync(join(RAIZ, 'app', 'api', '[...ruta]', 'route.ts'), 'utf8');
+    for (const cabecera of ['x-forwarded-for', 'x-real-ip', 'forwarded']) {
+      expect(proxy).toContain(cabecera);
+    }
+    expect(proxy).toContain('CABECERAS_DE_REENVIO');
+  });
 });

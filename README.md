@@ -949,7 +949,9 @@ decisión está documentado en el README de infraestructura.
 * **Sólo YouTube.** No hay integración con Instagram, TikTok ni X.
 * **El modo propietario requiere credenciales propias de Google Cloud** y viene
   desactivado. Sin él, el análisis usa exclusivamente datos públicos.
-* **Sin autenticación de usuarios.** La instalación es de un solo inquilino; no
+* **La beta privada se protege con una contraseña de acceso**
+  (`BETA_ACCESS_ENABLED`), no con usuarios individuales. Es suficiente para un
+  grupo pequeño de creadores invitados; no es un sistema multiusuario. La instalación es de un solo inquilino; no
   la expongas a internet sin poner un proxy con autenticación delante.
 * **El rate limiting es por proceso.** Con varias réplicas de la API conviene
   moverlo a Redis.

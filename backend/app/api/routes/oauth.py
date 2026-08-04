@@ -17,12 +17,14 @@ from typing import Any
 
 from fastapi import APIRouter, Query
 from fastapi.responses import RedirectResponse
+from sqlalchemy.orm import Session
 
 from app.api.deps import DbSession, Protected, RateLimited
 from app.core.config import settings
 from app.core.crypto import encryption_available
 from app.core.errors import FeatureDisabledError, NotFoundError
 from app.core.logging import get_logger
+from app.models.entities import Channel
 from app.repositories.channels import ChannelRepository
 from app.repositories.oauth import OAuthTokenRepository, describe
 from app.schemas.owner import (
@@ -40,6 +42,7 @@ from app.services.youtube.oauth import (
     OAuthChannelMismatchError,
     OAuthDeniedError,
     OAuthExchangeError,
+    OAuthIdentityIncompleteError,
     OAuthNoChannelError,
     build_authorization_url,
     consume_state,
@@ -171,32 +174,46 @@ def oauth_callback(
     """
     ensure_enabled()
     frontend = settings.frontend_url.rstrip("/")
-
-    if error:
-        logger.info("oauth_denied", reason=error)
-        return RedirectResponse(f"{frontend}/configuracion?oauth=denegado", status_code=303)
-
-    if not code:
-        raise OAuthDeniedError(detail="Google no ha devuelto ningún código")
-
     redis = get_redis()
-    # Consume el `state`: si no es válido o ya se usó, aquí se corta.
+
+    # El `state` se valida y se consume ANTES de mirar `error` o `code`. Antes
+    # se comprobaba `error` primero, así que un retorno con
+    # `?error=access_denied` entraba sin `state` y dejaba el pendiente sin
+    # consumir: quedaba vivo hasta caducar y podía reutilizarse.
     consume_state(redis, state)
 
-    raw_channel = redis.get(f"oauth:channel:{state}")
-    redis.delete(f"oauth:channel:{state}")
-    if raw_channel is None:
-        return RedirectResponse(f"{frontend}/configuracion?oauth=caducado", status_code=303)
+    # Pase lo que pase a partir de aquí, el vínculo con el canal se borra: no
+    # puede sobrevivir a un flujo fallido.
+    try:
+        if error:
+            logger.info("oauth_denied", reason=error)
+            return RedirectResponse(f"{frontend}/configuracion?oauth=denegado", status_code=303)
 
-    channel_id = uuid.UUID(
-        raw_channel.decode() if isinstance(raw_channel, bytes) else str(raw_channel)
-    )
-    channel = ChannelRepository(session).get(channel_id)
-    if channel is None:
-        return RedirectResponse(
-            f"{frontend}/configuracion?oauth=canal_no_encontrado", status_code=303
+        if not code:
+            raise OAuthDeniedError(detail="Google no ha devuelto ningún código")
+
+        raw_channel = redis.get(f"oauth:channel:{state}")
+        if raw_channel is None:
+            return RedirectResponse(f"{frontend}/configuracion?oauth=caducado", status_code=303)
+
+        channel_id = uuid.UUID(
+            raw_channel.decode() if isinstance(raw_channel, bytes) else str(raw_channel)
         )
+        channel = ChannelRepository(session).get(channel_id)
+        if channel is None:
+            return RedirectResponse(
+                f"{frontend}/configuracion?oauth=canal_no_encontrado", status_code=303
+            )
 
+        return _finish_callback(session, channel, code, frontend)
+    finally:
+        redis.delete(f"oauth:channel:{state}")
+
+
+def _finish_callback(
+    session: Session, channel: Channel, code: str, frontend: str
+) -> RedirectResponse:
+    """Canjea el código, verifica la propiedad del canal y guarda el token."""
     bundle = exchange_code(code)
 
     # Que el usuario haya elegido un canal en la pantalla no prueba que sea
@@ -204,7 +221,7 @@ def oauth_callback(
     # autorizada, y si no coincide el token no llega a persistirse.
     try:
         authorised_channel_ids = fetch_authorised_channel_ids(bundle.access_token)
-    except (OAuthNoChannelError, OAuthExchangeError) as exc:
+    except (OAuthNoChannelError, OAuthExchangeError, OAuthIdentityIncompleteError) as exc:
         revoke_token(bundle.access_token)
         logger.warning("oauth_identity_check_failed", code=exc.code, channel_id=str(channel.id))
         return RedirectResponse(f"{frontend}/configuracion?oauth={exc.code}", status_code=303)
