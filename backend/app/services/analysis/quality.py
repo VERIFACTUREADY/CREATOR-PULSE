@@ -30,6 +30,8 @@ class DataQuality:
     comments_discarded_empty: int = 0
     videos_with_comments_disabled: int = 0
     videos_with_zero_comments: int = 0
+    include_replies: bool = False
+    replies_incomplete: bool = False
     videos_missing_views: int = 0
     videos_missing_likes: int = 0
     sampling_strategy: str = "mixed"
@@ -62,6 +64,8 @@ class DataQuality:
             "comments_discarded_empty": self.comments_discarded_empty,
             "videos_with_comments_disabled": self.videos_with_comments_disabled,
             "videos_with_zero_comments": self.videos_with_zero_comments,
+            "include_replies": self.include_replies,
+            "replies_incomplete": self.replies_incomplete,
             "videos_missing_views": self.videos_missing_views,
             "videos_missing_likes": self.videos_missing_likes,
             "sampling_strategy": self.sampling_strategy,
@@ -136,6 +140,12 @@ def finalise_quality(quality: DataQuality) -> DataQuality:
     if quality.videos_missing_views:
         warnings.append(
             f"{quality.videos_missing_views} vídeo(s) no exponen sus visualizaciones públicas."
+        )
+    if quality.include_replies and quality.replies_incomplete:
+        warnings.append(
+            "Algunas conversaciones no se han descargado enteras: se alcanzó el límite de "
+            "comentarios o la API falló al pedir las respuestas. Los hilos largos pueden "
+            "aparecer incompletos."
         )
     if quality.clustering_strategy == "keyword":
         warnings.append(

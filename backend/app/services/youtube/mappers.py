@@ -45,7 +45,7 @@ def parse_duration(value: Any) -> int | None:
     return total
 
 
-def _to_int(value: Any) -> int | None:
+def to_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
     try:
@@ -74,7 +74,7 @@ def map_channel(item: dict[str, Any]) -> dict[str, Any]:
     related = content.get("relatedPlaylists") or {}
 
     hidden = bool(stats.get("hiddenSubscriberCount", False))
-    subscriber_count = None if hidden else _to_int(stats.get("subscriberCount"))
+    subscriber_count = None if hidden else to_int(stats.get("subscriberCount"))
 
     handle = snippet.get("customUrl") or ""
     handle = handle.lstrip("@") or None
@@ -87,8 +87,8 @@ def map_channel(item: dict[str, Any]) -> dict[str, Any]:
         "thumbnail_url": pick_thumbnail(snippet.get("thumbnails")),
         "subscriber_count": subscriber_count,
         "subscriber_count_hidden": hidden,
-        "video_count": _to_int(stats.get("videoCount")),
-        "view_count": _to_int(stats.get("viewCount")),
+        "video_count": to_int(stats.get("videoCount")),
+        "view_count": to_int(stats.get("viewCount")),
         "country": (snippet.get("country") or None),
         "published_at": parse_iso_datetime(snippet.get("publishedAt")),
         "uploads_playlist_id": related.get("uploads") or None,
@@ -121,10 +121,10 @@ def map_video(item: dict[str, Any]) -> dict[str, Any]:
         "published_at": parse_iso_datetime(snippet.get("publishedAt")),
         "thumbnail_url": pick_thumbnail(snippet.get("thumbnails")),
         "duration_seconds": parse_duration(content.get("duration")),
-        "view_count": _to_int(stats.get("viewCount")),
-        "like_count": _to_int(stats.get("likeCount")),
+        "view_count": to_int(stats.get("viewCount")),
+        "like_count": to_int(stats.get("likeCount")),
         # `dislikeCount` ya no es público: se trata como no disponible.
-        "comment_count": _to_int(raw_comment_count),
+        "comment_count": to_int(raw_comment_count),
         "tags": list(snippet.get("tags") or []) or None,
         "category_id": str(snippet.get("categoryId")) if snippet.get("categoryId") else None,
         "is_live_content": live in {"live", "upcoming"} or bool(item.get("liveStreamingDetails")),
@@ -148,7 +148,7 @@ def _map_comment_snippet(
         "text": str(text),
         "published_at": parse_iso_datetime(snippet.get("publishedAt")),
         "updated_at_source": parse_iso_datetime(snippet.get("updatedAt")),
-        "like_count": _to_int(snippet.get("likeCount")) or 0,
+        "like_count": to_int(snippet.get("likeCount")) or 0,
         "reply_count": reply_count,
         "is_top_level": is_top_level,
         # Sólo se guarda un hash: nunca el nombre público ni la foto del autor.
@@ -175,7 +175,7 @@ def map_comment_thread(item: dict[str, Any], *, include_replies: bool) -> list[d
             top.get("snippet") or {},
             is_top_level=True,
             parent_comment_id=None,
-            reply_count=_to_int(thread_snippet.get("totalReplyCount")) or 0,
+            reply_count=to_int(thread_snippet.get("totalReplyCount")) or 0,
         )
     )
 
@@ -196,12 +196,30 @@ def map_comment_thread(item: dict[str, Any], *, include_replies: bool) -> list[d
     return out
 
 
+def map_comment_reply(item: dict[str, Any], parent_id: str) -> dict[str, Any] | None:
+    """Convierte un elemento de `comments.list` en una respuesta.
+
+    Devuelve `None` si el elemento no trae identificador: nunca se inventa uno.
+    """
+    reply_id = str(item.get("id") or "")
+    if not reply_id:
+        return None
+    return _map_comment_snippet(
+        reply_id,
+        item.get("snippet") or {},
+        is_top_level=False,
+        parent_comment_id=parent_id,
+    )
+
+
 __all__ = [
     "map_channel",
+    "map_comment_reply",
     "map_comment_thread",
     "map_playlist_item_to_video_id",
     "map_video",
     "parse_duration",
     "parse_iso_datetime",
     "pick_thumbnail",
+    "to_int",
 ]

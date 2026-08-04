@@ -398,6 +398,55 @@ class YouTubeClient:
                 return
             seen_tokens.add(page_token)
 
+    def iter_comment_replies(
+        self,
+        parent_id: str,
+        *,
+        max_replies: int,
+        page_size: int = 100,
+    ) -> Iterator[dict[str, Any]]:
+        """Itera las respuestas de un comentario con `comments.list`.
+
+        `commentThreads.list` sólo incluye una parte de las respuestas de cada
+        hilo (unas pocas), así que un hilo largo llega recortado. Este iterador
+        recorre el resto. Igual que con los hilos, un comentario que ya no
+        existe no lanza: simplemente no produce elementos.
+        """
+        yielded = 0
+        page_token: str | None = None
+        seen_tokens: set[str] = set()
+
+        while yielded < max_replies:
+            remaining = max_replies - yielded
+            params: dict[str, Any] = {
+                "part": "snippet",
+                "parentId": parent_id,
+                "maxResults": min(page_size, max(1, remaining)),
+                "textFormat": "plainText",
+                "pageToken": page_token,
+            }
+            try:
+                data = self._request("comments.list", params)
+            except YouTubeError as exc:
+                detail = (exc.detail or "").lower()
+                if "commentnotfound" in detail or "commentsdisabled" in detail:
+                    logger.info("replies_unavailable", parent_id=parent_id, reason=exc.code)
+                    return
+                raise
+
+            items = data.get("items") or []
+            if not items:
+                return
+            for item in items:
+                yield dict(item)
+                yielded += 1
+                if yielded >= max_replies:
+                    return
+            page_token = data.get("nextPageToken")
+            if not page_token or page_token in seen_tokens:
+                return
+            seen_tokens.add(page_token)
+
 
 __all__ = [
     "COMMENTS_DISABLED_REASONS",

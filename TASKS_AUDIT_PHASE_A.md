@@ -20,14 +20,16 @@ Cada bloque se cierra con su propio commit y sus pruebas de regresión.
 - [x] El modo demo construye también su muestra por ejecución
 - [x] 6 pruebas de regresión → **387 en verde**
 
-## Bloque 2 — Respuestas de comentarios completas
+## Bloque 2 — Respuestas de comentarios completas ✅
 
-- [ ] Iterador paginado `comments.list(parentId=...)` en el cliente
-- [ ] Comparación con `totalReplyCount` y descarga de las que faltan
-- [ ] Deduplicación entre respuestas embebidas y paginadas
-- [ ] Respeto de límites por vídeo y por canal
-- [ ] Registro de cuota de `comments.list`
-- [ ] Pruebas de regresión
+- [x] Iterador paginado `comments.list(parentId=...)` en el cliente
+- [x] Comparación con `totalReplyCount` y descarga de las que faltan
+- [x] Deduplicación entre respuestas embebidas y paginadas
+- [x] Respeto de límites por vídeo y por canal
+- [x] Registro de cuota de `comments.list`
+- [x] Aviso en calidad de datos cuando una conversación queda a medias
+- [x] Un hilo no se paga dos veces aunque la estrategia lo recorra dos veces
+- [x] 8 pruebas de regresión → **395 en verde**
 
 ## Bloque 3 — Verificación de propiedad en OAuth
 
@@ -72,3 +74,4 @@ Se actualiza al cerrar cada bloque. Sólo se anota lo que se ha ejecutado.
 | --- | --- |
 | Suite base (antes de la Fase A) | 381 en verde |
 | Tras el Bloque 1 | `ruff`, `mypy` y 387 pruebas en verde |
+| Tras el Bloque 2 | `ruff`, `mypy` y 395 pruebas en verde |

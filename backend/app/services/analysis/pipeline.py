@@ -128,6 +128,8 @@ class AnalysisPipeline:
         sampling_strategy: str = "mixed",
         sampling_buckets: dict[str, int] | None = None,
         videos_with_comments_disabled: int = 0,
+        include_replies: bool = False,
+        replies_incomplete: bool = False,
         is_demo: bool = False,
         now: datetime | None = None,
     ) -> PipelineResult:
@@ -176,6 +178,8 @@ class AnalysisPipeline:
             sampling_strategy=sampling_strategy,
             sampling_buckets=sampling_buckets or {},
             videos_with_comments_disabled=videos_with_comments_disabled,
+            include_replies=include_replies,
+            replies_incomplete=replies_incomplete,
             is_demo=is_demo,
         )
 
@@ -557,6 +561,8 @@ class AnalysisPipeline:
         sampling_strategy: str,
         sampling_buckets: dict[str, int],
         videos_with_comments_disabled: int,
+        include_replies: bool,
+        replies_incomplete: bool,
         is_demo: bool,
     ) -> DataQuality:
         counts_by_video = Counter(c.youtube_video_id for c in usable)
@@ -573,6 +579,8 @@ class AnalysisPipeline:
             comments_discarded_empty=discarded.get("empty", 0),
             videos_with_comments_disabled=videos_with_comments_disabled
             or sum(1 for v in videos if v.comments_disabled),
+            include_replies=include_replies,
+            replies_incomplete=replies_incomplete,
             videos_with_zero_comments=sum(
                 1
                 for v in videos

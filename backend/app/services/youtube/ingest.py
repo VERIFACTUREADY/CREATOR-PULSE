@@ -15,7 +15,7 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.core.errors import ChannelNotFoundError, YouTubeNotConfiguredError
+from app.core.errors import ChannelNotFoundError, YouTubeError, YouTubeNotConfiguredError
 from app.core.logging import get_logger
 from app.models.entities import Channel, Video
 from app.models.enums import DataSource, SamplingStrategy
@@ -23,9 +23,11 @@ from app.repositories.channels import ChannelRepository, CommentRepository, Vide
 from app.services.youtube.client import UsageLedger, YouTubeClient
 from app.services.youtube.mappers import (
     map_channel,
+    map_comment_reply,
     map_comment_thread,
     map_playlist_item_to_video_id,
     map_video,
+    to_int,
 )
 from app.services.youtube.parser import ChannelReference, ReferenceKind, parse_channel_reference
 
@@ -47,6 +49,10 @@ class IngestResult:
     #: Muestra exacta de esta ejecución: `(comment_id, sampling_bucket)` en
     #: orden de selección. Es lo que se ancla a la `AnalysisRun`.
     selected_comments: list[tuple[uuid.UUID, str | None]] = field(default_factory=list)
+    #: Respuestas obtenidas con `comments.list` además de las embebidas.
+    replies_fetched: int = 0
+    #: Alguna conversación quedó incompleta (por límite alcanzado o por error).
+    replies_incomplete: bool = False
 
 
 def count_sampling_buckets(selected: list[tuple[uuid.UUID, str | None]]) -> dict[str, int]:
@@ -123,6 +129,13 @@ class YouTubeIngestService:
         self.channels = ChannelRepository(session)
         self.videos = VideoRepository(session)
         self.comments = CommentRepository(session)
+        #: Respuestas traídas con `comments.list` además de las embebidas.
+        self._replies_fetched = 0
+        #: Se activa si alguna conversación se queda a medias, por límite o
+        #: por error. La calidad de datos lo refleja en lugar de callarlo.
+        self._replies_incomplete = False
+        #: Hilos cuyas respuestas ya se han resuelto, para no pagarlas dos veces.
+        self._threads_with_replies_done: set[str] = set()
 
     # -- Resolución --------------------------------------------------------
 
@@ -212,6 +225,8 @@ class YouTubeIngestService:
         # Los buckets deben describir la muestra final, no lo que se llegó a
         # descargar antes de recortar por el tope global.
         result.sampling_buckets = count_sampling_buckets(result.selected_comments)
+        result.replies_fetched = self._replies_fetched
+        result.replies_incomplete = self._replies_incomplete
 
         if run_id is not None:
             self.comments.register_run_sample(run_id, result.selected_comments)
@@ -249,6 +264,72 @@ class YouTubeIngestService:
         stored.sort(key=lambda v: order.get(v.youtube_video_id, 10**6))
         return stored
 
+    def _collect_missing_replies(
+        self,
+        thread: dict[str, Any],
+        collected: dict[str, dict[str, Any]],
+        *,
+        bucket: str,
+        budget: int,
+    ) -> None:
+        """Descarga con `comments.list` las respuestas que el hilo no trajo.
+
+        `commentThreads.list` incluye sólo unas pocas respuestas por hilo. Si
+        `totalReplyCount` dice que hay más, se piden aparte. Un fallo aquí no
+        tira la ingesta: se anota que la conversación queda incompleta y se
+        conserva todo lo ya obtenido, que es preferible a perderlo.
+        """
+        snippet = thread.get("snippet") or {}
+        top = snippet.get("topLevelComment") or {}
+        parent_id = str(top.get("id") or thread.get("id") or "")
+        if not parent_id:
+            return
+
+        # Las estrategias mixtas recorren el mismo hilo dos veces (recientes y
+        # relevantes). Sin esta marca se pagarían dos veces las mismas
+        # respuestas en cuota.
+        if parent_id in self._threads_with_replies_done:
+            return
+
+        total = to_int(snippet.get("totalReplyCount")) or 0
+        embedded = (thread.get("replies") or {}).get("comments") or []
+        if total <= len(embedded):
+            self._threads_with_replies_done.add(parent_id)
+            return
+
+        room = budget - len(collected)
+        if room <= 0:
+            # El límite manda sobre la completitud: se anota y se para.
+            self._replies_incomplete = True
+            return
+
+        self._threads_with_replies_done.add(parent_id)
+        nuevas = 0
+        try:
+            # `comments.list` enumera el hilo **desde el principio**, así que
+            # devuelve también las que ya venían embebidas. Por eso se pide
+            # hasta `total` y se deja que la deduplicación haga su trabajo:
+            # pedir sólo «las que faltan» traería duplicados y ninguna nueva.
+            for item in self.client.iter_comment_replies(parent_id, max_replies=total):
+                reply = map_comment_reply(item, parent_id)
+                if reply is None:
+                    continue
+                key = reply["youtube_comment_id"]
+                if key in collected:
+                    continue
+                if nuevas >= room:
+                    # Cabían menos de las que hay: la conversación queda a medias.
+                    self._replies_incomplete = True
+                    break
+                reply["sampling_bucket"] = bucket
+                collected[key] = reply
+                nuevas += 1
+                self._replies_fetched += 1
+        except YouTubeError as exc:
+            # Ni se propaga ni se finge que la conversación está completa.
+            logger.warning("replies_fetch_failed", parent_id=parent_id, code=exc.code)
+            self._replies_incomplete = True
+
     def _ingest_comments_for_video(
         self,
         video: Video,
@@ -275,6 +356,12 @@ class YouTubeIngestService:
                         continue
                     comment["sampling_bucket"] = bucket
                     collected[key] = comment
+
+                # Las respuestas embebidas en el hilo pueden no ser todas. Se
+                # piden las que falten justo después del hilo, para que cada
+                # conversación quede junta y en orden.
+                if include_replies:
+                    self._collect_missing_replies(thread, collected, bucket=bucket, budget=budget)
             buckets[bucket] = buckets.get(bucket, 0) + (len(collected) - before)
 
         if not collected:

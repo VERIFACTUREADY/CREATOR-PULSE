@@ -163,6 +163,7 @@ class AnalysisOrchestrator:
         ingest_stats: dict[str, Any] = {
             "videos_with_comments_disabled": 0,
             "sampling_buckets": {},
+            "replies_incomplete": False,
         }
 
         if is_demo:
@@ -189,6 +190,7 @@ class AnalysisOrchestrator:
             videos = result.videos
             ingest_stats["videos_with_comments_disabled"] = result.videos_with_comments_disabled
             ingest_stats["sampling_buckets"] = result.sampling_buckets
+            ingest_stats["replies_incomplete"] = result.replies_incomplete
             self.usage.record_many(run.id, ledger.records)
 
         # Sólo la muestra anclada a esta ejecución. Nunca «todo lo que haya en
@@ -212,6 +214,8 @@ class AnalysisOrchestrator:
             sampling_strategy=run.sampling_strategy,
             sampling_buckets=ingest_stats["sampling_buckets"],
             videos_with_comments_disabled=ingest_stats["videos_with_comments_disabled"],
+            include_replies=run.include_replies,
+            replies_incomplete=ingest_stats["replies_incomplete"],
             is_demo=is_demo,
         )
         context = pipeline_result.context
