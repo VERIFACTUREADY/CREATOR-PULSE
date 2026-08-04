@@ -132,6 +132,10 @@ class Comment(UUIDPrimaryKeyMixin, Base):
     author_hash: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     is_spam: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     is_duplicate: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    #: OBSOLETO. Se conserva por compatibilidad con datos ya almacenados, pero
+    #: no es fuente de verdad: el bucket es propio de cada ejecución y vive en
+    #: `analysis_run_comment.sampling_bucket`. Aquí sólo queda el valor con el
+    #: que se descargó por primera vez, y ya no se sobrescribe.
     sampling_bucket: Mapped[str | None] = mapped_column(String(32), nullable=True)
     source: Mapped[str] = mapped_column(String(32), default=DataSource.YOUTUBE_API, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
@@ -184,6 +188,13 @@ class AnalysisRun(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     summary: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
     source: Mapped[str] = mapped_column(String(32), default=DataSource.YOUTUBE_API, nullable=False)
     stage_durations: Mapped[dict[str, Any] | None] = mapped_column(JSONB, nullable=True)
+    #: Marca el momento en que la muestra quedó cerrada. A partir de ahí es
+    #: **inmutable**: un reintento la reutiliza en lugar de volver a
+    #: seleccionar, porque si no una segunda pasada con datos distintos
+    #: ampliaría la muestra por la puerta de atrás.
+    sample_finalized_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
 
     channel: Mapped[Channel] = relationship(back_populates="analysis_runs")
     topics: Mapped[list[TopicCluster]] = relationship(
@@ -222,7 +233,12 @@ class AnalysisRunComment(UUIDPrimaryKeyMixin, Base):
     __tablename__ = "analysis_run_comment"
     __table_args__ = (
         UniqueConstraint("run_id", "comment_id", name="uq_analysis_run_comment"),
+        # El orden también es único: sin esto, dos registros parciales podrían
+        # compartir posición y la muestra dejaría de ser reproducible.
+        UniqueConstraint("run_id", "selection_order", name="uq_analysis_run_comment_order"),
         Index("ix_analysis_run_comment_run_order", "run_id", "selection_order"),
+        # Borrar un comentario caducado exige saber qué ejecuciones lo usan.
+        Index("ix_analysis_run_comment_comment", "comment_id"),
     )
 
     run_id: Mapped[uuid.UUID] = mapped_column(

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import uuid
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
@@ -10,8 +11,24 @@ from sqlalchemy import delete, func, select
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session
 
-from app.models.entities import AnalysisRunComment, Channel, Comment, Video
+from app.core.logging import get_logger
+from app.models.entities import AnalysisRun, AnalysisRunComment, Channel, Comment, Video
 from app.models.enums import DataSource
+
+logger = get_logger(__name__)
+
+
+@dataclass(frozen=True, slots=True)
+class SampleRegistration:
+    """Resultado de cerrar la muestra de una ejecución."""
+
+    #: Comentarios que componen la muestra final.
+    size: int
+    #: Filas realmente insertadas. Cero si se reutilizó una muestra ya cerrada.
+    inserted: int
+    #: `True` si la ejecución ya tenía la muestra cerrada de un intento previo.
+    reused: bool
+
 
 _CHANNEL_UPDATABLE = (
     "handle",
@@ -208,7 +225,10 @@ class CommentRepository:
                 "like_count": insert_stmt.excluded.like_count,
                 "reply_count": insert_stmt.excluded.reply_count,
                 "updated_at_source": insert_stmt.excluded.updated_at_source,
-                "sampling_bucket": insert_stmt.excluded.sampling_bucket,
+                # `sampling_bucket` NO se actualiza: es un campo compartido por
+                # todas las ejecuciones y sobrescribirlo hacía que el bucket de
+                # una ejecución pisara el de otra. El dato correcto, propio de
+                # cada ejecución, vive en `analysis_run_comment`.
             },
         ).returning(Comment.youtube_comment_id, Comment.id)
         result = self.session.execute(returning_stmt)
@@ -220,16 +240,37 @@ class CommentRepository:
         self,
         run_id: uuid.UUID,
         selections: list[tuple[uuid.UUID, str | None]],
-    ) -> int:
-        """Ancla a la ejecución la muestra exacta que va a analizar.
+        *,
+        max_comments: int | None = None,
+    ) -> SampleRegistration:
+        """Cierra la muestra de una ejecución. **Una sola vez.**
 
         `selections` son pares `(comment_id, sampling_bucket)` ya ordenados: la
-        posición en la lista se guarda como `selection_order`, lo que hace la
-        muestra reproducible. Es idempotente, así que reintentar el mismo
-        trabajo no duplica asociaciones ni altera el orden original.
+        posición se guarda como `selection_order` y hace la muestra
+        reproducible.
+
+        Si la ejecución ya tiene la muestra cerrada (`sample_finalized_at`), no
+        se toca nada y se devuelve la existente. Esto es lo que impide que un
+        reintento con datos distintos amplíe la muestra: `ON CONFLICT DO
+        NOTHING` evitaba duplicar pares, pero no evitaba **añadir** comentarios
+        nuevos que no estaban en el primer intento.
+
+        Si un intento anterior murió a medias, la muestra no quedó cerrada: en
+        ese caso se descartan las filas parciales y se registra entera, para
+        que el orden no tenga huecos ni posiciones repetidas.
         """
-        if not selections:
-            return 0
+        run = self.session.get(AnalysisRun, run_id)
+        if run is None:
+            raise ValueError(f"la ejecución {run_id} no existe")
+
+        if run.sample_finalized_at is not None:
+            existing = self.count_for_run(run_id)
+            logger.info("sample_reused", run_id=str(run_id), size=existing)
+            return SampleRegistration(size=existing, inserted=0, reused=True)
+
+        # Restos de un intento fallido: la muestra no llegó a cerrarse, así que
+        # se rehace desde cero en lugar de mezclarse con la nueva selección.
+        self.session.execute(delete(AnalysisRunComment).where(AnalysisRunComment.run_id == run_id))
 
         seen: set[uuid.UUID] = set()
         rows: list[dict[str, Any]] = []
@@ -249,13 +290,31 @@ class CommentRepository:
                 }
             )
 
-        stmt = pg_insert(AnalysisRunComment).values(rows)
-        stmt = stmt.on_conflict_do_nothing(
-            index_elements=[AnalysisRunComment.run_id, AnalysisRunComment.comment_id]
-        )
-        self.session.execute(stmt)
+        # Red de seguridad: una ejecución no puede analizar más comentarios de
+        # los que pidió, pase lo que pase aguas arriba.
+        limit = max_comments if max_comments is not None else run.max_comments_per_channel
+        if limit is not None and len(rows) > limit:
+            logger.error(
+                "sample_exceeds_limit",
+                run_id=str(run_id),
+                selected=len(rows),
+                limit=limit,
+            )
+            rows = rows[:limit]
+
+        inserted = 0
+        if rows:
+            result = self.session.execute(
+                pg_insert(AnalysisRunComment).values(rows).returning(AnalysisRunComment.id)
+            )
+            inserted = len(result.all())
+
+        # Cerrar la muestra y escribirla ocurren en la misma transacción: o
+        # queda todo, o no queda nada que un reintento pueda heredar a medias.
+        run.sample_finalized_at = now
+        self.session.add(run)
         self.session.flush()
-        return len(rows)
+        return SampleRegistration(size=len(rows), inserted=inserted, reused=False)
 
     def list_for_run(self, run_id: uuid.UUID) -> list[Comment]:
         """Devuelve **sólo** los comentarios muestreados por esa ejecución."""
@@ -266,6 +325,22 @@ class CommentRepository:
             .order_by(AnalysisRunComment.selection_order)
         )
         return list(self.session.execute(stmt).scalars().all())
+
+    def buckets_for_run(self, run_id: uuid.UUID) -> dict[str, int]:
+        """Recuento por bucket de la muestra ya anclada a la ejecución.
+
+        Se lee de la base y no de la selección en memoria, para que un reintento
+        que reutiliza la muestra informe exactamente de lo mismo.
+        """
+        stmt = (
+            select(AnalysisRunComment.sampling_bucket, func.count())
+            .where(AnalysisRunComment.run_id == run_id)
+            .group_by(AnalysisRunComment.sampling_bucket)
+        )
+        return {
+            (bucket or "sin_bucket"): int(total)
+            for bucket, total in self.session.execute(stmt).all()
+        }
 
     def count_for_run(self, run_id: uuid.UUID) -> int:
         stmt = (

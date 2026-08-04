@@ -50,7 +50,7 @@ from app.services.analysis.pipeline import (
 from app.services.recommendations.generator import generate_recommendations
 from app.services.recommendations.ideas import build_ideas_from_recommendations
 from app.services.youtube.client import UsageLedger, YouTubeClient
-from app.services.youtube.ingest import YouTubeIngestService, count_sampling_buckets
+from app.services.youtube.ingest import YouTubeIngestService
 
 logger = get_logger(__name__)
 
@@ -143,8 +143,10 @@ class AnalysisOrchestrator:
             selections.extend((c.id, bucket) for c in chosen)
             remaining -= len(chosen)
 
-        self.comments.register_run_sample(run.id, selections)
-        return count_sampling_buckets(selections)
+        self.comments.register_run_sample(
+            run.id, selections, max_comments=run.max_comments_per_channel
+        )
+        return self.comments.buckets_for_run(run.id)
 
     def _execute_inner(self, run: AnalysisRun, started_total: float) -> AnalysisRun:
         channel = self.channels.get(run.channel_id)
@@ -166,7 +168,18 @@ class AnalysisOrchestrator:
             "replies_incomplete": False,
         }
 
-        if is_demo:
+        # Un reintento de una ejecución cuya muestra ya está cerrada no vuelve a
+        # descargar nada: la muestra es inmutable, así que repetir la ingesta
+        # sólo gastaría cuota para acabar reutilizando lo mismo.
+        sample_already_closed = run.sample_finalized_at is not None
+        if sample_already_closed:
+            logger.info("reusing_finalised_sample", analysis_run_id=str(run.id))
+            videos = self.videos.list_recent_for_channel(channel.id, run.max_videos)
+            ingest_stats["videos_with_comments_disabled"] = sum(
+                1 for v in videos if v.comments_disabled
+            )
+            ingest_stats["sampling_buckets"] = self.comments.buckets_for_run(run.id)
+        elif is_demo:
             # Los datos de demostración ya están en la base de datos, pero la
             # ejecución necesita su propia muestra igual que una real: si no,
             # los límites solicitados no significarían nada en modo demo.

@@ -224,12 +224,20 @@ class YouTubeIngestService:
 
         # Los buckets deben describir la muestra final, no lo que se llegó a
         # descargar antes de recortar por el tope global.
-        result.sampling_buckets = count_sampling_buckets(result.selected_comments)
         result.replies_fetched = self._replies_fetched
         result.replies_incomplete = self._replies_incomplete
 
         if run_id is not None:
-            self.comments.register_run_sample(run_id, result.selected_comments)
+            registro = self.comments.register_run_sample(
+                run_id, result.selected_comments, max_comments=max_comments_per_channel
+            )
+            if registro.reused:
+                # La muestra estaba cerrada de un intento anterior: manda ella,
+                # no lo que se acabe de descargar.
+                logger.info("sample_already_finalised", run_id=str(run_id), size=registro.size)
+            result.sampling_buckets = self.comments.buckets_for_run(run_id)
+        else:
+            result.sampling_buckets = count_sampling_buckets(result.selected_comments)
 
         return result
 
