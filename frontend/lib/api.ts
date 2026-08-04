@@ -25,8 +25,35 @@ import type {
   WorkloadEstimate,
 } from './types';
 
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ?? 'http://localhost:8000';
+/** Hosts que se consideran «desarrollo en mi máquina». */
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
+
+/**
+ * Devuelve la base de la API.
+ *
+ * Hay tres situaciones y las tres importan:
+ *
+ * 1. `NEXT_PUBLIC_API_URL` definida: manda siempre. Es el caso de Docker o de
+ *    un despliegue con la API en otro dominio.
+ * 2. Servido desde un dominio real (Vercel, un servidor propio): la base queda
+ *    **vacía**, de modo que las peticiones son relativas (`/api/...`) y salen
+ *    al mismo origen. Es lo que espera el enrutado de `vercel.json`, que manda
+ *    `/api/*` al servicio de FastAPI.
+ * 3. Todo lo demás (localhost): el backend vive en el puerto 8000.
+ *
+ * Se resuelve en cada llamada, no al importar el módulo: durante el renderizado
+ * en servidor no hay `window` y una constante congelaría el valor equivocado.
+ */
+export function apiBaseUrl(): string {
+  const configured = process.env.NEXT_PUBLIC_API_URL?.trim();
+  if (configured) return configured.replace(/\/$/, '');
+
+  if (typeof window !== 'undefined' && !LOCAL_HOSTS.has(window.location.hostname)) {
+    return '';
+  }
+
+  return 'http://localhost:8000';
+}
 
 /** Error de la API con el mensaje en español ya listo para mostrar. */
 export class ApiError extends Error {
@@ -64,7 +91,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 
   let response: Response;
   try {
-    response = await fetch(`${API_BASE_URL}${path}`, {
+    response = await fetch(`${apiBaseUrl()}${path}`, {
       method,
       headers: body ? { 'Content-Type': 'application/json' } : undefined,
       body: body ? JSON.stringify(body) : undefined,
@@ -172,4 +199,4 @@ export const getOwnerAnalytics = (channelId: string, days = 28) =>
   request<OwnerAnalytics>(`/api/oauth/analytics/${channelId}?days=${days}`);
 
 export const exportUrl = (runId: string, format: 'json' | 'csv') =>
-  `${API_BASE_URL}/api/export/${runId}.${format}`;
+  `${apiBaseUrl()}/api/export/${runId}.${format}`;

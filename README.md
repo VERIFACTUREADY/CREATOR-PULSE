@@ -904,6 +904,14 @@ recursos de pago. Ver [`infra/azure/README.md`](infra/azure/README.md) para el
 procedimiento completo, el mapeo de secretos, las notas de escalado del worker,
 los factores de coste y la lista de comprobación previa a producción.
 
+Para **Vercel** hay un [`vercel.json`](vercel.json) que declara los dos
+servicios (Next.js y FastAPI) y enruta `/api/*` al backend. El procedimiento,
+las variables necesarias y —sobre todo— las limitaciones reales de esa
+plataforma para este sistema están en
+[`docs/despliegue-vercel.md`](docs/despliegue-vercel.md). Resumen honesto: el
+panel puede funcionar, pero **el análisis de canales no**, porque el worker de
+RQ necesita un proceso de larga duración que Vercel no ofrece.
+
 Resumen: Azure Container Apps para frontend, API y worker; Azure Database for
 PostgreSQL Flexible Server con `pgvector`; Azure Cache for Redis; Key Vault para
 los secretos; Container Registry para las imágenes; y Log Analytics con

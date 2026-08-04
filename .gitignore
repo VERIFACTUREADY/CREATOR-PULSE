@@ -41,3 +41,6 @@ redis_data/
 
 # Caché de compilación de TypeScript
 *.tsbuildinfo
+
+# Instantánea de Redis si se arranca desde la raíz del repositorio.
+dump.rdb
