@@ -46,7 +46,7 @@ from app.services.youtube.oauth import (
     create_state,
     ensure_enabled,
     exchange_code,
-    fetch_authorised_channel_id,
+    fetch_authorised_channel_ids,
     revoke_token,
 )
 from app.workers.queue import get_redis
@@ -203,19 +203,23 @@ def oauth_callback(
     # suyo. Antes de guardar nada se le pregunta a Google de quién es la cuenta
     # autorizada, y si no coincide el token no llega a persistirse.
     try:
-        authorised_channel_id = fetch_authorised_channel_id(bundle.access_token)
+        authorised_channel_ids = fetch_authorised_channel_ids(bundle.access_token)
     except (OAuthNoChannelError, OAuthExchangeError) as exc:
         revoke_token(bundle.access_token)
         logger.warning("oauth_identity_check_failed", code=exc.code, channel_id=str(channel.id))
         return RedirectResponse(f"{frontend}/configuracion?oauth={exc.code}", status_code=303)
 
-    if authorised_channel_id != channel.youtube_channel_id:
+    # Una cuenta puede administrar varios canales; basta con que el elegido
+    # esté entre ellos.
+    if channel.youtube_channel_id not in authorised_channel_ids:
         # Se revoca lo que se acaba de recibir: no se guarda ni un token que no
         # corresponde al canal. No se registra ningún identificador ajeno.
         revoked = revoke_token(bundle.access_token)
+        # Se registra cuántos canales tenía la cuenta, nunca cuáles.
         logger.warning(
             "oauth_channel_mismatch",
             channel_id=str(channel.id),
+            authorised_count=len(authorised_channel_ids),
             revoked=revoked,
         )
         return RedirectResponse(

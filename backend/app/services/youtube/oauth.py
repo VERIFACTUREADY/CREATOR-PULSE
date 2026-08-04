@@ -241,41 +241,77 @@ def refresh_access_token(refresh_token: str, *, client: httpx.Client | None = No
     return _parse_token_response(response.json(), fallback_refresh=refresh_token)
 
 
-def fetch_authorised_channel_id(access_token: str, *, client: httpx.Client | None = None) -> str:
-    """Devuelve el ID del canal que realmente pertenece a la cuenta autorizada.
+#: Tope de páginas de `channels.list(mine=true)`. Una cuenta con más canales
+#: que esto es tan improbable que seguir pidiendo sería un bucle disfrazado.
+MAX_IDENTITY_PAGES = 5
+#: Canales por página. Google acepta hasta 50.
+IDENTITY_PAGE_SIZE = 50
+
+
+def fetch_authorised_channel_ids(
+    access_token: str, *, client: httpx.Client | None = None
+) -> set[str]:
+    """Devuelve **todos** los canales que pertenecen a la cuenta autorizada.
 
     Es el control que impide asociar el token de una cuenta al canal de otra:
     quien elige el canal en la pantalla es el usuario, y esa elección no prueba
     nada. La respuesta de Google sí.
+
+    Se recorren todas las páginas porque una cuenta puede administrar varios
+    canales (cuentas de marca, por ejemplo) y el canal buscado no tiene por qué
+    ser el primero. Mirar sólo `items[0]` rechazaba a propietarios legítimos.
     """
     owns_client = client is None
     http = client or httpx.Client(timeout=settings.ai_request_timeout_seconds)
+    ids: set[str] = set()
+    page_token: str | None = None
+
     try:
-        response = http.get(
-            f"{settings.youtube_api_base_url}/channels",
-            params={"part": "id,snippet", "mine": "true"},
-            headers={"Authorization": f"Bearer {access_token}"},
-        )
-    except httpx.HTTPError as exc:
-        logger.warning("oauth_identity_request_failed", error=str(exc))
-        raise OAuthExchangeError(detail="no se ha podido consultar el canal autorizado") from exc
+        for _ in range(MAX_IDENTITY_PAGES):
+            params: dict[str, Any] = {
+                "part": "id",
+                "mine": "true",
+                "maxResults": IDENTITY_PAGE_SIZE,
+            }
+            if page_token:
+                params["pageToken"] = page_token
+            try:
+                response = http.get(
+                    f"{settings.youtube_api_base_url}/channels",
+                    params=params,
+                    headers={"Authorization": f"Bearer {access_token}"},
+                )
+            except httpx.HTTPError as exc:
+                logger.warning("oauth_identity_request_failed", error=str(exc))
+                raise OAuthExchangeError(
+                    detail="no se ha podido consultar el canal autorizado"
+                ) from exc
+
+            if response.status_code != 200:
+                # Nunca se registra el token, sólo el código de estado.
+                logger.warning("oauth_identity_rejected", status_code=response.status_code)
+                raise OAuthExchangeError(
+                    detail=f"channels.list(mine=true) devolvió {response.status_code}"
+                )
+
+            payload = response.json() or {}
+            for item in payload.get("items") or []:
+                channel_id = str(item.get("id") or "")
+                if channel_id:
+                    ids.add(channel_id)
+
+            page_token = payload.get("nextPageToken")
+            if not page_token:
+                break
     finally:
         if owns_client:
             http.close()
 
-    if response.status_code != 200:
-        # Nunca se registra el token, sólo el código de estado.
-        logger.warning("oauth_identity_rejected", status_code=response.status_code)
-        raise OAuthExchangeError(detail=f"channels.list(mine=true) devolvió {response.status_code}")
-
-    items = (response.json() or {}).get("items") or []
-    if not items:
+    if not ids:
         raise OAuthNoChannelError(detail="channels.list(mine=true) no devolvió canales")
-
-    channel_id = str(items[0].get("id") or "")
-    if not channel_id:
-        raise OAuthNoChannelError(detail="el canal autorizado no trae identificador")
-    return channel_id
+    # Se registra cuántos hay, nunca cuáles: son identificadores de terceros.
+    logger.info("oauth_identity_resolved", channels=len(ids))
+    return ids
 
 
 def revoke_token(token: str, *, client: httpx.Client | None = None) -> bool:
@@ -317,7 +353,7 @@ __all__ = [
     "create_state",
     "ensure_enabled",
     "exchange_code",
-    "fetch_authorised_channel_id",
+    "fetch_authorised_channel_ids",
     "refresh_access_token",
     "revoke_token",
 ]

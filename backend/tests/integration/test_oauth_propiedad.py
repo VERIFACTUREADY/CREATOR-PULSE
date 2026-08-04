@@ -253,3 +253,120 @@ def test_el_callback_sigue_exigiendo_un_state_valido(
     )
     assert response.status_code == 400
     assert response.json()["error"]["code"] == "oauth_estado_invalido"
+
+
+# --- Cuentas con varios canales --------------------------------------------
+
+
+def _pagina(ids: list[str], token: str | None = None) -> dict[str, object]:
+    payload: dict[str, object] = {"items": [{"id": cid} for cid in ids]}
+    if token:
+        payload["nextPageToken"] = token
+    return payload
+
+
+@respx.mock
+def test_el_canal_elegido_es_el_segundo_de_la_lista(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    """Una cuenta puede administrar varios canales; el orden no significa nada."""
+    channel = _channel(session)
+    state = _start(client, channel)
+    _mock_token_exchange()
+    respx.get(CHANNELS_ENDPOINT).mock(
+        return_value=httpx.Response(
+            200, json=_pagina(["UCotro0000000000000000aa", channel.youtube_channel_id])
+        )
+    )
+
+    response = _callback(client, state)
+
+    assert "oauth=conectado" in response.headers["location"]
+    assert OAuthTokenRepository(session).get_for_channel(channel.id) is not None
+
+
+@respx.mock
+def test_el_canal_elegido_aparece_en_una_pagina_posterior(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    channel = _channel(session)
+    state = _start(client, channel)
+    _mock_token_exchange()
+    respx.get(CHANNELS_ENDPOINT).mock(
+        side_effect=[
+            httpx.Response(200, json=_pagina(["UCprimero000000000000aa"], token="pagina2")),
+            httpx.Response(200, json=_pagina(["UCsegundo00000000000aa"], token="pagina3")),
+            httpx.Response(200, json=_pagina([channel.youtube_channel_id])),
+        ]
+    )
+
+    response = _callback(client, state)
+
+    assert "oauth=conectado" in response.headers["location"]
+    assert OAuthTokenRepository(session).get_for_channel(channel.id) is not None
+
+
+@respx.mock
+def test_varios_canales_pero_ninguno_coincide(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    channel = _channel(session)
+    state = _start(client, channel)
+    _mock_token_exchange()
+    respx.get(CHANNELS_ENDPOINT).mock(
+        return_value=httpx.Response(
+            200, json=_pagina(["UCajeno1000000000000aa", "UCajeno2000000000000aa"])
+        )
+    )
+    revoke = respx.post(REVOKE_ENDPOINT).mock(return_value=httpx.Response(200))
+
+    response = _callback(client, state)
+
+    assert "oauth=oauth_canal_no_coincide" in response.headers["location"]
+    assert OAuthTokenRepository(session).get_for_channel(channel.id) is None
+    assert revoke.called
+
+
+@respx.mock
+def test_un_error_en_una_pagina_posterior_no_guarda_nada(
+    client: TestClient, session: Session, owner_ready: None, fake_redis: _FakeRedis
+) -> None:
+    """Fallar a mitad de la paginación no puede dar un conjunto incompleto por bueno."""
+    channel = _channel(session)
+    state = _start(client, channel)
+    _mock_token_exchange()
+    respx.get(CHANNELS_ENDPOINT).mock(
+        side_effect=[
+            httpx.Response(200, json=_pagina(["UCprimero000000000000aa"], token="pagina2")),
+            httpx.Response(500, json={"error": {}}),
+        ]
+    )
+    revoke = respx.post(REVOKE_ENDPOINT).mock(return_value=httpx.Response(200))
+
+    response = _callback(client, state)
+
+    assert "oauth=oauth_intercambio_fallido" in response.headers["location"]
+    assert OAuthTokenRepository(session).get_for_channel(channel.id) is None
+    assert revoke.called
+
+
+@respx.mock
+def test_no_se_registran_los_identificadores_de_otros_canales(
+    client: TestClient,
+    session: Session,
+    owner_ready: None,
+    fake_redis: _FakeRedis,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    channel = _channel(session)
+    state = _start(client, channel)
+    _mock_token_exchange()
+    respx.get(CHANNELS_ENDPOINT).mock(
+        return_value=httpx.Response(200, json=_pagina(["UCsecretodetercero00aa"]))
+    )
+    respx.post(REVOKE_ENDPOINT).mock(return_value=httpx.Response(200))
+
+    with caplog.at_level("DEBUG"):
+        _callback(client, state)
+
+    assert "UCsecretodetercero00aa" not in caplog.text
