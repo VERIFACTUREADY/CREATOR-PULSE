@@ -20,6 +20,10 @@
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
 {% endcomment %}
+{%- comment -%} Compuerta: sin «añadir rápido» mientras la venta no esté autorizada. {%- endcomment -%}
+{%- unless settings.ds_commerce_enabled -%}
+  {%- assign quick_add = 'none' -%}
+{%- endunless -%}
 {%- unless skip_styles -%}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}

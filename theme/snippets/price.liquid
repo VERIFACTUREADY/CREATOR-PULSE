@@ -12,6 +12,9 @@
   Usage:
   {% render 'price', product: product %}
 {% endcomment %}
+{%- comment -%} Compuerta: no se muestra precio sin oferta real autorizada (docs/03_GO_NO_GO.md). {%- endcomment -%}
+{%- capture ds_ready -%}{%- render 'ds-commerce-ready', product: product -%}{%- endcapture -%}
+{%- if ds_ready == 'true' -%}
 {%- liquid
   if use_variant
     assign target = product.selected_or_first_available_variant
@@ -123,3 +126,4 @@
     {%- endif -%}
   </div>
 {% endunless %}
+{%- endif -%}

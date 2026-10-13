@@ -1,0 +1,84 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "lead": "<p>Qué cookies usa esta web y cómo puedes elegir. Plantilla pendiente de revisión jurídica.</p>",
+        "review": "juridica",
+        "show_review_date": true
+      }
+    },
+    "legal": {
+      "type": "ds-legal",
+      "settings": {
+        "show_notice": true,
+        "show_identity": false
+      },
+      "blocks": {
+        "legal_1": {
+          "type": "clause",
+          "settings": {
+            "heading": "Qué son las cookies",
+            "text": "<p>Son pequeños archivos que una web guarda en tu navegador.</p>"
+          }
+        },
+        "legal_2": {
+          "type": "clause",
+          "settings": {
+            "heading": "Cookies que usamos ahora",
+            "text": "<p>Esta web funciona con Shopify, que usa cookies técnicas necesarias para que la web funcione. [Listado real de cookies, tras configurar la tienda]</p><p><strong>No usamos cookies de publicidad ni de análisis.</strong> El tema no incluye píxeles de redes sociales ni de anuncios.</p>"
+          }
+        },
+        "legal_3": {
+          "type": "clause",
+          "settings": {
+            "heading": "Si en el futuro usamos otras cookies",
+            "text": "<p>Te pediremos permiso antes de usar cookies de análisis o de publicidad. Podrás aceptarlas o rechazarlas con botones igual de visibles, y cambiar de opinión cuando quieras.</p>"
+          }
+        },
+        "legal_4": {
+          "type": "clause",
+          "settings": {
+            "heading": "Cómo gestionar las cookies",
+            "text": "<p>[Enlace al panel de preferencias de cookies de la tienda]. También puedes borrar las cookies desde la configuración de tu navegador.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "legal_1",
+        "legal_2",
+        "legal_3",
+        "legal_4"
+      ]
+    },
+    "sources": {
+      "type": "ds-content",
+      "settings": {
+        "show_toc": false,
+        "padding_top": 0
+      },
+      "blocks": {
+        "sources_1": {
+          "type": "sources",
+          "settings": {
+            "title": "Referencias para la revisión",
+            "text": "<ul><li><a href=\"https://www.aepd.es/preguntas-frecuentes/17-internet-y-redes-sociales/FAQ-1707-importancia-de-las-cookies-en-la-proteccion-de-datos\" target=\"_blank\" rel=\"noopener\">AEPD: cookies y consentimiento</a></li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "sources_1"
+      ]
+    }
+  },
+  "order": [
+    "header",
+    "legal",
+    "sources"
+  ]
+}

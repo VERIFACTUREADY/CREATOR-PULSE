@@ -104,6 +104,10 @@
                 </small>
               </div>
             {%- else -%}
+              {%- comment -%} Prototipo: sin checkout hasta el GO (docs/03_GO_NO_GO.md). {%- endcomment -%}
+              {%- unless settings.ds_commerce_enabled -%}
+                <div class="cart__ctas" {{ block.shopify_attributes }}>{%- render 'ds-product-gate' -%}</div>
+              {%- else -%}
               <div class="cart__ctas" {{ block.shopify_attributes }}>
                 <button
                   type="submit"
@@ -124,6 +128,7 @@
                   {{ content_for_additional_checkout_buttons }}
                 </div>
               {%- endif -%}
+              {%- endunless -%}
           {%- endcase -%}
         {% endfor %}
 

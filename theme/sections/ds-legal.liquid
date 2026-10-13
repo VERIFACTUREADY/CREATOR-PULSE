@@ -1,0 +1,75 @@
+{%- comment -%}
+  Plantilla legal con marcadores. NO es un texto jurídico definitivo: cada
+  cláusula debe revisarla la asesoría (docs/02_DECISIONES_PENDIENTES.md DP-10).
+  Todo texto entre corchetes [ … ] se resalta como dato pendiente.
+{%- endcomment -%}
+<section
+  class="ds-legal-section ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+>
+  <div class="page-width">
+    <div class="ds-legal">
+      {%- if section.settings.show_notice -%}
+        <div class="ds-callout ds-callout--prototype" role="note">
+          <span class="ds-callout__icon">{%- render 'ds-icon', name: 'doc' -%}</span>
+          <div class="ds-callout__body">
+            <p class="ds-callout__title h3">{{ 'ds.legal.notice_title' | t }}</p>
+            <p>{{ 'ds.legal.notice_text' | t }}</p>
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.show_identity -%}
+        <div class="ds-legal__identity">
+          <h2 class="h3">{{ 'ds.legal.identity_title' | t }}</h2>
+          <dl>
+            <dt>{{ 'ds.legal.name' | t }}</dt>
+            <dd>{%- render 'ds-legal-value', value: settings.ds_legal_name, label: 'razón social' -%}</dd>
+            <dt>{{ 'ds.legal.tax_id' | t }}</dt>
+            <dd>{%- render 'ds-legal-value', value: settings.ds_legal_tax_id, label: 'NIF/CIF' -%}</dd>
+            <dt>{{ 'ds.legal.address' | t }}</dt>
+            <dd>{%- render 'ds-legal-value', value: settings.ds_legal_address, label: 'domicilio' -%}</dd>
+            <dt>{{ 'ds.legal.email' | t }}</dt>
+            <dd>{%- render 'ds-legal-value', value: settings.ds_legal_email, label: 'email de contacto' -%}</dd>
+            <dt>{{ 'ds.legal.registry' | t }}</dt>
+            <dd>{%- render 'ds-legal-value', value: settings.ds_legal_registry, label: 'datos registrales, si aplica' -%}</dd>
+          </dl>
+        </div>
+      {%- endif -%}
+      {%- for block in section.blocks -%}
+        <div class="ds-legal__clause" {{ block.shopify_attributes }}>
+          {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | escape }}</h2>{%- endif -%}
+          <div class="ds-rte">
+            {{- block.settings.text | replace: '[', '<mark class="ds-placeholder">[' | replace: ']', ']</mark>' -}}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DS · Plantilla legal",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 30,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "checkbox", "id": "show_notice", "label": "Mostrar aviso «Plantilla pendiente de revisión jurídica»", "default": true },
+    { "type": "checkbox", "id": "show_identity", "label": "Mostrar datos del titular (desde Ajustes del tema)", "default": true },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "clause",
+      "name": "Cláusula",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Título", "default": "Cláusula" },
+        { "type": "richtext", "id": "text", "label": "Texto", "info": "Escribe entre corchetes los datos pendientes, p. ej. [plazo real de entrega]. Se resaltarán.", "default": "<p>[Texto pendiente de revisión jurídica]</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "DS · Plantilla legal", "blocks": [{ "type": "clause" }] }]
+}
+{% endschema %}

@@ -1,0 +1,281 @@
+{
+  "shop": {
+    "name": "Descanso Compartido",
+    "url": "http://localhost",
+    "secure_url": "http://localhost",
+    "locale": "es",
+    "currency": "EUR",
+    "policies": [],
+    "brand": null,
+    "email": "",
+    "description": ""
+  },
+  "routes": {
+    "root_url": "/",
+    "cart_url": "/cart",
+    "cart_add_url": "/cart/add",
+    "cart_change_url": "/cart/change",
+    "cart_update_url": "/cart/update",
+    "search_url": "/search",
+    "predictive_search_url": "/search/suggest",
+    "account_url": "/account",
+    "account_login_url": "/account/login",
+    "collections_url": "/collections",
+    "all_products_collection_url": "/collections/all"
+  },
+  "menus": {
+    "main-menu": [
+      {
+        "title": "Cómo funciona",
+        "url": "/pages/como-funciona"
+      },
+      {
+        "title": "El producto",
+        "url": "/pages/el-producto"
+      },
+      {
+        "title": "Uso y seguridad",
+        "url": "/pages/uso-y-seguridad"
+      },
+      {
+        "title": "Preguntas",
+        "url": "/pages/preguntas-frecuentes"
+      }
+    ],
+    "footer": [
+      {
+        "title": "Quiénes somos",
+        "url": "/pages/quienes-somos"
+      },
+      {
+        "title": "Contacto",
+        "url": "/pages/contacto"
+      },
+      {
+        "title": "Envíos",
+        "url": "/pages/envios"
+      },
+      {
+        "title": "Devoluciones y garantía",
+        "url": "/pages/devoluciones"
+      }
+    ],
+    "legal": [
+      {
+        "title": "Aviso legal",
+        "url": "/pages/aviso-legal"
+      },
+      {
+        "title": "Privacidad",
+        "url": "/pages/privacidad"
+      },
+      {
+        "title": "Cookies",
+        "url": "/pages/cookies"
+      }
+    ]
+  },
+  "pages": [
+    {
+      "path": "/",
+      "template": "index",
+      "title": "Descanso en pareja e información sobre ronquidos",
+      "description": "Información clara sobre ronquidos, descanso compartido y opciones disponibles. Conoce las señales por las que conviene consultar."
+    },
+    {
+      "path": "/pages/como-funciona",
+      "template": "page.como-funciona",
+      "title": "Cómo funciona",
+      "page": {
+        "title": "Cómo funciona",
+        "handle": "como-funciona",
+        "content": "",
+        "url": "/pages/como-funciona",
+        "id": "como-funciona"
+      }
+    },
+    {
+      "path": "/pages/el-producto",
+      "template": "page.el-producto",
+      "title": "El producto",
+      "page": {
+        "title": "El producto",
+        "handle": "el-producto",
+        "content": "",
+        "url": "/pages/el-producto",
+        "id": "el-producto"
+      }
+    },
+    {
+      "path": "/pages/uso-y-seguridad",
+      "template": "page.uso-y-seguridad",
+      "title": "Uso y seguridad",
+      "page": {
+        "title": "Uso y seguridad",
+        "handle": "uso-y-seguridad",
+        "content": "",
+        "url": "/pages/uso-y-seguridad",
+        "id": "uso-y-seguridad"
+      }
+    },
+    {
+      "path": "/pages/preguntas-frecuentes",
+      "template": "page.preguntas-frecuentes",
+      "title": "Preguntas frecuentes",
+      "page": {
+        "title": "Preguntas frecuentes",
+        "handle": "preguntas-frecuentes",
+        "content": "",
+        "url": "/pages/preguntas-frecuentes",
+        "id": "preguntas-frecuentes"
+      }
+    },
+    {
+      "path": "/pages/quienes-somos",
+      "template": "page.quienes-somos",
+      "title": "Quiénes somos",
+      "page": {
+        "title": "Quiénes somos",
+        "handle": "quienes-somos",
+        "content": "",
+        "url": "/pages/quienes-somos",
+        "id": "quienes-somos"
+      }
+    },
+    {
+      "path": "/pages/contacto",
+      "template": "page.contacto",
+      "title": "Contacto",
+      "page": {
+        "title": "Contacto",
+        "handle": "contacto",
+        "content": "",
+        "url": "/pages/contacto",
+        "id": "contacto"
+      }
+    },
+    {
+      "path": "/pages/envios",
+      "template": "page.envios",
+      "title": "Envíos",
+      "page": {
+        "title": "Envíos",
+        "handle": "envios",
+        "content": "",
+        "url": "/pages/envios",
+        "id": "envios"
+      }
+    },
+    {
+      "path": "/pages/devoluciones",
+      "template": "page.devoluciones",
+      "title": "Devoluciones y garantía",
+      "page": {
+        "title": "Devoluciones y garantía",
+        "handle": "devoluciones",
+        "content": "",
+        "url": "/pages/devoluciones",
+        "id": "devoluciones"
+      }
+    },
+    {
+      "path": "/pages/aviso-legal",
+      "template": "page.aviso-legal",
+      "title": "Aviso legal",
+      "page": {
+        "title": "Aviso legal",
+        "handle": "aviso-legal",
+        "content": "",
+        "url": "/pages/aviso-legal",
+        "id": "aviso-legal"
+      }
+    },
+    {
+      "path": "/pages/privacidad",
+      "template": "page.privacidad",
+      "title": "Política de privacidad",
+      "page": {
+        "title": "Política de privacidad",
+        "handle": "privacidad",
+        "content": "",
+        "url": "/pages/privacidad",
+        "id": "privacidad"
+      }
+    },
+    {
+      "path": "/pages/cookies",
+      "template": "page.cookies",
+      "title": "Política de cookies",
+      "page": {
+        "title": "Política de cookies",
+        "handle": "cookies",
+        "content": "",
+        "url": "/pages/cookies",
+        "id": "cookies"
+      }
+    },
+    {
+      "path": "/products/dispositivo-bucal-en-evaluacion",
+      "template": "product",
+      "title": "Dispositivo bucal ajustable (modelo en evaluación)",
+      "product": {
+        "id": 1,
+        "title": "Dispositivo bucal ajustable (modelo en evaluación)",
+        "handle": "dispositivo-bucal-en-evaluacion",
+        "url": "/products/dispositivo-bucal-en-evaluacion",
+        "description": "<p>Ficha de demostración del prototipo. Sin datos del fabricante todavía.</p>",
+        "vendor": "",
+        "type": "",
+        "available": true,
+        "price": 0,
+        "price_min": 0,
+        "price_max": 0,
+        "media": [],
+        "featured_media": null,
+        "images": [],
+        "tags": [],
+        "options": [
+          "Title"
+        ],
+        "options_with_values": [],
+        "has_only_default_variant": true,
+        "variants": [
+          {
+            "id": 11,
+            "title": "Default Title",
+            "available": true,
+            "price": 0,
+            "options": [
+              "Default Title"
+            ]
+          }
+        ],
+        "selected_or_first_available_variant": {
+          "id": 11,
+          "title": "Default Title",
+          "available": true,
+          "price": 0,
+          "options": [
+            "Default Title"
+          ]
+        },
+        "metafields": {
+          "compliance": {}
+        },
+        "requires_selling_plan": false,
+        "selling_plan_groups": [],
+        "gift_card?": false
+      }
+    },
+    {
+      "path": "/cart",
+      "template": "cart",
+      "title": "Carrito"
+    },
+    {
+      "path": "/404",
+      "template": "404",
+      "title": "Página no encontrada"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "lead": "<p>¿Tienes una duda sobre la información de esta web? Aquí puedes escribirnos.</p>",
+        "review": "",
+        "show_review_date": true
+      }
+    },
+    "contact": {
+      "type": "ds-contact",
+      "settings": {
+        "heading": "Escríbenos",
+        "privacy_link": "/pages/privacidad"
+      }
+    }
+  },
+  "order": [
+    "header",
+    "contact"
+  ]
+}

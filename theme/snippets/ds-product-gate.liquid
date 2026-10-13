@@ -1,0 +1,18 @@
+{% comment %}
+  Sustituye al formulario de compra mientras la venta no esté autorizada.
+  Texto veraz (claims O-01/O-02 en docs/04_CLAIMS_APPROVAL.csv).
+
+  Accepts:
+  - product: {Object} producto (opcional)
+{% endcomment %}
+<div class="ds-gate" role="status">
+  <p class="ds-gate__title">
+    <span class="svg-wrapper" aria-hidden="true">{%- render 'ds-icon', name: 'doc' -%}</span>
+    {{ 'ds.gate.title' | t }}
+  </p>
+  <p class="ds-gate__text">{{ 'ds.gate.text' | t }}</p>
+  <div class="ds-gate__actions">
+    <a class="button button--secondary" href="/pages/uso-y-seguridad">{{ 'ds.gate.safety' | t }}</a>
+    <a class="link ds-link-arrow" href="/pages/preguntas-frecuentes">{{ 'ds.gate.faq' | t }}</a>
+  </div>
+</div>

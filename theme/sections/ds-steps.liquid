@@ -1,0 +1,56 @@
+{%- comment -%}
+  «¿Por dónde empezar?» (Propuesta de diseño p.5): tres pasos numerados que
+  llevan a información, no a compra.
+{%- endcomment -%}
+<section
+  class="ds-steps ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+  {% if section.settings.heading != blank %}aria-labelledby="DsStepsTitle-{{ section.id }}"{% endif %}
+>
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 id="DsStepsTitle-{{ section.id }}" class="ds-heading h2">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    <ol class="ds-steps__list" role="list">
+      {%- for block in section.blocks -%}
+        <li class="ds-steps__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}<a class="ds-steps__link" href="{{ block.settings.link }}">{%- else -%}<div class="ds-steps__link">{%- endif -%}
+            <span class="ds-steps__num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <span>
+              <span class="ds-steps__title">{{ block.settings.title | escape }}</span>
+              {%- if block.settings.text != blank -%}<span class="ds-steps__text">{{ block.settings.text | escape }}</span>{%- endif -%}
+            </span>
+            {%- if block.settings.link != blank -%}<span class="ds-steps__go" aria-hidden="true">→</span>{%- endif -%}
+          {%- if block.settings.link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DS · Pasos",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "¿Por dónde empezar?" },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título", "default": "Conoce el problema" },
+        { "type": "text", "id": "text", "label": "Texto breve" },
+        { "type": "url", "id": "link", "label": "Enlace" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "DS · Pasos", "blocks": [{ "type": "step" }, { "type": "step" }, { "type": "step" }] }]
+}
+{% endschema %}

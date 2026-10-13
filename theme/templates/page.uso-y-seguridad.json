@@ -1,0 +1,108 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "lead": "<p>Lee esta página antes de usar cualquier dispositivo bucal para dormir.</p>",
+        "review": "sanitaria",
+        "show_review_date": true
+      }
+    },
+    "signals": {
+      "type": "ds-callout",
+      "settings": {
+        "anchor": "cuando-consultar",
+        "style": "caution",
+        "icon": "alert",
+        "heading": "Cuándo consultar con un profesional sanitario",
+        "text": "<p>Consulta si notas alguna de estas señales:</p><ul><li>Alguien ve que dejas de respirar unos segundos mientras duermes.</li><li>Te despiertas con sensación de ahogo.</li><li>Tienes mucho sueño durante el día.</li><li>Los ronquidos son nuevos o muy intensos.</li></ul><p>Estas señales no sirven para diagnosticar nada. Solo indican que conviene una valoración profesional.</p>",
+        "source_label": "American Dental Association: apnea obstructiva del sueño",
+        "source_url": "https://www.ada.org/resources/ada-library/oral-health-topics/sleep-apnea-obstructive",
+        "review": "sanitaria",
+        "padding_top": 48
+      }
+    },
+    "content": {
+      "type": "ds-content",
+      "settings": {
+        "show_toc": true,
+        "review": "sanitaria"
+      },
+      "blocks": {
+        "content_1": {
+          "type": "heading",
+          "settings": {
+            "text": "Precauciones generales",
+            "level": "h2",
+            "anchor": "precauciones"
+          }
+        },
+        "content_2": {
+          "type": "text",
+          "settings": {
+            "text": "<ul><li>Una férula no sustituye a un diagnóstico ni a un tratamiento indicado por un profesional.</li><li>Usar estos aparatos durante mucho tiempo puede cambiar la forma en que encajan los dientes.</li><li>Si notas dolor en la mandíbula, en los dientes o en el oído, deja de usar el aparato y consulta con un profesional.</li><li>Si llevas ortodoncia, prótesis o implantes dentales, o tienes problemas en la articulación de la mandíbula, consulta antes con tu dentista.</li></ul>"
+          }
+        },
+        "content_3": {
+          "type": "heading",
+          "settings": {
+            "text": "Instrucciones del producto en evaluación",
+            "level": "h2",
+            "anchor": "instrucciones"
+          }
+        },
+        "content_4": {
+          "type": "callout",
+          "settings": {
+            "style": "prototype",
+            "icon": "doc",
+            "title": "Todavía no publicamos instrucciones",
+            "text": "<p>Las instrucciones de uso, ajuste y limpieza, y las advertencias del producto, deben venir del fabricante, en castellano. Todavía no las tenemos.</p>",
+            "pending_label": "instrucciones de uso del fabricante en castellano",
+            "review": "fabricante"
+          }
+        },
+        "content_5": {
+          "type": "heading",
+          "settings": {
+            "text": "Si algo va mal",
+            "level": "h2",
+            "anchor": "si-algo-va-mal"
+          }
+        },
+        "content_6": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Si notas molestias, deja de usar el aparato y consulta con un profesional sanitario. Por el canal de atención al cliente no podemos valorar casos médicos.</p><p>Si se produce un problema grave con un producto que hayamos vendido, también debemos comunicarlo al fabricante y, cuando corresponda, a las autoridades sanitarias.</p>"
+          }
+        },
+        "content_7": {
+          "type": "sources",
+          "settings": {
+            "title": "Fuentes",
+            "text": "<ul><li><a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC4481062/\" target=\"_blank\" rel=\"noopener\">Guía clínica AASM/AADSM, 2015</a></li><li><a href=\"https://www.ada.org/resources/ada-library/oral-health-topics/sleep-apnea-obstructive\" target=\"_blank\" rel=\"noopener\">American Dental Association: apnea obstructiva del sueño</a></li><li><a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC10714377/\" target=\"_blank\" rel=\"noopener\">Revisión sobre cambios en la mordida, 2023</a></li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "content_1",
+        "content_2",
+        "content_3",
+        "content_4",
+        "content_5",
+        "content_6",
+        "content_7"
+      ]
+    }
+  },
+  "order": [
+    "header",
+    "signals",
+    "content"
+  ]
+}

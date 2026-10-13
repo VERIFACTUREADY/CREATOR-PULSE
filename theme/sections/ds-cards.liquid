@@ -1,0 +1,105 @@
+{%- comment -%}
+  Tarjetas informativas con icono, enlace y fuente opcional. Cada texto de
+  salud debe tener su COPY_ID en docs/04_CLAIMS_APPROVAL.csv.
+{%- endcomment -%}
+<section
+  class="ds-cards ds-section color-{{ section.settings.color_scheme }} gradient{% if section.settings.tinted %} ds-cards--tinted{% endif %}"
+  style="{% render 'ds-section-vars', section: section %}"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  {% if section.settings.heading != blank %}aria-labelledby="DsCardsTitle-{{ section.id }}"{% endif %}
+>
+  <div class="page-width">
+    {%- if section.settings.heading != blank or section.settings.intro != blank -%}
+      <div class="ds-section-head{% if section.settings.center %} ds-section-head--center{% endif %}">
+        {%- render 'ds-review-badge', kind: section.settings.review -%}
+        {%- if section.settings.eyebrow != blank -%}<p class="ds-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 id="DsCardsTitle-{{ section.id }}" class="ds-heading h2">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.intro != blank -%}<div class="ds-rte">{{ section.settings.intro }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <ul class="ds-cards__grid ds-cards__grid--{{ section.settings.columns }}" role="list">
+      {%- for block in section.blocks -%}
+        <li class="ds-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.icon != 'none' -%}
+            <span class="ds-card__icon">{%- render 'ds-icon', name: block.settings.icon -%}</span>
+          {%- endif -%}
+          <h3 class="ds-card__title">{{ block.settings.title | escape }}</h3>
+          <div class="ds-card__text ds-rte">{{ block.settings.text }}</div>
+          {%- if block.settings.source_label != blank -%}
+            <span class="ds-source">
+              {{- 'ds.sources.label' | t }}:
+              {% if block.settings.source_url != blank -%}
+                <a href="{{ block.settings.source_url }}" rel="noopener" target="_blank">
+                  {{- block.settings.source_label | escape -}}
+                  <span class="visually-hidden"> ({{ 'accessibility.link_messages.new_window' | t }})</span></a>
+              {%- else -%}
+                {{- block.settings.source_label | escape -}}
+              {%- endif -%}
+            </span>
+          {%- endif -%}
+          {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+            <a class="ds-link-arrow ds-card__link" href="{{ block.settings.link }}">{{ block.settings.link_label | escape }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DS · Tarjetas",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "text", "id": "anchor", "label": "Ancla (id para enlaces internos)" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Lo básico, en tres ideas" },
+    { "type": "richtext", "id": "intro", "label": "Introducción" },
+    { "type": "checkbox", "id": "center", "label": "Centrar cabecera", "default": false },
+    { "type": "checkbox", "id": "tinted", "label": "Tarjetas sobre fondo translúcido", "default": false },
+    { "type": "select", "id": "columns", "label": "Columnas en escritorio", "default": "3", "options": [{ "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" }] },
+    {
+      "type": "select", "id": "review", "label": "Marcador de revisión", "default": "",
+      "options": [
+        { "value": "", "label": "Ninguno" },
+        { "value": "sanitaria", "label": "Pendiente de revisión sanitaria" },
+        { "value": "juridica", "label": "Pendiente de revisión jurídica" },
+        { "value": "titular", "label": "Pendiente de aprobación del titular" }
+      ]
+    },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Tarjeta",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icono", "default": "info",
+          "options": [
+            { "value": "none", "label": "Sin icono" }, { "value": "moon", "label": "Luna" }, { "value": "pillows", "label": "Almohadas" },
+            { "value": "info", "label": "Información" }, { "value": "alert", "label": "Atención" }, { "value": "question", "label": "Pregunta" },
+            { "value": "doc", "label": "Documento" }, { "value": "truck", "label": "Envío" }, { "value": "return", "label": "Devolución" },
+            { "value": "mail", "label": "Correo" }, { "value": "book", "label": "Guía" }, { "value": "check", "label": "Comprobado" },
+            { "value": "clock", "label": "Tiempo" }, { "value": "chat", "label": "Conversación" }, { "value": "compare", "label": "Comparar" },
+            { "value": "person", "label": "Persona" }, { "value": "pause", "label": "Pausa" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Título", "default": "Título de la tarjeta" },
+        { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Texto breve y claro. Una idea por tarjeta.</p>" },
+        { "type": "text", "id": "source_label", "label": "Fuente (nombre)", "info": "Obligatoria si el texto afirma un hecho de salud." },
+        { "type": "url", "id": "source_url", "label": "Fuente (enlace)" },
+        { "type": "text", "id": "link_label", "label": "Texto del enlace" },
+        { "type": "url", "id": "link", "label": "Enlace" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "DS · Tarjetas", "blocks": [{ "type": "card" }, { "type": "card" }, { "type": "card" }] }]
+}
+{% endschema %}

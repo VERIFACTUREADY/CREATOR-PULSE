@@ -1,0 +1,55 @@
+{%- comment -%} Glosario de lectura clara (Maestro §04). {%- endcomment -%}
+<section
+  class="ds-glossary ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  aria-labelledby="DsGlossaryTitle-{{ section.id }}"
+>
+  <div class="page-width">
+    <div class="ds-section-head">
+      {%- render 'ds-review-badge', kind: section.settings.review -%}
+      <h2 id="DsGlossaryTitle-{{ section.id }}" class="ds-heading h2">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.intro != blank -%}<div class="ds-rte">{{ section.settings.intro }}</div>{%- endif -%}
+    </div>
+    <dl class="ds-glossary__list">
+      {%- for block in section.blocks -%}
+        <div class="ds-glossary__item" {{ block.shopify_attributes }}>
+          <dt>{{ block.settings.term | escape }}</dt>
+          <dd>{{ block.settings.definition | escape }}</dd>
+        </div>
+      {%- endfor -%}
+    </dl>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DS · Glosario",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 30,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-2" },
+    { "type": "text", "id": "anchor", "label": "Ancla", "default": "glosario" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Glosario: palabras que conviene entender" },
+    { "type": "richtext", "id": "intro", "label": "Introducción" },
+    {
+      "type": "select", "id": "review", "label": "Marcador de revisión", "default": "",
+      "options": [{ "value": "", "label": "Ninguno" }, { "value": "sanitaria", "label": "Pendiente de revisión sanitaria" }]
+    },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "term",
+      "name": "Término",
+      "settings": [
+        { "type": "text", "id": "term", "label": "Término", "default": "Término" },
+        { "type": "textarea", "id": "definition", "label": "Definición sencilla", "default": "Definición en una o dos frases." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "DS · Glosario", "blocks": [{ "type": "term" }, { "type": "term" }] }]
+}
+{% endschema %}

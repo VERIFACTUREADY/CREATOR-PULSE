@@ -1,0 +1,96 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "lead": "<p>Cómo enviaremos los pedidos cuando la tienda esté abierta. Todavía no enviamos pedidos.</p>",
+        "review": "juridica",
+        "show_review_date": true
+      }
+    },
+    "legal": {
+      "type": "ds-legal",
+      "settings": {
+        "show_notice": true,
+        "show_identity": true
+      },
+      "blocks": {
+        "legal_1": {
+          "type": "clause",
+          "settings": {
+            "heading": "Estado actual",
+            "text": "<p>Esta web es un prototipo. <strong>Todavía no aceptamos pedidos ni enviamos productos.</strong></p>"
+          }
+        },
+        "legal_2": {
+          "type": "clause",
+          "settings": {
+            "heading": "Dónde enviamos",
+            "text": "<p>[Zonas de envío: pendiente de decisión del titular]</p>"
+          }
+        },
+        "legal_3": {
+          "type": "clause",
+          "settings": {
+            "heading": "Desde dónde se envía",
+            "text": "<p>[País y almacén real desde el que se expide: pendiente de confirmación del proveedor]</p>"
+          }
+        },
+        "legal_4": {
+          "type": "clause",
+          "settings": {
+            "heading": "Plazo de entrega",
+            "text": "<p>[Plazo real, medio y máximo, confirmado por el proveedor]. No anunciaremos plazos que no podamos cumplir.</p>"
+          }
+        },
+        "legal_5": {
+          "type": "clause",
+          "settings": {
+            "heading": "Gastos de envío",
+            "text": "<p>[Importe de los gastos de envío]. Se mostrarán siempre antes de pagar.</p>"
+          }
+        },
+        "legal_6": {
+          "type": "clause",
+          "settings": {
+            "heading": "Impuestos y aduanas",
+            "text": "<p>El precio final mostrado antes de pagar incluirá los impuestos que correspondan. [Quién actúa como importador y quién asume aranceles e IVA de importación: pendiente de asesoría fiscal]</p>"
+          }
+        },
+        "legal_7": {
+          "type": "clause",
+          "settings": {
+            "heading": "Transportista y seguimiento",
+            "text": "<p>[Transportista y forma de seguimiento del envío]</p>"
+          }
+        },
+        "legal_8": {
+          "type": "clause",
+          "settings": {
+            "heading": "Si hay un problema con tu envío",
+            "text": "<p>Escríbenos desde la página de <a href=\"/pages/contacto\">contacto</a>. Revisaremos el seguimiento y te explicaremos las opciones que correspondan según tus derechos. [Plazo de respuesta del servicio de atención]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "legal_1",
+        "legal_2",
+        "legal_3",
+        "legal_4",
+        "legal_5",
+        "legal_6",
+        "legal_7",
+        "legal_8"
+      ]
+    }
+  },
+  "order": [
+    "header",
+    "legal"
+  ]
+}

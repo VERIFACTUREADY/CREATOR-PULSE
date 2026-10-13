@@ -1,0 +1,16 @@
+{% comment %}
+  Aviso permanente de prototipo. Se controla desde Ajustes del tema >
+  Prototipo y cumplimiento.
+{% endcomment %}
+{%- if settings.ds_prototype_banner -%}
+  <div class="ds-proto-banner" role="note">
+    <div class="page-width ds-proto-banner__inner">
+      <span class="ds-proto-banner__tag">{{ 'ds.prototype.tag' | t }}</span>
+      {%- if settings.ds_prototype_banner_text != blank -%}
+        <span>{{ settings.ds_prototype_banner_text | escape }}</span>
+      {%- else -%}
+        <span>{{ 'ds.prototype.text' | t }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}

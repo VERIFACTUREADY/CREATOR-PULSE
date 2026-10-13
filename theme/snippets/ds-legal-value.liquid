@@ -1,0 +1,13 @@
+{% comment %}
+  Imprime un dato del titular desde los ajustes del tema o, si está vacío, un
+  marcador de pendiente.
+
+  Accepts:
+  - value: {String} valor del ajuste
+  - label: {String} nombre del dato para el marcador
+{% endcomment %}
+{%- if value != blank -%}
+  {{- value | escape -}}
+{%- else -%}
+  {%- render 'ds-pending', label: label -%}
+{%- endif -%}

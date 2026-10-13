@@ -1,0 +1,136 @@
+{%- comment -%}
+  Contenido editorial en capas: títulos con ancla, texto, avisos y fuentes.
+  Índice «En esta página» opcional generado a partir de los títulos H2.
+{%- endcomment -%}
+{%- liquid
+  assign toc_count = 0
+  for block in section.blocks
+    if block.type == 'heading' and block.settings.level == 'h2' and block.settings.anchor != blank
+      assign toc_count = toc_count | plus: 1
+    endif
+  endfor
+  assign show_toc = false
+  if section.settings.show_toc and toc_count > 1
+    assign show_toc = true
+  endif
+-%}
+<section
+  class="ds-content ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+>
+  <div class="page-width">
+    <div class="ds-content__layout{% if show_toc %} ds-content__layout--toc{% endif %}">
+      {%- if show_toc -%}
+        <nav class="ds-toc" aria-labelledby="DsToc-{{ section.id }}">
+          <p class="ds-toc__title" id="DsToc-{{ section.id }}">{{ 'ds.toc.title' | t }}</p>
+          <ol>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'heading' and block.settings.level == 'h2' and block.settings.anchor != blank -%}
+                <li><a href="#{{ block.settings.anchor | handleize }}">{{ block.settings.text | escape }}</a></li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ol>
+        </nav>
+      {%- endif -%}
+      <div class="ds-content__body">
+        {%- render 'ds-review-badge', kind: section.settings.review -%}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              <{{ block.settings.level }} {{ block.shopify_attributes }}{% if block.settings.anchor != blank %} id="{{ block.settings.anchor | handleize }}"{% endif %}>{{ block.settings.text | escape }}</{{ block.settings.level }}>
+            {%- when 'text' -%}
+              <div class="ds-content__block ds-rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- when 'callout' -%}
+              <div class="ds-callout ds-callout--{{ block.settings.style }}" {{ block.shopify_attributes }}{% if block.settings.style == 'caution' %} role="note"{% endif %}>
+                <span class="ds-callout__icon">{%- render 'ds-icon', name: block.settings.icon -%}</span>
+                <div class="ds-callout__body">
+                  {%- render 'ds-review-badge', kind: block.settings.review -%}
+                  {%- if block.settings.title != blank -%}<p class="ds-callout__title h3">{{ block.settings.title | escape }}</p>{%- endif -%}
+                  <div class="ds-rte">{{ block.settings.text }}</div>
+                  {%- if block.settings.pending_label != blank -%}<p>{%- render 'ds-pending', label: block.settings.pending_label -%}</p>{%- endif -%}
+                </div>
+              </div>
+            {%- when 'sources' -%}
+              <div class="ds-sources ds-rte" {{ block.shopify_attributes }}>
+                <h2>{{ block.settings.title | escape }}</h2>
+                {{ block.settings.text }}
+              </div>
+            {%- when 'divider' -%}
+              <hr class="ds-divider" {{ block.shopify_attributes }}>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DS · Contenido",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 50,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "checkbox", "id": "show_toc", "label": "Mostrar índice «En esta página»", "default": true },
+    {
+      "type": "select", "id": "review", "label": "Marcador de revisión", "default": "",
+      "options": [
+        { "value": "", "label": "Ninguno" },
+        { "value": "sanitaria", "label": "Pendiente de revisión sanitaria" },
+        { "value": "juridica", "label": "Pendiente de revisión jurídica" },
+        { "value": "fabricante", "label": "Pendiente de documentación del fabricante" },
+        { "value": "titular", "label": "Pendiente de aprobación del titular" }
+      ]
+    },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Título",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texto", "default": "Título" },
+        { "type": "select", "id": "level", "label": "Nivel", "default": "h2", "options": [{ "value": "h2", "label": "H2" }, { "value": "h3", "label": "H3" }] },
+        { "type": "text", "id": "anchor", "label": "Ancla (para el índice y enlaces)" }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Texto",
+      "settings": [{ "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Frases cortas. Una idea por párrafo.</p>" }]
+    },
+    {
+      "type": "callout",
+      "name": "Aviso",
+      "settings": [
+        { "type": "select", "id": "style", "label": "Estilo", "default": "info", "options": [{ "value": "info", "label": "Información" }, { "value": "caution", "label": "Precaución" }, { "value": "prototype", "label": "Pendiente" }] },
+        { "type": "select", "id": "icon", "label": "Icono", "default": "info", "options": [{ "value": "info", "label": "Información" }, { "value": "alert", "label": "Atención" }, { "value": "doc", "label": "Documento" }, { "value": "question", "label": "Pregunta" }] },
+        { "type": "text", "id": "title", "label": "Título" },
+        { "type": "richtext", "id": "text", "label": "Texto" },
+        { "type": "text", "id": "pending_label", "label": "Dato pendiente (muestra un marcador)" },
+        {
+          "type": "select", "id": "review", "label": "Marcador de revisión", "default": "",
+          "options": [
+            { "value": "", "label": "Ninguno" },
+            { "value": "sanitaria", "label": "Pendiente de revisión sanitaria" },
+            { "value": "juridica", "label": "Pendiente de revisión jurídica" },
+            { "value": "fabricante", "label": "Pendiente de documentación del fabricante" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sources",
+      "name": "Fuentes",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título", "default": "Fuentes" },
+        { "type": "richtext", "id": "text", "label": "Lista de fuentes" }
+      ]
+    },
+    { "type": "divider", "name": "Separador", "settings": [] }
+  ],
+  "presets": [{ "name": "DS · Contenido", "blocks": [{ "type": "heading" }, { "type": "text" }] }]
+}
+{% endschema %}

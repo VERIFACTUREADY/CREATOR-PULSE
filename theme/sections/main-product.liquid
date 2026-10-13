@@ -77,7 +77,18 @@
     <div class="page-width">
       <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
         <div class="grid__item product__media-wrapper">
-          {% render 'product-media-gallery', variant_images: variant_images %}
+          {%- if product.media.size == 0 -%}
+            {%- comment -%} Sin fotos reales con derechos: se dice, no se simula (Propuesta de diseño p.6). {%- endcomment -%}
+            <figure class="ds-product-media-placeholder">
+              {{ 'ds-ilustracion-noche.svg' | inline_asset_content }}
+              <figcaption class="visually-hidden">{{ 'ds.product.photo_pending' | t }}</figcaption>
+            </figure>
+            {%- if settings.ds_show_pending -%}
+              <p>{%- render 'ds-pending', label: 'fotografía real del producto con derechos de uso' -%}</p>
+            {%- endif -%}
+          {%- else -%}
+            {% render 'product-media-gallery', variant_images: variant_images %}
+          {%- endif -%}
         </div>
         <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           <section
@@ -746,9 +757,17 @@
         endif
       -%}
 
+      {%- comment -%} Product/Offer solo con oferta real autorizada (Estudio §13.2). {%- endcomment -%}
+
+      {%- capture ds_ready -%}{%- render 'ds-commerce-ready', product: product -%}{%- endcapture -%}
+
+      {%- if ds_ready == 'true' -%}
+
       <script type="application/ld+json">
         {{ product | structured_data }}
       </script>
+
+      {%- endif -%}
     </div>
   </product-component>
 </product-info>

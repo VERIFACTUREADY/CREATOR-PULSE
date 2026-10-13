@@ -1,0 +1,287 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "lead": "<p>Te explicamos qué son los ronquidos, por qué no todos son iguales y qué tipos de soluciones existen. Sin promesas.</p>",
+        "review": "sanitaria",
+        "show_review_date": true
+      }
+    },
+    "content": {
+      "type": "ds-content",
+      "settings": {
+        "show_toc": true,
+        "review": "",
+        "padding_bottom": 16
+      },
+      "blocks": {
+        "content_1": {
+          "type": "heading",
+          "settings": {
+            "text": "Qué son los ronquidos",
+            "level": "h2",
+            "anchor": "ronquidos"
+          }
+        },
+        "content_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>El ronquido es el sonido que se produce al respirar mientras duermes, cuando el paso del aire se estrecha.</p><p>Los ronquidos pueden afectar al descanso de quien ronca y de quien comparte la cama.</p>"
+          }
+        },
+        "content_3": {
+          "type": "heading",
+          "settings": {
+            "text": "No todos los ronquidos son iguales",
+            "level": "h2",
+            "anchor": "causas"
+          }
+        },
+        "content_4": {
+          "type": "text",
+          "settings": {
+            "text": "<p>No todos los ronquidos tienen el mismo origen. Por eso no existe una solución que sirva a todo el mundo.</p><p><strong>Roncar y tener apnea del sueño no es lo mismo.</strong> Algunas señales necesitan una valoración profesional. Las explicamos en <a href=\"/pages/uso-y-seguridad#cuando-consultar\">Uso y seguridad</a>.</p>"
+          }
+        },
+        "content_5": {
+          "type": "heading",
+          "settings": {
+            "text": "Qué es una férula de avance mandibular",
+            "level": "h2",
+            "anchor": "que-es"
+          }
+        },
+        "content_6": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Una férula de avance mandibular es un aparato que se pone en la boca para dormir. Mantiene la mandíbula inferior un poco hacia delante.</p><p>Algunas férulas bucales están indicadas en determinados adultos, después de una valoración profesional. Para la apnea del sueño, las guías clínicas prefieren aparatos hechos a medida y ajustados con el seguimiento de un dentista.</p>"
+          }
+        },
+        "content_7": {
+          "type": "callout",
+          "settings": {
+            "style": "caution",
+            "icon": "alert",
+            "title": "Importante",
+            "text": "<p>Una férula no sustituye a un diagnóstico ni a un tratamiento indicado por un profesional. Lo que dicen los estudios sobre algunas férulas no demuestra que funcione cualquier férula.</p>"
+          }
+        },
+        "content_8": {
+          "type": "heading",
+          "settings": {
+            "text": "Qué opciones existen",
+            "level": "h2",
+            "anchor": "opciones"
+          }
+        },
+        "content_9": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Hay soluciones que actúan en la boca, otras en la nariz y otras que no son productos. La tabla de abajo compara <strong>cómo actúan</strong>, no cuál funciona mejor: eso depende de cada persona.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "content_1",
+        "content_2",
+        "content_3",
+        "content_4",
+        "content_5",
+        "content_6",
+        "content_7",
+        "content_8",
+        "content_9"
+      ]
+    },
+    "compare": {
+      "type": "ds-compare",
+      "settings": {
+        "anchor": "tabla-opciones",
+        "heading": "Opciones frente a los ronquidos",
+        "intro": "<p>Las tiras nasales, los dilatadores nasales y las férulas bucales no actúan de la misma forma.</p>",
+        "caption": "Comparación de mecanismos. No indica eficacia. Si tienes dudas sobre tu caso, consulta con un profesional.",
+        "review": "sanitaria",
+        "padding_top": 16
+      },
+      "blocks": {
+        "compare_1": {
+          "type": "row",
+          "settings": {
+            "name": "Férula bucal ajustable",
+            "what": "Aparato reutilizable que se pone en la boca para dormir.",
+            "where": "En la posición de la mandíbula.",
+            "consider": "Ajuste, comodidad, posibles molestias y documentación del producto."
+          }
+        },
+        "compare_2": {
+          "type": "row",
+          "settings": {
+            "name": "Férula hecha a medida",
+            "what": "Aparato que fabrica y ajusta un profesional de la odontología.",
+            "where": "En la posición de la mandíbula.",
+            "consider": "Necesita consulta y seguimiento. Precio más alto."
+          }
+        },
+        "compare_3": {
+          "type": "row",
+          "settings": {
+            "name": "Tiras nasales",
+            "what": "Adhesivo de un solo uso que se pega en la nariz.",
+            "where": "En la nariz.",
+            "consider": "Su utilidad depende de la causa del ronquido."
+          }
+        },
+        "compare_4": {
+          "type": "row",
+          "settings": {
+            "name": "Dilatador nasal",
+            "what": "Pieza reutilizable que se coloca en la nariz.",
+            "where": "En la nariz.",
+            "consider": "Funciona de otra forma. Cada persona lo tolera de manera distinta."
+          }
+        },
+        "compare_5": {
+          "type": "row",
+          "settings": {
+            "name": "Sprays y otros remedios",
+            "what": "Productos variados, normalmente de un solo uso.",
+            "where": "Depende del producto.",
+            "consider": "La eficacia y las autorizaciones cambian en cada producto."
+          }
+        },
+        "compare_6": {
+          "type": "row",
+          "settings": {
+            "name": "Cambios de hábitos y valoración médica",
+            "what": "No es un producto.",
+            "where": "Depende de la causa.",
+            "consider": "Puede ser lo más adecuado según la causa del ronquido."
+          }
+        }
+      },
+      "block_order": [
+        "compare_1",
+        "compare_2",
+        "compare_3",
+        "compare_4",
+        "compare_5",
+        "compare_6"
+      ]
+    },
+    "glossary": {
+      "type": "ds-glossary",
+      "settings": {
+        "heading": "Glosario: palabras que conviene entender",
+        "review": "sanitaria"
+      },
+      "blocks": {
+        "glossary_1": {
+          "type": "term",
+          "settings": {
+            "term": "Férula bucal",
+            "definition": "Aparato que se coloca en la boca. Hay férulas con fines distintos."
+          }
+        },
+        "glossary_2": {
+          "type": "term",
+          "settings": {
+            "term": "Avance mandibular",
+            "definition": "Mantener la mandíbula inferior un poco hacia delante mientras duermes."
+          }
+        },
+        "glossary_3": {
+          "type": "term",
+          "settings": {
+            "term": "Apnea del sueño",
+            "definition": "Trastorno en el que la respiración se interrumpe varias veces durante el sueño. Lo diagnostica un profesional sanitario."
+          }
+        },
+        "glossary_4": {
+          "type": "term",
+          "settings": {
+            "term": "Indicación",
+            "definition": "Situación en la que un producto o tratamiento está recomendado."
+          }
+        },
+        "glossary_5": {
+          "type": "term",
+          "settings": {
+            "term": "Contraindicación",
+            "definition": "Situación en la que no se debe usar un producto o tratamiento."
+          }
+        },
+        "glossary_6": {
+          "type": "term",
+          "settings": {
+            "term": "Finalidad prevista",
+            "definition": "Para qué ha diseñado el fabricante un producto sanitario. Solo se puede anunciar lo que encaja con esa finalidad."
+          }
+        },
+        "glossary_7": {
+          "type": "term",
+          "settings": {
+            "term": "Marcado CE",
+            "definition": "Símbolo que indica que el fabricante declara que el producto cumple las normas europeas que le aplican."
+          }
+        },
+        "glossary_8": {
+          "type": "term",
+          "settings": {
+            "term": "Declaración UE de conformidad",
+            "definition": "Documento firmado por el fabricante que acredita esa conformidad para un modelo concreto."
+          }
+        },
+        "glossary_9": {
+          "type": "term",
+          "settings": {
+            "term": "Instrucciones de uso",
+            "definition": "Documento del fabricante que explica cómo usar, ajustar y limpiar el producto, y sus advertencias."
+          }
+        }
+      },
+      "block_order": [
+        "glossary_1",
+        "glossary_2",
+        "glossary_3",
+        "glossary_4",
+        "glossary_5",
+        "glossary_6",
+        "glossary_7",
+        "glossary_8",
+        "glossary_9"
+      ]
+    },
+    "sources": {
+      "type": "ds-content",
+      "settings": {
+        "show_toc": false,
+        "padding_top": 0
+      },
+      "blocks": {
+        "sources_1": {
+          "type": "sources",
+          "settings": {
+            "title": "Fuentes",
+            "text": "<ul><li><a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC4481062/\" target=\"_blank\" rel=\"noopener\">Guía clínica AASM/AADSM, 2015</a></li><li><a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC11117146/\" target=\"_blank\" rel=\"noopener\">Ensayo clínico con 50 parejas, JAMA Otolaryngology, 2024</a></li><li><a href=\"https://www.ada.org/resources/ada-library/oral-health-topics/sleep-apnea-obstructive\" target=\"_blank\" rel=\"noopener\">American Dental Association: apnea obstructiva del sueño</a></li><li><a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC10714377/\" target=\"_blank\" rel=\"noopener\">Revisión sobre cambios en la mordida, 2023</a></li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "sources_1"
+      ]
+    }
+  },
+  "order": [
+    "header",
+    "content",
+    "compare",
+    "glossary",
+    "sources"
+  ]
+}

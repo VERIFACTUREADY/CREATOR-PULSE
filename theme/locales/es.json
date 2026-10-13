@@ -539,5 +539,95 @@
       "expanded": "Formulario del destinatario de la tarjeta de regalo expandido",
       "collapsed": "Formulario del destinatario de tarjeta de regalo contraído"
     }
+  },
+  "ds": {
+    "pending": {
+      "prefix": "Pendiente"
+    },
+    "review": {
+      "prefix": "Borrador ·",
+      "health": "pendiente de revisión sanitaria",
+      "legal": "pendiente de revisión jurídica",
+      "manufacturer": "pendiente de documentación del fabricante",
+      "owner": "pendiente de aprobación del titular"
+    },
+    "prototype": {
+      "tag": "Prototipo",
+      "text": "Prototipo privado. Esta web no vende productos ni acepta pedidos."
+    },
+    "gate": {
+      "title": "Todavía no vendemos este producto",
+      "text": "Estamos comprobando su documentación, si puede venderse por internet en España y su coste real. Mientras tanto, puedes leer cómo usar con seguridad este tipo de dispositivos.",
+      "safety": "Leer uso y seguridad",
+      "faq": "Ver preguntas frecuentes"
+    },
+    "sources": {
+      "label": "Fuente"
+    },
+    "status": {
+      "verified": "Comprobado",
+      "in_review": "En revisión",
+      "blocked": "Bloqueado",
+      "pending": "Pendiente"
+    },
+    "breadcrumbs": {
+      "label": "Ruta de navegación",
+      "home": "Inicio"
+    },
+    "page": {
+      "last_review": "Última revisión del contenido: {{ date }}"
+    },
+    "toc": {
+      "title": "En esta página"
+    },
+    "legal": {
+      "notice_title": "Plantilla pendiente de revisión jurídica",
+      "notice_text": "Este texto es un borrador de trabajo. Los datos entre corchetes faltan y deben completarse. Una asesoría jurídica debe revisarlo antes de publicar la tienda.",
+      "identity_title": "Quién es el titular de esta web",
+      "name": "Titular",
+      "tax_id": "NIF/CIF",
+      "address": "Domicilio",
+      "email": "Email",
+      "registry": "Datos registrales"
+    },
+    "contact": {
+      "health_title": "No escribas datos de salud",
+      "health_text": "No necesitamos datos de salud para responder a tus dudas. Por favor, no escribas síntomas, diagnósticos ni tratamientos en este formulario. Para dudas sobre tu salud, consulta con un profesional sanitario.",
+      "email_label": "Email",
+      "response_label": "Plazo de respuesta",
+      "required_hint": "Los campos con * son obligatorios.",
+      "email_hint": "Solo lo usaremos para responderte.",
+      "topic": "Motivo",
+      "body_hint": "Cuéntanos tu duda en pocas frases. Sin datos de salud, por favor.",
+      "consent_field": "Privacidad",
+      "consent_value": "He leído y acepto la política de privacidad",
+      "consent_html": "He leído y acepto la <a href=\"{{ privacy_url }}\">política de privacidad</a>."
+    },
+    "product": {
+      "what": "Qué es y para qué está pensado",
+      "model": "Modelo exacto",
+      "purpose": "Finalidad prevista por el fabricante",
+      "manufacturer": "Fabricante",
+      "how": "Cómo se usa",
+      "ifu_missing": "Las instrucciones de uso, ajuste y limpieza deben venir del fabricante, en castellano. Todavía no las tenemos, por eso no las publicamos.",
+      "safety": "Precauciones y contraindicaciones",
+      "warnings": "Advertencias del fabricante",
+      "contraindications": "Contraindicaciones del fabricante",
+      "general_1": "Una férula no sustituye a un diagnóstico ni a un tratamiento indicado por un profesional.",
+      "general_2": "Si notas dolor en la mandíbula, en los dientes o en el oído, deja de usar el aparato y consulta con un profesional.",
+      "materials": "Materiales y limpieza",
+      "docs": "Fabricante y documentación",
+      "declaration": "Declaración UE de conformidad",
+      "operator": "Importador o distribuidor responsable",
+      "lot": "Trazabilidad por lote",
+      "shipping": "Envío y devoluciones",
+      "delivery": "Plazo de entrega",
+      "shipping_link": "Condiciones de envío",
+      "returns_link": "Devoluciones y garantía",
+      "photo_pending": "Fotografía real del producto pendiente"
+    },
+    "footer": {
+      "seller": "Quién vende"
+    }
   }
 }

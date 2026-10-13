@@ -1,0 +1,201 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "lead": "<p>Estamos evaluando un dispositivo bucal ajustable. Aquí explicamos qué sabemos, qué no sabemos todavía y qué comprobamos antes de venderlo.</p>",
+        "review": "fabricante",
+        "show_review_date": true
+      }
+    },
+    "notice": {
+      "type": "ds-callout",
+      "settings": {
+        "style": "prototype",
+        "icon": "doc",
+        "heading": "Todavía no vendemos este producto",
+        "text": "<p>Producto en evaluación documental. No mostramos precio, plazo de entrega ni botón de compra porque todavía no están confirmados.</p>",
+        "padding_top": 48
+      }
+    },
+    "known": {
+      "type": "ds-content",
+      "settings": {
+        "show_toc": false,
+        "review": "fabricante"
+      },
+      "blocks": {
+        "known_1": {
+          "type": "heading",
+          "settings": {
+            "text": "Lo que sabemos",
+            "level": "h2",
+            "anchor": "lo-que-sabemos"
+          }
+        },
+        "known_2": {
+          "type": "text",
+          "settings": {
+            "text": "<ul><li>Es un aparato bucal <strong>reutilizable</strong>, no un producto de un solo uso.</li><li>El vendedor lo describe como <strong>ajustable</strong>.</li></ul>"
+          }
+        },
+        "known_3": {
+          "type": "heading",
+          "settings": {
+            "text": "Lo que todavía no sabemos",
+            "level": "h2",
+            "anchor": "lo-que-no-sabemos"
+          }
+        },
+        "known_4": {
+          "type": "text",
+          "settings": {
+            "text": "<ul><li>Quién lo fabrica y su referencia exacta.</li><li>Para qué lo ha pensado el fabricante (su finalidad prevista).</li><li>De qué materiales está hecho.</li><li>Si tiene la documentación europea que le corresponde.</li><li>Si puede venderse por internet en España.</li><li>Cuánto dura y cómo se limpia.</li><li>Cuánto costaría y cuánto tardaría en llegar.</li></ul><p>No vamos a rellenar estos datos con suposiciones. Los publicaremos solo cuando tengamos los documentos del fabricante.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "known_1",
+        "known_2",
+        "known_3",
+        "known_4"
+      ]
+    },
+    "status": {
+      "type": "ds-status",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Qué comprobamos antes de vender",
+        "intro": "<p>Si alguno de estos puntos no se cumple, no venderemos este producto.</p>",
+        "hide_when_commerce": true,
+        "padding_top": 16
+      },
+      "blocks": {
+        "status_1": {
+          "type": "item",
+          "settings": {
+            "label": "Fabricante y modelo exactos",
+            "status": "pending"
+          }
+        },
+        "status_2": {
+          "type": "item",
+          "settings": {
+            "label": "Finalidad prevista por el fabricante",
+            "status": "pending"
+          }
+        },
+        "status_3": {
+          "type": "item",
+          "settings": {
+            "label": "Declaración UE de conformidad del modelo",
+            "status": "pending"
+          }
+        },
+        "status_4": {
+          "type": "item",
+          "settings": {
+            "label": "Permiso para venderlo por internet en España",
+            "status": "pending"
+          }
+        },
+        "status_5": {
+          "type": "item",
+          "settings": {
+            "label": "Instrucciones y advertencias en castellano",
+            "status": "pending"
+          }
+        },
+        "status_6": {
+          "type": "item",
+          "settings": {
+            "label": "Importador o distribuidor responsable",
+            "status": "pending"
+          }
+        },
+        "status_7": {
+          "type": "item",
+          "settings": {
+            "label": "Precio final, envío y plazos reales",
+            "status": "pending"
+          }
+        },
+        "status_8": {
+          "type": "item",
+          "settings": {
+            "label": "Revisión de la publicidad",
+            "status": "pending"
+          }
+        }
+      },
+      "block_order": [
+        "status_1",
+        "status_2",
+        "status_3",
+        "status_4",
+        "status_5",
+        "status_6",
+        "status_7",
+        "status_8"
+      ]
+    },
+    "next": {
+      "type": "ds-cards",
+      "settings": {
+        "heading": "Mientras tanto, puedes leer",
+        "columns": "3",
+        "color_scheme": "scheme-2",
+        "tinted": true
+      },
+      "blocks": {
+        "next_1": {
+          "type": "card",
+          "settings": {
+            "icon": "book",
+            "title": "Cómo funciona",
+            "text": "<p>Qué son los ronquidos y qué opciones existen.</p>",
+            "link_label": "Leer",
+            "link": "/pages/como-funciona"
+          }
+        },
+        "next_2": {
+          "type": "card",
+          "settings": {
+            "icon": "alert",
+            "title": "Uso y seguridad",
+            "text": "<p>Precauciones generales y cuándo consultar.</p>",
+            "link_label": "Leer",
+            "link": "/pages/uso-y-seguridad"
+          }
+        },
+        "next_3": {
+          "type": "card",
+          "settings": {
+            "icon": "question",
+            "title": "Preguntas frecuentes",
+            "text": "<p>Respuestas cortas a las dudas más comunes.</p>",
+            "link_label": "Leer",
+            "link": "/pages/preguntas-frecuentes"
+          }
+        }
+      },
+      "block_order": [
+        "next_1",
+        "next_2",
+        "next_3"
+      ]
+    }
+  },
+  "order": [
+    "header",
+    "notice",
+    "known",
+    "status",
+    "next"
+  ]
+}

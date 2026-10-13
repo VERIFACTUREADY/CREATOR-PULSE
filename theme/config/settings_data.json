@@ -2,78 +2,78 @@
   "current": "Dawn",
   "presets": {
     "Dawn": {
-      "logo_width": 90,
-      "customer_account_menu": "customer-account-main-menu",
+      "logo_width": 120,
+      "customer_account_menu": "",
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#FFFFFF",
+            "background": "#F8F5EE",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
+            "text": "#172B37",
+            "button": "#3E746F",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#121212",
-            "shadow": "#121212"
+            "secondary_button_label": "#172B37",
+            "shadow": "#172B37"
           }
         },
         "scheme-2": {
           "settings": {
-            "background": "#F3F3F3",
+            "background": "#D8E5DC",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
-            "button_label": "#F3F3F3",
-            "secondary_button_label": "#121212",
-            "shadow": "#121212"
+            "text": "#172B37",
+            "button": "#172B37",
+            "button_label": "#F8F5EE",
+            "secondary_button_label": "#172B37",
+            "shadow": "#172B37"
           }
         },
         "scheme-3": {
           "settings": {
-            "background": "#242833",
+            "background": "#E9DBCA",
             "background_gradient": "",
-            "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#000000",
-            "secondary_button_label": "#FFFFFF",
-            "shadow": "#121212"
+            "text": "#172B37",
+            "button": "#172B37",
+            "button_label": "#F8F5EE",
+            "secondary_button_label": "#172B37",
+            "shadow": "#172B37"
           }
         },
         "scheme-4": {
           "settings": {
-            "background": "#121212",
+            "background": "#172B37",
             "background_gradient": "",
-            "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#121212",
-            "secondary_button_label": "#FFFFFF",
-            "shadow": "#121212"
+            "text": "#F8F5EE",
+            "button": "#D8E5DC",
+            "button_label": "#172B37",
+            "secondary_button_label": "#F8F5EE",
+            "shadow": "#172B37"
           }
         },
         "scheme-5": {
           "settings": {
-            "background": "#334FB4",
+            "background": "#FFFFFF",
             "background_gradient": "",
-            "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#334FB4",
-            "secondary_button_label": "#FFFFFF",
-            "shadow": "#121212"
+            "text": "#172B37",
+            "button": "#3E746F",
+            "button_label": "#FFFFFF",
+            "secondary_button_label": "#172B37",
+            "shadow": "#172B37"
           }
         }
       },
-      "type_header_font": "assistant_n4",
-      "heading_scale": 100,
-      "type_body_font": "assistant_n4",
-      "body_scale": 100,
+      "type_header_font": "lato_n7",
+      "heading_scale": 105,
+      "type_body_font": "lato_n4",
+      "body_scale": 110,
       "page_width": 1200,
       "spacing_sections": 0,
       "spacing_grid_horizontal": 8,
       "spacing_grid_vertical": 8,
-      "animations_reveal_on_scroll": true,
+      "animations_reveal_on_scroll": false,
       "animations_hover_elements": "none",
       "buttons_border_thickness": 1,
       "buttons_border_opacity": 100,
-      "buttons_radius": 0,
+      "buttons_radius": 10,
       "buttons_shadow_opacity": 0,
       "buttons_shadow_horizontal_offset": 0,
       "buttons_shadow_vertical_offset": 4,
@@ -86,8 +86,8 @@
       "variant_pills_shadow_vertical_offset": 4,
       "variant_pills_shadow_blur": 5,
       "inputs_border_thickness": 1,
-      "inputs_border_opacity": 55,
-      "inputs_radius": 0,
+      "inputs_border_opacity": 70,
+      "inputs_radius": 10,
       "inputs_shadow_opacity": 0,
       "inputs_shadow_horizontal_offset": 0,
       "inputs_shadow_vertical_offset": 4,
@@ -95,10 +95,10 @@
       "card_style": "standard",
       "card_image_padding": 0,
       "card_text_alignment": "left",
-      "card_color_scheme": "scheme-2",
+      "card_color_scheme": "scheme-5",
       "card_border_thickness": 0,
       "card_border_opacity": 10,
-      "card_corner_radius": 0,
+      "card_corner_radius": 16,
       "card_shadow_opacity": 0,
       "card_shadow_horizontal_offset": 0,
       "card_shadow_vertical_offset": 4,
@@ -106,7 +106,7 @@
       "collection_card_style": "standard",
       "collection_card_image_padding": 0,
       "collection_card_text_alignment": "left",
-      "collection_card_color_scheme": "scheme-2",
+      "collection_card_color_scheme": "scheme-5",
       "collection_card_border_thickness": 0,
       "collection_card_border_opacity": 10,
       "collection_card_corner_radius": 0,
@@ -117,7 +117,7 @@
       "blog_card_style": "standard",
       "blog_card_image_padding": 0,
       "blog_card_text_alignment": "left",
-      "blog_card_color_scheme": "scheme-2",
+      "blog_card_color_scheme": "scheme-5",
       "blog_card_border_thickness": 0,
       "blog_card_border_opacity": 10,
       "blog_card_corner_radius": 0,
@@ -127,21 +127,21 @@
       "blog_card_shadow_blur": 5,
       "text_boxes_border_thickness": 0,
       "text_boxes_border_opacity": 10,
-      "text_boxes_radius": 0,
+      "text_boxes_radius": 16,
       "text_boxes_shadow_opacity": 0,
       "text_boxes_shadow_horizontal_offset": 0,
       "text_boxes_shadow_vertical_offset": 4,
       "text_boxes_shadow_blur": 5,
       "media_border_thickness": 1,
       "media_border_opacity": 5,
-      "media_radius": 0,
+      "media_radius": 16,
       "media_shadow_opacity": 0,
       "media_shadow_horizontal_offset": 0,
       "media_shadow_vertical_offset": 4,
       "media_shadow_blur": 5,
       "popup_border_thickness": 1,
       "popup_border_opacity": 10,
-      "popup_corner_radius": 0,
+      "popup_corner_radius": 12,
       "popup_shadow_opacity": 5,
       "popup_shadow_horizontal_offset": 0,
       "popup_shadow_vertical_offset": 4,
@@ -168,11 +168,11 @@
       "social_snapchat_link": "",
       "social_youtube_link": "",
       "social_vimeo_link": "",
-      "predictive_search_enabled": true,
+      "predictive_search_enabled": false,
       "predictive_search_show_vendor": false,
       "predictive_search_show_price": false,
-      "currency_code_enabled": true,
-      "cart_type": "notification",
+      "currency_code_enabled": false,
+      "cart_type": "page",
       "show_vendor": false,
       "show_cart_note": false,
       "cart_drawer_collection": "",
@@ -190,7 +190,11 @@
             "color_scheme": "scheme-1"
           }
         }
-      }
+      },
+      "ds_commerce_enabled": false,
+      "ds_prototype_banner": true,
+      "ds_noindex": true,
+      "ds_show_pending": true
     }
   }
 }

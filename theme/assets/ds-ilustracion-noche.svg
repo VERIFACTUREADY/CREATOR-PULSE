@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="presentation" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">
+  <!-- Ilustración original del prototipo (sin derechos de terceros). Decorativa: no muestra el producto ni resultados. -->
+  <rect width="800" height="600" fill="#172B37"/>
+  <circle cx="560" cy="170" r="150" fill="#22404F"/>
+  <path d="M600 92a96 96 0 1 0 0 156 78 78 0 1 1 0-156Z" fill="#D8E5DC"/>
+  <g fill="#F8F5EE">
+    <circle cx="120" cy="90" r="3"/><circle cx="250" cy="150" r="2"/><circle cx="380" cy="70" r="2.5"/>
+    <circle cx="720" cy="300" r="2"/><circle cx="460" cy="250" r="1.8"/><circle cx="90" cy="230" r="2"/>
+    <circle cx="700" cy="60" r="2.5"/><circle cx="330" cy="230" r="1.6"/>
+  </g>
+  <path d="M0 455c120-22 250-30 400-30s280 8 400 30v145H0Z" fill="#E9DBCA"/>
+  <rect x="150" y="360" width="230" height="96" rx="44" fill="#F8F5EE"/>
+  <rect x="420" y="360" width="230" height="96" rx="44" fill="#F8F5EE"/>
+  <path d="M168 392c40-10 150-10 194 0M438 392c40-10 150-10 194 0" stroke="#E9DBCA" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M60 470c150-40 300-36 340-12 40-24 190-28 340 12v130H60Z" fill="#3E746F"/>
+  <path d="M60 470c150-40 300-36 340-12 40-24 190-28 340 12" stroke="#2C5753" stroke-width="5" fill="none"/>
+  <path d="M120 520c90-14 180-12 230 0M450 520c90-14 180-12 230 0" stroke="#4E857F" stroke-width="5" stroke-linecap="round" fill="none"/>
+</svg>

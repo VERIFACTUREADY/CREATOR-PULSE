@@ -1,0 +1,23 @@
+{% comment %}
+  Etiqueta «Borrador · pendiente de revisión …». Solo aparece mientras el
+  ajuste «Mostrar marcadores de contenido pendiente» esté activo.
+
+  Accepts:
+  - kind: {String} 'sanitaria' | 'juridica' | 'fabricante' | 'titular'
+{% endcomment %}
+{%- if settings.ds_show_pending and kind != blank -%}
+  <p class="ds-review-badge">
+    <span class="ds-review-badge__dot" aria-hidden="true"></span>
+    <span>{{ 'ds.review.prefix' | t }}&nbsp;
+    {%- case kind -%}
+      {%- when 'sanitaria' -%}
+        {{ 'ds.review.health' | t }}
+      {%- when 'juridica' -%}
+        {{ 'ds.review.legal' | t }}
+      {%- when 'fabricante' -%}
+        {{ 'ds.review.manufacturer' | t }}
+      {%- else -%}
+        {{ 'ds.review.owner' | t }}
+    {%- endcase -%}</span>
+  </p>
+{%- endif -%}

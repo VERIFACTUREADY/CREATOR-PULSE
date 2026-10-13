@@ -18,22 +18,35 @@
       "blocks": {
         "subtotal": {
           "type": "subtotal",
-          "settings": {
-          }
+          "settings": {}
         },
         "buttons": {
           "type": "buttons",
-          "settings": {
-          }
+          "settings": {}
         }
       },
       "block_order": [
         "subtotal",
         "buttons"
       ]
+    },
+    "proto": {
+      "type": "ds-callout",
+      "settings": {
+        "style": "prototype",
+        "icon": "doc",
+        "heading": "El carrito está desactivado",
+        "text": "<p>Esta web es un prototipo. Todavía no vendemos productos ni aceptamos pedidos.</p>",
+        "button_label": "Volver al inicio",
+        "button_link": "/",
+        "button_secondary": true,
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
     }
   },
   "order": [
+    "proto",
     "cart-items",
     "cart-footer"
   ]

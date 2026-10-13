@@ -1,0 +1,28 @@
+{%- comment -%}
+  Identidad del vendedor siempre visible en el pie (Estudio §12.2 punto 9).
+{%- endcomment -%}
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width ds-identity">
+    <p>
+      <strong>{{ 'ds.footer.seller' | t }}:</strong>
+      {% render 'ds-legal-value', value: settings.ds_legal_name, label: 'razón social' %} ·
+      {{ 'ds.legal.tax_id' | t }} {% render 'ds-legal-value', value: settings.ds_legal_tax_id, label: 'NIF/CIF' %} ·
+      {% render 'ds-legal-value', value: settings.ds_legal_address, label: 'domicilio' %}
+    </p>
+    {%- if section.settings.text != blank -%}<div class="ds-rte">{{ section.settings.text }}</div>{%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "DS · Identidad vendedor",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": { "groups": ["footer"] },
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-4" },
+    { "type": "richtext", "id": "text", "label": "Texto adicional", "default": "<p>Esta web ofrece información general. No sustituye la valoración de un profesional sanitario.</p>" }
+  ],
+  "presets": [{ "name": "DS · Identidad vendedor" }]
+}
+{% endschema %}

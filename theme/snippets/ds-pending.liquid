@@ -1,0 +1,8 @@
+{% comment %}
+  Marcador visible de dato pendiente. Se muestra siempre: un dato obligatorio
+  ausente nunca se oculta ni se sustituye por uno inventado.
+
+  Accepts:
+  - label: {String} qué falta (p. ej. «razón social»)
+{% endcomment %}
+<mark class="ds-placeholder">[{{ 'ds.pending.prefix' | t }}: {{ label }}]</mark>

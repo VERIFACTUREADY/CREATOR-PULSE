@@ -1,0 +1,108 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "lead": "<p>Tus derechos si quieres devolver un producto o si tiene un defecto. Plantilla pendiente de revisión jurídica.</p>",
+        "review": "juridica",
+        "show_review_date": true
+      }
+    },
+    "legal": {
+      "type": "ds-legal",
+      "settings": {
+        "show_notice": true,
+        "show_identity": true
+      },
+      "blocks": {
+        "legal_1": {
+          "type": "clause",
+          "settings": {
+            "heading": "Estado actual",
+            "text": "<p>Esta web es un prototipo. Todavía no vendemos productos.</p>"
+          }
+        },
+        "legal_2": {
+          "type": "clause",
+          "settings": {
+            "heading": "Derecho de desistimiento",
+            "text": "<p>Como regla general, en las compras a distancia tienes <strong>14 días naturales</strong> para desistir de la compra, sin dar explicaciones. [Forma de comunicar el desistimiento, dirección de devolución y quién paga el envío de vuelta]</p>"
+          }
+        },
+        "legal_3": {
+          "type": "clause",
+          "settings": {
+            "heading": "Productos precintados por higiene",
+            "text": "<p>La ley prevé una excepción para algunos productos precintados que no se pueden devolver por motivos de salud o higiene <strong>si se han desprecintado después de la entrega</strong>. [Pendiente de revisión jurídica: si esta excepción se aplica a este producto y cómo se precinta e informa]. Esta excepción no afecta a tus derechos si el producto llega dañado o no es conforme.</p>"
+          }
+        },
+        "legal_4": {
+          "type": "clause",
+          "settings": {
+            "heading": "Garantía legal",
+            "text": "<p>Los productos nuevos tienen una <strong>garantía legal de 3 años</strong>. Si el producto tiene un defecto o no es lo que se describió, puedes pedir su reparación o sustitución y, en ciertos casos, una rebaja del precio o la devolución del dinero.</p>"
+          }
+        },
+        "legal_5": {
+          "type": "clause",
+          "settings": {
+            "heading": "Reembolsos",
+            "text": "<p>[Plazo y forma de reembolso, según la normativa aplicable]</p>"
+          }
+        },
+        "legal_6": {
+          "type": "clause",
+          "settings": {
+            "heading": "Cómo solicitarlo",
+            "text": "<p>Escríbenos desde la página de <a href=\"/pages/contacto\">contacto</a> indicando tu número de pedido. No incluyas datos de salud. [Procedimiento detallado]</p>"
+          }
+        },
+        "legal_7": {
+          "type": "clause",
+          "settings": {
+            "heading": "Resolución de conflictos",
+            "text": "<p>[Información sobre hojas de reclamaciones, organismos de consumo y sistemas de resolución de conflictos aplicables]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "legal_1",
+        "legal_2",
+        "legal_3",
+        "legal_4",
+        "legal_5",
+        "legal_6",
+        "legal_7"
+      ]
+    },
+    "sources": {
+      "type": "ds-content",
+      "settings": {
+        "show_toc": false,
+        "padding_top": 0
+      },
+      "blocks": {
+        "sources_1": {
+          "type": "sources",
+          "settings": {
+            "title": "Referencias para la revisión",
+            "text": "<ul><li><a href=\"https://www.boe.es/buscar/act.php?id=BOE-A-2007-20555\" target=\"_blank\" rel=\"noopener\">Ley General para la Defensa de los Consumidores (RDL 1/2007)</a></li><li><a href=\"https://portal-cec.consumo.gob.es/es/informacion-general/compras-online/garantias\" target=\"_blank\" rel=\"noopener\">Centro Europeo del Consumidor: garantías</a></li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "sources_1"
+      ]
+    }
+  },
+  "order": [
+    "header",
+    "legal",
+    "sources"
+  ]
+}

@@ -8,6 +8,94 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "Prototipo y cumplimiento",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Compuerta de venta"
+      },
+      {
+        "type": "paragraph",
+        "content": "La venta permanece BLOQUEADA hasta que docs/03_GO_NO_GO.md esté completo con evidencia y el titular lo autorice por escrito. Este interruptor solo controla lo que muestra el tema: la protección real es la contraseña de la tienda, el producto en borrador y los pagos sin activar."
+      },
+      {
+        "type": "checkbox",
+        "id": "ds_commerce_enabled",
+        "label": "Comercio habilitado (precio, carrito y compra)",
+        "default": false,
+        "info": "Aunque se active, un producto solo muestra compra si TODOS sus metacampos compliance.* están completos."
+      },
+      {
+        "type": "header",
+        "content": "Modo prototipo"
+      },
+      {
+        "type": "checkbox",
+        "id": "ds_prototype_banner",
+        "label": "Mostrar aviso «Prototipo privado» en todas las páginas",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "ds_prototype_banner_text",
+        "label": "Texto del aviso",
+        "default": "Prototipo privado. Esta web no vende productos ni acepta pedidos."
+      },
+      {
+        "type": "checkbox",
+        "id": "ds_noindex",
+        "label": "Pedir a los buscadores que no indexen la web (noindex)",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "ds_show_pending",
+        "label": "Mostrar marcadores de contenido pendiente de verificar",
+        "default": true,
+        "info": "Señala en la web los textos pendientes de revisión y los datos que faltan. Desactivar solo cuando no quede nada pendiente."
+      },
+      {
+        "type": "header",
+        "content": "Identidad del titular (Aviso legal y pie)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Si un campo está vacío, la web muestra un marcador «[Pendiente: …]». No inventar datos."
+      },
+      {
+        "type": "text",
+        "id": "ds_legal_name",
+        "label": "Razón social o nombre del titular"
+      },
+      {
+        "type": "text",
+        "id": "ds_legal_tax_id",
+        "label": "NIF / CIF"
+      },
+      {
+        "type": "text",
+        "id": "ds_legal_address",
+        "label": "Domicilio"
+      },
+      {
+        "type": "text",
+        "id": "ds_legal_email",
+        "label": "Email de contacto"
+      },
+      {
+        "type": "text",
+        "id": "ds_legal_registry",
+        "label": "Datos registrales (si aplica)"
+      },
+      {
+        "type": "text",
+        "id": "ds_last_review",
+        "label": "Fecha de última revisión del contenido",
+        "default": "13/10/2026"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.logo.name",
     "settings": [
       {

@@ -1,0 +1,147 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "lead": "<p>Una marca que habla de descanso sin promesas milagrosas.</p>",
+        "review": "titular",
+        "show_review_date": true
+      }
+    },
+    "content": {
+      "type": "ds-content",
+      "settings": {
+        "show_toc": false,
+        "review": "titular"
+      },
+      "blocks": {
+        "content_1": {
+          "type": "heading",
+          "settings": {
+            "text": "Por qué existimos",
+            "level": "h2",
+            "anchor": "por-que"
+          }
+        },
+        "content_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Cuando hay ronquidos, a veces son dos las personas que duermen mal. Queremos que esa conversación sea tranquila, sin culpas y con buena información.</p><p>Por eso nuestro lema es <strong>«Descansar juntos importa»</strong>.</p>"
+          }
+        },
+        "content_3": {
+          "type": "heading",
+          "settings": {
+            "text": "Cómo trabajamos",
+            "level": "h2",
+            "anchor": "como-trabajamos"
+          }
+        },
+        "content_4": {
+          "type": "text",
+          "settings": {
+            "text": "<ul><li>Te contamos qué se sabe, qué no se sabe y cuándo conviene consultar.</li><li>Citamos las fuentes de la información de salud.</li><li>Las precauciones están siempre a la vista.</li><li>No publicamos opiniones inventadas, sellos que no tengamos ni porcentajes sin pruebas.</li><li>No pedimos datos de salud.</li><li>No venderemos ningún producto sin su documentación completa.</li></ul>"
+          }
+        },
+        "content_5": {
+          "type": "heading",
+          "settings": {
+            "text": "En qué punto estamos",
+            "level": "h2",
+            "anchor": "estado"
+          }
+        },
+        "content_6": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Somos un proyecto en fase de prototipo. Esta web todavía no vende productos.</p>"
+          }
+        },
+        "content_7": {
+          "type": "heading",
+          "settings": {
+            "text": "Quién está detrás",
+            "level": "h2",
+            "anchor": "quien"
+          }
+        },
+        "content_8": {
+          "type": "callout",
+          "settings": {
+            "style": "prototype",
+            "icon": "person",
+            "title": "Datos del titular",
+            "text": "<p>Aquí aparecerán el nombre del titular, su forma de contacto y su historia, cuando estén confirmados.</p>",
+            "pending_label": "nombre y presentación del titular"
+          }
+        }
+      },
+      "block_order": [
+        "content_1",
+        "content_2",
+        "content_3",
+        "content_4",
+        "content_5",
+        "content_6",
+        "content_7",
+        "content_8"
+      ]
+    },
+    "links": {
+      "type": "ds-cards",
+      "settings": {
+        "heading": "Sigue leyendo",
+        "columns": "3",
+        "color_scheme": "scheme-2",
+        "tinted": true
+      },
+      "blocks": {
+        "links_1": {
+          "type": "card",
+          "settings": {
+            "icon": "book",
+            "title": "Cómo funciona",
+            "text": "<p>Ronquidos y opciones, explicado fácil.</p>",
+            "link_label": "Leer",
+            "link": "/pages/como-funciona"
+          }
+        },
+        "links_2": {
+          "type": "card",
+          "settings": {
+            "icon": "doc",
+            "title": "El producto",
+            "text": "<p>Qué sabemos y qué estamos comprobando.</p>",
+            "link_label": "Leer",
+            "link": "/pages/el-producto"
+          }
+        },
+        "links_3": {
+          "type": "card",
+          "settings": {
+            "icon": "mail",
+            "title": "Contacto",
+            "text": "<p>Escríbenos si tienes dudas.</p>",
+            "link_label": "Escribir",
+            "link": "/pages/contacto"
+          }
+        }
+      },
+      "block_order": [
+        "links_1",
+        "links_2",
+        "links_3"
+      ]
+    }
+  },
+  "order": [
+    "header",
+    "content",
+    "links"
+  ]
+}

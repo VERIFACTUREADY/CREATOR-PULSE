@@ -1,0 +1,102 @@
+{%- comment -%}
+  Contacto sin datos de salud (Estudio §8.5, RGPD art. 9). Usa el formulario
+  nativo y gratuito de Shopify. Consentimiento explícito y aviso de privacidad.
+{%- endcomment -%}
+<section
+  class="ds-contact ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+  aria-labelledby="DsContactTitle-{{ section.id }}"
+>
+  <div class="page-width ds-contact__grid">
+    <div class="ds-contact__aside">
+      <h2 id="DsContactTitle-{{ section.id }}" class="h2">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.intro != blank -%}<div class="ds-rte">{{ section.settings.intro }}</div>{%- endif -%}
+      <div class="ds-callout ds-callout--caution">
+        <span class="ds-callout__icon">{%- render 'ds-icon', name: 'alert' -%}</span>
+        <div class="ds-callout__body">
+          <p class="ds-callout__title h3">{{ 'ds.contact.health_title' | t }}</p>
+          <p>{{ 'ds.contact.health_text' | t }}</p>
+        </div>
+      </div>
+      <p>
+        <strong>{{ 'ds.contact.email_label' | t }}:</strong>
+        {% if settings.ds_legal_email != blank -%}
+          <a href="mailto:{{ settings.ds_legal_email | escape }}">{{ settings.ds_legal_email | escape }}</a>
+        {%- else -%}
+          {%- render 'ds-pending', label: 'email de contacto' -%}
+        {%- endif %}
+      </p>
+      {%- if section.settings.response_time != blank -%}
+        <p><strong>{{ 'ds.contact.response_label' | t }}:</strong> {{ section.settings.response_time | escape }}</p>
+      {%- else -%}
+        <p><strong>{{ 'ds.contact.response_label' | t }}:</strong> {% render 'ds-pending', label: 'plazo de respuesta' %}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="ds-contact__form">
+      {%- form 'contact', id: 'DsContactForm', class: 'ds-form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="ds-form-status ds-form-status--success" role="status" tabindex="-1" autofocus>{{ 'templates.contact.form.post_success' | t }}</p>
+        {%- elsif form.errors -%}
+          <div class="ds-form-status ds-form-status--error" role="alert" tabindex="-1" autofocus>
+            <p>{{ 'templates.contact.form.error_heading' | t }}</p>
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+        <p class="ds-field__hint">{{ 'ds.contact.required_hint' | t }}</p>
+        <div class="ds-field">
+          <label for="DsContact-name">{{ 'templates.contact.form.name' | t }} <span class="ds-required" aria-hidden="true">*</span></label>
+          <input id="DsContact-name" type="text" name="contact[name]" autocomplete="name" required aria-required="true" value="{{ form.name }}">
+        </div>
+        <div class="ds-field">
+          <label for="DsContact-email">{{ 'templates.contact.form.email' | t }} <span class="ds-required" aria-hidden="true">*</span></label>
+          <input id="DsContact-email" type="email" name="contact[email]" autocomplete="email" spellcheck="false" autocapitalize="off" required aria-required="true" aria-describedby="DsContact-email-hint" value="{{ form.email }}">
+          <p class="ds-field__hint" id="DsContact-email-hint">{{ 'ds.contact.email_hint' | t }}</p>
+        </div>
+        <div class="ds-field">
+          <label for="DsContact-topic">{{ 'ds.contact.topic' | t }}</label>
+          <select id="DsContact-topic" name="contact[{{ 'ds.contact.topic' | t }}]">
+            {%- assign topics = section.settings.topics | newline_to_br | split: '<br />' -%}
+            {%- for topic in topics -%}
+              {%- assign topic_clean = topic | strip -%}
+              {%- if topic_clean != blank -%}<option value="{{ topic_clean | escape }}">{{ topic_clean | escape }}</option>{%- endif -%}
+            {%- endfor -%}
+          </select>
+        </div>
+        <div class="ds-field">
+          <label for="DsContact-body">{{ 'templates.contact.form.comment' | t }} <span class="ds-required" aria-hidden="true">*</span></label>
+          <textarea id="DsContact-body" name="contact[body]" rows="8" required aria-required="true" aria-describedby="DsContact-body-hint">{{ form.body }}</textarea>
+          <p class="ds-field__hint" id="DsContact-body-hint">{{ 'ds.contact.body_hint' | t }}</p>
+        </div>
+        <div class="ds-check">
+          <input id="DsContact-consent" type="checkbox" name="contact[{{ 'ds.contact.consent_field' | t }}]" value="{{ 'ds.contact.consent_value' | t }}" required aria-required="true">
+          <label for="DsContact-consent">
+            {%- assign privacy_url = section.settings.privacy_link | default: '/pages/privacidad' -%}
+            {{ 'ds.contact.consent_html' | t: privacy_url: privacy_url }}
+            <span class="ds-required" aria-hidden="true">*</span>
+          </label>
+        </div>
+        <button type="submit" class="button button--primary">{{ 'templates.contact.form.send' | t }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DS · Contacto",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Escríbenos" },
+    { "type": "richtext", "id": "intro", "label": "Introducción", "default": "<p>Respondemos dudas sobre la información de esta web. No podemos valorar casos médicos por este canal.</p>" },
+    { "type": "text", "id": "response_time", "label": "Plazo de respuesta real", "info": "Vacío = se muestra como pendiente. No prometer un plazo que no se pueda cumplir." },
+    { "type": "textarea", "id": "topics", "label": "Motivos de contacto (uno por línea)", "default": "Duda sobre la información de la web\nPrensa o colaboración\nPrivacidad y mis datos\nOtro motivo" },
+    { "type": "url", "id": "privacy_link", "label": "Enlace a la política de privacidad", "info": "Vacío = /pages/privacidad" },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "presets": [{ "name": "DS · Contacto" }]
+}
+{% endschema %}

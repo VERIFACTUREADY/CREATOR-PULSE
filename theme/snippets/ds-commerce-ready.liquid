@@ -1,0 +1,32 @@
+{% comment %}
+  Compuerta de venta del prototipo (ver docs/03_GO_NO_GO.md).
+  Imprime «true» solo si el comercio está habilitado en el tema Y, cuando se
+  pasa un producto, todos sus metacampos de cumplimiento están rellenos.
+  En cualquier otro caso imprime «false».
+
+  Accepts:
+  - product: {Object} producto (opcional)
+
+  Usage:
+  {%- capture ds_ready -%}{%- render 'ds-commerce-ready', product: product -%}{%- endcapture -%}
+{% endcomment %}
+{%- liquid
+  assign ready = settings.ds_commerce_enabled
+  if ready and product != blank
+    assign c = product.metafields.compliance
+    if c.manufacturer_legal_name == blank or c.model_reference == blank or c.intended_purpose == blank or c.materials == blank
+      assign ready = false
+    endif
+    if c.ifu_es == blank or c.warnings_es == blank or c.contraindications_es == blank or c.eu_declaration_ref == blank
+      assign ready = false
+    endif
+    if c.economic_operator == blank or c.lot_traceability == blank or c.delivery_window == blank or c.claim_approval_version == blank
+      assign ready = false
+    endif
+  endif
+  if ready
+    echo 'true'
+  else
+    echo 'false'
+  endif
+-%}

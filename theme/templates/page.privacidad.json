@@ -1,0 +1,88 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "lead": "<p>Cómo tratamos tus datos personales. Plantilla pendiente de revisión jurídica.</p>",
+        "review": "juridica",
+        "show_review_date": true
+      }
+    },
+    "legal": {
+      "type": "ds-legal",
+      "settings": {
+        "show_notice": true,
+        "show_identity": true
+      },
+      "blocks": {
+        "legal_1": {
+          "type": "clause",
+          "settings": {
+            "heading": "Responsable del tratamiento",
+            "text": "<p>El titular indicado arriba. [Delegado de protección de datos, si procede]</p>"
+          }
+        },
+        "legal_2": {
+          "type": "clause",
+          "settings": {
+            "heading": "Qué datos tratamos",
+            "text": "<p>Solo los datos que nos envías por el formulario de contacto: nombre, email, motivo y mensaje. <strong>No pedimos datos de salud.</strong> Te pedimos que no los incluyas en tus mensajes.</p>"
+          }
+        },
+        "legal_3": {
+          "type": "clause",
+          "settings": {
+            "heading": "Para qué los usamos",
+            "text": "<p>Para responder a tu consulta. [Otras finalidades, solo si existen y con su base legal]</p>"
+          }
+        },
+        "legal_4": {
+          "type": "clause",
+          "settings": {
+            "heading": "Base legal",
+            "text": "<p>[Base jurídica de cada tratamiento: pendiente de revisión jurídica]</p>"
+          }
+        },
+        "legal_5": {
+          "type": "clause",
+          "settings": {
+            "heading": "Cuánto tiempo los guardamos",
+            "text": "<p>[Plazo de conservación]</p>"
+          }
+        },
+        "legal_6": {
+          "type": "clause",
+          "settings": {
+            "heading": "Quién más puede tratarlos",
+            "text": "<p>La web funciona con Shopify, que actúa como proveedor tecnológico. [Lista de encargados del tratamiento y transferencias internacionales, si las hay]</p>"
+          }
+        },
+        "legal_7": {
+          "type": "clause",
+          "settings": {
+            "heading": "Tus derechos",
+            "text": "<p>Puedes pedir acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad de tus datos escribiendo a [email de privacidad]. También puedes reclamar ante la Agencia Española de Protección de Datos (AEPD).</p>"
+          }
+        }
+      },
+      "block_order": [
+        "legal_1",
+        "legal_2",
+        "legal_3",
+        "legal_4",
+        "legal_5",
+        "legal_6",
+        "legal_7"
+      ]
+    }
+  },
+  "order": [
+    "header",
+    "legal"
+  ]
+}

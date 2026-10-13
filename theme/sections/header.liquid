@@ -205,7 +205,7 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          <span class="h2 ds-wordmark"><span class="ds-wordmark__icon">{%- render 'ds-icon', name: 'moon' -%}</span>{{ shop.name }}</span>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -248,7 +248,7 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          <span class="h2 ds-wordmark"><span class="ds-wordmark__icon">{%- render 'ds-icon', name: 'moon' -%}</span>{{ shop.name }}</span>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -299,6 +299,8 @@
         {%- endcase -%}
       {%- endfor -%}
 
+      {%- comment -%} Sin carrito mientras la venta no esté autorizada. {%- endcomment -%}
+      {%- if settings.ds_commerce_enabled -%}
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         {% if cart == empty %}
           <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
@@ -315,11 +317,12 @@
           </div>
         {%- endif -%}
       </a>
+      {%- endif -%}
     </div>
   </header>
 </{{ header_tag }}>
 
-{%- if settings.cart_type == 'notification' -%}
+{%- if settings.cart_type == 'notification' and settings.ds_commerce_enabled -%}
   {%- render 'cart-notification',
     color_scheme: section.settings.color_scheme,
     desktop_menu_type: section.settings.menu_type_desktop

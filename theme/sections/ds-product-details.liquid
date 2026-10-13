@@ -1,0 +1,106 @@
+{%- comment -%}
+  Información documental del producto desde metacampos compliance.*
+  (Estudio §12.3). Un dato ausente se muestra como pendiente, nunca como
+  aprobado. Las precauciones se abren por defecto: no se esconden.
+  Metacampos: manufacturer_legal_name, model_reference, intended_purpose,
+  materials, ifu_es, warnings_es, contraindications_es, eu_declaration_ref,
+  economic_operator, lot_traceability, delivery_window, claim_approval_version.
+{%- endcomment -%}
+{%- assign c = product.metafields.compliance -%}
+{%- capture missing -%}{%- render 'ds-pending', label: 'documentación del fabricante' -%}{%- endcapture -%}
+<section
+  class="ds-product-details ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+  aria-labelledby="DsDetailsTitle-{{ section.id }}"
+>
+  <div class="page-width">
+    <div class="ds-faq__wrap">
+      <h2 id="DsDetailsTitle-{{ section.id }}" class="ds-heading h2">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.intro != blank -%}<div class="ds-rte" style="margin-bottom:2.4rem">{{ section.settings.intro }}</div>{%- endif -%}
+      <div class="ds-details__list">
+        <details class="ds-details__item">
+          <summary>{{ 'ds.product.what' | t }}</summary>
+          <div class="ds-details__body">
+            <dl class="ds-details__fields">
+              <dt>{{ 'ds.product.model' | t }}</dt>
+              <dd>{% if c.model_reference != blank %}{{ c.model_reference | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dt>{{ 'ds.product.purpose' | t }}</dt>
+              <dd>{% if c.intended_purpose != blank %}{{ c.intended_purpose | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dt>{{ 'ds.product.manufacturer' | t }}</dt>
+              <dd>{% if c.manufacturer_legal_name != blank %}{{ c.manufacturer_legal_name | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+            </dl>
+          </div>
+        </details>
+        <details class="ds-details__item">
+          <summary>{{ 'ds.product.how' | t }}</summary>
+          <div class="ds-details__body ds-rte">
+            {%- if c.ifu_es != blank -%}{{ c.ifu_es | metafield_tag }}{%- else -%}<p>{{ 'ds.product.ifu_missing' | t }}</p><p>{{ missing }}</p>{%- endif -%}
+          </div>
+        </details>
+        <details class="ds-details__item"{% if section.settings.open_safety %} open{% endif %}>
+          <summary>{{ 'ds.product.safety' | t }}</summary>
+          <div class="ds-details__body ds-rte">
+            <dl class="ds-details__fields">
+              <dt>{{ 'ds.product.warnings' | t }}</dt>
+              <dd>{% if c.warnings_es != blank %}{{ c.warnings_es | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dt>{{ 'ds.product.contraindications' | t }}</dt>
+              <dd>{% if c.contraindications_es != blank %}{{ c.contraindications_es | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+            </dl>
+            {%- comment -%} Advertencias generales E-09 y E-11 (docs/04_CLAIMS_APPROVAL.csv). {%- endcomment -%}
+            {%- render 'ds-review-badge', kind: 'sanitaria' -%}
+            <ul>
+              <li>{{ 'ds.product.general_1' | t }}</li>
+              <li>{{ 'ds.product.general_2' | t }}</li>
+            </ul>
+            <p><a class="ds-link-arrow" href="/pages/uso-y-seguridad">{{ 'ds.gate.safety' | t }}</a></p>
+          </div>
+        </details>
+        <details class="ds-details__item">
+          <summary>{{ 'ds.product.materials' | t }}</summary>
+          <div class="ds-details__body ds-rte">
+            {%- if c.materials != blank -%}{{ c.materials | metafield_tag }}{%- else -%}<p>{{ missing }}</p>{%- endif -%}
+          </div>
+        </details>
+        <details class="ds-details__item">
+          <summary>{{ 'ds.product.docs' | t }}</summary>
+          <div class="ds-details__body">
+            <dl class="ds-details__fields">
+              <dt>{{ 'ds.product.declaration' | t }}</dt>
+              <dd>{% if c.eu_declaration_ref != blank %}{{ c.eu_declaration_ref | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dt>{{ 'ds.product.operator' | t }}</dt>
+              <dd>{% if c.economic_operator != blank %}{{ c.economic_operator | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dt>{{ 'ds.product.lot' | t }}</dt>
+              <dd>{% if c.lot_traceability != blank %}{{ c.lot_traceability | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+            </dl>
+          </div>
+        </details>
+        <details class="ds-details__item">
+          <summary>{{ 'ds.product.shipping' | t }}</summary>
+          <div class="ds-details__body ds-rte">
+            <p><strong>{{ 'ds.product.delivery' | t }}:</strong>
+              {% if c.delivery_window != blank %}{{ c.delivery_window | metafield_tag }}{% else %}{% render 'ds-pending', label: 'plazo real confirmado por el proveedor' %}{% endif %}</p>
+            <p><a href="/pages/envios">{{ 'ds.product.shipping_link' | t }}</a> · <a href="/pages/devoluciones">{{ 'ds.product.returns_link' | t }}</a></p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DS · Datos del producto",
+  "tag": "div",
+  "class": "section",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Información del producto" },
+    { "type": "richtext", "id": "intro", "label": "Introducción" },
+    { "type": "checkbox", "id": "open_safety", "label": "Precauciones abiertas por defecto", "default": true },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "presets": [{ "name": "DS · Datos del producto" }]
+}
+{% endschema %}

@@ -1,0 +1,72 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "header": {
+      "type": "ds-page-header",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "lead": "<p>Información sobre el titular de esta web y las condiciones de uso.</p>",
+        "review": "juridica",
+        "show_review_date": true
+      }
+    },
+    "legal": {
+      "type": "ds-legal",
+      "settings": {
+        "show_notice": true,
+        "show_identity": true
+      },
+      "blocks": {
+        "legal_1": {
+          "type": "clause",
+          "settings": {
+            "heading": "Objeto",
+            "text": "<p>Esta web ofrece información general sobre los ronquidos y el descanso compartido. En su estado actual es un prototipo y no vende productos.</p>"
+          }
+        },
+        "legal_2": {
+          "type": "clause",
+          "settings": {
+            "heading": "Información de salud",
+            "text": "<p>La información de esta web es general. No sustituye la valoración de un profesional sanitario. [Nombre y cualificación del profesional que revisa los contenidos de salud, si procede]</p>"
+          }
+        },
+        "legal_3": {
+          "type": "clause",
+          "settings": {
+            "heading": "Propiedad intelectual",
+            "text": "<p>[Titularidad de textos, ilustraciones, logotipo y marca. Nombre de marca provisional pendiente de comprobación en registros de marcas]</p>"
+          }
+        },
+        "legal_4": {
+          "type": "clause",
+          "settings": {
+            "heading": "Responsabilidad",
+            "text": "<p>[Cláusula de responsabilidad revisada por asesoría jurídica]</p>"
+          }
+        },
+        "legal_5": {
+          "type": "clause",
+          "settings": {
+            "heading": "Legislación aplicable",
+            "text": "<p>[Legislación y jurisdicción aplicables, respetando los derechos de las personas consumidoras]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "legal_1",
+        "legal_2",
+        "legal_3",
+        "legal_4",
+        "legal_5"
+      ]
+    }
+  },
+  "order": [
+    "header",
+    "legal"
+  ]
+}

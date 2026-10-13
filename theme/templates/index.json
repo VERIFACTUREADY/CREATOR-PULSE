@@ -1,75 +1,368 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hero": {
+      "type": "ds-hero",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Descanso en pareja",
+        "heading": "Descansar juntos importa.",
+        "text": "<p>Los ronquidos pueden afectar a las noches compartidas. Infórmate sobre sus causas y las opciones disponibles.</p>",
+        "button_label": "Entender las opciones",
+        "button_link": "/pages/como-funciona",
+        "quick_label": "Accesos rápidos",
+        "padding_top": 40,
+        "padding_bottom": 48
+      },
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "hero_1": {
+          "type": "link",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "label": "Qué es una férula",
+            "link": "/pages/como-funciona#que-es"
           }
         },
-        "button": {
-          "type": "buttons",
+        "hero_2": {
+          "type": "link",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "label": "Cuándo consultar",
+            "link": "/pages/uso-y-seguridad#cuando-consultar"
+          }
+        },
+        "hero_3": {
+          "type": "link",
+          "settings": {
+            "label": "Dudas",
+            "link": "/pages/preguntas-frecuentes"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
-      ],
+        "hero_1",
+        "hero_2",
+        "hero_3"
+      ]
+    },
+    "start": {
+      "type": "ds-steps",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "heading": "¿Por dónde empezar?",
+        "padding_top": 16,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "start_1": {
+          "type": "step",
+          "settings": {
+            "title": "Conoce el problema",
+            "text": "Qué son los ronquidos y por qué no todos son iguales.",
+            "link": "/pages/como-funciona#ronquidos"
+          }
+        },
+        "start_2": {
+          "type": "step",
+          "settings": {
+            "title": "Descubre las opciones",
+            "text": "Cómo actúan las distintas soluciones.",
+            "link": "/pages/como-funciona#opciones"
+          }
+        },
+        "start_3": {
+          "type": "step",
+          "settings": {
+            "title": "Consulta las precauciones",
+            "text": "Cuándo conviene hablar con un profesional.",
+            "link": "/pages/uso-y-seguridad"
+          }
+        }
+      },
+      "block_order": [
+        "start_1",
+        "start_2",
+        "start_3"
+      ]
+    },
+    "empathy": {
+      "type": "ds-callout",
+      "settings": {
         "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "style": "quote",
+        "heading": "Cuando una noche se interrumpe, no siempre se interrumpe para una sola persona.",
+        "text": "<p>Los ronquidos pueden afectar al descanso de quien ronca y de quien comparte la cama. Hablar de ello sin culpas es un buen primer paso.</p>",
+        "source_label": "Guía clínica AASM/AADSM, 2015",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4481062/",
+        "review": "sanitaria",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "basics": {
+      "type": "ds-cards",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
+        "color_scheme": "scheme-2",
+        "eyebrow": "Información clara",
+        "heading": "Lo básico, en tres ideas",
+        "columns": "3",
+        "tinted": true,
+        "review": "sanitaria"
+      },
+      "blocks": {
+        "basics_1": {
+          "type": "card",
+          "settings": {
+            "icon": "moon",
+            "title": "Qué son los ronquidos",
+            "text": "<p>Es el sonido que se produce al respirar mientras duermes, cuando el paso del aire se estrecha.</p>",
+            "source_label": "Guía clínica AASM/AADSM, 2015",
+            "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4481062/",
+            "link_label": "Saber más",
+            "link": "/pages/como-funciona#ronquidos"
+          }
+        },
+        "basics_2": {
+          "type": "card",
+          "settings": {
+            "icon": "compare",
+            "title": "No todas las causas son iguales",
+            "text": "<p>No todos los ronquidos tienen el mismo origen. Por eso no existe una solución que sirva a todo el mundo.</p>",
+            "source_label": "American Dental Association: apnea obstructiva del sueño",
+            "source_url": "https://www.ada.org/resources/ada-library/oral-health-topics/sleep-apnea-obstructive",
+            "link_label": "Ver las opciones",
+            "link": "/pages/como-funciona#opciones"
+          }
+        },
+        "basics_3": {
+          "type": "card",
+          "settings": {
+            "icon": "alert",
+            "title": "Cuándo conviene consultar",
+            "text": "<p>Si alguien ve que dejas de respirar unos segundos mientras duermes, si te despiertas con sensación de ahogo o si tienes mucho sueño durante el día, consulta con un profesional sanitario.</p>",
+            "source_label": "American Dental Association: apnea obstructiva del sueño",
+            "source_url": "https://www.ada.org/resources/ada-library/oral-health-topics/sleep-apnea-obstructive",
+            "link_label": "Ver las señales",
+            "link": "/pages/uso-y-seguridad#cuando-consultar"
+          }
+        }
+      },
+      "block_order": [
+        "basics_1",
+        "basics_2",
+        "basics_3"
+      ]
+    },
+    "status": {
+      "type": "ds-status",
+      "settings": {
         "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "eyebrow": "Producto en evaluación documental",
+        "heading": "Antes de vender, comprobamos",
+        "intro": "<p>Estamos estudiando un dispositivo bucal ajustable. <strong>Todavía no vendemos este producto.</strong> Solo lo venderemos si supera todas estas comprobaciones.</p>",
+        "button_label": "Qué sabemos del producto",
+        "button_link": "/pages/el-producto",
+        "hide_when_commerce": true
+      },
+      "blocks": {
+        "status_1": {
+          "type": "item",
+          "settings": {
+            "label": "Fabricante y modelo exactos",
+            "status": "pending"
+          }
+        },
+        "status_2": {
+          "type": "item",
+          "settings": {
+            "label": "Para qué está pensado",
+            "note": "La finalidad que declara el fabricante.",
+            "status": "pending"
+          }
+        },
+        "status_3": {
+          "type": "item",
+          "settings": {
+            "label": "Documentación de conformidad europea",
+            "note": "Declaración UE de conformidad del modelo exacto.",
+            "status": "pending"
+          }
+        },
+        "status_4": {
+          "type": "item",
+          "settings": {
+            "label": "Si puede venderse por internet en España",
+            "status": "pending"
+          }
+        },
+        "status_5": {
+          "type": "item",
+          "settings": {
+            "label": "Instrucciones y advertencias en castellano",
+            "status": "pending"
+          }
+        },
+        "status_6": {
+          "type": "item",
+          "settings": {
+            "label": "Precio final y plazo de entrega reales",
+            "status": "pending"
+          }
+        }
+      },
+      "block_order": [
+        "status_1",
+        "status_2",
+        "status_3",
+        "status_4",
+        "status_5",
+        "status_6"
+      ]
+    },
+    "trust": {
+      "type": "ds-cards",
+      "settings": {
+        "color_scheme": "scheme-5",
+        "eyebrow": "Nuestro compromiso",
+        "heading": "Lo que puedes esperar de nosotros",
+        "columns": "4",
+        "center": false
+      },
+      "blocks": {
+        "trust_1": {
+          "type": "card",
+          "settings": {
+            "icon": "book",
+            "title": "Información clara",
+            "text": "<p>Te contamos qué se sabe, qué no se sabe y cuándo conviene consultar.</p>"
+          }
+        },
+        "trust_2": {
+          "type": "card",
+          "settings": {
+            "icon": "check",
+            "title": "Sin promesas milagrosas",
+            "text": "<p>No publicamos opiniones inventadas, porcentajes sin pruebas ni sellos que no tengamos.</p>"
+          }
+        },
+        "trust_3": {
+          "type": "card",
+          "settings": {
+            "icon": "alert",
+            "title": "Precauciones a la vista",
+            "text": "<p>Las advertencias están a un clic desde cualquier página.</p>",
+            "link_label": "Uso y seguridad",
+            "link": "/pages/uso-y-seguridad"
+          }
+        },
+        "trust_4": {
+          "type": "card",
+          "settings": {
+            "icon": "person",
+            "title": "Quién vende, siempre visible",
+            "text": "<p>Nombre, datos de contacto y condiciones, antes de cualquier compra.</p>",
+            "link_label": "Quiénes somos",
+            "link": "/pages/quienes-somos"
+          }
+        }
+      },
+      "block_order": [
+        "trust_1",
+        "trust_2",
+        "trust_3",
+        "trust_4"
+      ]
+    },
+    "faq": {
+      "type": "ds-faq",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Preguntas frecuentes",
+        "review": "sanitaria",
+        "more_label": "Ver todas las preguntas",
+        "more_link": "/pages/preguntas-frecuentes",
+        "padding_top": 32
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Ya puedo comprar el dispositivo?",
+            "answer": "<p>No. Todavía no vendemos este producto. Estamos comprobando su documentación, si puede venderse por internet en España y su coste real.</p>",
+            "link_label": "Qué sabemos del producto",
+            "link": "/pages/el-producto"
+          }
+        },
+        "faq_2": {
+          "type": "question",
+          "settings": {
+            "question": "¿Roncar es lo mismo que tener apnea del sueño?",
+            "answer": "<p>No. Roncar y tener apnea del sueño no es lo mismo. Algunas señales necesitan una valoración profesional.</p>",
+            "link_label": "Ver las señales",
+            "link": "/pages/uso-y-seguridad#cuando-consultar"
+          }
+        },
+        "faq_3": {
+          "type": "question",
+          "settings": {
+            "question": "¿Una férula sirve para todo el mundo?",
+            "answer": "<p>No. No todos los ronquidos tienen el mismo origen. Algunas férulas bucales están indicadas en determinados adultos, después de una valoración profesional.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "question",
+          "settings": {
+            "question": "¿Una férula sustituye ir al médico o al dentista?",
+            "answer": "<p>No. Una férula no sustituye a un diagnóstico ni a un tratamiento indicado por un profesional.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "question",
+          "settings": {
+            "question": "¿Qué significa el marcado CE?",
+            "answer": "<p>Un logotipo CE en una foto no basta. El fabricante debe tener una declaración UE de conformidad para ese modelo exacto. Antes de vender, pediremos y revisaremos esa documentación.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "question",
+          "settings": {
+            "question": "¿Pedís datos de salud?",
+            "answer": "<p>No. No necesitamos datos de salud para responder a tus dudas. Por favor, no los escribas en el formulario de contacto.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
+      ]
+    },
+    "closing": {
+      "type": "ds-callout",
+      "settings": {
+        "color_scheme": "scheme-4",
+        "style": "center",
+        "heading": "Infórmate con calma.",
+        "text": "<p>Descansar juntos importa. Informarse antes de decidir, también.</p>",
+        "button_label": "Entender las opciones",
+        "button_link": "/pages/como-funciona",
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "hero",
+    "start",
+    "empathy",
+    "basics",
+    "status",
+    "trust",
+    "faq",
+    "closing"
   ]
 }
