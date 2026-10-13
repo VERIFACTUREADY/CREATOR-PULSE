@@ -20,7 +20,15 @@
   <div class="ds-proto-banner ds-proto-banner--preview" role="note">
     <div class="page-width ds-proto-banner__inner">
       <span class="ds-proto-banner__tag">{{ 'ds.banner.preview_tag' | t }}</span>
-      <span>{{ 'ds.banner.preview_text' | t }}</span>
+      <span>{{ 'ds.banner.preview_text' | t }}{% unless settings.ds_brand_confirmed %} · {{ 'ds.banner.brand_pending' | t }}{% endunless %}</span>
+    </div>
+  </div>
+{%- elsif ds_mode_b == 'live' and settings.ds_noindex and request.design_mode -%}
+  {%- comment -%} V2.1: aviso solo en el editor de temas si LIVE convive con noindex (revisión P1). {%- endcomment -%}
+  <div class="ds-proto-banner ds-proto-banner--blocked" role="note">
+    <div class="page-width ds-proto-banner__inner">
+      <span class="ds-proto-banner__tag">noindex</span>
+      <span>{{ 'ds.banner.live_noindex' | t }}</span>
     </div>
   </div>
 {%- elsif ds_mode_b == 'prototipo' and settings.ds_prototype_banner -%}

@@ -8,16 +8,16 @@
   assign out = text
   if out contains '[['
     capture p_ship
-      render 'ds-pending', label: 'envío'
+      render 'ds-pending', label: 'shipping'
     endcapture
     capture p_ret
-      render 'ds-pending', label: 'devoluciones'
+      render 'ds-pending', label: 'returns'
     endcapture
     capture p_sup
-      render 'ds-pending', label: 'atención al cliente'
+      render 'ds-pending', label: 'customer care'
     endcapture
     capture p_pay
-      render 'ds-pending', label: 'formas de pago'
+      render 'ds-pending', label: 'payment methods'
     endcapture
     assign v_ship = settings.ds_offer_shipping | escape | default: p_ship
     assign v_ret = settings.ds_offer_returns | escape | default: p_ret

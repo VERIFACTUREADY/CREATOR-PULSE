@@ -12,6 +12,24 @@
     "settings": [
       {
         "type": "header",
+        "content": "Marca"
+      },
+      {
+        "type": "text",
+        "id": "ds_brand_name",
+        "label": "Nombre de marca",
+        "default": "VINCIRENA",
+        "info": "Candidato provisional. Vacío = nombre de la tienda en Shopify. Cambiar aquí actualiza cabecera, pie y avisos."
+      },
+      {
+        "type": "checkbox",
+        "id": "ds_brand_confirmed",
+        "label": "Marca confirmada (registro y dominio verificados)",
+        "default": false,
+        "info": "Mientras esté desactivado, la vista previa avisa de que el nombre es provisional."
+      },
+      {
+        "type": "header",
         "content": "Estado de la tienda"
       },
       {
@@ -138,7 +156,7 @@
         "type": "text",
         "id": "ds_last_review",
         "label": "Fecha de última revisión del contenido",
-        "default": "13/10/2026"
+        "default": "October 13, 2026"
       }
     ]
   },

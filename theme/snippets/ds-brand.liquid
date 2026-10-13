@@ -1,0 +1,6 @@
+{% comment %}
+  Nombre de marca (fuente única). Ajuste del tema «Nombre de marca» o, si está
+  vacío, el nombre de la tienda en Shopify (Configuración › Detalles de la tienda).
+  Cambiar la marca = cambiar ese ajuste o el nombre de la tienda; ningún texto la repite.
+{% endcomment %}
+{{- settings.ds_brand_name | default: shop.name | escape -}}

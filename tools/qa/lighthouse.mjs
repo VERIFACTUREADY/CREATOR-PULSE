@@ -7,7 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const out = path.join(repo, 'qa/reports');
-const routes = ['/', '/products/dispositivo-bucal', '/pages/landing-ronquidos', '/pages/landing-pareja', '/pages/preguntas-frecuentes', '/pages/contacto'];
+const routes = ['/', '/products/adjustable-mouthpiece', '/pages/landing-snoring', '/pages/landing-partners', '/pages/faq', '/pages/contact'];
 const chrome = await chromeLauncher.launch({ chromePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', chromeFlags: ['--headless=new', '--no-sandbox'] });
 const summary = {};
 for (const r of routes) {

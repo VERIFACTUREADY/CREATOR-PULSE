@@ -9,27 +9,27 @@
   <li>
     <span class="ds-offer-points__icon">{%- render 'ds-icon', name: 'truck' -%}</span>
     <span><strong>{{ 'ds.offer.shipping' | t }}</strong>
-      {% if settings.ds_offer_shipping != blank %}{{ settings.ds_offer_shipping | escape }}{% else %}{% render 'ds-pending', label: 'envío' %}{% endif %}
+      {% if settings.ds_offer_shipping != blank %}{{ settings.ds_offer_shipping | escape }}{% else %}{% render 'ds-pending', label: 'shipping' %}{% endif %}
       {%- if product.metafields.commercial.delivery_window != blank %} · {{ product.metafields.commercial.delivery_window | metafield_tag }}{%- endif -%}
     </span>
   </li>
   <li>
     <span class="ds-offer-points__icon">{%- render 'ds-icon', name: 'return' -%}</span>
     <span><strong>{{ 'ds.offer.returns' | t }}</strong>
-      {% if settings.ds_offer_returns != blank %}{{ settings.ds_offer_returns | escape }}{% else %}{% render 'ds-pending', label: 'devoluciones' %}{% endif %}
-      <a href="/pages/devoluciones">{{ 'ds.offer.conditions' | t }}</a>
+      {% if settings.ds_offer_returns != blank %}{{ settings.ds_offer_returns | escape }}{% else %}{% render 'ds-pending', label: 'returns' %}{% endif %}
+      <a href="/pages/returns">{{ 'ds.offer.conditions' | t }}</a>
     </span>
   </li>
   <li>
     <span class="ds-offer-points__icon">{%- render 'ds-icon', name: 'chat' -%}</span>
     <span><strong>{{ 'ds.offer.support' | t }}</strong>
-      {% if settings.ds_offer_support != blank %}{{ settings.ds_offer_support | escape }}{% else %}{% render 'ds-pending', label: 'atención al cliente' %}{% endif %}
+      {% if settings.ds_offer_support != blank %}{{ settings.ds_offer_support | escape }}{% else %}{% render 'ds-pending', label: 'customer care' %}{% endif %}
     </span>
   </li>
   <li>
     <span class="ds-offer-points__icon">{%- render 'ds-icon', name: 'check' -%}</span>
     <span><strong>{{ 'ds.offer.payment' | t }}</strong>
-      {% if settings.ds_offer_payment != blank %}{{ settings.ds_offer_payment | escape }}{% else %}{% render 'ds-pending', label: 'formas de pago' %}{% endif %}
+      {% if settings.ds_offer_payment != blank %}{{ settings.ds_offer_payment | escape }}{% else %}{% render 'ds-pending', label: 'payment methods' %}{% endif %}
     </span>
   </li>
 </ul>

@@ -199,7 +199,10 @@
       "ds_offer_shipping": "",
       "ds_offer_returns": "",
       "ds_offer_support": "",
-      "ds_offer_payment": ""
+      "ds_offer_payment": "",
+      "ds_brand_name": "VINCIRENA",
+      "ds_brand_confirmed": false,
+      "ds_last_review": "October 13, 2026"
     }
   }
 }

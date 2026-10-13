@@ -1,5 +1,25 @@
 # 10 · QA del prototipo
 
+## V2.1 · Resultados (13/10/2026, EE. UU., inglés, USD, PREVIEW_COMERCIAL)
+
+| Prueba | Resultado |
+|---|---|
+| Theme Check | 0 errores (9 avisos heredados de Dawn) |
+| `gate-tests.mjs` | 47/47 |
+| Estados (`run-qa.mjs`) | 12/12 |
+| 18 rutas × 375/390/768/1440 (72 combinaciones) | 0 desbordamientos · 1 H1 · 0 enlaces rotos · 0 errores de consola · 0 objetivos < 44 px |
+| axe WCAG 2.2 AA | 0 violaciones (PREVIEW 390/1440 y PROTOTIPO 390) |
+| Primera pantalla (título + precio + CTA) | 8/8: portada, 2 landings y ficha a 390×844 y 375×667 |
+| Claims prohibidos (ES + EN/FTC) · español en la tienda inglesa · rastreadores | 0 · 0 · 0 |
+| Lighthouse móvil (6 páginas) | Rendimiento 91–95 · Accesibilidad 100 · Buenas prácticas 96 · SEO 63 (noindex intencionado) · CLS 0 |
+| `excel_tests.py` (hoja USD) | 13/13 · `v2-regression-excel.py`: fallo V2 reproducido |
+| `prelaunch-check.mjs` | NO APTO (181 incidencias; +16 con `--expect-indexable`) |
+
+Sin verificar: todo lo que requiere Shopify real (`V21_PLAN_PRUEBAS_SHOPIFY.md`).
+
+---
+
+
 ## V2 · Resultados (13/10/2026, vista comercial PREVIEW_COMERCIAL)
 
 | Prueba | Resultado |

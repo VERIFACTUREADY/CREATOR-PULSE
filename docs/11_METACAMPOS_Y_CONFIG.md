@@ -2,6 +2,31 @@
 
 > No he tenido acceso a ninguna tienda Shopify (DP-18). Estos pasos son para el titular o para una sesión posterior con acceso de colaborador. **No publicar el tema en la tienda en directo, no activar pagos y no quitar la contraseña.**
 
+
+> **V2.1 (EE. UU.):** la tienda se publica en **inglés** y **USD**. En Shopify: *Settings › Store details* (nombre = marca), *Markets* → United States, moneda USD e idioma English. Las páginas, plantillas y menús en español de las secciones siguientes son **históricos** (V2). Los borradores están en `drafts/es/`. Tabla vigente:
+>
+> | Página (título) | Handle | Plantilla |
+> |---|---|---|
+> | How it works | `how-it-works` | `page.how-it-works` |
+> | The product (solo PROTOTIPO) | `the-product` | `page.the-product` |
+> | Use & safety | `use-and-safety` | `page.use-and-safety` |
+> | Frequently asked questions | `faq` | `page.faq` |
+> | About us | `about` | `page.about` |
+> | Contact | `contact` | `page.contact-us` |
+> | Shipping policy | `shipping` | `page.shipping` |
+> | Return policy | `returns` | `page.returns` |
+> | Privacy Policy | `privacy` | `page.privacy` |
+> | Terms of Service | `terms` | `page.terms` |
+> | Company information | `company-information` | `page.company-information` |
+> | Accessibility | `accessibility` | `page.accessibility` |
+> | Worried about your snoring? (landing A) | `landing-snoring` | `page.landing-snoring` |
+> | Sleeping as a couple (landing B) | `landing-partners` | `page.landing-partners` |
+>
+> Menús: `main-menu` = The product (`/products/adjustable-mouthpiece`) · How it works · Use & safety · FAQ · `footer` = About us · Contact · Shipping policy · Return policy · Accessibility · `legal` = Privacy Policy · Terms of Service · Company information.
+> Producto: handle **`adjustable-mouthpiece`**, en estado **Draft**. Metacampos `commercial.*` y `compliance.*` en inglés; `compliance.ifu_es` conserva su nombre técnico pero debe contener el **IFU en inglés**, y `eu_declaration_ref` guarda la referencia regulatoria de EE. UU. (p. ej., el número 510(k)).
+> Marca: *Ajustes del tema › Estado de la tienda › Nombre de marca* (VINCIRENA provisional) + casilla «Marca confirmada».
+
+
 ## 1. Subir el tema sin publicarlo
 
 1. Admin de Shopify › Tienda online › Temas › **Añadir tema › Subir archivo zip** › `dist/tema-descanso-dawn.zip`.

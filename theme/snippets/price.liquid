@@ -20,7 +20,7 @@
 {%- endcomment -%}
 {%- capture ds_offer -%}{%- render 'ds-offer-visible', product: product -%}{%- endcapture -%}
 {%- if ds_offer == 'true' and product.metafields.commercial.price_confirmed.value != true -%}
-  <div class="price ds-price-pending">{%- render 'ds-pending', label: 'precio confirmado' -%}</div>
+  <div class="price ds-price-pending">{%- render 'ds-pending', label: 'confirmed price' -%}</div>
 {%- elsif ds_offer == 'true' -%}
 {%- liquid
   if use_variant

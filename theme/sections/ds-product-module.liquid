@@ -15,17 +15,17 @@
   assign m = p.metafields.commercial[key]
   case key
     when 'what_is'
-      assign label = 'qué es (ficha comercial)'
+      assign label = 'what it is (approved product sheet)'
     when 'how_to_steps'
-      assign label = 'pasos de uso (ficha comercial)'
+      assign label = 'how-to steps (approved product sheet)'
     when 'for_whom'
-      assign label = 'para quién (ficha comercial)'
+      assign label = 'who it’s for (approved product sheet)'
     when 'includes'
-      assign label = 'qué incluye (ficha comercial)'
+      assign label = 'what’s included (approved product sheet)'
     when 'features'
-      assign label = 'características (ficha comercial)'
+      assign label = 'features (approved product sheet)'
     else
-      assign label = 'cuidados y limpieza (ficha comercial)'
+      assign label = 'care and cleaning (approved product sheet)'
   endcase
 -%}
 <section
@@ -64,8 +64,14 @@
         {%- if m != blank -%}{{ m | metafield_tag }}{%- else -%}<p>{%- render 'ds-pending', label: label -%}</p>{%- endif -%}
       </div>
     {%- endif -%}
-    {%- if section.settings.link_label != blank -%}
-      <p class="ds-pmodule__link"><a class="ds-link-arrow" href="{% if section.settings.link != blank %}{{ section.settings.link }}{% elsif p != blank %}{{ p.url }}{% else %}#{% endif %}">{{ section.settings.link_label | escape }}</a></p>
+    {%- liquid
+      assign has_dest = false
+      if section.settings.link != blank or p != blank
+        assign has_dest = true
+      endif
+    -%}
+    {%- if section.settings.link_label != blank and has_dest -%}
+      <p class="ds-pmodule__link"><a class="ds-link-arrow" href="{% if section.settings.link != blank %}{{ section.settings.link }}{% else %}{{ p.url }}{% endif %}">{{ section.settings.link_label | escape }}</a></p>
     {%- endif -%}
   </div>
 </section>
@@ -77,28 +83,121 @@
   "tag": "div",
   "class": "section",
   "settings": [
-    { "type": "select", "id": "visible_in", "label": "Mostrar en", "default": "comercial", "options": [{ "value": "all", "label": "Todos los estados" }, { "value": "prototipo", "label": "Solo PROTOTIPO" }, { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" }] },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
-    { "type": "product", "id": "product", "label": "Producto", "info": "En la ficha se usa el producto actual." },
     {
-      "type": "select", "id": "module", "label": "Contenido (metacampo commercial.*)", "default": "what_is",
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "comercial",
       "options": [
-        { "value": "what_is", "label": "Qué es (commercial.what_is)" },
-        { "value": "how_to_steps", "label": "Cómo se usa, por pasos (commercial.how_to_steps)" },
-        { "value": "for_whom", "label": "Para quién (commercial.for_whom)" },
-        { "value": "includes", "label": "Qué incluye (commercial.includes)" },
-        { "value": "features", "label": "Características (commercial.features)" },
-        { "value": "care", "label": "Cuidados y limpieza (commercial.care)" }
+        {
+          "value": "all",
+          "label": "Todos los estados"
+        },
+        {
+          "value": "prototipo",
+          "label": "Solo PROTOTIPO"
+        },
+        {
+          "value": "comercial",
+          "label": "Solo PREVIEW_COMERCIAL y LIVE"
+        }
       ]
     },
-    { "type": "text", "id": "anchor", "label": "Ancla" },
-    { "type": "text", "id": "eyebrow", "label": "Antetítulo" },
-    { "type": "text", "id": "heading", "label": "Título", "default": "Qué es" },
-    { "type": "text", "id": "link_label", "label": "Enlace (texto)" },
-    { "type": "url", "id": "link", "label": "Enlace (vacío = ficha del producto)" },
-    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 48 },
-    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 48 }
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Producto",
+      "info": "En la ficha se usa el producto actual."
+    },
+    {
+      "type": "select",
+      "id": "module",
+      "label": "Contenido (metacampo commercial.*)",
+      "default": "what_is",
+      "options": [
+        {
+          "value": "what_is",
+          "label": "Qué es (commercial.what_is)"
+        },
+        {
+          "value": "how_to_steps",
+          "label": "Cómo se usa, por pasos (commercial.how_to_steps)"
+        },
+        {
+          "value": "for_whom",
+          "label": "Para quién (commercial.for_whom)"
+        },
+        {
+          "value": "includes",
+          "label": "Qué incluye (commercial.includes)"
+        },
+        {
+          "value": "features",
+          "label": "Características (commercial.features)"
+        },
+        {
+          "value": "care",
+          "label": "Cuidados y limpieza (commercial.care)"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Ancla"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Antetítulo"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "What it is"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Enlace (texto)"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Enlace (vacío = ficha del producto)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Margen superior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Margen inferior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    }
   ],
-  "presets": [{ "name": "DS · Módulo de ficha" }]
+  "presets": [
+    {
+      "name": "DS · Módulo de ficha"
+    }
+  ]
 }
 {% endschema %}

@@ -8,7 +8,7 @@
 {%- endcomment -%}
 {%- assign c = product.metafields.compliance -%}
 {%- capture ds_mode_d -%}{%- render 'ds-mode' -%}{%- endcapture -%}
-{%- capture missing -%}{%- render 'ds-pending', label: 'documentación del fabricante' -%}{%- endcapture -%}
+{%- capture missing -%}{%- render 'ds-pending', label: 'manufacturer documentation' -%}{%- endcapture -%}
 <section
   class="ds-product-details ds-section color-{{ section.settings.color_scheme }} gradient"
   style="{% render 'ds-section-vars', section: section %}"
@@ -57,7 +57,7 @@
               <li>{{ 'ds.product.general_1' | t }}</li>
               <li>{{ 'ds.product.general_2' | t }}</li>
             </ul>
-            <p><a class="ds-link-arrow" href="/pages/uso-y-seguridad">{{ 'ds.gate.safety' | t }}</a></p>
+            <p><a class="ds-link-arrow" href="/pages/use-and-safety">{{ 'ds.gate.safety' | t }}</a></p>
           </div>
         </details>
         <details class="ds-details__item">
@@ -84,8 +84,8 @@
           <summary>{{ 'ds.product.shipping' | t }}</summary>
           <div class="ds-details__body ds-rte">
             <p><strong>{{ 'ds.product.delivery' | t }}:</strong>
-              {% if product.metafields.commercial.delivery_window != blank %}{{ product.metafields.commercial.delivery_window | metafield_tag }}{% else %}{% render 'ds-pending', label: 'plazo real confirmado por el proveedor' %}{% endif %}</p>
-            <p><a href="/pages/envios">{{ 'ds.product.shipping_link' | t }}</a> · <a href="/pages/devoluciones">{{ 'ds.product.returns_link' | t }}</a></p>
+              {% if product.metafields.commercial.delivery_window != blank %}{{ product.metafields.commercial.delivery_window | metafield_tag }}{% else %}{% render 'ds-pending', label: 'confirmed delivery time' %}{% endif %}</p>
+            <p><a href="/pages/shipping">{{ 'ds.product.shipping_link' | t }}</a> · <a href="/pages/returns">{{ 'ds.product.returns_link' | t }}</a></p>
           </div>
         </details>
         {%- endif -%}
@@ -115,7 +115,7 @@
       "type": "text",
       "id": "heading",
       "label": "Título",
-      "default": "Ficha técnica y precauciones"
+      "default": "Technical details and precautions"
     },
     {
       "type": "richtext",

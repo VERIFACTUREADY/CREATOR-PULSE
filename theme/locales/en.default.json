@@ -544,8 +544,8 @@
       "text": "Private prototype. This website does not sell products or accept orders."
     },
     "gate": {
-      "title": "We do not sell this product yet",
-      "text": "We are checking its documentation, whether it can be sold online in Spain and its real cost. Meanwhile, you can read how to use this type of device safely.",
+      "title": "This product isn't for sale yet",
+      "text": "We're still reviewing its documentation and real cost. In the meantime, you can read how to use this type of device safely.",
       "safety": "Read use and safety",
       "faq": "See frequently asked questions"
     },
@@ -570,43 +570,43 @@
     },
     "legal": {
       "notice_title": "Template pending legal review",
-      "notice_text": "This text is a working draft. Data in brackets is missing and must be completed. A lawyer must review it before the store is published.",
+      "notice_text": "This is a working draft. Items in brackets are missing and must be completed. US counsel must review it before the store goes live.",
       "identity_title": "Who owns this website",
       "name": "Owner",
-      "tax_id": "Tax ID",
+      "tax_id": "EIN / Tax ID",
       "address": "Address",
       "email": "Email",
-      "registry": "Registry data"
+      "registry": "State of formation / registration"
     },
     "contact": {
-      "health_title": "Do not write health data",
-      "health_text": "We do not need health data to answer your questions. Please do not write symptoms, diagnoses or treatments in this form. For health questions, ask a healthcare professional.",
+      "health_title": "Please don't include health information",
+      "health_text": "We don't need any health information to answer your question. Please don't include symptoms, diagnoses or treatments in this form. For questions about your health, talk to a healthcare provider.",
       "email_label": "Email",
       "response_label": "Response time",
       "required_hint": "Fields marked * are required.",
-      "email_hint": "We will only use it to reply to you.",
+      "email_hint": "We'll only use it to reply to you.",
       "topic": "Topic",
       "body_hint": "Tell us your question in a few sentences. No health data, please.",
       "consent_field": "Privacy",
-      "consent_value": "I have read and accept the privacy policy",
-      "consent_html": "I have read and accept the <a href=\"{{ privacy_url }}\">privacy policy</a>."
+      "consent_value": "I have read and agree to the Privacy Policy",
+      "consent_html": "I have read and agree to the <a href=\"{{ privacy_url }}\">Privacy Policy</a>."
     },
     "product": {
-      "what": "What it is and what it is intended for",
+      "what": "What it is and its intended use",
       "model": "Exact model",
-      "purpose": "Manufacturer's intended purpose",
+      "purpose": "Manufacturer's intended use",
       "manufacturer": "Manufacturer",
       "how": "How to use it",
-      "ifu_missing": "Instructions for use, fitting and cleaning must come from the manufacturer, in Spanish. We do not have them yet, so we do not publish them.",
+      "ifu_missing": "Instructions for use, fitting and cleaning must come from the manufacturer, in English. We don't have them yet, so we don't publish them.",
       "safety": "Precautions and contraindications",
       "warnings": "Manufacturer warnings",
       "contraindications": "Manufacturer contraindications",
-      "general_1": "A mouthguard does not replace a diagnosis or a treatment prescribed by a professional.",
-      "general_2": "If you feel pain in your jaw, teeth or ear, stop using the device and see a professional.",
+      "general_1": "An oral device doesn't replace a diagnosis or treatment from a healthcare provider.",
+      "general_2": "If you feel pain in your jaw, teeth or ear, stop using the device and talk to a healthcare provider or dentist.",
       "materials": "Materials and cleaning",
       "docs": "Manufacturer and documentation",
-      "declaration": "EU declaration of conformity",
-      "operator": "Responsible importer or distributor",
+      "declaration": "Regulatory reference (for example, FDA 510(k) number)",
+      "operator": "US importer / distributor of record",
       "lot": "Batch traceability",
       "shipping": "Shipping and returns",
       "delivery": "Delivery time",
@@ -621,17 +621,19 @@
       "cta": "Back to home"
     },
     "preview": {
-      "cta_title": "Purchase disabled in preview.",
-      "cta_text": "This button will only work when the store switches to LIVE with all data confirmed.",
+      "cta_title": "Purchasing is turned off in this preview.",
+      "cta_text": "This button will only work once the store switches to LIVE with every detail confirmed.",
       "missing": "Missing",
       "bar": "See the product"
     },
     "banner": {
       "preview_tag": "Commercial preview",
-      "preview_text": "Unpublished theme · purchase disabled · data marked ⟦PENDING⟧ is still to be confirmed.",
+      "preview_text": "Unpublished theme · purchasing is turned off · items marked ⟦PENDING⟧ still need confirmed data.",
       "live_blocked_tag": "LIVE blocked",
       "live_no_confirmation": "Confirmation phrase missing.",
-      "live_missing": "Missing data"
+      "live_missing": "Missing data",
+      "brand_pending": "Working brand name, pending confirmation",
+      "live_noindex": "LIVE is on but search engines are asked not to index this store (theme setting «noindex»). Turn it off only when publishing is authorized."
     },
     "photo": {
       "title": "PHOTO PENDING · NOT PUBLISHABLE",
@@ -640,7 +642,7 @@
     "offer": {
       "shipping": "Shipping:",
       "returns": "Returns:",
-      "support": "Support:",
+      "support": "Customer care:",
       "payment": "Payment:",
       "conditions": "See conditions"
     }

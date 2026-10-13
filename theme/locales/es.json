@@ -643,7 +643,9 @@
       "preview_text": "Tema no publicado · la compra está desactivada · los datos marcados ⟦PENDIENTE⟧ faltan por confirmar.",
       "live_blocked_tag": "LIVE bloqueado",
       "live_no_confirmation": "Falta la frase de confirmación.",
-      "live_missing": "Faltan datos"
+      "live_missing": "Faltan datos",
+      "brand_pending": "Nombre de marca provisional, pendiente de confirmar",
+      "live_noindex": "LIVE activo con noindex: los buscadores no indexarán la tienda. Desactívalo solo cuando la publicación esté autorizada."
     },
     "photo": {
       "title": "FOTO PENDIENTE · NO PUBLICABLE",

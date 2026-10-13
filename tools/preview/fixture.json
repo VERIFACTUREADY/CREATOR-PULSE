@@ -1,10 +1,10 @@
 {
   "shop": {
-    "name": "Descanso Compartido",
+    "name": "VINCIRENA",
     "url": "http://localhost",
     "secure_url": "http://localhost",
-    "locale": "es",
-    "currency": "EUR",
+    "locale": "en",
+    "currency": "USD",
     "policies": [],
     "brand": null,
     "email": "",
@@ -26,52 +26,56 @@
   "menus": {
     "main-menu": [
       {
-        "title": "El producto",
-        "url": "/products/dispositivo-bucal"
+        "title": "The product",
+        "url": "/products/adjustable-mouthpiece"
       },
       {
-        "title": "Cómo funciona",
-        "url": "/pages/como-funciona"
+        "title": "How it works",
+        "url": "/pages/how-it-works"
       },
       {
-        "title": "Uso y seguridad",
-        "url": "/pages/uso-y-seguridad"
+        "title": "Use & safety",
+        "url": "/pages/use-and-safety"
       },
       {
-        "title": "Preguntas",
-        "url": "/pages/preguntas-frecuentes"
+        "title": "FAQ",
+        "url": "/pages/faq"
       }
     ],
     "footer": [
       {
-        "title": "Quiénes somos",
-        "url": "/pages/quienes-somos"
+        "title": "About us",
+        "url": "/pages/about"
       },
       {
-        "title": "Contacto",
-        "url": "/pages/contacto"
+        "title": "Contact",
+        "url": "/pages/contact"
       },
       {
-        "title": "Envíos",
-        "url": "/pages/envios"
+        "title": "Shipping policy",
+        "url": "/pages/shipping"
       },
       {
-        "title": "Devoluciones y garantía",
-        "url": "/pages/devoluciones"
+        "title": "Return policy",
+        "url": "/pages/returns"
+      },
+      {
+        "title": "Accessibility",
+        "url": "/pages/accessibility"
       }
     ],
     "legal": [
       {
-        "title": "Aviso legal",
-        "url": "/pages/aviso-legal"
+        "title": "Privacy Policy",
+        "url": "/pages/privacy"
       },
       {
-        "title": "Privacidad",
-        "url": "/pages/privacidad"
+        "title": "Terms of Service",
+        "url": "/pages/terms"
       },
       {
-        "title": "Cookies",
-        "url": "/pages/cookies"
+        "title": "Company information",
+        "url": "/pages/company-information"
       }
     ]
   },
@@ -79,162 +83,202 @@
     {
       "path": "/",
       "template": "index",
-      "title": "Descanso en pareja e información sobre ronquidos",
-      "description": "Información clara sobre ronquidos, descanso compartido y opciones disponibles. Conoce las señales por las que conviene consultar."
+      "title": "Because you share the night",
+      "description": "Clear information about snoring and sleeping as a couple, and the oral device we offer."
     },
     {
-      "path": "/pages/como-funciona",
-      "template": "page.como-funciona",
-      "title": "Cómo funciona",
+      "path": "/pages/how-it-works",
+      "template": "page.how-it-works",
+      "title": "How it works",
+      "description": "What snoring is, why it isn’t always the same, and how the different options work.",
       "page": {
-        "title": "Cómo funciona",
-        "handle": "como-funciona",
+        "title": "How it works",
+        "handle": "how-it-works",
         "content": "",
-        "url": "/pages/como-funciona",
-        "id": "como-funciona"
-      },
-      "description": "Qué son los ronquidos, por qué no todos son iguales, qué es una férula de avance mandibular y cómo actúan las distintas opciones."
+        "url": "/pages/how-it-works",
+        "id": "how-it-works"
+      }
     },
     {
-      "path": "/pages/el-producto",
-      "template": "page.el-producto",
-      "title": "El producto",
+      "path": "/pages/the-product",
+      "template": "page.the-product",
+      "title": "The product",
+      "description": "Everything about the device, in one place.",
       "page": {
-        "title": "El producto",
-        "handle": "el-producto",
+        "title": "The product",
+        "handle": "the-product",
         "content": "",
-        "url": "/pages/el-producto",
-        "id": "el-producto"
-      },
-      "description": "Qué sabemos y qué no del dispositivo que estamos evaluando, y qué comprobamos antes de venderlo. Todavía no está a la venta."
+        "url": "/pages/the-product",
+        "id": "the-product"
+      }
     },
     {
-      "path": "/pages/uso-y-seguridad",
-      "template": "page.uso-y-seguridad",
-      "title": "Uso y seguridad",
+      "path": "/pages/use-and-safety",
+      "template": "page.use-and-safety",
+      "title": "Use & safety",
+      "description": "When to talk to a healthcare provider and general precautions before using an oral device for sleep.",
       "page": {
-        "title": "Uso y seguridad",
-        "handle": "uso-y-seguridad",
+        "title": "Use & safety",
+        "handle": "use-and-safety",
         "content": "",
-        "url": "/pages/uso-y-seguridad",
-        "id": "uso-y-seguridad"
-      },
-      "description": "Cuándo consultar con un profesional sanitario y precauciones generales antes de usar un dispositivo bucal para dormir."
+        "url": "/pages/use-and-safety",
+        "id": "use-and-safety"
+      }
     },
     {
-      "path": "/pages/preguntas-frecuentes",
-      "template": "page.preguntas-frecuentes",
-      "title": "Preguntas frecuentes",
+      "path": "/pages/faq",
+      "template": "page.faq",
+      "title": "Frequently asked questions",
+      "description": "Short answers about snoring, oral appliances, shipping, returns and privacy.",
       "page": {
-        "title": "Preguntas frecuentes",
-        "handle": "preguntas-frecuentes",
+        "title": "Frequently asked questions",
+        "handle": "faq",
         "content": "",
-        "url": "/pages/preguntas-frecuentes",
-        "id": "preguntas-frecuentes"
-      },
-      "description": "Respuestas cortas sobre ronquidos, apnea, férulas, marcado CE, envíos, devoluciones y privacidad."
+        "url": "/pages/faq",
+        "id": "faq"
+      }
     },
     {
-      "path": "/pages/quienes-somos",
-      "template": "page.quienes-somos",
-      "title": "Quiénes somos",
+      "path": "/pages/about",
+      "template": "page.about",
+      "title": "About us",
+      "description": "A brand that talks about sleep without miracle claims.",
       "page": {
-        "title": "Quiénes somos",
-        "handle": "quienes-somos",
+        "title": "About us",
+        "handle": "about",
         "content": "",
-        "url": "/pages/quienes-somos",
-        "id": "quienes-somos"
-      },
-      "description": "Una marca que habla de descanso sin promesas milagrosas. Cómo trabajamos y en qué punto estamos."
+        "url": "/pages/about",
+        "id": "about"
+      }
     },
     {
-      "path": "/pages/contacto",
-      "template": "page.contacto",
-      "title": "Contacto",
+      "path": "/pages/contact",
+      "template": "page.contact-us",
+      "title": "Contact",
+      "description": "Write to us with questions about this website or your order. Please don’t include health information.",
       "page": {
-        "title": "Contacto",
-        "handle": "contacto",
+        "title": "Contact",
+        "handle": "contact",
         "content": "",
-        "url": "/pages/contacto",
-        "id": "contacto"
-      },
-      "description": "Escríbenos tus dudas sobre la información de esta web. Por favor, no incluyas datos de salud."
+        "url": "/pages/contact",
+        "id": "contact"
+      }
     },
     {
-      "path": "/pages/envios",
-      "template": "page.envios",
-      "title": "Envíos",
+      "path": "/pages/shipping",
+      "template": "page.shipping",
+      "title": "Shipping policy",
+      "description": "How we ship orders within the United States.",
       "page": {
-        "title": "Envíos",
-        "handle": "envios",
+        "title": "Shipping policy",
+        "handle": "shipping",
         "content": "",
-        "url": "/pages/envios",
-        "id": "envios"
-      },
-      "description": "Envíos. Información del prototipo Descanso Compartido."
+        "url": "/pages/shipping",
+        "id": "shipping"
+      }
     },
     {
-      "path": "/pages/devoluciones",
-      "template": "page.devoluciones",
-      "title": "Devoluciones y garantía",
+      "path": "/pages/returns",
+      "template": "page.returns",
+      "title": "Return policy",
+      "description": "Returns, damaged items and refunds.",
       "page": {
-        "title": "Devoluciones y garantía",
-        "handle": "devoluciones",
+        "title": "Return policy",
+        "handle": "returns",
         "content": "",
-        "url": "/pages/devoluciones",
-        "id": "devoluciones"
-      },
-      "description": "Devoluciones y garantía. Información del prototipo Descanso Compartido."
+        "url": "/pages/returns",
+        "id": "returns"
+      }
     },
     {
-      "path": "/pages/aviso-legal",
-      "template": "page.aviso-legal",
-      "title": "Aviso legal",
+      "path": "/pages/privacy",
+      "template": "page.privacy",
+      "title": "Privacy Policy",
+      "description": "How we handle your personal information.",
       "page": {
-        "title": "Aviso legal",
-        "handle": "aviso-legal",
+        "title": "Privacy Policy",
+        "handle": "privacy",
         "content": "",
-        "url": "/pages/aviso-legal",
-        "id": "aviso-legal"
-      },
-      "description": "Aviso legal. Información del prototipo Descanso Compartido."
+        "url": "/pages/privacy",
+        "id": "privacy"
+      }
     },
     {
-      "path": "/pages/privacidad",
-      "template": "page.privacidad",
-      "title": "Política de privacidad",
+      "path": "/pages/terms",
+      "template": "page.terms",
+      "title": "Terms of Service",
+      "description": "The terms that apply when you use this website.",
       "page": {
-        "title": "Política de privacidad",
-        "handle": "privacidad",
+        "title": "Terms of Service",
+        "handle": "terms",
         "content": "",
-        "url": "/pages/privacidad",
-        "id": "privacidad"
-      },
-      "description": "Política de privacidad. Información del prototipo Descanso Compartido."
+        "url": "/pages/terms",
+        "id": "terms"
+      }
     },
     {
-      "path": "/pages/cookies",
-      "template": "page.cookies",
-      "title": "Política de cookies",
+      "path": "/pages/company-information",
+      "template": "page.company-information",
+      "title": "Company information",
+      "description": "Who runs this store and how to reach us.",
       "page": {
-        "title": "Política de cookies",
-        "handle": "cookies",
+        "title": "Company information",
+        "handle": "company-information",
         "content": "",
-        "url": "/pages/cookies",
-        "id": "cookies"
-      },
-      "description": "Política de cookies. Información del prototipo Descanso Compartido."
+        "url": "/pages/company-information",
+        "id": "company-information"
+      }
     },
     {
-      "path": "/products/dispositivo-bucal",
+      "path": "/pages/accessibility",
+      "template": "page.accessibility",
+      "title": "Accessibility",
+      "description": "Our commitment to making this website usable for everyone.",
+      "page": {
+        "title": "Accessibility",
+        "handle": "accessibility",
+        "content": "",
+        "url": "/pages/accessibility",
+        "id": "accessibility"
+      }
+    },
+    {
+      "path": "/pages/landing-snoring",
+      "template": "page.landing-snoring",
+      "title": "Worried about your snoring?",
+      "description": "See what our mouthpiece is, how it’s used and what’s included.",
+      "page": {
+        "title": "Worried about your snoring?",
+        "handle": "landing-snoring",
+        "content": "",
+        "url": "/pages/landing-snoring",
+        "id": "landing-snoring"
+      }
+    },
+    {
+      "path": "/pages/landing-partners",
+      "template": "page.landing-partners",
+      "title": "Sleeping as a couple",
+      "description": "Because you share the night. See what our mouthpiece is and how it’s used.",
+      "page": {
+        "title": "Sleeping as a couple",
+        "handle": "landing-partners",
+        "content": "",
+        "url": "/pages/landing-partners",
+        "id": "landing-partners"
+      }
+    },
+    {
+      "path": "/products/adjustable-mouthpiece",
       "template": "product",
-      "title": "Dispositivo bucal ajustable",
+      "title": "Adjustable Mouthpiece",
+      "description": "What it is, how it’s used, what’s included, shipping and returns.",
       "product": {
         "id": 1,
-        "title": "Dispositivo bucal ajustable",
-        "handle": "dispositivo-bucal",
-        "url": "/products/dispositivo-bucal",
-        "description": "<p>[Descripción comercial: se rellena en el admin de Shopify con la ficha aprobada.]</p>",
+        "title": "Adjustable Mouthpiece",
+        "handle": "adjustable-mouthpiece",
+        "url": "/products/adjustable-mouthpiece",
+        "description": "<p>[Product description: added in the Shopify admin from the approved product sheet.]</p>",
         "vendor": "",
         "type": "",
         "available": true,
@@ -277,44 +321,17 @@
         "requires_selling_plan": false,
         "selling_plan_groups": [],
         "gift_card?": false
-      },
-      "description": "Dispositivo bucal ajustable: qué es, cómo se usa, qué incluye, envío y devoluciones."
-    },
-    {
-      "path": "/pages/landing-ronquidos",
-      "template": "page.landing-ronquidos",
-      "title": "¿Te preocupan tus ronquidos?",
-      "description": "Conoce nuestro dispositivo bucal: qué es, cómo se usa y qué incluye.",
-      "page": {
-        "title": "¿Te preocupan tus ronquidos?",
-        "handle": "landing-ronquidos",
-        "content": "",
-        "url": "/pages/landing-ronquidos",
-        "id": "landing-ronquidos"
-      }
-    },
-    {
-      "path": "/pages/landing-pareja",
-      "template": "page.landing-pareja",
-      "title": "Descanso en pareja",
-      "description": "Descansar juntos importa. Conoce nuestro dispositivo bucal y cómo se usa.",
-      "page": {
-        "title": "Descanso en pareja",
-        "handle": "landing-pareja",
-        "content": "",
-        "url": "/pages/landing-pareja",
-        "id": "landing-pareja"
       }
     },
     {
       "path": "/cart",
       "template": "cart",
-      "title": "Carrito"
+      "title": "Cart"
     },
     {
       "path": "/404",
       "template": "404",
-      "title": "Página no encontrada"
+      "title": "Page not found"
     }
   ]
 }

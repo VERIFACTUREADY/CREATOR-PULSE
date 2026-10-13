@@ -5,9 +5,9 @@
   <div class="page-width ds-identity">
     <p>
       <strong>{{ 'ds.footer.seller' | t }}:</strong>
-      {% render 'ds-legal-value', value: settings.ds_legal_name, label: 'razón social' %} ·
-      {{ 'ds.legal.tax_id' | t }} {% render 'ds-legal-value', value: settings.ds_legal_tax_id, label: 'NIF/CIF' %} ·
-      {% render 'ds-legal-value', value: settings.ds_legal_address, label: 'domicilio' %}
+      {% render 'ds-legal-value', value: settings.ds_legal_name, label: 'legal business name' %} ·
+      {{ 'ds.legal.tax_id' | t }} {% render 'ds-legal-value', value: settings.ds_legal_tax_id, label: 'EIN / tax ID' %} ·
+      {% render 'ds-legal-value', value: settings.ds_legal_address, label: 'business address' %}
     </p>
     {%- if section.settings.text != blank -%}<div class="ds-rte">{{ section.settings.text }}</div>{%- endif -%}
   </div>
@@ -21,7 +21,7 @@
   "enabled_on": { "groups": ["footer"] },
   "settings": [
     { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-4" },
-    { "type": "richtext", "id": "text", "label": "Texto adicional", "default": "<p>Esta web ofrece información general. No sustituye la valoración de un profesional sanitario.</p>" }
+    { "type": "richtext", "id": "text", "label": "Texto adicional", "default": "<p>This website provides general information. It does not replace advice from a healthcare provider.</p>" }
   ],
   "presets": [{ "name": "DS · Identidad vendedor" }]
 }

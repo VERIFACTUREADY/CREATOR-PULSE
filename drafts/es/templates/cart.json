@@ -1,0 +1,55 @@
+{
+  "sections": {
+    "cart-items": {
+      "type": "main-cart-items",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "cart-footer": {
+      "type": "main-cart-footer",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "subtotal": {
+          "type": "subtotal",
+          "settings": {}
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "subtotal",
+        "buttons"
+      ]
+    },
+    "proto": {
+      "type": "ds-callout",
+      "settings": {
+        "style": "prototype",
+        "icon": "doc",
+        "heading": "El carrito todavía no está activo",
+        "text": "<p>La compra todavía no está activa. Puedes ver el producto, su precio y sus condiciones.</p>",
+        "button_label": "Ver el producto",
+        "button_link": "/products/dispositivo-bucal",
+        "button_secondary": true,
+        "padding_top": 40,
+        "padding_bottom": 0,
+        "heading_level": "h1",
+        "visible_in": "no_live"
+      }
+    }
+  },
+  "order": [
+    "proto",
+    "cart-items",
+    "cart-footer"
+  ]
+}

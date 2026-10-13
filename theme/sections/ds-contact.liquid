@@ -23,13 +23,13 @@
         {% if settings.ds_legal_email != blank -%}
           <a href="mailto:{{ settings.ds_legal_email | escape }}">{{ settings.ds_legal_email | escape }}</a>
         {%- else -%}
-          {%- render 'ds-pending', label: 'email de contacto' -%}
+          {%- render 'ds-pending', label: 'contact email' -%}
         {%- endif %}
       </p>
       {%- if section.settings.response_time != blank -%}
         <p><strong>{{ 'ds.contact.response_label' | t }}:</strong> {{ section.settings.response_time | escape }}</p>
       {%- else -%}
-        <p><strong>{{ 'ds.contact.response_label' | t }}:</strong> {% render 'ds-pending', label: 'plazo de respuesta' %}</p>
+        <p><strong>{{ 'ds.contact.response_label' | t }}:</strong> {% render 'ds-pending', label: 'response time' %}</p>
       {%- endif -%}
     </div>
 
@@ -71,7 +71,7 @@
         <div class="ds-check">
           <input id="DsContact-consent" type="checkbox" name="contact[{{ 'ds.contact.consent_field' | t }}]" value="{{ 'ds.contact.consent_value' | t }}" required aria-required="true">
           <label for="DsContact-consent">
-            {%- assign privacy_url = section.settings.privacy_link | default: '/pages/privacidad' -%}
+            {%- assign privacy_url = section.settings.privacy_link | default: '/pages/privacy' -%}
             {{ 'ds.contact.consent_html' | t: privacy_url: privacy_url }}
             <span class="ds-required" aria-hidden="true">*</span>
           </label>
@@ -88,15 +88,67 @@
   "tag": "div",
   "class": "section",
   "settings": [
-    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
-    { "type": "text", "id": "heading", "label": "Título", "default": "Escríbenos" },
-    { "type": "richtext", "id": "intro", "label": "Introducción", "default": "<p>Respondemos dudas sobre la información de esta web. No podemos valorar casos médicos por este canal.</p>" },
-    { "type": "text", "id": "response_time", "label": "Plazo de respuesta real", "info": "Vacío = se muestra como pendiente. No prometer un plazo que no se pueda cumplir." },
-    { "type": "textarea", "id": "topics", "label": "Motivos de contacto (uno por línea)", "default": "Duda sobre la información de la web\nPrensa o colaboración\nPrivacidad y mis datos\nOtro motivo" },
-    { "type": "url", "id": "privacy_link", "label": "Enlace a la política de privacidad", "info": "Vacío = /pages/privacidad" },
-    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 48 },
-    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Write to us"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Introducción",
+      "default": "<p>We answer questions about the information on this website. We can't assess medical cases through this channel.</p>"
+    },
+    {
+      "type": "text",
+      "id": "response_time",
+      "label": "Plazo de respuesta real",
+      "info": "Vacío = se muestra como pendiente. No prometer un plazo que no se pueda cumplir."
+    },
+    {
+      "type": "textarea",
+      "id": "topics",
+      "label": "Motivos de contacto (uno por línea)",
+      "default": "Question about the website\nOrder or shipping question\nPress or partnerships\nPrivacy and my data\nSomething else"
+    },
+    {
+      "type": "url",
+      "id": "privacy_link",
+      "label": "Enlace a la política de privacidad",
+      "info": "Vacío = /pages/privacy"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Margen superior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Margen inferior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
   ],
-  "presets": [{ "name": "DS · Contacto" }]
+  "presets": [
+    {
+      "name": "DS · Contacto"
+    }
+  ]
 }
 {% endschema %}

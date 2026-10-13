@@ -8,14 +8,14 @@
         "brand": {
           "type": "text",
           "settings": {
-            "heading": "Descanso Compartido",
-            "subtext": "<p>Descansar juntos importa. Información clara sobre los ronquidos y el descanso en pareja.</p>"
+            "heading": "About",
+            "subtext": "<p>Because you share the night. Clear information about snoring and sleeping as a couple.</p>"
           }
         },
         "info": {
           "type": "link_list",
           "settings": {
-            "heading": "Información",
+            "heading": "Help",
             "menu": "footer"
           }
         },
@@ -50,7 +50,8 @@
     "identity": {
       "type": "ds-footer-identity",
       "settings": {
-        "color_scheme": "scheme-4"
+        "color_scheme": "scheme-4",
+        "text": "<p>This website provides general information. It doesn't replace advice from a healthcare provider.</p>"
       }
     }
   },

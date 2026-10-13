@@ -118,10 +118,11 @@ export function createEngine({ themeDir, locale, fallbackLocale, ctx }) {
   f('color_lighten', (c, p) => shift(c, p));
   f('color_darken', (c, p) => shift(c, -p));
   f('color_to_rgb', (c) => { c = toColor(c); return `rgb(${c.red}, ${c.green}, ${c.blue})`; });
-  const money = (cents) => (Number(cents || 0) / 100).toFixed(2).replace('.', ',') + ' €';
+  // Formato de la tienda en EE. UU. (Shopify: «${{amount}}»).
+  const money = (cents) => '$' + (Number(cents || 0) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   f('money', money);
-  f('money_with_currency', (c) => money(c) + ' EUR');
-  f('money_without_currency', (c) => money(c).replace(' €', ''));
+  f('money_with_currency', (c) => money(c) + ' USD');
+  f('money_without_currency', (c) => money(c).replace('$', ''));
   f('money_without_trailing_zeros', money);
   f('money_amount', money);
   f('handleize', (s) => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));

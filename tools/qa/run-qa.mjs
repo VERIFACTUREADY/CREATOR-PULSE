@@ -55,8 +55,8 @@ build(OUT.liveComplete, ['--mode', 'live', '--confirm-live', '--complete-globals
 const outDefault = OUT.preview;
 
 // ---------- 2. Compuerta de venta (análisis estático del HTML) ----------
-const PRODUCT = '/products/dispositivo-bucal';
-const PROTO_TEXT = /Todavía no vendemos|Producto en evaluación documental|Antes de vender, comprobamos|Todavía no aceptamos pedidos/;
+const PRODUCT = '/products/adjustable-mouthpiece';
+const PROTO_TEXT = /isn't for sale yet|Product under document review|Before we sell, we check|not accepting orders|Todavía no vendemos|Producto en evaluación/;
 function gateFacts(root) {
   const facts = {};
   for (const r of routes) {
@@ -65,7 +65,7 @@ function gateFacts(root) {
       cartAddForm: /action="\/cart\/add"/.test(html),
       checkoutButton: /id="checkout"/.test(html),
       cartIcon: /id="cart-icon-bubble"/.test(html),
-      moneyPrice: /class="price-item[^"]*"[^>]*>\s*[\d.,]+\s*€/.test(html),
+      moneyPrice: /class="price-item[^"]*"[^>]*>\s*\$[\d.,]+/.test(html),
       productJsonLd: /"@type":\s*"Product"/.test(html),
       ogPrice: /og:price:amount/.test(html),
       noindex: /<meta name="robots" content="noindex, nofollow">/.test(html),
@@ -89,7 +89,7 @@ results.gate = {
   'PREVIEW: ningún formulario /cart/add ni checkout ni icono de carrito': !any(F.preview, 'cartAddForm') && !any(F.preview, 'checkoutButton') && !any(F.preview, 'cartIcon'),
   'PREVIEW: sin JSON-LD Product ni og:price': !any(F.preview, 'productJsonLd') && !any(F.preview, 'ogPrice'),
   'PREVIEW: sin importes (precio no confirmado → ⟦PENDIENTE⟧)': !any(F.preview, 'moneyPrice'),
-  'PREVIEW: hero comercial en portada y landings': F.preview['/'].productHero && F.preview['/pages/landing-ronquidos'].productHero && F.preview['/pages/landing-pareja'].productHero,
+  'PREVIEW: hero comercial en portada y landings': F.preview['/'].productHero && F.preview['/pages/landing-snoring'].productHero && F.preview['/pages/landing-partners'].productHero,
   'PREVIEW: sin textos de prototipo contradictorios («todavía no vendemos»…)': !any(F.preview, 'protoText'),
   'PREVIEW: aviso «Vista previa comercial» y noindex en todas las páginas': all(F.preview, 'previewBanner') && all(F.preview, 'noindex'),
   'LIVE sin frase de confirmación: sin compra y aviso de bloqueo': !any(F.liveNoConfirm, 'cartAddForm') && all(F.liveNoConfirm, 'blockedBanner'),
@@ -100,18 +100,22 @@ results.placeholdersByState = Object.fromEntries(Object.entries(F).map(([k, f]) 
 
 // ---------- 3. Claims prohibidos y rastreadores ----------
 const FORBIDDEN = [
+  // Español (por si se cuela un texto antiguo)
   [/\bcura(?:r|n)?\b(?!\w)/i, 'cura / curar'], [/apnea curada|trata(?:r)? la apnea|elimina(?:r)? (?:los )?ronquidos/i, 'tratar apnea / eliminar ronquidos'],
-  [/coraz[oó]n|infarto/i, 'corazón / infarto'], [/(?:define|marca|mejora)\w* (?:la )?mand[ií]bula/i, 'mandíbula estética'],
-  [/sin efectos secundarios|apto para todos|para todo el mundo(?!\.)/i, 'sin efectos / apto para todos'],
-  [/\d+\s?%\s*(?:menos|de reducci|eficac|resultado)/i, 'porcentaje de eficacia'], [/cl[ií]nicamente probad|aprobado por|recomendado por m[eé]dicos|dise[ñn]ado por dentistas/i, 'aval falso'],
-  [/garantizad[oa]s?\b(?! de)|resultados garantizados|desde la primera noche/i, 'resultado garantizado'],
-  [/rinde m[aá]s|rendimiento|mejor humor|mejora el humor|productividad/i, 'rendimiento / humor'],
-  [/bruxismo/i, 'bruxismo'], [/[★⭐]|aggregateRating|ratingValue/i, 'estrellas / valoraciones'],
-  [/[uú]ltimas unidades|quedan \d|oferta termina|solo hoy|cuenta atr[aá]s/i, 'urgencia falsa'],
-  [/fabricado en espa[ñn]a|made in/i, 'origen no verificado'], [/env[ií]o (?:en )?24/i, 'plazo no verificado'],
+  [/coraz[oó]n|infarto/i, 'corazón / infarto'], [/sin efectos secundarios|apto para todos/i, 'sin efectos / apto para todos'],
+  // Inglés de EE. UU. (FTC: afirmaciones de salud sin evidencia, reseñas falsas, urgencia)
+  [/\bcures?\b|\bcured\b/i, 'cure'], [/treats? (?:sleep )?apnea|stops? snoring|eliminates? snoring|end (?:your )?snoring|no more snoring/i, 'treat apnea / stop snoring'],
+  [/\bheart\b|heart attack|stroke/i, 'heart / stroke'], [/jawline|sculpt/i, 'jawline'],
+  [/no side effects|safe for everyone|works for everyone|for everyone\b/i, 'no side effects / for everyone'],
+  [/\d+\s?%\s*(?:less|reduction|fewer|more effective|effective)/i, 'efficacy percentage'],
+  [/clinically proven|doctor[- ]recommended|dentist[- ]designed|FDA[- ]approved|is FDA[- ]cleared|#1\b|number one/i, 'false endorsement / approval'],
+  [/guaranteed|money-back|first night/i, 'guaranteed result'], [/productivity|\bmood\b|perform better/i, 'productivity / mood'],
+  [/bruxism|teeth grinding/i, 'bruxism'], [/[★⭐]|aggregateRating|ratingValue/i, 'stars / ratings'],
+  [/only \d+ left|limited time|ends tonight|\bhurry\b|countdown/i, 'fake urgency'],
+  [/made in (?:the )?usa|made in /i, 'unverified origin'], [/free shipping|ships in 24|next[- ]day/i, 'unverified shipping'],
 ];
 // Contextos permitidos: frases educativas que NIEGAN el claim (p. ej. «no existe una solución que sirva a todo el mundo»).
-const ALLOW = [/¿Una férula sirve para todo el mundo\?/i, /no existe una soluci[oó]n que sirva a todo el mundo/i, /no hay una soluci[oó]n que sirva a todo el mundo/i];
+const ALLOW = [/there is no single solution for everyone/i, /Does an oral appliance work for everyone\?/i, /usable for everyone/i, /to be able to use this website/i];
 function visibleText(html) {
   return html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ');
 }
@@ -130,6 +134,15 @@ for (const dir of ['templates', 'sections']) for (const f of fs.readdirSync(path
   for (const [re, label] of FORBIDDEN) { const m = text.match(re); if (m && !/"(?:id|type|label|info|name)"/.test(text.slice(Math.max(0, m.index - 40), m.index))) claimHits.push({ route: `theme/${dir}/${f}`, label, match: m[0] }); }
 }
 results.claims = { forbiddenPatterns: FORBIDDEN.length, hits: claimHits };
+
+// Idioma: la tienda de EE. UU. no debe mezclar español (los borradores están en drafts/es).
+const SPANISH = /\b(?:el|los|las|para|del|envío|envíos|devoluciones|producto|pendiente|ronquidos|férula|también|cómo|qué)\b/gi;
+const spanishHits = [];
+for (const st of ['preview', 'prototipo']) for (const r of routes) {
+  const text = visibleText(fs.readFileSync(path.join(OUT[st], r === '/' ? 'index.html' : r + '/index.html'), 'utf8'));
+  const m = text.match(SPANISH); if (m) spanishHits.push({ state: st, route: r, words: [...new Set(m)].slice(0, 8) });
+}
+results.language = { spanishHits };
 
 const TRACKERS = /connect\.facebook\.net|fbq\(|gtag\(|googletagmanager|google-analytics|analytics\.tiktok|ttq\.|hotjar|clarity\.ms|snap\.licdn/i;
 const trackerHits = [];
@@ -194,7 +207,7 @@ for (const r of routes) {
 
 // ---------- 4b. Primera pantalla móvil (C-01) y accesibilidad del estado PROTOTIPO ----------
 results.firstScreen = {};
-for (const r of ['/', '/pages/landing-ronquidos', '/pages/landing-pareja', PRODUCT]) {
+for (const r of ['/', '/pages/landing-snoring', '/pages/landing-partners', PRODUCT]) {
   for (const [w, h] of [[390, 844], [375, 667]]) {
     const ctx2 = await browser.newContext({ viewport: { width: w, height: h } });
     const pg = await ctx2.newPage();
@@ -238,7 +251,7 @@ for (const r of routes) {
   results.keyboard = { firstIsSkipLink: /saltar|skip|directamente al contenido/i.test(steps[0].text), allFocusVisible: steps.every((s) => s.outline), steps };
   await page.screenshot({ path: path.join(shotsDir, 'foco-teclado-1440.png') });
   // FAQ operable con teclado
-  await page.goto('http://localhost:4199/pages/preguntas-frecuentes', { waitUntil: 'networkidle' });
+  await page.goto('http://localhost:4199/pages/faq', { waitUntil: 'networkidle' });
   await page.focus('.ds-faq__item summary');
   await page.keyboard.press('Enter');
   results.keyboard.faqOpensWithEnter = await page.evaluate(() => document.querySelector('.ds-faq__item').open);
@@ -272,6 +285,7 @@ results.summary = {
   firstScreenAllVisible: Object.values(results.firstScreen).every((v) => v.titulo && v.precio && v.cta),
   prototipoAxeViolations: Object.values(results.prototipoAxe).flat().length,
   claimHits: results.claims.hits.length,
+  spanishLeakPages: results.language.spanishHits.length,
   trackerHits: results.tracking.hits.length,
 };
 fs.writeFileSync(path.join(reportsDir, 'qa-results.json'), JSON.stringify(results, null, 2));

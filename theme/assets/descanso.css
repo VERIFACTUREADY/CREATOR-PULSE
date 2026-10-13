@@ -656,3 +656,20 @@ a.ds-steps__link:hover { background: var(--ds-sand); }
   .product__media-wrapper .ds-photo-placeholder { aspect-ratio: auto; max-height: 22vh; min-height: 0; }
   .product__media-wrapper .ds-photo-placeholder__text { display: none; }
 }
+.ds-button-disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
+
+/* V2.1 · Ficha más compacta en móvil para acercar la CTA a la primera pantalla. */
+@media screen and (max-width: 749px) {
+  .product__info-container .product__title h1 { font-size: 2.8rem; line-height: 1.15; }
+  .product__info-container .ds-pbenefit { font-size: 1.6rem; margin: 0.6rem 0; }
+  .product__info-container .price { margin-bottom: 0.4rem; }
+  .product__info-container .product-form__quantity { margin: 0.8rem 0 0; }
+  .product__info-container .quantity { min-height: 4.4rem; }
+  .product__info-container .product-form__buttons, .product__info-container .ds-preview-cta { margin-top: 1.2rem; }
+}
+@media screen and (max-width: 749px) and (max-height: 700px) {
+  .product__media-wrapper .ds-photo-placeholder { max-height: 16vh; padding: 1rem; }
+  .product__info-container .quantity__label { font-size: 1.3rem; margin-bottom: 0.2rem; }
+}
+.ds-wordmark { white-space: nowrap; }
+@media screen and (max-width: 389px) { .ds-wordmark { font-size: 1.5rem; } }

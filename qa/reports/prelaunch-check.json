@@ -1,77 +1,99 @@
 {
   "base": "http://localhost:4197",
-  "date": "2026-10-13T20:32:56.485Z",
+  "date": "2026-10-13T21:23:00.514Z",
   "pages": {
     "/": {
-      "valor ficticio de prueba": 16
+      "valor ficticio de prueba": 16,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/como-funciona": {
-      "valor ficticio de prueba": 3
+    "/pages/how-it-works": {
+      "valor ficticio de prueba": 3,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/el-producto": {
-      "valor ficticio de prueba": 3
+    "/pages/the-product": {
+      "valor ficticio de prueba": 3,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/uso-y-seguridad": {
-      "valor ficticio de prueba": 3
+    "/pages/use-and-safety": {
+      "valor ficticio de prueba": 3,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/preguntas-frecuentes": {
-      "valor ficticio de prueba": 6
+    "/pages/faq": {
+      "valor ficticio de prueba": 6,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/quienes-somos": {
+    "/pages/about": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 1,
-      "valor ficticio de prueba": 3
+      "valor ficticio de prueba": 3,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/contacto": {
+    "/pages/contact": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 1,
-      "valor ficticio de prueba": 5
+      "valor ficticio de prueba": 5,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/envios": {
+    "/pages/shipping": {
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 11,
+      "valor ficticio de prueba": 11,
+      "noindex activo (se esperaba indexable)": 1
+    },
+    "/pages/returns": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 8,
-      "valor ficticio de prueba": 11
+      "valor ficticio de prueba": 11,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/devoluciones": {
+    "/pages/privacy": {
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 8,
+      "valor ficticio de prueba": 7,
+      "noindex activo (se esperaba indexable)": 1
+    },
+    "/pages/terms": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 6,
-      "valor ficticio de prueba": 11
+      "valor ficticio de prueba": 3,
+      "descripción pendiente": 1,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/aviso-legal": {
+    "/pages/company-information": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 5,
-      "valor ficticio de prueba": 7
+      "valor ficticio de prueba": 7,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/pages/privacidad": {
-      "marcador ⟦PENDIENTE⟧ / hueco de foto": 7,
-      "valor ficticio de prueba": 7
-    },
-    "/pages/cookies": {
+    "/pages/accessibility": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 2,
-      "valor ficticio de prueba": 3
+      "valor ficticio de prueba": 3,
+      "noindex activo (se esperaba indexable)": 1
     },
-    "/products/dispositivo-bucal": {
+    "/pages/landing-snoring": {
+      "valor ficticio de prueba": 14,
+      "noindex activo (se esperaba indexable)": 1
+    },
+    "/pages/landing-partners": {
+      "valor ficticio de prueba": 14,
+      "noindex activo (se esperaba indexable)": 1
+    },
+    "/products/adjustable-mouthpiece": {
       "valor ficticio de prueba": 28,
-      "descripción pendiente": 1
-    },
-    "/pages/landing-ronquidos": {
-      "valor ficticio de prueba": 14
-    },
-    "/pages/landing-pareja": {
-      "valor ficticio de prueba": 14
+      "descripción pendiente": 1,
+      "noindex activo (se esperaba indexable)": 1
     }
   },
-  "blocking": 165,
+  "blocking": 197,
   "warnings": [
     "/: noindex activo",
-    "/pages/como-funciona: noindex activo",
-    "/pages/el-producto: noindex activo",
-    "/pages/uso-y-seguridad: noindex activo",
-    "/pages/preguntas-frecuentes: noindex activo",
-    "/pages/quienes-somos: noindex activo",
-    "/pages/contacto: noindex activo",
-    "/pages/envios: noindex activo",
-    "/pages/devoluciones: noindex activo",
-    "/pages/aviso-legal: noindex activo",
-    "/pages/privacidad: noindex activo",
-    "/pages/cookies: noindex activo",
-    "/products/dispositivo-bucal: noindex activo",
-    "/pages/landing-ronquidos: noindex activo",
-    "/pages/landing-pareja: noindex activo"
+    "/pages/how-it-works: noindex activo",
+    "/pages/the-product: noindex activo",
+    "/pages/use-and-safety: noindex activo",
+    "/pages/faq: noindex activo",
+    "/pages/about: noindex activo",
+    "/pages/contact: noindex activo",
+    "/pages/shipping: noindex activo",
+    "/pages/returns: noindex activo",
+    "/pages/privacy: noindex activo",
+    "/pages/terms: noindex activo",
+    "/pages/company-information: noindex activo",
+    "/pages/accessibility: noindex activo",
+    "/pages/landing-snoring: noindex activo",
+    "/pages/landing-partners: noindex activo",
+    "/products/adjustable-mouthpiece: noindex activo"
   ]
 }

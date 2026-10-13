@@ -1,4 +1,4 @@
-// Capturas móviles (390×844) de cada hallazgo de la auditoría V2 → qa/screenshots/v2/
+// Capturas móviles (390×844) de cada hallazgo de la auditoría V2 → qa/screenshots/v2.1/
 import { chromium } from 'playwright-core';
 import http from 'node:http';
 import fs from 'node:fs';
@@ -6,7 +6,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const dir = path.join(repo, 'qa/screenshots/v2'); fs.mkdirSync(dir, { recursive: true });
+const dir = path.join(repo, 'qa/screenshots/v2.1'); fs.mkdirSync(dir, { recursive: true });
 const tmp = path.join(repo, 'preview-out-shots');
 const states = { prototipo: ['--mode', 'prototipo'], preview: ['--mode', 'preview_comercial'], liveBloqueado: ['--mode', 'live'], liveCompletoFicticio: ['--mode', 'live', '--confirm-live', '--complete-globals', '--complete-metafields'] };
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
@@ -34,18 +34,18 @@ async function shots(state, list) {
   }
   srv.close();
 }
-await shots('prototipo', [['C-03_estado-PROTOTIPO_ficha.png', '/products/dispositivo-bucal'], ['C-01_antes-portada-informativa-PROTOTIPO.png', '/']]);
+await shots('prototipo', [['C-03_estado-PROTOTIPO_ficha.png', '/products/adjustable-mouthpiece'], ['C-01_antes-portada-informativa-PROTOTIPO.png', '/']]);
 await shots('preview', [
   ['C-01_portada-comercial-PREVIEW.png', '/'],
-  ['C-02_ficha-comercial-PREVIEW_completa.png', '/products/dispositivo-bucal', { full: true }],
-  ['C-03_estado-PREVIEW_cta-desactivada.png', '/products/dispositivo-bucal', { scrollTo: '.ds-preview-cta' }],
-  ['C-05_landing-ronquidos.png', '/pages/landing-ronquidos'],
-  ['C-05_landing-pareja.png', '/pages/landing-pareja'],
-  ['C-07_faq-con-datos-de-oferta.png', '/pages/preguntas-frecuentes', { open: '.ds-faq__item', scrollTo: '#compra' }],
-  ['C-07_envios-resumen.png', '/pages/envios', { scrollTo: '.ds-offer-strip' }],
-  ['C-10_contacto.png', '/pages/contacto', { scrollTo: '.ds-contact__form' }],
+  ['C-02_ficha-comercial-PREVIEW_completa.png', '/products/adjustable-mouthpiece', { full: true }],
+  ['C-03_estado-PREVIEW_cta-desactivada.png', '/products/adjustable-mouthpiece', { scrollTo: '.ds-preview-cta' }],
+  ['C-05_landing-snoring.png', '/pages/landing-snoring'],
+  ['C-05_landing-partners.png', '/pages/landing-partners'],
+  ['C-07_faq-con-datos-de-oferta.png', '/pages/faq', { open: '.ds-faq__item', scrollTo: '#orders' }],
+  ['C-07_envios-resumen.png', '/pages/shipping', { scrollTo: '.ds-offer-strip' }],
+  ['C-10_contacto.png', '/pages/contact', { scrollTo: '.ds-contact__form' }],
 ]);
-await shots('liveBloqueado', [['C-03_estado-LIVE-sin-confirmar_bloqueado.png', '/products/dispositivo-bucal']]);
-await shots('liveCompletoFicticio', [['C-03_estado-LIVE-completo-DATOS-FICTICIOS_compra.png', '/products/dispositivo-bucal', { scrollTo: 'product-form' }]]);
+await shots('liveBloqueado', [['C-03_estado-LIVE-sin-confirmar_bloqueado.png', '/products/adjustable-mouthpiece']]);
+await shots('liveCompletoFicticio', [['C-03_estado-LIVE-completo-DATOS-FICTICIOS_compra.png', '/products/adjustable-mouthpiece', { scrollTo: 'product-form' }]]);
 await browser.close();
 fs.rmSync(tmp, { recursive: true, force: true });

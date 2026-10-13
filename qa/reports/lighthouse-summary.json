@@ -1,10 +1,10 @@
 {
   "/": {
-    "performance": 92,
+    "performance": 95,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "3.2 s",
+    "LCP": "2.6 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -12,12 +12,12 @@
       "is-crawlable"
     ]
   },
-  "/products/dispositivo-bucal": {
-    "performance": 92,
+  "/products/adjustable-mouthpiece": {
+    "performance": 91,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "2.9 s",
+    "LCP": "3.0 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -25,7 +25,7 @@
       "is-crawlable"
     ]
   },
-  "/pages/landing-ronquidos": {
+  "/pages/landing-snoring": {
     "performance": 93,
     "accessibility": 100,
     "bestPractices": 96,
@@ -38,7 +38,7 @@
       "is-crawlable"
     ]
   },
-  "/pages/landing-pareja": {
+  "/pages/landing-partners": {
     "performance": 93,
     "accessibility": 100,
     "bestPractices": 96,
@@ -51,7 +51,7 @@
       "is-crawlable"
     ]
   },
-  "/pages/preguntas-frecuentes": {
+  "/pages/faq": {
     "performance": 93,
     "accessibility": 100,
     "bestPractices": 96,
@@ -64,7 +64,7 @@
       "is-crawlable"
     ]
   },
-  "/pages/contacto": {
+  "/pages/contact": {
     "performance": 93,
     "accessibility": 100,
     "bestPractices": 96,

@@ -175,22 +175,22 @@
     "detalle": null
   },
   {
-    "prueba": "Precio con product blank + placeholder (featured-product vacío) → sin «19,99»",
+    "prueba": "Precio con product blank + placeholder (featured-product vacío) → sin «$19.99»",
     "ok": true,
     "detalle": ""
   },
   {
     "prueba": "PREVIEW + precio no confirmado → marcador ⟦PENDIENTE⟧, sin importe",
     "ok": true,
-    "detalle": "<div class=\"price ds-price-pending\"><mark class=\"ds-placeholder\" data-ds-placeholder>⟦PENDIENTE: precio confirmado⟧</mark>\n</div>"
+    "detalle": "<div class=\"price ds-price-pending\"><mark class=\"ds-placeholder\" data-ds-placeholder>⟦PENDING: confirmed price⟧</mark>\n</div>"
   },
   {
-    "prueba": "PREVIEW + precio confirmado → importe real visible",
+    "prueba": "PREVIEW + precio confirmado → importe real visible ($29.90)",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Precio tachado sin compare_at_verified → no se muestra «39,90»",
+    "prueba": "Precio tachado sin compare_at_verified → no se muestra «$39.90»",
     "ok": true,
     "detalle": null
   },

@@ -11,7 +11,7 @@ const repo = path.resolve(here, '../..');
 const themeDir = path.join(repo, 'theme');
 const readJSON = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
 const ctx = { missingTranslations: new Set(), errors: [], formOverride: null };
-const engine = createEngine({ themeDir, locale: readJSON(path.join(themeDir, 'locales/es.json')), fallbackLocale: readJSON(path.join(themeDir, 'locales/en.default.json')), ctx });
+const engine = createEngine({ themeDir, locale: readJSON(path.join(themeDir, 'locales/en.default.json')), fallbackLocale: readJSON(path.join(themeDir, 'locales/en.default.json')), ctx });
 
 const GLOBALS = { ds_legal_name: 'X', ds_legal_tax_id: 'X', ds_legal_address: 'X', ds_legal_email: 'x@x', ds_offer_shipping: 'X', ds_offer_returns: 'X', ds_offer_support: 'X', ds_offer_payment: 'X' };
 const COMP = ['manufacturer_legal_name', 'model_reference', 'intended_purpose', 'materials', 'ifu_es', 'warnings_es', 'contraindications_es', 'eu_declaration_ref', 'economic_operator', 'lot_traceability', 'claim_approval_version'];
@@ -75,15 +75,15 @@ check('Oferta: producto en PROTOTIPO → false', (await offer(settings('prototip
 // --- price.liquid y buy-buttons.liquid (efectos visibles) ---
 {
   const html = await render("{% render 'price', product: p, placeholder: true %}", LIVE, { p: null });
-  check('Precio con product blank + placeholder (featured-product vacío) → sin «19,99»', !/19,99/.test(html) && html === '', html.slice(0, 120));
+  check('Precio con product blank + placeholder (featured-product vacío) → sin «$19.99»', !/19[.,]99/.test(html) && html === '', html.slice(0, 120));
   const pv = product(); pv.metafields.commercial.price_confirmed = { value: false };
   const html2 = await render("{% render 'price', product: p %}", settings('preview_comercial'), { p: pv });
-  check('PREVIEW + precio no confirmado → marcador ⟦PENDIENTE⟧, sin importe', /data-ds-placeholder/.test(html2) && !/29,90/.test(html2), html2.slice(0, 160));
+  check('PREVIEW + precio no confirmado → marcador ⟦PENDIENTE⟧, sin importe', /data-ds-placeholder/.test(html2) && !/29\.90/.test(html2), html2.slice(0, 160));
   const html3 = await render("{% render 'price', product: p %}", settings('preview_comercial'), { p: product() });
-  check('PREVIEW + precio confirmado → importe real visible', /29,90/.test(html3), null);
+  check('PREVIEW + precio confirmado → importe real visible ($29.90)', /\$29\.90/.test(html3), null);
   const pc = product({ compare_at_price: 3990, selected_or_first_available_variant: { id: 70, price: 2990, compare_at_price: 3990, available: true } });
   const html4 = await render("{% render 'price', product: p, use_variant: true, show_compare_at_price: true %}", settings('preview_comercial'), { p: pc });
-  check('Precio tachado sin compare_at_verified → no se muestra «39,90»', !/39,90/.test(html4), null);
+  check('Precio tachado sin compare_at_verified → no se muestra «$39.90»', !/39\.90/.test(html4), null);
 }
 for (const [m, expectForm] of [['prototipo', false], ['preview_comercial', false], ['live', true]]) {
   const html = await render("{% render 'buy-buttons', product: p, block: b, product_form_id: 'f', section_id: 's' %}", settings(m), { p: product(), b: { settings: {}, shopify_attributes: '' } });

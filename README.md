@@ -1,6 +1,8 @@
-# Descanso Compartido · Prototipo privado de tienda Shopify (Dawn)
+# VINCIRENA (marca provisional) · Tienda Shopify para EE. UU. sobre Dawn
 
-> 🟡 **ESTADO V2 (13/10/2026): PREVIEW_COMERCIAL · tema SIN PUBLICAR · compra DESACTIVADA.** La tienda ya se ve como tienda de venta (portada comercial, ficha, landings), pero la compra solo funcionará en LIVE, que exige orden expresa del titular, la frase de confirmación y todos los datos reales. Lo que falta aparece como ⟦PENDIENTE⟧. Ver **`docs/V2_CHANGELOG.md`**, **`docs/V2_PENDIENTES_Y_DATOS.md`** y **`README_COMERCIAL.md`**.
+> 🟡 **ESTADO V2.1 (13/10/2026): mercado principal EE. UU. · tienda en inglés y USD · PREVIEW_COMERCIAL · tema SIN PUBLICAR · compra DESACTIVADA · LIVE NO autorizado.** Empieza por **`docs/V21_CHANGELOG.md`**, **`docs/V21_DATOS_NECESARIOS.md`**, **`docs/V21_GO_NO_GO_EEUU.md`** y **`docs/QA_REPRODUCIR.md`**. Marca: VINCIRENA es un nombre de trabajo, sustituible en un ajuste.
+>
+> Historial V2 (España): PREVIEW_COMERCIAL · tema SIN PUBLICAR · compra DESACTIVADA.** La tienda ya se ve como tienda de venta (portada comercial, ficha, landings), pero la compra solo funcionará en LIVE, que exige orden expresa del titular, la frase de confirmación y todos los datos reales. Lo que falta aparece como ⟦PENDIENTE⟧. Ver **`docs/V2_CHANGELOG.md`**, **`docs/V2_PENDIENTES_Y_DATOS.md`** y **`README_COMERCIAL.md`**.
 >
 > Historial V1: 🔴 **PROTOTIPO PRIVADO · NO-GO COMERCIAL.** La tienda **no está lista para lanzarse**. No vende, no cobra, no publica anuncios ni recoge datos de salud. Antes de cualquier venta deben resolverse los bloqueos sanitarios, legales, fiscales, logísticos y financieros de `docs/03_GO_NO_GO.md`, y el prototipo debe superar una **auditoría externa**.
 
@@ -19,6 +21,14 @@ Nombre de marca **provisional**, pendiente de búsqueda en OEPM/EUIPO (DP-12).
 | `qa/reports/` | Resultados de QA en JSON, Theme Check e informes HTML de Lighthouse |
 | `tools/` | Previsualizador local (liquidjs) y scripts de QA. Todo gratuito y sin credenciales |
 
+## Novedades V2.1 (EE. UU.)
+
+- Tienda en **inglés de EE. UU.** y **USD**; legales de EE. UU. como plantillas (Shipping con la regla FTC, Returns, Privacy CCPA/CPRA, Terms, Company information, Accessibility). Español archivado en `drafts/es/`.
+- **Marca parametrizada** (`snippets/ds-brand.liquid`): VINCIRENA provisional.
+- Hoja financiera en USD: «Test de precio» descuenta **todas** las partidas variables y la comisión real (13/13 pruebas).
+- Aviso de `noindex` en LIVE y `prelaunch-check --expect-indexable`. Hero sin producto sin enlace muerto. CTA de la ficha visible a 375×667.
+- Nuevo: detector de mezcla de idiomas y claims prohibidos en inglés (FTC).
+
 ## Novedades V2 (auditoría CRO / UX / Shopify)
 
 - Tres estados: PROTOTIPO / **PREVIEW_COMERCIAL** / LIVE. La compuerta deniega por defecto; queda corregido el fallo `product=blank`.
@@ -33,12 +43,12 @@ Nombre de marca **provisional**, pendiente de búsqueda en OEPM/EUIPO (DP-12).
 ```bash
 cd tools
 npm install
-node preview/build.mjs        # genera preview-out/ (17 páginas) en el estado de settings_data (PREVIEW_COMERCIAL)
+node preview/build.mjs        # genera preview-out/ (18 páginas, inglés, USD) en el estado de settings_data (PREVIEW_COMERCIAL)
 node preview/serve.mjs        # abre http://localhost:4173
 ```
 Variantes: `--mode prototipo|preview_comercial|live`, `--confirm-live`, `--complete-globals` y `--complete-metafields` (estos dos últimos con valores FICTICIOS de prueba, solo para comprobar la compuerta).
 
-Rutas: `/`, `/pages/como-funciona`, `/pages/el-producto`, `/pages/uso-y-seguridad`, `/pages/preguntas-frecuentes`, `/pages/quienes-somos`, `/pages/contacto`, `/pages/envios`, `/pages/devoluciones`, `/pages/aviso-legal`, `/pages/privacidad`, `/pages/cookies`, `/products/dispositivo-bucal`, `/pages/landing-ronquidos`, `/pages/landing-pareja`, `/cart`, `/404`.
+Rutas: `/`, `/pages/como-funciona`, `/pages/el-producto`, `/pages/uso-y-seguridad`, `/pages/preguntas-frecuentes`, `/pages/quienes-somos`, `/pages/contacto`, `/pages/envios`, `/pages/devoluciones`, `/pages/aviso-legal`, `/pages/privacidad`, `/pages/cookies`, `/products/adjustable-mouthpiece`, `/pages/landing-snoring`, `/pages/landing-partners`, `/cart`, `/404`.
 
 **Opción B · En Shopify (sin publicar):** seguir `docs/11_METACAMPOS_Y_CONFIG.md`: subir el ZIP como tema sin publicar, crear las 11 páginas y los 3 menús, mantener la contraseña activada y no activar pagos.
 

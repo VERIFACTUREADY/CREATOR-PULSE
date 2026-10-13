@@ -1,60 +1,88 @@
 [
   {
-    "prueba": "Hipótesis reproducen 0,56/7,04/11,54/11,03/7,14",
+    "prueba": "Hoja entregada sin datos → DATOS INCOMPLETOS en las 3 filas",
     "ok": true,
     "detalle": [
-      0.56,
-      7.04,
-      11.54,
-      11.03,
-      7.14
-    ]
-  },
-  {
-    "prueba": "REAL vacía = DATOS INCOMPLETOS",
-    "ok": true,
-    "detalle": [
+      "DATOS INCOMPLETOS",
       "DATOS INCOMPLETOS",
       "DATOS INCOMPLETOS"
     ]
   },
   {
-    "prueba": "Ningún veredicto dice «rentable»",
+    "prueba": "Sin IVA español: ninguna fórmula divide por 1,21",
     "ok": true,
-    "detalle": [
-      "No supera (hipótesis)",
-      "Supera umbral (hipótesis)",
-      "Supera umbral (hipótesis)",
-      "Supera umbral (hipótesis)",
-      "Supera umbral (hipótesis)",
-      "DATOS INCOMPLETOS"
-    ]
+    "detalle": "ok"
   },
   {
-    "prueba": "REAL con 1/5 partidas → DATOS INCOMPLETOS (V1 habría dado margen)",
+    "prueba": "Ningún texto «rentable»",
     "ok": true,
-    "detalle": {
-      "V2": "DATOS INCOMPLETOS",
-      "V1_habria_calculado": 13.04
-    }
+    "detalle": "ok"
   },
   {
-    "prueba": "Hipótesis con desglose parcial → DATOS INCOMPLETOS",
+    "prueba": "11/12 partidas → DATOS INCOMPLETOS",
     "ok": true,
     "detalle": "DATOS INCOMPLETOS"
   },
   {
-    "prueba": "REAL completo calcula (prueba = 7,04 €)",
+    "prueba": "Completo: contribución = ingreso − comisión − todas las partidas",
+    "ok": true,
+    "detalle": {
+      "esperado": [
+        8.1653,
+        13.0203,
+        17.8753
+      ],
+      "hoja": [
+        8.1653,
+        13.0203,
+        17.8753
+      ]
+    }
+  },
+  {
+    "prueba": "Subir devoluciones 5 %→10 % (coste 6 $) reduce exactamente 0,30 $",
+    "ok": true,
+    "detalle": 0.3
+  },
+  {
+    "prueba": "Contenido 0→2 $ reduce exactamente 2,00 $ [fallo V2]",
+    "ok": true,
+    "detalle": 2.0
+  },
+  {
+    "prueba": "Comisión real 3,5 % + 0,49 $ sustituye al supuesto [fallo V2]",
+    "ok": true,
+    "detalle": 12.6503
+  },
+  {
+    "prueba": "Envío cobrado 5 $ y descuento 3 $ entran en el ingreso y la comisión",
+    "ok": true,
+    "detalle": 14.9623
+  },
+  {
+    "prueba": "Umbral vacío → «Umbral sin definir»",
+    "ok": true,
+    "detalle": "Umbral sin definir"
+  },
+  {
+    "prueba": "Umbral 7 $ y CAC 10 $ → veredicto y contribución tras CAC",
     "ok": true,
     "detalle": [
-      "COMPLETO",
-      7.04364380165289,
-      "Supera umbral"
+      "Supera umbral",
+      3.0203
     ]
   },
   {
-    "prueba": "0 explícito es dato válido",
+    "prueba": "Panel: contribución estimada = pedidos × contribución unitaria",
     "ok": true,
-    "detalle": "COMPLETO"
+    "detalle": 130.2029
+  },
+  {
+    "prueba": "Capital: 1 pedido/día × 5 días × 14,50 $ + 2 × 14,50 $ = 101,50 $ → INSUFICIENTE con 50 $",
+    "ok": true,
+    "detalle": [
+      101.5,
+      "INSUFICIENTE"
+    ]
   }
 ]

@@ -206,7 +206,7 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2 ds-wordmark"><span class="ds-wordmark__icon">{%- render 'ds-icon', name: 'moon' -%}</span>{{ shop.name }}</span>
+          <span class="h2 ds-wordmark"><span class="ds-wordmark__icon">{%- render 'ds-icon', name: 'moon' -%}</span>{%- render 'ds-brand' -%}</span>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -249,7 +249,7 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2 ds-wordmark"><span class="ds-wordmark__icon">{%- render 'ds-icon', name: 'moon' -%}</span>{{ shop.name }}</span>
+          <span class="h2 ds-wordmark"><span class="ds-wordmark__icon">{%- render 'ds-icon', name: 'moon' -%}</span>{%- render 'ds-brand' -%}</span>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}

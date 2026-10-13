@@ -1,68 +1,10 @@
 /*
- * Ficha de producto V2: oferta visible en PREVIEW_COMERCIAL, compra solo en LIVE
- * con datos completos (ds-commerce-ready). Contenido desde metacampos commercial.* y compliance.*.
+ * Product page V2.1: offer visible in PREVIEW_COMERCIAL; purchase only in LIVE with complete data (ds-commerce-ready).
  */
 {
   "sections": {
     "main": {
       "type": "main-product",
-      "blocks": {
-        "proto": {
-          "type": "ds_prototype_label",
-          "settings": {
-            "text": "Producto en evaluación documental"
-          }
-        },
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
-        "benefit": {
-          "type": "ds_benefit",
-          "settings": {}
-        },
-        "price": {
-          "type": "price",
-          "settings": {}
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": false,
-            "show_gift_card_recipient": false
-          }
-        },
-        "offer": {
-          "type": "ds_offer_points",
-          "settings": {}
-        },
-        "description": {
-          "type": "description",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "proto",
-        "title",
-        "benefit",
-        "price",
-        "variant_picker",
-        "quantity_selector",
-        "buy_buttons",
-        "offer",
-        "description"
-      ],
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
@@ -77,15 +19,72 @@
         "enable_video_looping": false,
         "padding_top": 40,
         "padding_bottom": 24
-      }
+      },
+      "blocks": {
+        "main_1": {
+          "type": "ds_prototype_label",
+          "settings": {
+            "text": "Product under document review"
+          }
+        },
+        "main_2": {
+          "type": "title",
+          "settings": {}
+        },
+        "main_3": {
+          "type": "ds_benefit",
+          "settings": {}
+        },
+        "main_4": {
+          "type": "price",
+          "settings": {}
+        },
+        "main_5": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "main_6": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "main_7": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        },
+        "main_8": {
+          "type": "ds_offer_points",
+          "settings": {}
+        },
+        "main_9": {
+          "type": "description",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "main_1",
+        "main_2",
+        "main_3",
+        "main_4",
+        "main_5",
+        "main_6",
+        "main_7",
+        "main_8",
+        "main_9"
+      ]
     },
     "what": {
       "type": "ds-product-module",
       "settings": {
         "visible_in": "comercial",
         "module": "what_is",
-        "heading": "Qué es",
-        "anchor": "que-es"
+        "heading": "What it is",
+        "anchor": "what-it-is"
       }
     },
     "how": {
@@ -93,8 +92,8 @@
       "settings": {
         "visible_in": "comercial",
         "module": "how_to_steps",
-        "heading": "Cómo se usa, paso a paso",
-        "anchor": "como-se-usa",
+        "heading": "How to use it, step by step",
+        "anchor": "how-to-use",
         "color_scheme": "scheme-2"
       }
     },
@@ -103,8 +102,8 @@
       "settings": {
         "visible_in": "comercial",
         "module": "for_whom",
-        "heading": "Para quién está pensado",
-        "anchor": "para-quien"
+        "heading": "Who it's for",
+        "anchor": "who-its-for"
       }
     },
     "includes": {
@@ -112,8 +111,8 @@
       "settings": {
         "visible_in": "comercial",
         "module": "includes",
-        "heading": "Qué incluye",
-        "anchor": "que-incluye",
+        "heading": "What's included",
+        "anchor": "whats-included",
         "color_scheme": "scheme-5"
       }
     },
@@ -122,14 +121,14 @@
       "settings": {
         "visible_in": "comercial",
         "module": "care",
-        "heading": "Cuidados y limpieza",
-        "anchor": "cuidados"
+        "heading": "Care and cleaning",
+        "anchor": "care"
       }
     },
     "details": {
       "type": "ds-product-details",
       "settings": {
-        "heading": "Ficha técnica y precauciones",
+        "heading": "Technical details and precautions",
         "open_safety": true
       }
     },
@@ -137,77 +136,77 @@
       "type": "ds-faq",
       "settings": {
         "visible_in": "comercial",
-        "heading": "Preguntas frecuentes"
+        "heading": "Frequently asked questions"
       },
       "blocks": {
-        "pfaq_1": {
+        "faq_1": {
           "type": "question",
           "settings": {
-            "question": "¿Cuánto tarda en llegar y cuánto cuesta el envío?",
+            "question": "How much is shipping and how long does it take?",
             "answer": "<p>[[ENVIO]]</p>",
-            "link_label": "Condiciones de envío",
-            "link": "/pages/envios",
+            "link_label": "Shipping policy",
+            "link": "/pages/shipping",
             "visible_in": "comercial"
           }
         },
-        "pfaq_2": {
+        "faq_2": {
           "type": "question",
           "settings": {
-            "question": "¿Puedo devolverlo?",
+            "question": "Can I return it?",
             "answer": "<p>[[DEVOLUCIONES]]</p>",
-            "link_label": "Devoluciones y garantía",
-            "link": "/pages/devoluciones",
+            "link_label": "Return policy",
+            "link": "/pages/returns",
             "visible_in": "comercial"
           }
         },
-        "pfaq_3": {
+        "faq_3": {
           "type": "question",
           "settings": {
-            "question": "¿Es adecuado para mí?",
-            "answer": "<p>En la ficha explicamos para quién está pensado y sus precauciones. Si tienes dudas sobre tu salud, consulta con un profesional sanitario.</p>",
-            "link_label": "Uso y seguridad",
-            "link": "/pages/uso-y-seguridad",
+            "question": "Is it right for me?",
+            "answer": "<p>The product page explains who it is intended for and its precautions. If you have questions about your health, talk to a healthcare provider or your dentist.</p>",
+            "link_label": "Use & safety",
+            "link": "/pages/use-and-safety",
             "visible_in": "comercial"
           }
         },
-        "pfaq_4": {
+        "faq_4": {
           "type": "question",
           "settings": {
-            "question": "¿Roncar es lo mismo que tener apnea del sueño?",
-            "answer": "<p>No. Roncar y tener apnea del sueño no es lo mismo. Algunas señales necesitan una valoración profesional.</p>",
-            "link_label": "Ver las señales",
-            "link": "/pages/uso-y-seguridad#cuando-consultar",
+            "question": "Is snoring the same as sleep apnea?",
+            "answer": "<p>No. Snoring and sleep apnea are not the same thing. Some signs need to be checked by a healthcare provider.</p>",
+            "link_label": "See the signs",
+            "link": "/pages/use-and-safety#when-to-talk-to-a-provider",
             "visible_in": "all"
           }
         },
-        "pfaq_5": {
+        "faq_5": {
           "type": "question",
           "settings": {
-            "question": "¿Qué formas de pago aceptáis?",
+            "question": "Which payment methods do you accept?",
             "answer": "<p>[[PAGO]]</p>",
             "link_label": "",
             "link": "",
             "visible_in": "comercial"
           }
         },
-        "pfaq_6": {
+        "faq_6": {
           "type": "question",
           "settings": {
-            "question": "¿Cómo puedo contactar con vosotros?",
+            "question": "How can I contact you?",
             "answer": "<p>[[ATENCION]]</p>",
-            "link_label": "Contacto",
-            "link": "/pages/contacto",
+            "link_label": "Contact us",
+            "link": "/pages/contact",
             "visible_in": "comercial"
           }
         }
       },
       "block_order": [
-        "pfaq_1",
-        "pfaq_2",
-        "pfaq_3",
-        "pfaq_4",
-        "pfaq_5",
-        "pfaq_6"
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
       ]
     },
     "help": {
@@ -216,10 +215,10 @@
         "visible_in": "all",
         "color_scheme": "scheme-2",
         "style": "center",
-        "heading": "¿Tienes otra duda?",
-        "text": "<p>Escríbenos y te respondemos. Sin datos de salud, por favor.</p>",
-        "button_label": "Ir a contacto",
-        "button_link": "/pages/contacto",
+        "heading": "Have another question?",
+        "text": "<p>Write to us and we'll get back to you. Please don't include health information.</p>",
+        "button_label": "Contact us",
+        "button_link": "/pages/contact",
         "button_secondary": true,
         "padding_top": 48,
         "padding_bottom": 48

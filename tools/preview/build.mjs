@@ -20,7 +20,9 @@ const outDir = path.resolve(repo, args.includes('--out') ? args[args.indexOf('--
 const fixture = JSON.parse(fs.readFileSync(path.join(here, 'fixture.json'), 'utf8'));
 
 const readJSON = (p) => JSON.parse(fs.readFileSync(p, 'utf8').replace(/^\s*\/\*[\s\S]*?\*\/\s*/, ''));
-const locale = readJSON(path.join(themeDir, 'locales/es.json'));
+// V2.1: inglés de EE. UU. por defecto (en.default.json); --locale es usa el borrador español.
+const LOCALE = args.includes('--locale') ? args[args.indexOf('--locale') + 1] : 'en';
+const locale = readJSON(path.join(themeDir, LOCALE === 'es' ? 'locales/es.json' : 'locales/en.default.json'));
 const fallbackLocale = readJSON(path.join(themeDir, 'locales/en.default.json'));
 
 const ctx = { missingTranslations: new Set(), errors: [] };
@@ -145,10 +147,10 @@ async function renderRoute(route) {
     shop: fixture.shop,
     routes: fixture.routes,
     linklists,
-    localization: { available_countries: [], available_languages: [], country: { iso_code: 'ES', currency: { iso_code: 'EUR', symbol: '€' } }, language: { iso_code: 'es' } },
+    localization: { available_countries: [], available_languages: [], country: { iso_code: 'US', currency: { iso_code: 'USD', symbol: '$' } }, language: { iso_code: LOCALE } },
     cart: { item_count: 0, items: [], total_price: 0, empty: true, attributes: {}, note: '' },
     customer: null,
-    request: { locale: { iso_code: 'es' }, design_mode: false, visual_preview_mode: false, page_type: type, path: route.path, origin: 'http://localhost', host: 'localhost' },
+    request: { locale: { iso_code: LOCALE }, design_mode: false, visual_preview_mode: false, page_type: type, path: route.path, origin: 'http://localhost', host: 'localhost' },
     template: { name: type, suffix: suffix || null, directory: null },
     page: route.page || null,
     product: route.product || null,

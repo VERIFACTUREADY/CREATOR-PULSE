@@ -100,7 +100,7 @@
                     {%- if product.metafields.commercial.short_benefit != blank -%}
                       {{ product.metafields.commercial.short_benefit | metafield_tag }}
                     {%- else -%}
-                      {%- render 'ds-pending', label: 'beneficio aprobado en la ficha comercial' -%}
+                      {%- render 'ds-pending', label: 'approved product benefit' -%}
                     {%- endif -%}
                   </p>
                 {%- when 'ds_offer_points' -%}
