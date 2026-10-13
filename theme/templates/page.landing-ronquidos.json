@@ -1,0 +1,133 @@
+/*
+ * Plantilla del prototipo «Descanso Compartido» (privado, sin venta).
+ * Textos con COPY_ID en docs/04_CLAIMS_APPROVAL.csv. Editable desde el editor de temas.
+ */
+{
+  "sections": {
+    "proto": {
+      "type": "ds-callout",
+      "settings": {
+        "visible_in": "prototipo",
+        "style": "prototype",
+        "icon": "doc",
+        "heading": "Landing de campaña",
+        "heading_level": "h1",
+        "text": "<p>Esta página se muestra en PREVIEW_COMERCIAL y LIVE. En PROTOTIPO no hay oferta.</p>"
+      }
+    },
+    "phero": {
+      "type": "ds-product-hero",
+      "settings": {
+        "visible_in": "comercial",
+        "product": "dispositivo-bucal",
+        "eyebrow": "Si roncas",
+        "heading": "¿Te preocupan tus ronquidos?",
+        "subheading": "<p>Conoce nuestro dispositivo bucal: qué es, cómo se usa y qué incluye. Sin complicaciones.</p>",
+        "button_label": "Ver el producto",
+        "secondary_label": "Cómo funciona",
+        "secondary_link": "/pages/como-funciona",
+        "show_points": true
+      }
+    },
+    "problem": {
+      "type": "ds-callout",
+      "settings": {
+        "visible_in": "comercial",
+        "color_scheme": "scheme-3",
+        "style": "quote",
+        "heading": "No todos los ronquidos son iguales.",
+        "text": "<p>No todos los ronquidos tienen el mismo origen. Si alguien ve que dejas de respirar unos segundos mientras duermes, consulta con un profesional sanitario.</p>",
+        "source_label": "American Dental Association: apnea obstructiva del sueño",
+        "source_url": "https://www.ada.org/resources/ada-library/oral-health-topics/sleep-apnea-obstructive",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "how": {
+      "type": "ds-product-module",
+      "settings": {
+        "visible_in": "comercial",
+        "product": "dispositivo-bucal",
+        "module": "how_to_steps",
+        "heading": "Cómo se usa",
+        "link_label": "Ver la ficha completa"
+      }
+    },
+    "faq": {
+      "type": "ds-faq",
+      "settings": {
+        "visible_in": "comercial",
+        "heading": "Antes de comprar"
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto tarda en llegar y cuánto cuesta el envío?",
+            "answer": "<p>[[ENVIO]]</p>",
+            "link_label": "Condiciones de envío",
+            "link": "/pages/envios",
+            "visible_in": "comercial"
+          }
+        },
+        "faq_2": {
+          "type": "question",
+          "settings": {
+            "question": "¿Puedo devolverlo?",
+            "answer": "<p>[[DEVOLUCIONES]]</p>",
+            "link_label": "Devoluciones y garantía",
+            "link": "/pages/devoluciones",
+            "visible_in": "comercial"
+          }
+        },
+        "faq_3": {
+          "type": "question",
+          "settings": {
+            "question": "¿Es adecuado para mí?",
+            "answer": "<p>En la ficha explicamos para quién está pensado y sus precauciones. Si tienes dudas sobre tu salud, consulta con un profesional sanitario.</p>",
+            "link_label": "Uso y seguridad",
+            "link": "/pages/uso-y-seguridad",
+            "visible_in": "comercial"
+          }
+        },
+        "faq_4": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cómo puedo contactar con vosotros?",
+            "answer": "<p>[[ATENCION]]</p>",
+            "link_label": "Contacto",
+            "link": "/pages/contacto",
+            "visible_in": "comercial"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ]
+    },
+    "closing": {
+      "type": "ds-callout",
+      "settings": {
+        "visible_in": "comercial",
+        "color_scheme": "scheme-4",
+        "style": "center",
+        "heading": "Descansar juntos importa.",
+        "button_label": "Ver el producto",
+        "button_link": "/products/dispositivo-bucal",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "proto",
+    "phero",
+    "problem",
+    "how",
+    "faq",
+    "closing"
+  ]
+}

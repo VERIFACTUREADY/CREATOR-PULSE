@@ -8,6 +8,6 @@
 <figure class="ds-photo-placeholder ds-photo-placeholder--{{ ratio | default: 'square' }}" data-ds-placeholder>
   <figcaption>
     <span class="ds-photo-placeholder__title">⟦{{ 'ds.photo.title' | t }}⟧</span>
-    <span class="ds-photo-placeholder__text">{{ label | default: 'ds.photo.default' | t }}</span>
+    <span class="ds-photo-placeholder__text">{% if label != blank %}{{ label | escape }}{% else %}{{ 'ds.photo.default' | t }}{% endif %}</span>
   </figcaption>
 </figure>

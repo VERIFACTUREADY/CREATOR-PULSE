@@ -52,7 +52,8 @@ function resolveSetting(def, value) {
     case 'checkbox': return Boolean(v);
     case 'range': case 'number': return v === undefined || v === null || v === '' ? null : Number(v);
     case 'url': return v ? shopifyUrl(v) : null;
-    case 'image_picker': case 'video': case 'collection': case 'product': case 'blog': case 'page': case 'metaobject': return null;
+    case 'product': return v ? (fixture.pages.find((r) => r.product && r.product.handle === v) || {}).product || null : null;
+    case 'image_picker': case 'video': case 'collection': case 'blog': case 'page': case 'metaobject': return null;
     default: return v === undefined ? null : v;
   }
 }

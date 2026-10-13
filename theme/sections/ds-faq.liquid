@@ -3,6 +3,8 @@
   teclado y lector de pantalla, sin JavaScript. No se emite FAQPage JSON-LD:
   el contenido de salud está pendiente de revisión.
 {%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
 <section
   class="ds-faq ds-section color-{{ section.settings.color_scheme }} gradient"
   style="{% render 'ds-section-vars', section: section %}"
@@ -18,7 +20,7 @@
           {%- if section.settings.intro != blank -%}<div class="ds-rte">{{ section.settings.intro }}</div>{%- endif -%}
         </div>
       {%- endif -%}
-      {%- for block in section.blocks -%}
+      {%- for block in section.blocks -%}{%- capture ds_bshow -%}{%- render 'ds-visible', when: block.settings.visible_in -%}{%- endcapture -%}{%- if ds_bshow == 'true' -%}
         {%- case block.type -%}
           {%- when 'group' -%}
             <h3 class="ds-faq__group-title" {{ block.shopify_attributes }}{% if block.settings.anchor != blank %} id="{{ block.settings.anchor | handleize }}"{% endif %}>{{ block.settings.title | escape }}</h3>
@@ -26,20 +28,21 @@
             <details class="ds-faq__item" {{ block.shopify_attributes }}>
               <summary>{{ block.settings.question | escape }}</summary>
               <div class="ds-faq__answer ds-rte">
-                {{ block.settings.answer }}
+                {%- render 'ds-offer-tokens', text: block.settings.answer -%}
                 {%- if block.settings.link_label != blank and block.settings.link != blank -%}
                   <p><a class="ds-link-arrow" href="{{ block.settings.link }}">{{ block.settings.link_label | escape }}</a></p>
                 {%- endif -%}
               </div>
             </details>
         {%- endcase -%}
-      {%- endfor -%}
+      {%- endif -%}{%- endfor -%}
       {%- if section.settings.more_label != blank and section.settings.more_link != blank -%}
         <p class="ds-faq__more"><a class="ds-link-arrow" href="{{ section.settings.more_link }}">{{ section.settings.more_label | escape }}</a></p>
       {%- endif -%}
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
@@ -48,45 +51,209 @@
   "class": "section",
   "max_blocks": 40,
   "settings": [
-    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
-    { "type": "text", "id": "anchor", "label": "Ancla (id para enlaces internos)" },
-    { "type": "text", "id": "heading", "label": "Título", "default": "Preguntas frecuentes" },
-    { "type": "richtext", "id": "intro", "label": "Introducción" },
-    { "type": "checkbox", "id": "center", "label": "Centrar bloque", "default": false },
-    { "type": "text", "id": "more_label", "label": "Enlace final (texto)" },
-    { "type": "url", "id": "more_link", "label": "Enlace final" },
     {
-      "type": "select", "id": "review", "label": "Marcador de revisión", "default": "",
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "all",
       "options": [
-        { "value": "", "label": "Ninguno" },
-        { "value": "sanitaria", "label": "Pendiente de revisión sanitaria" },
-        { "value": "juridica", "label": "Pendiente de revisión jurídica" },
-        { "value": "titular", "label": "Pendiente de aprobación del titular" }
+        {
+          "value": "all",
+          "label": "Todos los estados"
+        },
+        {
+          "value": "prototipo",
+          "label": "Solo PROTOTIPO"
+        },
+        {
+          "value": "comercial",
+          "label": "Solo PREVIEW_COMERCIAL y LIVE"
+        }
       ]
     },
-    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Ancla (id para enlaces internos)"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Preguntas frecuentes"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Introducción"
+    },
+    {
+      "type": "checkbox",
+      "id": "center",
+      "label": "Centrar bloque",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "more_label",
+      "label": "Enlace final (texto)"
+    },
+    {
+      "type": "url",
+      "id": "more_link",
+      "label": "Enlace final"
+    },
+    {
+      "type": "select",
+      "id": "review",
+      "label": "Marcador de revisión",
+      "default": "",
+      "options": [
+        {
+          "value": "",
+          "label": "Ninguno"
+        },
+        {
+          "value": "sanitaria",
+          "label": "Pendiente de revisión sanitaria"
+        },
+        {
+          "value": "juridica",
+          "label": "Pendiente de revisión jurídica"
+        },
+        {
+          "value": "titular",
+          "label": "Pendiente de aprobación del titular"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Margen superior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Margen inferior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
   ],
   "blocks": [
     {
       "type": "group",
       "name": "Grupo de preguntas",
       "settings": [
-        { "type": "text", "id": "title", "label": "Título del grupo", "default": "Sobre el producto" },
-        { "type": "text", "id": "anchor", "label": "Ancla" }
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título del grupo",
+          "default": "Sobre el producto"
+        },
+        {
+          "type": "text",
+          "id": "anchor",
+          "label": "Ancla"
+        },
+        {
+          "type": "select",
+          "id": "visible_in",
+          "label": "Mostrar en",
+          "default": "all",
+          "options": [
+            {
+              "value": "all",
+              "label": "Todos los estados"
+            },
+            {
+              "value": "prototipo",
+              "label": "Solo PROTOTIPO"
+            },
+            {
+              "value": "comercial",
+              "label": "Solo PREVIEW_COMERCIAL y LIVE"
+            }
+          ]
+        }
       ]
     },
     {
       "type": "question",
       "name": "Pregunta",
       "settings": [
-        { "type": "text", "id": "question", "label": "Pregunta", "default": "¿Pregunta frecuente?" },
-        { "type": "richtext", "id": "answer", "label": "Respuesta", "default": "<p>Respuesta breve, sin promesas no verificadas.</p>" },
-        { "type": "text", "id": "link_label", "label": "Enlace (texto)" },
-        { "type": "url", "id": "link", "label": "Enlace" }
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Pregunta",
+          "default": "¿Pregunta frecuente?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Respuesta",
+          "default": "<p>Respuesta breve, sin promesas no verificadas.</p>",
+          "info": "Puedes usar [[ENVIO]], [[DEVOLUCIONES]], [[ATENCION]] y [[PAGO]]: se sustituyen por los ajustes de Oferta del tema."
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Enlace (texto)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        },
+        {
+          "type": "select",
+          "id": "visible_in",
+          "label": "Mostrar en",
+          "default": "all",
+          "options": [
+            {
+              "value": "all",
+              "label": "Todos los estados"
+            },
+            {
+              "value": "prototipo",
+              "label": "Solo PROTOTIPO"
+            },
+            {
+              "value": "comercial",
+              "label": "Solo PREVIEW_COMERCIAL y LIVE"
+            }
+          ]
+        }
       ]
     }
   ],
-  "presets": [{ "name": "DS · Preguntas frecuentes", "blocks": [{ "type": "question" }, { "type": "question" }] }]
+  "presets": [
+    {
+      "name": "DS · Preguntas frecuentes",
+      "blocks": [
+        {
+          "type": "question"
+        },
+        {
+          "type": "question"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

@@ -636,6 +636,13 @@
     "photo": {
       "title": "PHOTO PENDING · NOT PUBLISHABLE",
       "default": "Real product photo, with usage rights"
+    },
+    "offer": {
+      "shipping": "Shipping:",
+      "returns": "Returns:",
+      "support": "Support:",
+      "payment": "Payment:",
+      "conditions": "See conditions"
     }
   }
 }

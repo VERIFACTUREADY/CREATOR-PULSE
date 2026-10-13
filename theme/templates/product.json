@@ -1,21 +1,24 @@
 /*
- * Ficha de producto del prototipo: sin precio, sin cantidad, sin compra rápida ni
- * reseñas. La compuerta ds-commerce-ready decide si se muestra la compra.
+ * Ficha de producto V2: oferta visible en PREVIEW_COMERCIAL, compra solo en LIVE
+ * con datos completos (ds-commerce-ready). Contenido desde metacampos commercial.* y compliance.*.
  */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
-        "status": {
-          "type": "text",
+        "proto": {
+          "type": "ds_prototype_label",
           "settings": {
-            "text": "Producto en evaluación documental",
-            "text_style": "uppercase"
+            "text": "Producto en evaluación documental"
           }
         },
         "title": {
           "type": "title",
+          "settings": {}
+        },
+        "benefit": {
+          "type": "ds_benefit",
           "settings": {}
         },
         "price": {
@@ -29,6 +32,10 @@
             "swatch_shape": "circle"
           }
         },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -36,45 +43,198 @@
             "show_gift_card_recipient": false
           }
         },
+        "offer": {
+          "type": "ds_offer_points",
+          "settings": {}
+        },
         "description": {
           "type": "description",
           "settings": {}
         }
       },
       "block_order": [
-        "status",
+        "proto",
         "title",
+        "benefit",
         "price",
         "variant_picker",
+        "quantity_selector",
         "buy_buttons",
+        "offer",
         "description"
       ],
       "settings": {
-        "enable_sticky_info": false,
+        "enable_sticky_info": true,
         "color_scheme": "scheme-1",
         "media_position": "left",
-        "gallery_layout": "stacked",
+        "gallery_layout": "thumbnail_slider",
         "media_size": "large",
         "constrain_to_viewport": true,
         "media_fit": "contain",
-        "image_zoom": "none",
-        "mobile_thumbnails": "hide",
+        "image_zoom": "lightbox",
+        "mobile_thumbnails": "show",
         "hide_variants": true,
         "enable_video_looping": false,
         "padding_top": 40,
         "padding_bottom": 24
       }
     },
+    "what": {
+      "type": "ds-product-module",
+      "settings": {
+        "visible_in": "comercial",
+        "module": "what_is",
+        "heading": "Qué es",
+        "anchor": "que-es"
+      }
+    },
+    "how": {
+      "type": "ds-product-module",
+      "settings": {
+        "visible_in": "comercial",
+        "module": "how_to_steps",
+        "heading": "Cómo se usa, paso a paso",
+        "anchor": "como-se-usa",
+        "color_scheme": "scheme-2"
+      }
+    },
+    "forwhom": {
+      "type": "ds-product-module",
+      "settings": {
+        "visible_in": "comercial",
+        "module": "for_whom",
+        "heading": "Para quién está pensado",
+        "anchor": "para-quien"
+      }
+    },
+    "includes": {
+      "type": "ds-product-module",
+      "settings": {
+        "visible_in": "comercial",
+        "module": "includes",
+        "heading": "Qué incluye",
+        "anchor": "que-incluye",
+        "color_scheme": "scheme-5"
+      }
+    },
+    "care": {
+      "type": "ds-product-module",
+      "settings": {
+        "visible_in": "comercial",
+        "module": "care",
+        "heading": "Cuidados y limpieza",
+        "anchor": "cuidados"
+      }
+    },
     "details": {
       "type": "ds-product-details",
       "settings": {
-        "heading": "Información del producto",
+        "heading": "Ficha técnica y precauciones",
         "open_safety": true
+      }
+    },
+    "faq": {
+      "type": "ds-faq",
+      "settings": {
+        "visible_in": "comercial",
+        "heading": "Preguntas frecuentes"
+      },
+      "blocks": {
+        "pfaq_1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto tarda en llegar y cuánto cuesta el envío?",
+            "answer": "<p>[[ENVIO]]</p>",
+            "link_label": "Condiciones de envío",
+            "link": "/pages/envios",
+            "visible_in": "comercial"
+          }
+        },
+        "pfaq_2": {
+          "type": "question",
+          "settings": {
+            "question": "¿Puedo devolverlo?",
+            "answer": "<p>[[DEVOLUCIONES]]</p>",
+            "link_label": "Devoluciones y garantía",
+            "link": "/pages/devoluciones",
+            "visible_in": "comercial"
+          }
+        },
+        "pfaq_3": {
+          "type": "question",
+          "settings": {
+            "question": "¿Es adecuado para mí?",
+            "answer": "<p>En la ficha explicamos para quién está pensado y sus precauciones. Si tienes dudas sobre tu salud, consulta con un profesional sanitario.</p>",
+            "link_label": "Uso y seguridad",
+            "link": "/pages/uso-y-seguridad",
+            "visible_in": "comercial"
+          }
+        },
+        "pfaq_4": {
+          "type": "question",
+          "settings": {
+            "question": "¿Roncar es lo mismo que tener apnea del sueño?",
+            "answer": "<p>No. Roncar y tener apnea del sueño no es lo mismo. Algunas señales necesitan una valoración profesional.</p>",
+            "link_label": "Ver las señales",
+            "link": "/pages/uso-y-seguridad#cuando-consultar",
+            "visible_in": "all"
+          }
+        },
+        "pfaq_5": {
+          "type": "question",
+          "settings": {
+            "question": "¿Qué formas de pago aceptáis?",
+            "answer": "<p>[[PAGO]]</p>",
+            "link_label": "",
+            "link": "",
+            "visible_in": "comercial"
+          }
+        },
+        "pfaq_6": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cómo puedo contactar con vosotros?",
+            "answer": "<p>[[ATENCION]]</p>",
+            "link_label": "Contacto",
+            "link": "/pages/contacto",
+            "visible_in": "comercial"
+          }
+        }
+      },
+      "block_order": [
+        "pfaq_1",
+        "pfaq_2",
+        "pfaq_3",
+        "pfaq_4",
+        "pfaq_5",
+        "pfaq_6"
+      ]
+    },
+    "help": {
+      "type": "ds-callout",
+      "settings": {
+        "visible_in": "all",
+        "color_scheme": "scheme-2",
+        "style": "center",
+        "heading": "¿Tienes otra duda?",
+        "text": "<p>Escríbenos y te respondemos. Sin datos de salud, por favor.</p>",
+        "button_label": "Ir a contacto",
+        "button_link": "/pages/contacto",
+        "button_secondary": true,
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     }
   },
   "order": [
     "main",
-    "details"
+    "what",
+    "how",
+    "forwhom",
+    "includes",
+    "care",
+    "details",
+    "faq",
+    "help"
   ]
 }

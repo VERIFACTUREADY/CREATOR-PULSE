@@ -596,3 +596,42 @@ a.ds-steps__link:hover { background: var(--ds-sand); }
 .ds-preview-cta { margin: 2rem 0; }
 .ds-preview-cta .button[disabled] { opacity: 1; cursor: not-allowed; background: rgba(var(--color-button), 0.45); color: var(--ds-night); }
 .ds-preview-cta__note { font-size: 1.45rem; margin: 1.2rem 0 0; }
+
+/* ---------- V2 · Hero de producto (primera pantalla móvil) ---------- */
+.ds-phero__grid { display: grid; gap: 2.4rem; align-items: center; }
+@media screen and (min-width: 990px) { .ds-phero__grid { grid-template-columns: 1fr 1fr; gap: 6.4rem; } }
+.ds-phero__media { border-radius: var(--ds-radius-l); overflow: hidden; }
+.ds-phero__media img { display: block; width: 100%; height: auto; }
+@media screen and (max-width: 749px) {
+  /* Foto contenida para que título, precio y CTA quepan en la primera pantalla. */
+  .ds-phero__media, .ds-phero__media .ds-photo-placeholder { max-height: 26vh; aspect-ratio: auto; }
+  .ds-phero__media img { max-height: 26vh; object-fit: cover; }
+  .ds-phero__media .ds-photo-placeholder { min-height: 15rem; padding: 1.6rem; }
+  .ds-phero__title { font-size: 3rem; }
+  .ds-phero__text { font-size: 1.7rem; }
+  .product__media-wrapper .ds-photo-placeholder { aspect-ratio: 4 / 3; }
+}
+.ds-phero__title { font-size: clamp(3rem, 8vw, 5.2rem); line-height: 1.08; margin: 0 0 1.2rem; }
+.ds-phero__text { font-size: 1.8rem; margin: 0 0 1.2rem; }
+.ds-phero__benefit { font-size: 1.8rem; font-weight: 700; color: rgb(var(--color-foreground)); margin: 0 0 1.2rem; }
+.ds-phero__price { margin: 0 0 1.6rem; }
+.ds-phero__price .price { font-size: 2.2rem; font-weight: 700; }
+.ds-phero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2.4rem; margin-bottom: 2rem; }
+@media screen and (max-width: 749px) { .ds-phero__actions .button { width: 100%; } }
+
+/* ---------- V2 · Puntos de oferta ---------- */
+.ds-offer-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.2rem; }
+@media screen and (min-width: 750px) { .ds-offer-points:not(.ds-offer-points--compact) { grid-template-columns: repeat(2, 1fr); gap: 1.6rem 3.2rem; } }
+@media screen and (min-width: 990px) { .ds-offer-points:not(.ds-offer-points--compact) { grid-template-columns: repeat(4, 1fr); } }
+.ds-offer-points li { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; font-size: 1.5rem; max-width: none; }
+.ds-offer-points strong { display: block; }
+.ds-offer-points a { color: rgb(var(--color-foreground)); }
+.ds-offer-points__icon { display: inline-flex; width: 3.6rem; height: 3.6rem; border-radius: 50%; align-items: center; justify-content: center; background: var(--ds-sage); color: var(--ds-night); }
+.color-scheme-2 .ds-offer-points__icon { background: var(--ds-ivory); }
+.product__info-container .ds-offer-points { margin: 2rem 0; padding: 2rem 0; border-top: 1px solid rgba(var(--color-foreground), 0.14); border-bottom: 1px solid rgba(var(--color-foreground), 0.14); }
+
+/* ---------- V2 · Módulos de ficha ---------- */
+.ds-pmodule__body { max-width: 72rem; font-size: 1.7rem; }
+.ds-pmodule__steps .ds-steps__link { background: rgba(216, 229, 220, 0.6); }
+.ds-pmodule__link { margin-top: 2rem; }
+.ds-pbenefit { font-size: 1.8rem; font-weight: 700; color: rgb(var(--color-foreground)); }

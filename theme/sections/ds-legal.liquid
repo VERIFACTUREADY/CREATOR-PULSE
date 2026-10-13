@@ -3,6 +3,8 @@
   cláusula debe revisarla la asesoría (docs/02_DECISIONES_PENDIENTES.md DP-10).
   Todo texto entre corchetes [ … ] se resalta como dato pendiente.
 {%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
 <section
   class="ds-legal-section ds-section color-{{ section.settings.color_scheme }} gradient"
   style="{% render 'ds-section-vars', section: section %}"
@@ -35,17 +37,18 @@
           </dl>
         </div>
       {%- endif -%}
-      {%- for block in section.blocks -%}
+      {%- for block in section.blocks -%}{%- capture ds_bshow -%}{%- render 'ds-visible', when: block.settings.visible_in -%}{%- endcapture -%}{%- if ds_bshow == 'true' -%}
         <div class="ds-legal__clause" {{ block.shopify_attributes }}>
           {%- if block.settings.heading != blank -%}<h2>{{ block.settings.heading | escape }}</h2>{%- endif -%}
           <div class="ds-rte">
-            {{- block.settings.text | replace: '[', '<mark class="ds-placeholder">[' | replace: ']', ']</mark>' -}}
+            {{- block.settings.text | replace: '[', '<mark class="ds-placeholder" data-ds-placeholder>[' | replace: ']', ']</mark>' -}}
           </div>
         </div>
-      {%- endfor -%}
+      {%- endif -%}{%- endfor -%}
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
@@ -54,22 +57,115 @@
   "class": "section",
   "max_blocks": 30,
   "settings": [
-    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
-    { "type": "checkbox", "id": "show_notice", "label": "Mostrar aviso «Plantilla pendiente de revisión jurídica»", "default": true },
-    { "type": "checkbox", "id": "show_identity", "label": "Mostrar datos del titular (desde Ajustes del tema)", "default": true },
-    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 48 },
-    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+    {
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "all",
+      "options": [
+        {
+          "value": "all",
+          "label": "Todos los estados"
+        },
+        {
+          "value": "prototipo",
+          "label": "Solo PROTOTIPO"
+        },
+        {
+          "value": "comercial",
+          "label": "Solo PREVIEW_COMERCIAL y LIVE"
+        }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_notice",
+      "label": "Mostrar aviso «Plantilla pendiente de revisión jurídica»",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_identity",
+      "label": "Mostrar datos del titular (desde Ajustes del tema)",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Margen superior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Margen inferior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
   ],
   "blocks": [
     {
       "type": "clause",
       "name": "Cláusula",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Título", "default": "Cláusula" },
-        { "type": "richtext", "id": "text", "label": "Texto", "info": "Escribe entre corchetes los datos pendientes, p. ej. [plazo real de entrega]. Se resaltarán.", "default": "<p>[Texto pendiente de revisión jurídica]</p>" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Título",
+          "default": "Cláusula"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texto",
+          "info": "Escribe entre corchetes los datos pendientes, p. ej. [plazo real de entrega]. Se resaltarán.",
+          "default": "<p>[Texto pendiente de revisión jurídica]</p>"
+        },
+        {
+          "type": "select",
+          "id": "visible_in",
+          "label": "Mostrar en",
+          "default": "all",
+          "options": [
+            {
+              "value": "all",
+              "label": "Todos los estados"
+            },
+            {
+              "value": "prototipo",
+              "label": "Solo PROTOTIPO"
+            },
+            {
+              "value": "comercial",
+              "label": "Solo PREVIEW_COMERCIAL y LIVE"
+            }
+          ]
+        }
       ]
     }
   ],
-  "presets": [{ "name": "DS · Plantilla legal", "blocks": [{ "type": "clause" }] }]
+  "presets": [
+    {
+      "name": "DS · Plantilla legal",
+      "blocks": [
+        {
+          "type": "clause"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

@@ -1,0 +1,29 @@
+{% comment %}
+  Sustituye [[ENVIO]], [[DEVOLUCIONES]], [[ATENCION]] y [[PAGO]] por los ajustes de
+  «Oferta» del tema (fuente única de verdad, auditoría V2 C-07). Si un ajuste está
+  vacío, inserta un marcador ⟦PENDIENTE⟧.
+  Accepts: text
+{% endcomment %}
+{%- liquid
+  assign out = text
+  if out contains '[['
+    capture p_ship
+      render 'ds-pending', label: 'envío'
+    endcapture
+    capture p_ret
+      render 'ds-pending', label: 'devoluciones'
+    endcapture
+    capture p_sup
+      render 'ds-pending', label: 'atención al cliente'
+    endcapture
+    capture p_pay
+      render 'ds-pending', label: 'formas de pago'
+    endcapture
+    assign v_ship = settings.ds_offer_shipping | escape | default: p_ship
+    assign v_ret = settings.ds_offer_returns | escape | default: p_ret
+    assign v_sup = settings.ds_offer_support | escape | default: p_sup
+    assign v_pay = settings.ds_offer_payment | escape | default: p_pay
+    assign out = out | replace: '[[ENVIO]]', v_ship | replace: '[[DEVOLUCIONES]]', v_ret | replace: '[[ATENCION]]', v_sup | replace: '[[PAGO]]', v_pay
+  endif
+  echo out
+-%}

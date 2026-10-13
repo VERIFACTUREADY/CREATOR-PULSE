@@ -33,7 +33,8 @@
             "question": "¿Ya puedo comprar el dispositivo?",
             "answer": "<p>No. Todavía no vendemos este producto. Estamos comprobando su documentación, si puede venderse por internet en España y su coste real.</p>",
             "link_label": "Qué sabemos del producto",
-            "link": "/pages/el-producto"
+            "link": "/pages/el-producto",
+            "visible_in": "prototipo"
           }
         },
         "faq_3": {
@@ -42,7 +43,8 @@
             "question": "¿Qué producto estáis evaluando?",
             "answer": "<p>Un dispositivo bucal reutilizable que el vendedor describe como ajustable. Todavía no publicamos fabricante, modelo ni características porque no tenemos su documentación.</p>",
             "link_label": "",
-            "link": ""
+            "link": "",
+            "visible_in": "prototipo"
           }
         },
         "faq_4": {
@@ -51,7 +53,8 @@
             "question": "¿De qué material está hecho?",
             "answer": "<p>Todavía no lo sabemos con certeza. Solo lo publicaremos cuando lo confirme la documentación del fabricante.</p>",
             "link_label": "",
-            "link": ""
+            "link": "",
+            "visible_in": "prototipo"
           }
         },
         "faq_5": {
@@ -60,14 +63,15 @@
             "question": "¿Cómo se limpia y cuánto dura?",
             "answer": "<p>Lo indicarán las instrucciones del fabricante. No vamos a dar un método de limpieza ni una duración que no estén en esas instrucciones.</p>",
             "link_label": "",
-            "link": ""
+            "link": "",
+            "visible_in": "prototipo"
           }
         },
         "faq_6": {
           "type": "question",
           "settings": {
             "question": "¿Tenéis opiniones de clientes?",
-            "answer": "<p>Todavía no, porque no hemos vendido nada. No publicaremos opiniones inventadas ni valoraciones de otros productos.</p>",
+            "answer": "<p>Todavía no tenemos opiniones verificadas de clientes. No publicaremos opiniones inventadas ni valoraciones de otros productos.</p>",
             "link_label": "",
             "link": ""
           }
@@ -137,7 +141,8 @@
             "question": "¿Cuánto costará?",
             "answer": "<p>Todavía no hay precio. Lo fijaremos cuando conozcamos el coste real del producto, del envío y de los impuestos. El precio final se mostrará con impuestos incluidos antes de pagar.</p>",
             "link_label": "",
-            "link": ""
+            "link": "",
+            "visible_in": "prototipo"
           }
         },
         "faq_15": {
@@ -146,7 +151,8 @@
             "question": "¿Cuánto tardará en llegar?",
             "answer": "<p>Todavía no lo sabemos. No anunciaremos un plazo que no esté confirmado por el proveedor.</p>",
             "link_label": "Condiciones de envío",
-            "link": "/pages/envios"
+            "link": "/pages/envios",
+            "visible_in": "prototipo"
           }
         },
         "faq_16": {
@@ -155,7 +161,8 @@
             "question": "¿Podré devolverlo si lo abro?",
             "answer": "<p>En general, las compras a distancia tienen 14 días naturales para desistir. Hay excepciones para productos precintados por motivos de higiene una vez abiertos. Antes de vender, revisaremos con una asesoría si esa excepción se aplica a este producto y te lo explicaremos con claridad antes de comprar.</p>",
             "link_label": "Devoluciones y garantía",
-            "link": "/pages/devoluciones"
+            "link": "/pages/devoluciones",
+            "visible_in": "prototipo"
           }
         },
         "faq_17": {
@@ -189,7 +196,8 @@
             "question": "¿Quién vende en esta web?",
             "answer": "<p>Los datos del titular aparecen en el pie de todas las páginas y en el <a href=\"/pages/aviso-legal\">aviso legal</a>. Mientras el proyecto es un prototipo, algunos datos están pendientes y se señalan así.</p>",
             "link_label": "",
-            "link": ""
+            "link": "",
+            "visible_in": "prototipo"
           }
         },
         "faq_21": {
@@ -209,10 +217,82 @@
             "link_label": "Política de cookies",
             "link": "/pages/cookies"
           }
+        },
+        "faqv2_producto_1": {
+          "type": "question",
+          "settings": {
+            "question": "¿De qué material está hecho?",
+            "answer": "<p>Lo indica la ficha técnica del producto, según la documentación del fabricante.</p>",
+            "link_label": "Ver la ficha técnica",
+            "link": "/products/dispositivo-bucal#cuidados",
+            "visible_in": "comercial"
+          }
+        },
+        "faqv2_producto_2": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cómo se limpia?",
+            "answer": "<p>Sigue las instrucciones incluidas con el producto. También las encontrarás en la ficha, en «Cuidados y limpieza».</p>",
+            "link_label": "Cuidados y limpieza",
+            "link": "/products/dispositivo-bucal#cuidados",
+            "visible_in": "comercial"
+          }
+        },
+        "faqv2_compra_1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto cuesta?",
+            "answer": "<p>El precio final, con impuestos incluidos, aparece en la ficha del producto antes de pagar.</p>",
+            "link_label": "Ver el producto",
+            "link": "/products/dispositivo-bucal",
+            "visible_in": "comercial"
+          }
+        },
+        "faqv2_compra_2": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto tarda en llegar?",
+            "answer": "<p>[[ENVIO]]</p>",
+            "link_label": "Condiciones de envío",
+            "link": "/pages/envios",
+            "visible_in": "comercial"
+          }
+        },
+        "faqv2_compra_3": {
+          "type": "question",
+          "settings": {
+            "question": "¿Puedo devolverlo?",
+            "answer": "<p>[[DEVOLUCIONES]]</p>",
+            "link_label": "Devoluciones y garantía",
+            "link": "/pages/devoluciones",
+            "visible_in": "comercial"
+          }
+        },
+        "faqv2_compra_4": {
+          "type": "question",
+          "settings": {
+            "question": "¿Qué formas de pago aceptáis?",
+            "answer": "<p>[[PAGO]]</p>",
+            "link_label": "",
+            "link": "",
+            "visible_in": "comercial"
+          }
+        },
+        "faqv2_confianza_1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Quién vende en esta web?",
+            "answer": "<p>Los datos del titular aparecen en el pie de todas las páginas y en el <a href=\"/pages/aviso-legal\">aviso legal</a>.</p>",
+            "link_label": "",
+            "link": "",
+            "visible_in": "comercial"
+          }
         }
       },
       "block_order": [
         "faq_1",
+        "faqv2_producto_1",
+        "faqv2_producto_2",
         "faq_2",
         "faq_3",
         "faq_4",
@@ -225,11 +305,16 @@
         "faq_11",
         "faq_12",
         "faq_13",
+        "faqv2_compra_1",
+        "faqv2_compra_2",
+        "faqv2_compra_3",
+        "faqv2_compra_4",
         "faq_14",
         "faq_15",
         "faq_16",
         "faq_17",
         "faq_18",
+        "faqv2_confianza_1",
         "faq_19",
         "faq_20",
         "faq_21",

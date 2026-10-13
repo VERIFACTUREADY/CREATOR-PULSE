@@ -26,12 +26,12 @@
   "menus": {
     "main-menu": [
       {
-        "title": "Cómo funciona",
-        "url": "/pages/como-funciona"
+        "title": "El producto",
+        "url": "/products/dispositivo-bucal"
       },
       {
-        "title": "El producto",
-        "url": "/pages/el-producto"
+        "title": "Cómo funciona",
+        "url": "/pages/como-funciona"
       },
       {
         "title": "Uso y seguridad",
@@ -226,15 +226,15 @@
       "description": "Política de cookies. Información del prototipo Descanso Compartido."
     },
     {
-      "path": "/products/dispositivo-bucal-en-evaluacion",
+      "path": "/products/dispositivo-bucal",
       "template": "product",
-      "title": "Dispositivo bucal ajustable (modelo en evaluación)",
+      "title": "Dispositivo bucal ajustable",
       "product": {
         "id": 1,
-        "title": "Dispositivo bucal ajustable (modelo en evaluación)",
-        "handle": "dispositivo-bucal-en-evaluacion",
-        "url": "/products/dispositivo-bucal-en-evaluacion",
-        "description": "<p>Ficha de demostración del prototipo. Sin datos del fabricante todavía.</p>",
+        "title": "Dispositivo bucal ajustable",
+        "handle": "dispositivo-bucal",
+        "url": "/products/dispositivo-bucal",
+        "description": "<p>[Descripción comercial: se rellena en el admin de Shopify con la ficha aprobada.]</p>",
         "vendor": "",
         "type": "",
         "available": true,
@@ -271,13 +271,40 @@
           ]
         },
         "metafields": {
-          "compliance": {}
+          "compliance": {},
+          "commercial": {}
         },
         "requires_selling_plan": false,
         "selling_plan_groups": [],
         "gift_card?": false
       },
-      "description": "Dispositivo bucal en evaluación documental. Todavía no está a la venta."
+      "description": "Dispositivo bucal ajustable: qué es, cómo se usa, qué incluye, envío y devoluciones."
+    },
+    {
+      "path": "/pages/landing-ronquidos",
+      "template": "page.landing-ronquidos",
+      "title": "¿Te preocupan tus ronquidos?",
+      "description": "Conoce nuestro dispositivo bucal: qué es, cómo se usa y qué incluye.",
+      "page": {
+        "title": "¿Te preocupan tus ronquidos?",
+        "handle": "landing-ronquidos",
+        "content": "",
+        "url": "/pages/landing-ronquidos",
+        "id": "landing-ronquidos"
+      }
+    },
+    {
+      "path": "/pages/landing-pareja",
+      "template": "page.landing-pareja",
+      "title": "Descanso en pareja",
+      "description": "Descansar juntos importa. Conoce nuestro dispositivo bucal y cómo se usa.",
+      "page": {
+        "title": "Descanso en pareja",
+        "handle": "landing-pareja",
+        "content": "",
+        "url": "/pages/landing-pareja",
+        "id": "landing-pareja"
+      }
     },
     {
       "path": "/cart",

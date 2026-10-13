@@ -95,6 +95,21 @@
               {%- case block.type -%}
                 {%- when '@app' -%}
                   {% render block %}
+                {%- when 'ds_benefit' -%}
+                  <p class="ds-pbenefit" {{ block.shopify_attributes }}>
+                    {%- if product.metafields.commercial.short_benefit != blank -%}
+                      {{ product.metafields.commercial.short_benefit | metafield_tag }}
+                    {%- else -%}
+                      {%- render 'ds-pending', label: 'beneficio aprobado en la ficha comercial' -%}
+                    {%- endif -%}
+                  </p>
+                {%- when 'ds_offer_points' -%}
+                  <div {{ block.shopify_attributes }}>{%- render 'ds-offer-points', product: product, compact: true -%}</div>
+                {%- when 'ds_prototype_label' -%}
+                  {%- capture ds_mode_l -%}{%- render 'ds-mode' -%}{%- endcapture -%}
+                  {%- if ds_mode_l == 'prototipo' -%}
+                    <p class="product__text caption-with-letter-spacing" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+                  {%- endif -%}
                 {%- when 'text' -%}
                   <p
                     class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
@@ -778,6 +793,41 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "ds_benefit",
+      "name": "DS · Beneficio aprobado",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Muestra el metacampo commercial.short_benefit (texto aprobado por el titular). Si falta, marcador ⟦PENDIENTE⟧."
+        }
+      ]
+    },
+    {
+      "type": "ds_offer_points",
+      "name": "DS · Envío y garantías",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Muestra envío, devoluciones, atención y pago desde Ajustes del tema › Oferta, y el plazo del metacampo commercial.delivery_window."
+        }
+      ]
+    },
+    {
+      "type": "ds_prototype_label",
+      "name": "DS · Etiqueta de prototipo",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texto (solo visible en PROTOTIPO)",
+          "default": "Producto en evaluación documental"
+        }
+      ]
     },
     {
       "type": "text",

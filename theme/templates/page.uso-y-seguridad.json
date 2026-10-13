@@ -53,7 +53,8 @@
           "settings": {
             "text": "Instrucciones del producto en evaluación",
             "level": "h2",
-            "anchor": "instrucciones"
+            "anchor": "instrucciones",
+            "visible_in": "prototipo"
           }
         },
         "content_4": {
@@ -64,7 +65,8 @@
             "title": "Todavía no publicamos instrucciones",
             "text": "<p>Las instrucciones de uso, ajuste y limpieza, y las advertencias del producto, deben venir del fabricante, en castellano. Todavía no las tenemos.</p>",
             "pending_label": "instrucciones de uso del fabricante en castellano",
-            "review": "fabricante"
+            "review": "fabricante",
+            "visible_in": "prototipo"
           }
         },
         "content_5": {
@@ -87,6 +89,22 @@
             "title": "Fuentes",
             "text": "<ul><li><a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC4481062/\" target=\"_blank\" rel=\"noopener\">Guía clínica AASM/AADSM, 2015</a></li><li><a href=\"https://www.ada.org/resources/ada-library/oral-health-topics/sleep-apnea-obstructive\" target=\"_blank\" rel=\"noopener\">American Dental Association: apnea obstructiva del sueño</a></li><li><a href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC10714377/\" target=\"_blank\" rel=\"noopener\">Revisión sobre cambios en la mordida, 2023</a></li></ul>"
           }
+        },
+        "content_v2_ifu": {
+          "type": "text",
+          "settings": {
+            "visible_in": "comercial",
+            "text": "<p>Las instrucciones de uso, ajuste y limpieza del fabricante están en la ficha del producto: <a href=\"/products/dispositivo-bucal#como-se-usa\">Cómo se usa</a>.</p>"
+          }
+        },
+        "content_v2_ifu_h": {
+          "type": "heading",
+          "settings": {
+            "visible_in": "comercial",
+            "text": "Instrucciones del producto",
+            "level": "h2",
+            "anchor": "instrucciones-producto"
+          }
         }
       },
       "block_order": [
@@ -94,6 +112,8 @@
         "content_2",
         "content_3",
         "content_4",
+        "content_v2_ifu_h",
+        "content_v2_ifu",
         "content_5",
         "content_6",
         "content_7"

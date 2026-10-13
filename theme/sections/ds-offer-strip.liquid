@@ -1,0 +1,30 @@
+{%- comment -%}
+  Franja de confianza: envío, devoluciones, atención y pago desde los ajustes del
+  tema (fuente única de verdad, auditoría V2 C-07).
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
+<section class="ds-offer-strip ds-section color-{{ section.settings.color_scheme }} gradient" style="{% render 'ds-section-vars', section: section %}"{% if section.settings.heading != blank %} aria-labelledby="DsStrip-{{ section.id }}"{% endif %}>
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}<h2 id="DsStrip-{{ section.id }}" class="ds-heading h2">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+    {%- render 'ds-offer-points', product: section.settings.product -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Envío y garantías",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "select", "id": "visible_in", "label": "Mostrar en", "default": "comercial", "options": [{ "value": "all", "label": "Todos los estados" }, { "value": "prototipo", "label": "Solo PROTOTIPO" }, { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" }] },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-2" },
+    { "type": "text", "id": "heading", "label": "Título" },
+    { "type": "product", "id": "product", "label": "Producto (para el plazo de entrega)" },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 32 }
+  ],
+  "presets": [{ "name": "DS · Envío y garantías" }]
+}
+{% endschema %}

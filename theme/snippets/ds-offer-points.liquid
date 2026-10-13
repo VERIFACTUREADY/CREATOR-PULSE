@@ -1,0 +1,35 @@
+{% comment %}
+  Puntos de confianza de la oferta (envío, devoluciones, atención y pago) desde los
+  ajustes del tema. Nunca inventa: si falta un dato, marcador ⟦PENDIENTE⟧.
+  Accepts:
+  - product: {Object} opcional; si tiene commercial.delivery_window se muestra como plazo
+  - compact: {Boolean} versión en una columna para la ficha
+{% endcomment %}
+<ul class="ds-offer-points{% if compact %} ds-offer-points--compact{% endif %}" role="list">
+  <li>
+    <span class="ds-offer-points__icon">{%- render 'ds-icon', name: 'truck' -%}</span>
+    <span><strong>{{ 'ds.offer.shipping' | t }}</strong>
+      {% if settings.ds_offer_shipping != blank %}{{ settings.ds_offer_shipping | escape }}{% else %}{% render 'ds-pending', label: 'envío' %}{% endif %}
+      {%- if product.metafields.commercial.delivery_window != blank %} · {{ product.metafields.commercial.delivery_window | metafield_tag }}{%- endif -%}
+    </span>
+  </li>
+  <li>
+    <span class="ds-offer-points__icon">{%- render 'ds-icon', name: 'return' -%}</span>
+    <span><strong>{{ 'ds.offer.returns' | t }}</strong>
+      {% if settings.ds_offer_returns != blank %}{{ settings.ds_offer_returns | escape }}{% else %}{% render 'ds-pending', label: 'devoluciones' %}{% endif %}
+      <a href="/pages/devoluciones">{{ 'ds.offer.conditions' | t }}</a>
+    </span>
+  </li>
+  <li>
+    <span class="ds-offer-points__icon">{%- render 'ds-icon', name: 'chat' -%}</span>
+    <span><strong>{{ 'ds.offer.support' | t }}</strong>
+      {% if settings.ds_offer_support != blank %}{{ settings.ds_offer_support | escape }}{% else %}{% render 'ds-pending', label: 'atención al cliente' %}{% endif %}
+    </span>
+  </li>
+  <li>
+    <span class="ds-offer-points__icon">{%- render 'ds-icon', name: 'check' -%}</span>
+    <span><strong>{{ 'ds.offer.payment' | t }}</strong>
+      {% if settings.ds_offer_payment != blank %}{{ settings.ds_offer_payment | escape }}{% else %}{% render 'ds-pending', label: 'formas de pago' %}{% endif %}
+    </span>
+  </li>
+</ul>

@@ -8,7 +8,7 @@
       "type": "ds-page-header",
       "settings": {
         "color_scheme": "scheme-2",
-        "lead": "<p>Estamos evaluando un dispositivo bucal ajustable. Aquí explicamos qué sabemos, qué no sabemos todavía y qué comprobamos antes de venderlo.</p>",
+        "lead": "<p>Toda la información del dispositivo, en un solo lugar.</p>",
         "review": "fabricante",
         "show_review_date": true
       }
@@ -20,14 +20,16 @@
         "icon": "doc",
         "heading": "Todavía no vendemos este producto",
         "text": "<p>Producto en evaluación documental. No mostramos precio, plazo de entrega ni botón de compra porque todavía no están confirmados.</p>",
-        "padding_top": 48
+        "padding_top": 48,
+        "visible_in": "prototipo"
       }
     },
     "known": {
       "type": "ds-content",
       "settings": {
         "show_toc": false,
-        "review": "fabricante"
+        "review": "fabricante",
+        "visible_in": "prototipo"
       },
       "blocks": {
         "known_1": {
@@ -73,7 +75,8 @@
         "heading": "Qué comprobamos antes de vender",
         "intro": "<p>Si alguno de estos puntos no se cumple, no venderemos este producto.</p>",
         "hide_when_commerce": true,
-        "padding_top": 16
+        "padding_top": 16,
+        "visible_in": "prototipo"
       },
       "blocks": {
         "status_1": {
@@ -189,10 +192,23 @@
         "next_2",
         "next_3"
       ]
+    },
+    "go": {
+      "type": "ds-callout",
+      "settings": {
+        "visible_in": "comercial",
+        "style": "info",
+        "icon": "doc",
+        "heading": "La ficha completa está en la página del producto",
+        "text": "<p>Precio, qué incluye, cómo se usa, precauciones, envío y devoluciones.</p>",
+        "button_label": "Ver el producto",
+        "button_link": "/products/dispositivo-bucal"
+      }
     }
   },
   "order": [
     "header",
+    "go",
     "notice",
     "known",
     "status",

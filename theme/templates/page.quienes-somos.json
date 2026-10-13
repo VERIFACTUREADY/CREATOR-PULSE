@@ -53,13 +53,15 @@
           "settings": {
             "text": "En qué punto estamos",
             "level": "h2",
-            "anchor": "estado"
+            "anchor": "estado",
+            "visible_in": "prototipo"
           }
         },
         "content_6": {
           "type": "text",
           "settings": {
-            "text": "<p>Somos un proyecto en fase de prototipo. Esta web todavía no vende productos.</p>"
+            "text": "<p>Somos un proyecto en fase de prototipo. Esta web todavía no vende productos.</p>",
+            "visible_in": "prototipo"
           }
         },
         "content_7": {

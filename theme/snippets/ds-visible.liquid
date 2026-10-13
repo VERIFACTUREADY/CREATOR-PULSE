@@ -1,0 +1,21 @@
+{% comment %}
+  ¿Se muestra este contenido en el estado actual? Imprime «true» o «false».
+  Accepts:
+  - when: {String} 'all' (o vacío) | 'prototipo' | 'comercial' (PREVIEW_COMERCIAL y LIVE) | 'no_live' (todo salvo LIVE)
+{% endcomment %}
+{%- capture ds_mode_v -%}{%- render 'ds-mode' -%}{%- endcapture -%}
+{%- liquid
+  assign show = true
+  if when == 'prototipo' and ds_mode_v != 'prototipo'
+    assign show = false
+  elsif when == 'comercial' and ds_mode_v == 'prototipo'
+    assign show = false
+  elsif when == 'no_live' and ds_mode_v == 'live'
+    assign show = false
+  endif
+  if show
+    echo 'true'
+  else
+    echo 'false'
+  endif
+-%}

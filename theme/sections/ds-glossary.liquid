@@ -1,4 +1,6 @@
 {%- comment -%} Glosario de lectura clara (Maestro §04). {%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
 <section
   class="ds-glossary ds-section color-{{ section.settings.color_scheme }} gradient"
   style="{% render 'ds-section-vars', section: section %}"
@@ -21,6 +23,7 @@
     </dl>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
@@ -29,27 +32,118 @@
   "class": "section",
   "max_blocks": 30,
   "settings": [
-    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-2" },
-    { "type": "text", "id": "anchor", "label": "Ancla", "default": "glosario" },
-    { "type": "text", "id": "heading", "label": "Título", "default": "Glosario: palabras que conviene entender" },
-    { "type": "richtext", "id": "intro", "label": "Introducción" },
     {
-      "type": "select", "id": "review", "label": "Marcador de revisión", "default": "",
-      "options": [{ "value": "", "label": "Ninguno" }, { "value": "sanitaria", "label": "Pendiente de revisión sanitaria" }]
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "all",
+      "options": [
+        {
+          "value": "all",
+          "label": "Todos los estados"
+        },
+        {
+          "value": "prototipo",
+          "label": "Solo PROTOTIPO"
+        },
+        {
+          "value": "comercial",
+          "label": "Solo PREVIEW_COMERCIAL y LIVE"
+        }
+      ]
     },
-    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 },
-    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Ancla",
+      "default": "glosario"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Glosario: palabras que conviene entender"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Introducción"
+    },
+    {
+      "type": "select",
+      "id": "review",
+      "label": "Marcador de revisión",
+      "default": "",
+      "options": [
+        {
+          "value": "",
+          "label": "Ninguno"
+        },
+        {
+          "value": "sanitaria",
+          "label": "Pendiente de revisión sanitaria"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Margen superior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Margen inferior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
   ],
   "blocks": [
     {
       "type": "term",
       "name": "Término",
       "settings": [
-        { "type": "text", "id": "term", "label": "Término", "default": "Término" },
-        { "type": "textarea", "id": "definition", "label": "Definición sencilla", "default": "Definición en una o dos frases." }
+        {
+          "type": "text",
+          "id": "term",
+          "label": "Término",
+          "default": "Término"
+        },
+        {
+          "type": "textarea",
+          "id": "definition",
+          "label": "Definición sencilla",
+          "default": "Definición en una o dos frases."
+        }
       ]
     }
   ],
-  "presets": [{ "name": "DS · Glosario", "blocks": [{ "type": "term" }, { "type": "term" }] }]
+  "presets": [
+    {
+      "name": "DS · Glosario",
+      "blocks": [
+        {
+          "type": "term"
+        },
+        {
+          "type": "term"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

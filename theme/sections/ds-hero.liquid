@@ -2,6 +2,8 @@
   Hero de marca. Estudio §12.2: una sola idea, una CTA informativa, sin
   promesas médicas. La ilustración es decorativa y no representa el producto.
 {%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
 <section
   class="ds-hero ds-section color-{{ section.settings.color_scheme }} gradient"
   style="{% render 'ds-section-vars', section: section %}"
@@ -54,6 +56,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {
@@ -62,36 +65,142 @@
   "class": "section",
   "max_blocks": 4,
   "settings": [
-    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
-    { "type": "image_picker", "id": "image", "label": "Imagen (solo con licencia o autorización)", "info": "Si se deja vacío, se muestra la ilustración original del prototipo. No usar fotos de terceros sin licencia ni fotos que simulen resultados." },
-    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Descanso en pareja" },
-    { "type": "text", "id": "heading", "label": "Titular (H1)", "default": "Descansar juntos importa." },
-    { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Los ronquidos pueden afectar a las noches compartidas. Infórmate sobre sus causas y las opciones disponibles.</p>" },
-    { "type": "text", "id": "button_label", "label": "Botón principal", "default": "Entender las opciones", "info": "Durante el prototipo, la acción debe ser informativa, nunca de compra." },
-    { "type": "url", "id": "button_link", "label": "Enlace del botón" },
-    { "type": "text", "id": "quick_label", "label": "Nombre accesible de los enlaces rápidos", "default": "Accesos rápidos" },
     {
-      "type": "select", "id": "review", "label": "Marcador de revisión", "default": "",
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "all",
       "options": [
-        { "value": "", "label": "Ninguno" },
-        { "value": "sanitaria", "label": "Pendiente de revisión sanitaria" },
-        { "value": "juridica", "label": "Pendiente de revisión jurídica" },
-        { "value": "titular", "label": "Pendiente de aprobación del titular" }
+        {
+          "value": "all",
+          "label": "Todos los estados"
+        },
+        {
+          "value": "prototipo",
+          "label": "Solo PROTOTIPO"
+        },
+        {
+          "value": "comercial",
+          "label": "Solo PREVIEW_COMERCIAL y LIVE"
+        }
       ]
     },
-    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 48 },
-    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen (solo con licencia o autorización)",
+      "info": "Si se deja vacío, se muestra la ilustración original del prototipo. No usar fotos de terceros sin licencia ni fotos que simulen resultados."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Antetítulo",
+      "default": "Descanso en pareja"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titular (H1)",
+      "default": "Descansar juntos importa."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texto",
+      "default": "<p>Los ronquidos pueden afectar a las noches compartidas. Infórmate sobre sus causas y las opciones disponibles.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Botón principal",
+      "default": "Entender las opciones",
+      "info": "Durante el prototipo, la acción debe ser informativa, nunca de compra."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace del botón"
+    },
+    {
+      "type": "text",
+      "id": "quick_label",
+      "label": "Nombre accesible de los enlaces rápidos",
+      "default": "Accesos rápidos"
+    },
+    {
+      "type": "select",
+      "id": "review",
+      "label": "Marcador de revisión",
+      "default": "",
+      "options": [
+        {
+          "value": "",
+          "label": "Ninguno"
+        },
+        {
+          "value": "sanitaria",
+          "label": "Pendiente de revisión sanitaria"
+        },
+        {
+          "value": "juridica",
+          "label": "Pendiente de revisión jurídica"
+        },
+        {
+          "value": "titular",
+          "label": "Pendiente de aprobación del titular"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Margen superior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Margen inferior",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 64
+    }
   ],
   "blocks": [
     {
       "type": "link",
       "name": "Enlace rápido",
       "settings": [
-        { "type": "text", "id": "label", "label": "Texto", "default": "Qué es" },
-        { "type": "url", "id": "link", "label": "Enlace" }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Texto",
+          "default": "Qué es"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        }
       ]
     }
   ],
-  "presets": [{ "name": "DS · Hero de marca" }]
+  "presets": [
+    {
+      "name": "DS · Hero de marca"
+    }
+  ]
 }
 {% endschema %}

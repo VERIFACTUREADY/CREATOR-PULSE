@@ -648,6 +648,13 @@
     "photo": {
       "title": "FOTO PENDIENTE · NO PUBLICABLE",
       "default": "Fotografía real del producto, con derechos de uso"
+    },
+    "offer": {
+      "shipping": "Envío:",
+      "returns": "Devoluciones:",
+      "support": "Atención:",
+      "payment": "Pago:",
+      "conditions": "Ver condiciones"
     }
   }
 }

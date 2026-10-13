@@ -24,7 +24,8 @@
           "type": "clause",
           "settings": {
             "heading": "Estado actual",
-            "text": "<p>Esta web es un prototipo. Todavía no vendemos productos.</p>"
+            "text": "<p>Esta web es un prototipo. Todavía no vendemos productos.</p>",
+            "visible_in": "prototipo"
           }
         },
         "legal_2": {
@@ -98,10 +99,19 @@
       "block_order": [
         "sources_1"
       ]
+    },
+    "summary": {
+      "type": "ds-offer-strip",
+      "settings": {
+        "visible_in": "comercial",
+        "heading": "Resumen",
+        "color_scheme": "scheme-2"
+      }
     }
   },
   "order": [
     "header",
+    "summary",
     "legal",
     "sources"
   ]
