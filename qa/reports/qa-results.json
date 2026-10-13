@@ -1,0 +1,897 @@
+{
+  "date": "2026-10-13T19:44:17.297Z",
+  "routes": {
+    "/": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Descanso en pareja e información sobre ronquidos – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Descanso en pareja e información sobre ronquidos – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Descanso en pareja e información sobre ronquidos – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Descanso en pareja e información sobre ronquidos – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/como-funciona": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Cómo funciona – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Cómo funciona – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Cómo funciona – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Cómo funciona – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/el-producto": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "El producto – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "El producto – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "El producto – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "El producto – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/uso-y-seguridad": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Uso y seguridad – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Uso y seguridad – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Uso y seguridad – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Uso y seguridad – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/preguntas-frecuentes": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Preguntas frecuentes – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Preguntas frecuentes – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Preguntas frecuentes – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Preguntas frecuentes – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/quienes-somos": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Quiénes somos – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Quiénes somos – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Quiénes somos – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Quiénes somos – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/contacto": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Contacto – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Contacto – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Contacto – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Contacto – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/envios": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Envíos – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Envíos – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Envíos – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Envíos – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/devoluciones": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Devoluciones y garantía – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Devoluciones y garantía – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Devoluciones y garantía – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Devoluciones y garantía – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/aviso-legal": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Aviso legal – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Aviso legal – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Aviso legal – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Aviso legal – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/privacidad": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Política de privacidad – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Política de privacidad – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Política de privacidad – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Política de privacidad – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/cookies": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Política de cookies – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Política de cookies – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Política de cookies – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Política de cookies – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/products/dispositivo-bucal-en-evaluacion": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Dispositivo bucal ajustable (modelo en evaluación) – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Dispositivo bucal ajustable (modelo en evaluación) – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Dispositivo bucal ajustable (modelo en evaluación) – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Dispositivo bucal ajustable (modelo en evaluación) – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/cart": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Carrito – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Carrito – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Carrito – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Carrito – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/404": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Página no encontrada – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Página no encontrada – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Página no encontrada – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Página no encontrada – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    }
+  },
+  "gate": {
+    "Prototipo (comercio OFF): ningún formulario /cart/add": true,
+    "Prototipo: ningún botón de checkout": true,
+    "Prototipo: sin icono de carrito": true,
+    "Prototipo: sin precios": true,
+    "Prototipo: sin JSON-LD Product/Offer": true,
+    "Prototipo: noindex en todas las páginas": true,
+    "Prototipo: aviso de prototipo en todas las páginas": true,
+    "Comercio ON + metacampos vacíos: la ficha sigue SIN compra": true,
+    "Comercio ON + metacampos completos: la ficha SÍ muestra compra (la compuerta se abre)": true
+  },
+  "claims": {
+    "forbiddenPatterns": 14,
+    "hits": []
+  },
+  "tracking": {
+    "hits": []
+  },
+  "keyboard": {
+    "firstIsSkipLink": true,
+    "allFocusVisible": true,
+    "steps": [
+      {
+        "tag": "a",
+        "text": "Ir directamente al contenido",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "Descanso Compartido",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "Cómo funciona",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "El producto",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "Uso y seguridad",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "Preguntas",
+        "outline": true
+      },
+      {
+        "tag": "summary",
+        "text": "Búsqueda",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "Entender las opciones",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "Qué es una férula",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "Cuándo consultar",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "Dudas",
+        "outline": true
+      },
+      {
+        "tag": "a",
+        "text": "01\nConoce el problema\nQué son los ronqui",
+        "outline": true
+      }
+    ],
+    "faqOpensWithEnter": true,
+    "mobileMenuLinks": [
+      "Cómo funciona",
+      "El producto",
+      "Uso y seguridad",
+      "Preguntas"
+    ]
+  },
+  "summary": {
+    "routes": 15,
+    "viewports": [
+      375,
+      390,
+      768,
+      1440
+    ],
+    "checksRun": 60,
+    "overflowX": [],
+    "h1NotOne": [],
+    "imgsNoAlt": 0,
+    "brokenLinks": [],
+    "consoleErrors": [],
+    "axeViolations": [],
+    "smallTargets": [],
+    "minBodyFontPx": 16.5,
+    "gateAllPass": true,
+    "claimHits": 0,
+    "trackerHits": 0
+  }
+}

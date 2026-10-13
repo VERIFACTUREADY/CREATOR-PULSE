@@ -1,3 +1,5 @@
+{%- comment -%} Prototipo: el carrito no se muestra sin GO (docs/03_GO_NO_GO.md). {%- endcomment -%}
+{%- if settings.ds_commerce_enabled -%}
 {{ 'component-cart.css' | asset_url | stylesheet_tag }}
 {{ 'component-totals.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
@@ -137,6 +139,7 @@
     </div>
   </div>
 </div>
+{%- endif -%}
 
 {% schema %}
 {

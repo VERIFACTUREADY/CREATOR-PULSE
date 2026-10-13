@@ -41,7 +41,8 @@
         "button_link": "/",
         "button_secondary": true,
         "padding_top": 40,
-        "padding_bottom": 0
+        "padding_bottom": 0,
+        "heading_level": "h1"
       }
     }
   },

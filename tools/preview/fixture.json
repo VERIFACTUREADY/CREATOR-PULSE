@@ -92,7 +92,8 @@
         "content": "",
         "url": "/pages/como-funciona",
         "id": "como-funciona"
-      }
+      },
+      "description": "Qué son los ronquidos, por qué no todos son iguales, qué es una férula de avance mandibular y cómo actúan las distintas opciones."
     },
     {
       "path": "/pages/el-producto",
@@ -104,7 +105,8 @@
         "content": "",
         "url": "/pages/el-producto",
         "id": "el-producto"
-      }
+      },
+      "description": "Qué sabemos y qué no del dispositivo que estamos evaluando, y qué comprobamos antes de venderlo. Todavía no está a la venta."
     },
     {
       "path": "/pages/uso-y-seguridad",
@@ -116,7 +118,8 @@
         "content": "",
         "url": "/pages/uso-y-seguridad",
         "id": "uso-y-seguridad"
-      }
+      },
+      "description": "Cuándo consultar con un profesional sanitario y precauciones generales antes de usar un dispositivo bucal para dormir."
     },
     {
       "path": "/pages/preguntas-frecuentes",
@@ -128,7 +131,8 @@
         "content": "",
         "url": "/pages/preguntas-frecuentes",
         "id": "preguntas-frecuentes"
-      }
+      },
+      "description": "Respuestas cortas sobre ronquidos, apnea, férulas, marcado CE, envíos, devoluciones y privacidad."
     },
     {
       "path": "/pages/quienes-somos",
@@ -140,7 +144,8 @@
         "content": "",
         "url": "/pages/quienes-somos",
         "id": "quienes-somos"
-      }
+      },
+      "description": "Una marca que habla de descanso sin promesas milagrosas. Cómo trabajamos y en qué punto estamos."
     },
     {
       "path": "/pages/contacto",
@@ -152,7 +157,8 @@
         "content": "",
         "url": "/pages/contacto",
         "id": "contacto"
-      }
+      },
+      "description": "Escríbenos tus dudas sobre la información de esta web. Por favor, no incluyas datos de salud."
     },
     {
       "path": "/pages/envios",
@@ -164,7 +170,8 @@
         "content": "",
         "url": "/pages/envios",
         "id": "envios"
-      }
+      },
+      "description": "Envíos. Información del prototipo Descanso Compartido."
     },
     {
       "path": "/pages/devoluciones",
@@ -176,7 +183,8 @@
         "content": "",
         "url": "/pages/devoluciones",
         "id": "devoluciones"
-      }
+      },
+      "description": "Devoluciones y garantía. Información del prototipo Descanso Compartido."
     },
     {
       "path": "/pages/aviso-legal",
@@ -188,7 +196,8 @@
         "content": "",
         "url": "/pages/aviso-legal",
         "id": "aviso-legal"
-      }
+      },
+      "description": "Aviso legal. Información del prototipo Descanso Compartido."
     },
     {
       "path": "/pages/privacidad",
@@ -200,7 +209,8 @@
         "content": "",
         "url": "/pages/privacidad",
         "id": "privacidad"
-      }
+      },
+      "description": "Política de privacidad. Información del prototipo Descanso Compartido."
     },
     {
       "path": "/pages/cookies",
@@ -212,7 +222,8 @@
         "content": "",
         "url": "/pages/cookies",
         "id": "cookies"
-      }
+      },
+      "description": "Política de cookies. Información del prototipo Descanso Compartido."
     },
     {
       "path": "/products/dispositivo-bucal-en-evaluacion",
@@ -265,7 +276,8 @@
         "requires_selling_plan": false,
         "selling_plan_groups": [],
         "gift_card?": false
-      }
+      },
+      "description": "Dispositivo bucal en evaluación documental. Todavía no está a la venta."
     },
     {
       "path": "/cart",

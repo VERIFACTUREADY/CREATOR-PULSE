@@ -1,0 +1,65 @@
+[
+  {
+    "severity": "warning",
+    "check": "OrphanedSnippet",
+    "file": "snippets/quick-order-product-row.liquid",
+    "line": 1,
+    "message": "This snippet is not referenced by any other files"
+  },
+  {
+    "severity": "warning",
+    "check": "VariableName",
+    "file": "sections/main-list-collections.liquid",
+    "line": 20,
+    "message": "The variable 'moduloResult' uses wrong naming format"
+  },
+  {
+    "severity": "warning",
+    "check": "VariableName",
+    "file": "sections/main-article.liquid",
+    "line": 102,
+    "message": "The variable 'anchorId' uses wrong naming format"
+  },
+  {
+    "severity": "warning",
+    "check": "UnusedAssign",
+    "file": "sections/main-search.liquid",
+    "line": 274,
+    "message": "The variable 'product_settings' is assigned but not used"
+  },
+  {
+    "severity": "warning",
+    "check": "LiquidComplexity",
+    "file": "snippets/facets.liquid",
+    "line": 865,
+    "message": "Liquid complexity is 136, which exceeds the maximum of 120. The decision at line 865 pushed it over the limit. Consider simplifying conditional logic, or moving self-contained decision logic into snippets with the render tag."
+  },
+  {
+    "severity": "warning",
+    "check": "UnusedAssign",
+    "file": "sections/main-product.liquid",
+    "line": 760,
+    "message": "The variable 'seo_media' is assigned but not used"
+  },
+  {
+    "severity": "warning",
+    "check": "UndefinedObject",
+    "file": "layout/password.liquid",
+    "line": 40,
+    "message": "Unknown object 'scheme_classes' used."
+  },
+  {
+    "severity": "warning",
+    "check": "UndefinedObject",
+    "file": "layout/theme.liquid",
+    "line": 86,
+    "message": "Unknown object 'scheme_classes' used."
+  },
+  {
+    "severity": "warning",
+    "check": "UndefinedObject",
+    "file": "sections/main-product.liquid",
+    "line": 616,
+    "message": "Unknown object 'continue' used."
+  }
+]

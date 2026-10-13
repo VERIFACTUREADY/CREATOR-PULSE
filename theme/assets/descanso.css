@@ -151,7 +151,7 @@ html { scroll-padding-top: 9rem; }
 }
 
 /* ---------- Cabecera ---------- */
-.ds-wordmark {
+.ds-wordmark, .header__heading-link .ds-wordmark {
   display: inline-flex;
   align-items: center;
   gap: 0.8rem;
@@ -275,8 +275,7 @@ html { scroll-padding-top: 9rem; }
   transition: background-color 0.2s ease;
 }
 a.ds-steps__link:hover { background: var(--ds-sand); }
-.ds-steps__num { font-weight: 700; font-size: 1.5rem; color: var(--ds-petrol); font-variant-numeric: tabular-nums; }
-.color-scheme-2 .ds-steps__num, .color-scheme-3 .ds-steps__num { color: var(--ds-night); }
+.ds-steps__num { font-weight: 700; font-size: 1.5rem; color: var(--ds-night); font-variant-numeric: tabular-nums; }
 .ds-steps__title { font-weight: 700; font-size: 1.8rem; display: block; }
 .ds-steps__text { display: block; font-size: 1.5rem; margin-top: 0.4rem; }
 .ds-steps__go { font-size: 2rem; }
@@ -553,3 +552,6 @@ a.ds-steps__link:hover { background: var(--ds-sand); }
 .footer-block__heading { font-size: 1.5rem; letter-spacing: 0.06em; text-transform: uppercase; }
 .footer-block__details-content .list-menu__item--link { font-size: 1.6rem; min-height: 4.4rem; display: inline-flex; align-items: center; padding: 0; }
 .footer__content-top { padding-bottom: 3.2rem; }
+
+/* Enlaces pequeños del pie de Dawn: objetivo táctil ≥ 44 px. */
+.copyright__content a { display: inline-flex; align-items: center; min-height: 4.4rem; }

@@ -2,6 +2,8 @@
 // Uso: node preview/build.mjs [--commerce] [--no-pending] [--out dir]
 //  --commerce   simula ds_commerce_enabled = true (para probar la compuerta)
 //  --no-pending simula ds_show_pending = false
+//  --complete-metafields rellena los metacampos compliance.* del producto demo
+//               con valores FICTICIOS marcados como tales (solo para probar la compuerta)
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -144,7 +146,8 @@ async function renderRoute(route) {
     canonical_url: 'http://localhost' + route.path,
     page_title: route.title,
     page_description: route.description || null,
-    content_for_header: '',
+    // Shopify inyecta el objeto global `Shopify` mediante content_for_header.
+    content_for_header: '<script>window.Shopify = window.Shopify || { designMode: false };</script>',
     powered_by_link: '<a href="https://www.shopify.com" rel="nofollow" target="_blank">Tecnología de Shopify</a>',
     current_page: 1,
     current_tags: null,
@@ -174,6 +177,15 @@ const fontSrc = path.join(here, '../node_modules/@fontsource/lato/files');
 for (const w of ['400', '700']) for (const st of ['normal', 'italic'])
   fs.copyFileSync(path.join(fontSrc, `lato-latin-${w}-${st}.woff2`), path.join(outDir, 'fonts', `lato-${w}-${st}.woff2`));
 
+if (args.includes('--complete-metafields')) {
+  const demo = 'VALOR FICTICIO DE PRUEBA';
+  const keys = ['manufacturer_legal_name', 'model_reference', 'intended_purpose', 'materials', 'ifu_es', 'warnings_es', 'contraindications_es', 'eu_declaration_ref', 'economic_operator', 'lot_traceability', 'delivery_window', 'claim_approval_version'];
+  for (const r of fixture.pages) if (r.product) {
+    r.product.metafields.compliance = Object.fromEntries(keys.map((k) => [k, { value: demo }]));
+    r.product.price = 2990;
+    r.product.selected_or_first_available_variant.price = 2990;
+  }
+}
 const index = [];
 for (const route of fixture.pages) {
   const html = await renderRoute(route);

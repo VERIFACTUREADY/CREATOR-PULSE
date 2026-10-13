@@ -616,6 +616,9 @@
     },
     "footer": {
       "seller": "Seller"
+    },
+    "notfound": {
+      "cta": "Back to home"
     }
   }
 }

@@ -628,6 +628,9 @@
     },
     "footer": {
       "seller": "Quién vende"
+    },
+    "notfound": {
+      "cta": "Volver al inicio"
     }
   }
 }

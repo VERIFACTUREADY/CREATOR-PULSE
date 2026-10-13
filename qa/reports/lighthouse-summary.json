@@ -1,0 +1,67 @@
+{
+  "/": {
+    "performance": 95,
+    "accessibility": 100,
+    "bestPractices": 96,
+    "seo": 63,
+    "LCP": "2.6 s",
+    "CLS": "0",
+    "TBT": "0 ms",
+    "failed": [
+      "errors-in-console",
+      "is-crawlable"
+    ]
+  },
+  "/pages/como-funciona": {
+    "performance": 95,
+    "accessibility": 100,
+    "bestPractices": 96,
+    "seo": 63,
+    "LCP": "2.6 s",
+    "CLS": "0",
+    "TBT": "0 ms",
+    "failed": [
+      "errors-in-console",
+      "is-crawlable"
+    ]
+  },
+  "/pages/uso-y-seguridad": {
+    "performance": 93,
+    "accessibility": 100,
+    "bestPractices": 96,
+    "seo": 63,
+    "LCP": "3.0 s",
+    "CLS": "0",
+    "TBT": "0 ms",
+    "failed": [
+      "errors-in-console",
+      "is-crawlable"
+    ]
+  },
+  "/pages/contacto": {
+    "performance": 96,
+    "accessibility": 100,
+    "bestPractices": 96,
+    "seo": 63,
+    "LCP": "2.4 s",
+    "CLS": "0",
+    "TBT": "0 ms",
+    "failed": [
+      "errors-in-console",
+      "is-crawlable"
+    ]
+  },
+  "/products/dispositivo-bucal-en-evaluacion": {
+    "performance": 92,
+    "accessibility": 100,
+    "bestPractices": 96,
+    "seo": 63,
+    "LCP": "2.9 s",
+    "CLS": "0",
+    "TBT": "0 ms",
+    "failed": [
+      "errors-in-console",
+      "is-crawlable"
+    ]
+  }
+}
