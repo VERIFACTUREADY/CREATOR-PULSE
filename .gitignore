@@ -2,3 +2,4 @@ node_modules/
 .shopify/
 *.log
 /preview-out/
+/preview-out-*/

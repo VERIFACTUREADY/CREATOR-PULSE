@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-13T19:44:17.297Z",
+  "date": "2026-10-13T20:36:16.816Z",
   "routes": {
     "/": {
       "375": {
@@ -625,14 +625,14 @@
         "axe": []
       }
     },
-    "/products/dispositivo-bucal-en-evaluacion": {
+    "/products/dispositivo-bucal": {
       "375": {
         "overflowX": false,
         "scrollWidth": 375,
         "h1": 1,
         "imgsNoAlt": 0,
         "lang": "es",
-        "title": "Dispositivo bucal ajustable (modelo en evaluación) – Descanso Compartido",
+        "title": "Dispositivo bucal ajustable – Descanso Compartido",
         "bodyFontPx": 16.5,
         "brokenInternalLinks": [],
         "smallTargets": [],
@@ -644,7 +644,7 @@
         "h1": 1,
         "imgsNoAlt": 0,
         "lang": "es",
-        "title": "Dispositivo bucal ajustable (modelo en evaluación) – Descanso Compartido",
+        "title": "Dispositivo bucal ajustable – Descanso Compartido",
         "bodyFontPx": 16.5,
         "brokenInternalLinks": [],
         "smallTargets": [],
@@ -657,7 +657,7 @@
         "h1": 1,
         "imgsNoAlt": 0,
         "lang": "es",
-        "title": "Dispositivo bucal ajustable (modelo en evaluación) – Descanso Compartido",
+        "title": "Dispositivo bucal ajustable – Descanso Compartido",
         "bodyFontPx": 17.6,
         "brokenInternalLinks": [],
         "smallTargets": [],
@@ -669,7 +669,111 @@
         "h1": 1,
         "imgsNoAlt": 0,
         "lang": "es",
-        "title": "Dispositivo bucal ajustable (modelo en evaluación) – Descanso Compartido",
+        "title": "Dispositivo bucal ajustable – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/landing-ronquidos": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "¿Te preocupan tus ronquidos? – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "¿Te preocupan tus ronquidos? – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "¿Te preocupan tus ronquidos? – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "¿Te preocupan tus ronquidos? – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      }
+    },
+    "/pages/landing-pareja": {
+      "375": {
+        "overflowX": false,
+        "scrollWidth": 375,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Descanso en pareja – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "390": {
+        "overflowX": false,
+        "scrollWidth": 390,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Descanso en pareja – Descanso Compartido",
+        "bodyFontPx": 16.5,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": [],
+        "axe": []
+      },
+      "768": {
+        "overflowX": false,
+        "scrollWidth": 768,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Descanso en pareja – Descanso Compartido",
+        "bodyFontPx": 17.6,
+        "brokenInternalLinks": [],
+        "smallTargets": [],
+        "consoleErrors": []
+      },
+      "1440": {
+        "overflowX": false,
+        "scrollWidth": 1440,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "lang": "es",
+        "title": "Descanso en pareja – Descanso Compartido",
         "bodyFontPx": 17.6,
         "brokenInternalLinks": [],
         "smallTargets": [],
@@ -783,15 +887,18 @@
     }
   },
   "gate": {
-    "Prototipo (comercio OFF): ningún formulario /cart/add": true,
-    "Prototipo: ningún botón de checkout": true,
-    "Prototipo: sin icono de carrito": true,
-    "Prototipo: sin precios": true,
-    "Prototipo: sin JSON-LD Product/Offer": true,
-    "Prototipo: noindex en todas las páginas": true,
-    "Prototipo: aviso de prototipo en todas las páginas": true,
-    "Comercio ON + metacampos vacíos: la ficha sigue SIN compra": true,
-    "Comercio ON + metacampos completos: la ficha SÍ muestra compra (la compuerta se abre)": true
+    "PROTOTIPO: ningún formulario /cart/add": true,
+    "PROTOTIPO: sin precios ni hero comercial": true,
+    "PROTOTIPO: aviso de prototipo y noindex en todas las páginas": true,
+    "PREVIEW: ningún formulario /cart/add ni checkout ni icono de carrito": true,
+    "PREVIEW: sin JSON-LD Product ni og:price": true,
+    "PREVIEW: sin importes (precio no confirmado → ⟦PENDIENTE⟧)": true,
+    "PREVIEW: hero comercial en portada y landings": true,
+    "PREVIEW: sin textos de prototipo contradictorios («todavía no vendemos»…)": true,
+    "PREVIEW: aviso «Vista previa comercial» y noindex en todas las páginas": true,
+    "LIVE sin frase de confirmación: sin compra y aviso de bloqueo": true,
+    "LIVE confirmado con ficha incompleta: sin compra": true,
+    "LIVE confirmado y completo: compra, JSON-LD y carrito en la ficha": true
   },
   "claims": {
     "forbiddenPatterns": 14,
@@ -816,12 +923,12 @@
       },
       {
         "tag": "a",
-        "text": "Cómo funciona",
+        "text": "El producto",
         "outline": true
       },
       {
         "tag": "a",
-        "text": "El producto",
+        "text": "Cómo funciona",
         "outline": true
       },
       {
@@ -841,47 +948,47 @@
       },
       {
         "tag": "a",
-        "text": "Entender las opciones",
+        "text": "Ver el producto",
         "outline": true
       },
       {
         "tag": "a",
-        "text": "Qué es una férula",
+        "text": "Cómo funciona",
         "outline": true
       },
       {
         "tag": "a",
-        "text": "Cuándo consultar",
+        "text": "Ver condiciones",
         "outline": true
       },
       {
         "tag": "a",
-        "text": "Dudas",
+        "text": "Guía clínica AASM/AADSM, 2015\n(Se abre e",
         "outline": true
       },
       {
         "tag": "a",
-        "text": "01\nConoce el problema\nQué son los ronqui",
+        "text": "Ver la ficha completa",
         "outline": true
       }
     ],
     "faqOpensWithEnter": true,
     "mobileMenuLinks": [
-      "Cómo funciona",
       "El producto",
+      "Cómo funciona",
       "Uso y seguridad",
       "Preguntas"
     ]
   },
   "summary": {
-    "routes": 15,
+    "routes": 17,
     "viewports": [
       375,
       390,
       768,
       1440
     ],
-    "checksRun": 60,
+    "checksRun": 68,
     "overflowX": [],
     "h1NotOne": [],
     "imgsNoAlt": 0,
@@ -891,7 +998,141 @@
     "smallTargets": [],
     "minBodyFontPx": 16.5,
     "gateAllPass": true,
+    "firstScreenAllVisible": false,
+    "prototipoAxeViolations": 0,
     "claimHits": 0,
     "trackerHits": 0
+  },
+  "placeholdersByState": {
+    "prototipo": {
+      "/": 3,
+      "/pages/como-funciona": 3,
+      "/pages/el-producto": 3,
+      "/pages/uso-y-seguridad": 4,
+      "/pages/preguntas-frecuentes": 3,
+      "/pages/quienes-somos": 4,
+      "/pages/contacto": 5,
+      "/pages/envios": 15,
+      "/pages/devoluciones": 13,
+      "/pages/aviso-legal": 12,
+      "/pages/privacidad": 14,
+      "/pages/cookies": 5,
+      "/products/dispositivo-bucal": 20,
+      "/pages/landing-ronquidos": 3,
+      "/pages/landing-pareja": 3,
+      "/cart": 3,
+      "/404": 3
+    },
+    "preview": {
+      "/": 18,
+      "/pages/como-funciona": 3,
+      "/pages/el-producto": 3,
+      "/pages/uso-y-seguridad": 3,
+      "/pages/preguntas-frecuentes": 6,
+      "/pages/quienes-somos": 4,
+      "/pages/contacto": 5,
+      "/pages/envios": 19,
+      "/pages/devoluciones": 17,
+      "/pages/aviso-legal": 12,
+      "/pages/privacidad": 14,
+      "/pages/cookies": 5,
+      "/products/dispositivo-bucal": 28,
+      "/pages/landing-ronquidos": 16,
+      "/pages/landing-pareja": 16,
+      "/cart": 3,
+      "/404": 3
+    },
+    "liveNoConfirm": {
+      "/pages/quienes-somos": 1,
+      "/pages/contacto": 1,
+      "/pages/envios": 8,
+      "/pages/devoluciones": 6,
+      "/pages/aviso-legal": 5,
+      "/pages/privacidad": 7,
+      "/pages/cookies": 2
+    },
+    "liveIncomplete": {
+      "/": 7,
+      "/pages/quienes-somos": 1,
+      "/pages/contacto": 1,
+      "/pages/envios": 8,
+      "/pages/devoluciones": 6,
+      "/pages/aviso-legal": 5,
+      "/pages/privacidad": 7,
+      "/pages/cookies": 2,
+      "/products/dispositivo-bucal": 17,
+      "/pages/landing-ronquidos": 6,
+      "/pages/landing-pareja": 6
+    },
+    "liveComplete": {
+      "/pages/quienes-somos": 1,
+      "/pages/contacto": 1,
+      "/pages/envios": 8,
+      "/pages/devoluciones": 6,
+      "/pages/aviso-legal": 5,
+      "/pages/privacidad": 7,
+      "/pages/cookies": 2
+    }
+  },
+  "firstScreen": {
+    "/@390x844": {
+      "titulo": true,
+      "precio": true,
+      "cta": true
+    },
+    "/@375x667": {
+      "titulo": true,
+      "precio": true,
+      "cta": true
+    },
+    "/pages/landing-ronquidos@390x844": {
+      "titulo": true,
+      "precio": true,
+      "cta": true
+    },
+    "/pages/landing-ronquidos@375x667": {
+      "titulo": true,
+      "precio": true,
+      "cta": true
+    },
+    "/pages/landing-pareja@390x844": {
+      "titulo": true,
+      "precio": true,
+      "cta": true
+    },
+    "/pages/landing-pareja@375x667": {
+      "titulo": true,
+      "precio": true,
+      "cta": true
+    },
+    "/products/dispositivo-bucal@390x844": {
+      "titulo": true,
+      "precio": true,
+      "cta": true
+    },
+    "/products/dispositivo-bucal@375x667": {
+      "titulo": true,
+      "precio": true,
+      "cta": false
+    }
+  },
+  "prototipoAxe": {
+    "/": [],
+    "/pages/como-funciona": [],
+    "/pages/el-producto": [],
+    "/pages/uso-y-seguridad": [],
+    "/pages/preguntas-frecuentes": [],
+    "/pages/quienes-somos": [],
+    "/pages/contacto": [],
+    "/pages/envios": [],
+    "/pages/devoluciones": [],
+    "/pages/aviso-legal": [],
+    "/pages/privacidad": [],
+    "/pages/cookies": [],
+    "/products/dispositivo-bucal": [],
+    "/pages/landing-ronquidos": [],
+    "/pages/landing-pareja": [],
+    "/cart": [],
+    "/404": []
   }
 }

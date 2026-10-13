@@ -1,6 +1,8 @@
 # Descanso Compartido · Prototipo privado de tienda Shopify (Dawn)
 
-> 🔴 **ESTADO: PROTOTIPO PRIVADO · NO-GO COMERCIAL.** La tienda **no está lista para lanzarse**. No vende, no cobra, no publica anuncios ni recoge datos de salud. Antes de cualquier venta deben resolverse los bloqueos sanitarios, legales, fiscales, logísticos y financieros de `docs/03_GO_NO_GO.md`, y el prototipo debe superar una **auditoría externa**.
+> 🟡 **ESTADO V2 (13/10/2026): PREVIEW_COMERCIAL · tema SIN PUBLICAR · compra DESACTIVADA.** La tienda ya se ve como tienda de venta (portada comercial, ficha, landings), pero la compra solo funcionará en LIVE, que exige orden expresa del titular, la frase de confirmación y todos los datos reales. Lo que falta aparece como ⟦PENDIENTE⟧. Ver **`docs/V2_CHANGELOG.md`**, **`docs/V2_PENDIENTES_Y_DATOS.md`** y **`README_COMERCIAL.md`**.
+>
+> Historial V1: 🔴 **PROTOTIPO PRIVADO · NO-GO COMERCIAL.** La tienda **no está lista para lanzarse**. No vende, no cobra, no publica anuncios ni recoge datos de salud. Antes de cualquier venta deben resolverse los bloqueos sanitarios, legales, fiscales, logísticos y financieros de `docs/03_GO_NO_GO.md`, y el prototipo debe superar una **auditoría externa**.
 
 Marca de descanso compartido («**Descansar juntos importa**») construida sobre el tema gratuito **Dawn 16.0.0** de Shopify, a partir de los informes del titular (12/10/2026). El producto candidato (férula bucal AliExpress `1005012312929450`) **no está validado**: no se conocen su fabricante, su conformidad UE, si puede venderse por internet en España ni su coste real.
 
@@ -17,18 +19,26 @@ Nombre de marca **provisional**, pendiente de búsqueda en OEPM/EUIPO (DP-12).
 | `qa/reports/` | Resultados de QA en JSON, Theme Check e informes HTML de Lighthouse |
 | `tools/` | Previsualizador local (liquidjs) y scripts de QA. Todo gratuito y sin credenciales |
 
+## Novedades V2 (auditoría CRO / UX / Shopify)
+
+- Tres estados: PROTOTIPO / **PREVIEW_COMERCIAL** / LIVE. La compuerta deniega por defecto; queda corregido el fallo `product=blank`.
+- Portada comercial con hero de producto (la informativa se conserva para PROTOTIPO), ficha orientada a compra y dos landings por audiencia.
+- Envío, devoluciones, atención y pago como fuente única (ajustes del tema).
+- Formulario de contacto con escape. Hoja financiera sin márgenes con costes incompletos.
+- Pruebas nuevas: `tools/qa/gate-tests.mjs`, `v1-regression.mjs`, `excel_tests.py`, `prelaunch-check.mjs`, `v2-shots.mjs`.
+
 ## Cómo verlo
 
 **Opción A · En local, sin Shopify (2 minutos):**
 ```bash
 cd tools
 npm install
-node preview/build.mjs        # genera preview-out/ (15 páginas)
+node preview/build.mjs        # genera preview-out/ (17 páginas) en el estado de settings_data (PREVIEW_COMERCIAL)
 node preview/serve.mjs        # abre http://localhost:4173
 ```
-Variantes: `node preview/build.mjs --commerce` (simula el comercio activado: la ficha sigue sin compra porque faltan metacampos) y `--no-pending` (oculta los marcadores de pendiente).
+Variantes: `--mode prototipo|preview_comercial|live`, `--confirm-live`, `--complete-globals` y `--complete-metafields` (estos dos últimos con valores FICTICIOS de prueba, solo para comprobar la compuerta).
 
-Rutas: `/`, `/pages/como-funciona`, `/pages/el-producto`, `/pages/uso-y-seguridad`, `/pages/preguntas-frecuentes`, `/pages/quienes-somos`, `/pages/contacto`, `/pages/envios`, `/pages/devoluciones`, `/pages/aviso-legal`, `/pages/privacidad`, `/pages/cookies`, `/products/dispositivo-bucal-en-evaluacion`, `/cart`, `/404`.
+Rutas: `/`, `/pages/como-funciona`, `/pages/el-producto`, `/pages/uso-y-seguridad`, `/pages/preguntas-frecuentes`, `/pages/quienes-somos`, `/pages/contacto`, `/pages/envios`, `/pages/devoluciones`, `/pages/aviso-legal`, `/pages/privacidad`, `/pages/cookies`, `/products/dispositivo-bucal`, `/pages/landing-ronquidos`, `/pages/landing-pareja`, `/cart`, `/404`.
 
 **Opción B · En Shopify (sin publicar):** seguir `docs/11_METACAMPOS_Y_CONFIG.md`: subir el ZIP como tema sin publicar, crear las 11 páginas y los 3 menús, mantener la contraseña activada y no activar pagos.
 

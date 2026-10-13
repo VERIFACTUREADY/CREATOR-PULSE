@@ -1,5 +1,7 @@
 # 03 · GO / NO-GO comercial
 
+> **Actualización V2 (13/10/2026):** el titular declara **cerrada** la comprobación sanitaria (secciones 1–4 de este documento). Por instrucción expresa, la V2 no reabre ese análisis. La evidencia no se ha incorporado al repositorio; conviene archivarla en `12_REGISTRO_EVIDENCIAS.md`. Siguen abiertos los requisitos comerciales y operativos (datos de oferta, fotos, checkout de prueba, textos legales finales) y **la activación LIVE requiere orden expresa**. La compuerta del tema ahora tiene tres estados: ver `V2_CHANGELOG.md` (C-03).
+
 **Estado a 13/10/2026: 🔴 NO-GO** — prototipo privado. No se puede vender, cobrar, anunciar ni publicar la tienda.
 
 > Este documento organiza los requisitos. **No es un dictamen jurídico ni sanitario.** Las citas normativas proceden de los informes del titular y **no han sido contrastadas por Claude con el BOE** (acceso bloqueado desde este entorno). Cada requisito debe cerrarse con evidencia y firma de quien la valida.

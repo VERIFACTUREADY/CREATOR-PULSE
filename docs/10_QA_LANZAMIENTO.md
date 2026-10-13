@@ -1,4 +1,29 @@
-# 10 · QA del prototipo (13/10/2026)
+# 10 · QA del prototipo
+
+## V2 · Resultados (13/10/2026, vista comercial PREVIEW_COMERCIAL)
+
+| Prueba | Resultado |
+|---|---|
+| Theme Check | **0 errores** (9 avisos heredados de Dawn) |
+| `gate-tests.mjs`: compuerta y escape | **47/47** (blank, 16 campos, estados, precio, tachado, compra y 4 cargas de inyección) |
+| `v1-regression.mjs` | La V1 reproduce los 3 fallos de la auditoría (compuerta `true` con blank, «19,99 €», entrada sin escapar) |
+| `excel_tests.py` | **7/7** (con 1/5 partidas: V2 «DATOS INCOMPLETOS»; la V1 habría dado 13,04 €) |
+| Estados de la tienda (`run-qa.mjs`) | **12/12** (PROTOTIPO, PREVIEW, LIVE sin frase, LIVE incompleto y LIVE completo) |
+| 17 rutas × 375/390/768/1440 (68 combinaciones) | 0 desbordamientos · 1 H1 por página · 0 enlaces rotos · 0 errores de consola · 0 objetivos < 44 px · cuerpo 16,5 px |
+| axe WCAG 2.2 AA | **0 violaciones** en PREVIEW (390 y 1440) y en PROTOTIPO (390). Corregido el campo «Cantidad» de Dawn sin nombre accesible |
+| Primera pantalla (título + precio + CTA) | Portada y landings: ✅ a 390×844 y 375×667 · Ficha: ✅ a 390×844; a 375×667 la CTA queda justo debajo (por el selector de cantidad) |
+| Lighthouse móvil (portada, ficha, 2 landings, FAQ, contacto) | Rendimiento 92–93 · Accesibilidad 100 · Buenas prácticas 96* · SEO 63* · CLS 0 |
+| Claims prohibidos / rastreadores | 0 / 0 |
+| `prelaunch-check.mjs` | Un LIVE local con datos FICTICIOS da **«NO APTO»** (165 incidencias: valores ficticios y [corchetes] legales). El control funciona |
+
+\* SEO 63 por el `noindex` intencionado. Buenas prácticas 96 porque `cdn.shopify.com` no es accesible en local.
+
+**Sin verificar (requiere Shopify real):** checkout, emails, cambio de variante por Section Rendering API, iOS Safari y Chrome Android reales, lector de pantalla. Guion en `V2_PLAN_SHOPIFY_Y_MEDICION.md`.
+
+---
+
+## V1 (histórico)
+
 
 > **Alcance:** QA **local**, sobre una previsualización del tema renderizada con liquidjs (sin tienda Shopify ni credenciales, DP-18). Superar este QA **no** significa que la tienda esté lista: falta repetirlo dentro de Shopify y pasar una **auditoría externa**.
 

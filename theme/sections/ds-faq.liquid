@@ -23,7 +23,8 @@
       {%- for block in section.blocks -%}{%- capture ds_bshow -%}{%- render 'ds-visible', when: block.settings.visible_in -%}{%- endcapture -%}{%- if ds_bshow == 'true' -%}
         {%- case block.type -%}
           {%- when 'group' -%}
-            <h3 class="ds-faq__group-title" {{ block.shopify_attributes }}{% if block.settings.anchor != blank %} id="{{ block.settings.anchor | handleize }}"{% endif %}>{{ block.settings.title | escape }}</h3>
+            {%- if section.settings.heading != blank -%}{%- assign gtag = 'h3' -%}{%- else -%}{%- assign gtag = 'h2' -%}{%- endif -%}
+            <{{ gtag }} class="ds-faq__group-title" {{ block.shopify_attributes }}{% if block.settings.anchor != blank %} id="{{ block.settings.anchor | handleize }}"{% endif %}>{{ block.settings.title | escape }}</{{ gtag }}>
           {%- when 'question' -%}
             <details class="ds-faq__item" {{ block.shopify_attributes }}>
               <summary>{{ block.settings.question | escape }}</summary>

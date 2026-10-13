@@ -26,6 +26,8 @@ Cada página se crea con su **título**, el **contenido vacío** (lo aporta la p
 | Aviso legal | `aviso-legal` | `page.aviso-legal` |
 | Política de privacidad | `privacidad` | `page.privacidad` |
 | Política de cookies | `cookies` | `page.cookies` |
+| ¿Te preocupan tus ronquidos? (V2) | `landing-ronquidos` | `page.landing-ronquidos` |
+| Descanso en pareja (V2) | `landing-pareja` | `page.landing-pareja` |
 
 Los textos se editan en **Personalizar** (cada sección y bloque es editable) o en `theme/templates/page.*.json`.
 
@@ -33,15 +35,22 @@ Los textos se editan en **Personalizar** (cada sección y bloque es editable) o 
 
 | Identificador | Enlaces |
 |---|---|
-| `main-menu` | Cómo funciona · El producto · Uso y seguridad · Preguntas |
+| `main-menu` | El producto (`/products/dispositivo-bucal`) · Cómo funciona · Uso y seguridad · Preguntas |
 | `footer` | Quiénes somos · Contacto · Envíos · Devoluciones y garantía |
 | `legal` (crear nuevo) | Aviso legal · Privacidad · Cookies |
 
-## 4. Ajustes del tema › «Prototipo y cumplimiento»
+## 4. Ajustes del tema › «Estado de la tienda» (V2)
+
+| Ajuste | Valor entregado |
+|---|---|
+| Estado | **PREVIEW_COMERCIAL** (venta visible, compra desactivada) |
+| Confirmación para LIVE | Vacía. Solo con orden expresa: `VENTA REAL AUTORIZADA` |
+| Oferta: envío, devoluciones, atención, pago | Vacíos (⟦PENDIENTE⟧) hasta tener datos confirmados |
+
+### 4b. Ajustes heredados de la V1 (modo prototipo)
 
 | Ajuste | Valor durante el prototipo |
 |---|---|
-| Comercio habilitado | **Desactivado** (solo tras GO firmado) |
 | Aviso «Prototipo privado» | Activado |
 | noindex | Activado |
 | Marcadores de pendiente | Activado |
@@ -67,10 +76,27 @@ Namespace `compliance`. **Ningún campo se rellena sin documento.** Si falta uno
 | `delivery_window` | Texto de una línea | Plazo real de entrega | Cotización firmada |
 | `claim_approval_version` | Texto de una línea | Versión aprobada de `04_CLAIMS_APPROVAL.csv` | Aprobación del titular y del asesor |
 
+## 5b. Metacampos comerciales (V2, namespace `commercial`)
+
+| Clave | Tipo recomendado | Contenido | ¿Obligatorio para LIVE? |
+|---|---|---|---|
+| `price_confirmed` | Verdadero/falso | El titular confirma que el precio de Shopify es el definitivo | Sí |
+| `compare_at_verified` | Verdadero/falso | Solo si el precio tachado es un precio anterior real | No (sin él no se muestra el tachado) |
+| `short_benefit` | Texto de una línea | Beneficio aprobado en la ficha comercial | Sí |
+| `what_is` | Texto enriquecido | Qué es | Sí |
+| `how_to_steps` | Lista de textos de una línea (o texto de varias líneas, un paso por línea) | Cómo se usa | Sí |
+| `includes` | Texto enriquecido | Qué incluye el pedido | Sí |
+| `delivery_window` | Texto de una línea | Plazo real de entrega | Sí |
+| `for_whom` | Texto enriquecido | Para quién está pensado | No |
+| `features` | Texto enriquecido | Características | No |
+| `care` | Texto enriquecido | Cuidados y limpieza | No |
+
+Además, para LIVE el producto necesita **al menos una foto** y estar **disponible**. `compliance.delivery_window` ya no se usa (pasa a `commercial`).
+
 ## 6. Producto (cuando proceda)
 
 - Crear el producto en estado **Borrador**. No ponerlo a la venta en el canal Tienda online mientras dure el NO-GO.
-- Título neutro: «Dispositivo bucal ajustable (modelo en evaluación)». No usar «antirronquidos» ni ningún beneficio en el nombre (D-08).
+- Identificador (handle): `dispositivo-bucal`. Título: el nombre comercial aprobado por el titular.
 - Sin precio comparativo, sin «quedan X», sin reseñas y sin fotos sin licencia.
 - Plantilla: `product` (incluye la sección «DS · Datos del producto»).
 

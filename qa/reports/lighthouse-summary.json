@@ -1,10 +1,10 @@
 {
   "/": {
-    "performance": 95,
+    "performance": 92,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "2.6 s",
+    "LCP": "3.2 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -12,12 +12,12 @@
       "is-crawlable"
     ]
   },
-  "/pages/como-funciona": {
-    "performance": 95,
+  "/products/dispositivo-bucal": {
+    "performance": 92,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "2.6 s",
+    "LCP": "2.9 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -25,7 +25,33 @@
       "is-crawlable"
     ]
   },
-  "/pages/uso-y-seguridad": {
+  "/pages/landing-ronquidos": {
+    "performance": 93,
+    "accessibility": 100,
+    "bestPractices": 96,
+    "seo": 63,
+    "LCP": "3.0 s",
+    "CLS": "0",
+    "TBT": "0 ms",
+    "failed": [
+      "errors-in-console",
+      "is-crawlable"
+    ]
+  },
+  "/pages/landing-pareja": {
+    "performance": 93,
+    "accessibility": 100,
+    "bestPractices": 96,
+    "seo": 63,
+    "LCP": "3.0 s",
+    "CLS": "0",
+    "TBT": "0 ms",
+    "failed": [
+      "errors-in-console",
+      "is-crawlable"
+    ]
+  },
+  "/pages/preguntas-frecuentes": {
     "performance": 93,
     "accessibility": 100,
     "bestPractices": 96,
@@ -39,24 +65,11 @@
     ]
   },
   "/pages/contacto": {
-    "performance": 96,
+    "performance": 93,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "2.4 s",
-    "CLS": "0",
-    "TBT": "0 ms",
-    "failed": [
-      "errors-in-console",
-      "is-crawlable"
-    ]
-  },
-  "/products/dispositivo-bucal-en-evaluacion": {
-    "performance": 92,
-    "accessibility": 100,
-    "bestPractices": 96,
-    "seo": 63,
-    "LCP": "2.9 s",
+    "LCP": "3.0 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [

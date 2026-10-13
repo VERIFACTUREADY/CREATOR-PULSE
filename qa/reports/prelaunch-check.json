@@ -1,0 +1,77 @@
+{
+  "base": "http://localhost:4197",
+  "date": "2026-10-13T20:32:56.485Z",
+  "pages": {
+    "/": {
+      "valor ficticio de prueba": 16
+    },
+    "/pages/como-funciona": {
+      "valor ficticio de prueba": 3
+    },
+    "/pages/el-producto": {
+      "valor ficticio de prueba": 3
+    },
+    "/pages/uso-y-seguridad": {
+      "valor ficticio de prueba": 3
+    },
+    "/pages/preguntas-frecuentes": {
+      "valor ficticio de prueba": 6
+    },
+    "/pages/quienes-somos": {
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 1,
+      "valor ficticio de prueba": 3
+    },
+    "/pages/contacto": {
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 1,
+      "valor ficticio de prueba": 5
+    },
+    "/pages/envios": {
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 8,
+      "valor ficticio de prueba": 11
+    },
+    "/pages/devoluciones": {
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 6,
+      "valor ficticio de prueba": 11
+    },
+    "/pages/aviso-legal": {
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 5,
+      "valor ficticio de prueba": 7
+    },
+    "/pages/privacidad": {
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 7,
+      "valor ficticio de prueba": 7
+    },
+    "/pages/cookies": {
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 2,
+      "valor ficticio de prueba": 3
+    },
+    "/products/dispositivo-bucal": {
+      "valor ficticio de prueba": 28,
+      "descripción pendiente": 1
+    },
+    "/pages/landing-ronquidos": {
+      "valor ficticio de prueba": 14
+    },
+    "/pages/landing-pareja": {
+      "valor ficticio de prueba": 14
+    }
+  },
+  "blocking": 165,
+  "warnings": [
+    "/: noindex activo",
+    "/pages/como-funciona: noindex activo",
+    "/pages/el-producto: noindex activo",
+    "/pages/uso-y-seguridad: noindex activo",
+    "/pages/preguntas-frecuentes: noindex activo",
+    "/pages/quienes-somos: noindex activo",
+    "/pages/contacto: noindex activo",
+    "/pages/envios: noindex activo",
+    "/pages/devoluciones: noindex activo",
+    "/pages/aviso-legal: noindex activo",
+    "/pages/privacidad: noindex activo",
+    "/pages/cookies: noindex activo",
+    "/products/dispositivo-bucal: noindex activo",
+    "/pages/landing-ronquidos: noindex activo",
+    "/pages/landing-pareja: noindex activo"
+  ]
+}

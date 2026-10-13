@@ -1,6 +1,8 @@
 # 05 · Economía unitaria
 
-**Archivo editable:** `05_ECONOMIA_UNITARIA.xlsx` (hojas Leyenda · Supuestos · Escenarios · Sensibilidad; 55 fórmulas, 0 errores tras recalcular).
+**Archivo editable (V2):** `05_ECONOMIA_UNITARIA.xlsx`: hojas Leyenda · Supuestos · Escenarios · Test de precio · Capital circulante · Panel semanal · Sensibilidad. 177 fórmulas, 0 errores. Se regenera con `python3 tools/finance/build_economia.py` y se prueba con `python3 tools/qa/excel_tests.py` (7/7).
+
+**Corrección V2 (auditoría C-04):** un coste desglosado incompleto ya no se toma como total (la V1 habría dado 13,04 € de margen con 1 de 5 partidas). Ahora aparece «DATOS INCOMPLETOS» y no hay veredicto «rentable».
 Las celdas **amarillas con texto azul** se editan. La columna **REAL** está vacía a propósito: solo se rellena con cotizaciones firmadas.
 
 ## Fórmula (Estudio §9.2)

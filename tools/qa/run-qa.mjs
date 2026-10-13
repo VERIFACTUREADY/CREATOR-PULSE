@@ -45,16 +45,18 @@ function serve(root, port) {
 
 const results = { date: new Date().toISOString(), routes: {}, gate: {}, claims: {}, tracking: {}, keyboard: {}, summary: {} };
 
-// ---------- 1. Compilar las tres configuraciones ----------
-const outDefault = path.join(tmp, 'default');
-const outCommerceEmpty = path.join(tmp, 'commerce-empty');
-const outCommerceFull = path.join(tmp, 'commerce-full');
-const routes = build(outDefault);
-build(outCommerceEmpty, ['--commerce']);
-build(outCommerceFull, ['--commerce', '--complete-metafields']);
+// ---------- 1. Compilar los estados de la tienda ----------
+const OUT = Object.fromEntries(['prototipo', 'preview', 'liveNoConfirm', 'liveIncomplete', 'liveComplete'].map((k) => [k, path.join(tmp, k)]));
+const routes = build(OUT.preview, ['--mode', 'preview_comercial']);
+build(OUT.prototipo, ['--mode', 'prototipo']);
+build(OUT.liveNoConfirm, ['--mode', 'live', '--complete-globals', '--complete-metafields']);
+build(OUT.liveIncomplete, ['--mode', 'live', '--confirm-live', '--complete-globals']);
+build(OUT.liveComplete, ['--mode', 'live', '--confirm-live', '--complete-globals', '--complete-metafields']);
+const outDefault = OUT.preview;
 
 // ---------- 2. Compuerta de venta (análisis estático del HTML) ----------
-const PRODUCT = '/products/dispositivo-bucal-en-evaluacion';
+const PRODUCT = '/products/dispositivo-bucal';
+const PROTO_TEXT = /Todavía no vendemos|Producto en evaluación documental|Antes de vender, comprobamos|Todavía no aceptamos pedidos/;
 function gateFacts(root) {
   const facts = {};
   for (const r of routes) {
@@ -63,30 +65,38 @@ function gateFacts(root) {
       cartAddForm: /action="\/cart\/add"/.test(html),
       checkoutButton: /id="checkout"/.test(html),
       cartIcon: /id="cart-icon-bubble"/.test(html),
-      priceBlock: /class="price[\s"]/.test(html),
+      moneyPrice: /class="price-item[^"]*"[^>]*>\s*[\d.,]+\s*€/.test(html),
       productJsonLd: /"@type":\s*"Product"/.test(html),
+      ogPrice: /og:price:amount/.test(html),
       noindex: /<meta name="robots" content="noindex, nofollow">/.test(html),
-      prototypeBanner: /class="ds-proto-banner"/.test(html),
+      protoBanner: /class="ds-proto-banner"/.test(html),
+      previewBanner: /ds-proto-banner--preview/.test(html),
+      blockedBanner: /ds-proto-banner--blocked/.test(html),
+      productHero: /class="ds-phero /.test(html),
+      protoText: PROTO_TEXT.test(html.replace(/<script[\s\S]*?<\/script>/g, '')),
+      placeholders: (html.match(/data-ds-placeholder/g) || []).length,
     };
   }
   return facts;
 }
 const any = (facts, k) => Object.values(facts).some((f) => f[k]);
 const all = (facts, k) => Object.values(facts).every((f) => f[k]);
-const fDefault = gateFacts(outDefault);
-const fEmpty = gateFacts(outCommerceEmpty);
-const fFull = gateFacts(outCommerceFull);
+const F = Object.fromEntries(Object.entries(OUT).map(([k, d]) => [k, gateFacts(d)]));
 results.gate = {
-  'Prototipo (comercio OFF): ningún formulario /cart/add': !any(fDefault, 'cartAddForm'),
-  'Prototipo: ningún botón de checkout': !any(fDefault, 'checkoutButton'),
-  'Prototipo: sin icono de carrito': !any(fDefault, 'cartIcon'),
-  'Prototipo: sin precios': !any(fDefault, 'priceBlock'),
-  'Prototipo: sin JSON-LD Product/Offer': !any(fDefault, 'productJsonLd'),
-  'Prototipo: noindex en todas las páginas': all(fDefault, 'noindex'),
-  'Prototipo: aviso de prototipo en todas las páginas': all(fDefault, 'prototypeBanner'),
-  'Comercio ON + metacampos vacíos: la ficha sigue SIN compra': !fEmpty[PRODUCT].cartAddForm && !fEmpty[PRODUCT].productJsonLd && !fEmpty[PRODUCT].priceBlock,
-  'Comercio ON + metacampos completos: la ficha SÍ muestra compra (la compuerta se abre)': fFull[PRODUCT].cartAddForm && fFull[PRODUCT].productJsonLd,
+  'PROTOTIPO: ningún formulario /cart/add': !any(F.prototipo, 'cartAddForm'),
+  'PROTOTIPO: sin precios ni hero comercial': !any(F.prototipo, 'moneyPrice') && !any(F.prototipo, 'productHero'),
+  'PROTOTIPO: aviso de prototipo y noindex en todas las páginas': all(F.prototipo, 'protoBanner') && all(F.prototipo, 'noindex'),
+  'PREVIEW: ningún formulario /cart/add ni checkout ni icono de carrito': !any(F.preview, 'cartAddForm') && !any(F.preview, 'checkoutButton') && !any(F.preview, 'cartIcon'),
+  'PREVIEW: sin JSON-LD Product ni og:price': !any(F.preview, 'productJsonLd') && !any(F.preview, 'ogPrice'),
+  'PREVIEW: sin importes (precio no confirmado → ⟦PENDIENTE⟧)': !any(F.preview, 'moneyPrice'),
+  'PREVIEW: hero comercial en portada y landings': F.preview['/'].productHero && F.preview['/pages/landing-ronquidos'].productHero && F.preview['/pages/landing-pareja'].productHero,
+  'PREVIEW: sin textos de prototipo contradictorios («todavía no vendemos»…)': !any(F.preview, 'protoText'),
+  'PREVIEW: aviso «Vista previa comercial» y noindex en todas las páginas': all(F.preview, 'previewBanner') && all(F.preview, 'noindex'),
+  'LIVE sin frase de confirmación: sin compra y aviso de bloqueo': !any(F.liveNoConfirm, 'cartAddForm') && all(F.liveNoConfirm, 'blockedBanner'),
+  'LIVE confirmado con ficha incompleta: sin compra': !any(F.liveIncomplete, 'cartAddForm'),
+  'LIVE confirmado y completo: compra, JSON-LD y carrito en la ficha': F.liveComplete[PRODUCT].cartAddForm && F.liveComplete[PRODUCT].productJsonLd && F.liveComplete[PRODUCT].cartIcon,
 };
+results.placeholdersByState = Object.fromEntries(Object.entries(F).map(([k, f]) => [k, Object.fromEntries(Object.entries(f).filter(([, v]) => v.placeholders).map(([r, v]) => [r, v.placeholders]))]));
 
 // ---------- 3. Claims prohibidos y rastreadores ----------
 const FORBIDDEN = [
@@ -107,7 +117,7 @@ function visibleText(html) {
 }
 const claimHits = [];
 for (const r of routes) {
-  let text = visibleText(fs.readFileSync(path.join(outDefault, r === '/' ? 'index.html' : r + '/index.html'), 'utf8'));
+  let text = visibleText(fs.readFileSync(path.join(OUT.preview, r === '/' ? 'index.html' : r + '/index.html'), 'utf8'));
   for (const a of ALLOW) text = text.replace(a, '');
   for (const [re, label] of FORBIDDEN) { const m = text.match(re); if (m) claimHits.push({ route: r, label, match: m[0] }); }
 }
@@ -131,6 +141,7 @@ results.tracking = { hits: trackerHits };
 
 // ---------- 4. Navegador: responsive, semántica, axe, consola, enlaces ----------
 const srv = await serve(outDefault, 4199);
+const srvProto = await serve(OUT.prototipo, 4198);
 const browser = await chromium.launch({ executablePath: CHROME });
 const routeSet = new Set(routes);
 for (const r of routes) {
@@ -181,6 +192,36 @@ for (const r of routes) {
   }
 }
 
+// ---------- 4b. Primera pantalla móvil (C-01) y accesibilidad del estado PROTOTIPO ----------
+results.firstScreen = {};
+for (const r of ['/', '/pages/landing-ronquidos', '/pages/landing-pareja', PRODUCT]) {
+  for (const [w, h] of [[390, 844], [375, 667]]) {
+    const ctx2 = await browser.newContext({ viewport: { width: w, height: h } });
+    const pg = await ctx2.newPage();
+    await pg.goto('http://localhost:4199' + r, { waitUntil: 'networkidle' });
+    results.firstScreen[`${r}@${w}x${h}`] = await pg.evaluate((isProduct) => {
+      const vis = (el) => !!el && el.getBoundingClientRect().bottom <= window.innerHeight && el.getBoundingClientRect().height > 0;
+      const root = isProduct ? document.querySelector('.product__info-container') : document.querySelector('.ds-phero');
+      return {
+        titulo: vis(root && root.querySelector('h1')),
+        precio: vis(root && (root.querySelector('.ds-phero__price') || root.querySelector('.price'))),
+        cta: vis(root && (root.querySelector('.ds-phero__actions .button') || root.querySelector('.ds-preview-cta .button, product-form .button'))),
+      };
+    }, r === PRODUCT);
+    if (w === 390) await pg.screenshot({ path: path.join(shotsDir, `primera-pantalla_${r === '/' ? 'inicio' : r.slice(1).replace(/\//g, '_')}-390x844.png`) });
+    await ctx2.close();
+  }
+}
+results.prototipoAxe = {};
+for (const r of routes) {
+  const ctx3 = await browser.newContext({ viewport: { width: 390, height: 900 } });
+  const pg = await ctx3.newPage();
+  await pg.goto('http://localhost:4198' + r, { waitUntil: 'networkidle' });
+  const axe = await new AxeBuilder({ page: pg }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
+  results.prototipoAxe[r] = axe.violations.map((v) => `${v.id} (${v.impact}, ${v.nodes.length})`);
+  await ctx3.close();
+}
+
 // ---------- 5. Teclado y foco ----------
 {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
@@ -211,7 +252,7 @@ for (const r of routes) {
   await page.close(); await m.close();
 }
 await browser.close();
-srv.close();
+srv.close(); srvProto.close();
 
 // ---------- 6. Resumen ----------
 const flat = Object.entries(results.routes).flatMap(([r, ws]) => Object.entries(ws).map(([w, e]) => ({ r, w, ...e })));
@@ -228,6 +269,8 @@ results.summary = {
   smallTargets: [...new Set(flat.flatMap((e) => e.smallTargets.map((s) => `${e.w}: ${s}`)))],
   minBodyFontPx: Math.min(...flat.map((e) => e.bodyFontPx)),
   gateAllPass: Object.values(results.gate).every(Boolean),
+  firstScreenAllVisible: Object.values(results.firstScreen).every((v) => v.titulo && v.precio && v.cta),
+  prototipoAxeViolations: Object.values(results.prototipoAxe).flat().length,
   claimHits: results.claims.hits.length,
   trackerHits: results.tracking.hits.length,
 };
