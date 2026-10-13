@@ -1,8 +1,29 @@
 {% comment %}
-  Aviso permanente de prototipo. Se controla desde Ajustes del tema >
-  Prototipo y cumplimiento.
+  Aviso de estado, siempre visible salvo en LIVE efectivo:
+  - PROTOTIPO: aviso de prototipo privado (ajustable).
+  - PREVIEW_COMERCIAL: «Vista previa comercial · compra desactivada».
+  - LIVE solicitado pero bloqueado: aviso rojo con lo que falta.
 {% endcomment %}
-{%- if settings.ds_prototype_banner -%}
+{%- capture ds_mode_b -%}{%- render 'ds-mode' -%}{%- endcapture -%}
+{%- if settings.ds_store_mode == 'live' and ds_mode_b != 'live' -%}
+  {%- capture blockers -%}{%- render 'ds-live-blockers' -%}{%- endcapture -%}
+  <div class="ds-proto-banner ds-proto-banner--blocked" role="alert">
+    <div class="page-width ds-proto-banner__inner">
+      <span class="ds-proto-banner__tag">{{ 'ds.banner.live_blocked_tag' | t }}</span>
+      <span>
+        {%- if settings.ds_live_confirmation != 'VENTA REAL AUTORIZADA' -%}{{ 'ds.banner.live_no_confirmation' | t }}{%- endif %}
+        {% if blockers != blank %}{{ 'ds.banner.live_missing' | t }}: {{ blockers }}{%- endif -%}
+      </span>
+    </div>
+  </div>
+{%- elsif ds_mode_b == 'preview' -%}
+  <div class="ds-proto-banner ds-proto-banner--preview" role="note">
+    <div class="page-width ds-proto-banner__inner">
+      <span class="ds-proto-banner__tag">{{ 'ds.banner.preview_tag' | t }}</span>
+      <span>{{ 'ds.banner.preview_text' | t }}</span>
+    </div>
+  </div>
+{%- elsif ds_mode_b == 'prototipo' and settings.ds_prototype_banner -%}
   <div class="ds-proto-banner" role="note">
     <div class="page-width ds-proto-banner__inner">
       <span class="ds-proto-banner__tag">{{ 'ds.prototype.tag' | t }}</span>

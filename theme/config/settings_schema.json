@@ -8,22 +8,69 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
-    "name": "Prototipo y cumplimiento",
+    "name": "Estado de la tienda",
     "settings": [
       {
         "type": "header",
-        "content": "Compuerta de venta"
+        "content": "Estado de la tienda"
       },
       {
         "type": "paragraph",
-        "content": "La venta permanece BLOQUEADA hasta que docs/03_GO_NO_GO.md esté completo con evidencia y el titular lo autorice por escrito. Este interruptor solo controla lo que muestra el tema: la protección real es la contraseña de la tienda, el producto en borrador y los pagos sin activar."
+        "content": "PROTOTIPO: tienda informativa, sin oferta. PREVIEW_COMERCIAL: tienda de venta completa para revisar, con la compra desactivada (no hay formulario de pedido). LIVE: compra operativa; solo funciona si se escribe la frase de confirmación y no falta ningún dato obligatorio. Este ajuste no sustituye a la configuración de Shopify: el tema debe seguir sin publicar y los pagos desactivados hasta la orden expresa del titular."
       },
       {
-        "type": "checkbox",
-        "id": "ds_commerce_enabled",
-        "label": "Comercio habilitado (precio, carrito y compra)",
-        "default": false,
-        "info": "Aunque se active, un producto solo muestra compra si TODOS sus metacampos compliance.* están completos."
+        "type": "select",
+        "id": "ds_store_mode",
+        "label": "Estado",
+        "default": "prototipo",
+        "options": [
+          {
+            "value": "prototipo",
+            "label": "PROTOTIPO (informativo)"
+          },
+          {
+            "value": "preview_comercial",
+            "label": "PREVIEW_COMERCIAL (venta visible, compra desactivada)"
+          },
+          {
+            "value": "live",
+            "label": "LIVE (compra operativa)"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "ds_live_confirmation",
+        "label": "Confirmación para LIVE",
+        "info": "Escribe exactamente VENTA REAL AUTORIZADA. Sin esta frase, LIVE se comporta como PREVIEW_COMERCIAL."
+      },
+      {
+        "type": "header",
+        "content": "Oferta (fuente única de verdad)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Estos textos se muestran en la portada, la ficha, la FAQ (marcadores [[ENVIO]], [[DEVOLUCIONES]], [[ATENCION]], [[PAGO]]) y las páginas de envíos y devoluciones. Si un campo está vacío se muestra un marcador ⟦PENDIENTE⟧ y LIVE queda bloqueado."
+      },
+      {
+        "type": "text",
+        "id": "ds_offer_shipping",
+        "label": "Envío (coste y plazo confirmados)"
+      },
+      {
+        "type": "text",
+        "id": "ds_offer_returns",
+        "label": "Devoluciones (resumen confirmado)"
+      },
+      {
+        "type": "text",
+        "id": "ds_offer_support",
+        "label": "Atención al cliente (canal y horario confirmados)"
+      },
+      {
+        "type": "text",
+        "id": "ds_offer_payment",
+        "label": "Formas de pago aceptadas"
       },
       {
         "type": "header",

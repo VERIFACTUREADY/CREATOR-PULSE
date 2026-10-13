@@ -1,27 +1,25 @@
 {% comment %}
-  Compuerta de venta del prototipo (ver docs/03_GO_NO_GO.md).
-  Imprime «true» solo si el comercio está habilitado en el tema Y, cuando se
-  pasa un producto, todos sus metacampos de cumplimiento están rellenos.
-  En cualquier otro caso imprime «false».
+  ¿Se puede COMPRAR este producto? Imprime «true» o «false». Denegar por defecto.
+  true solo si: estado efectivo LIVE, hay producto, no le falta ningún dato
+  (ds-product-missing vacío) y Shopify lo marca como disponible.
+  Corrige el fallo de la V1: con product en blanco devolvía true (auditoría V2, C-03).
 
   Accepts:
-  - product: {Object} producto (opcional)
-
-  Usage:
-  {%- capture ds_ready -%}{%- render 'ds-commerce-ready', product: product -%}{%- endcapture -%}
+  - product: {Object} producto (obligatorio)
 {% endcomment %}
 {%- liquid
-  assign ready = settings.ds_commerce_enabled
-  if ready and product != blank
-    assign c = product.metafields.compliance
-    if c.manufacturer_legal_name == blank or c.model_reference == blank or c.intended_purpose == blank or c.materials == blank
-      assign ready = false
-    endif
-    if c.ifu_es == blank or c.warnings_es == blank or c.contraindications_es == blank or c.eu_declaration_ref == blank
-      assign ready = false
-    endif
-    if c.economic_operator == blank or c.lot_traceability == blank or c.delivery_window == blank or c.claim_approval_version == blank
-      assign ready = false
+  assign ready = false
+  if product != blank
+    capture mode
+      render 'ds-mode'
+    endcapture
+    if mode == 'live' and product.available
+      capture missing
+        render 'ds-product-missing', product: product
+      endcapture
+      if missing == blank
+        assign ready = true
+      endif
     endif
   endif
   if ready

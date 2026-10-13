@@ -1,5 +1,6 @@
+{%- capture ds_mode -%}{%- render 'ds-mode' -%}{%- endcapture -%}
 {%- comment -%} Prototipo: el carrito no se muestra sin GO (docs/03_GO_NO_GO.md). {%- endcomment -%}
-{%- if settings.ds_commerce_enabled -%}
+{%- if ds_mode == 'live' -%}
 {{ 'component-cart.css' | asset_url | stylesheet_tag }}
 {{ 'component-totals.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
@@ -107,7 +108,7 @@
               </div>
             {%- else -%}
               {%- comment -%} Prototipo: sin checkout hasta el GO (docs/03_GO_NO_GO.md). {%- endcomment -%}
-              {%- unless settings.ds_commerce_enabled -%}
+              {%- unless ds_mode == 'live' -%}
                 <div class="cart__ctas" {{ block.shopify_attributes }}>{%- render 'ds-product-gate' -%}</div>
               {%- else -%}
               <div class="cart__ctas" {{ block.shopify_attributes }}>

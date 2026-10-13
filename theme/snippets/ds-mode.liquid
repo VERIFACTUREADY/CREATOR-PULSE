@@ -1,0 +1,26 @@
+{% comment %}
+  Estado EFECTIVO de la tienda. Imprime 'prototipo', 'preview' o 'live'.
+  LIVE solo es efectivo si (1) el ajuste es LIVE, (2) la confirmación es
+  exactamente «VENTA REAL AUTORIZADA» y (3) no falta ningún dato global
+  (titular y oferta). En otro caso LIVE degrada a 'preview' (sin compra).
+  Denegar por defecto: cualquier valor desconocido se trata como 'prototipo'.
+
+  Usage:
+  {%- capture ds_mode -%}{%- render 'ds-mode' -%}{%- endcapture -%}
+{% endcomment %}
+{%- liquid
+  assign m = 'prototipo'
+  if settings.ds_store_mode == 'preview_comercial'
+    assign m = 'preview'
+  elsif settings.ds_store_mode == 'live'
+    capture blockers
+      render 'ds-live-blockers'
+    endcapture
+    if settings.ds_live_confirmation == 'VENTA REAL AUTORIZADA' and blockers == blank
+      assign m = 'live'
+    else
+      assign m = 'preview'
+    endif
+  endif
+  echo m
+-%}

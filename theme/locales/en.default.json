@@ -619,6 +619,23 @@
     },
     "notfound": {
       "cta": "Back to home"
+    },
+    "preview": {
+      "cta_title": "Purchase disabled in preview.",
+      "cta_text": "This button will only work when the store switches to LIVE with all data confirmed.",
+      "missing": "Missing",
+      "bar": "See the product"
+    },
+    "banner": {
+      "preview_tag": "Commercial preview",
+      "preview_text": "Unpublished theme · purchase disabled · data marked ⟦PENDING⟧ is still to be confirmed.",
+      "live_blocked_tag": "LIVE blocked",
+      "live_no_confirmation": "Confirmation phrase missing.",
+      "live_missing": "Missing data"
+    },
+    "photo": {
+      "title": "PHOTO PENDING · NOT PUBLISHABLE",
+      "default": "Real product photo, with usage rights"
     }
   }
 }

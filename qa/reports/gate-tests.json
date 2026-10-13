@@ -1,0 +1,237 @@
+[
+  {
+    "prueba": "Modo desconocido → prototipo (denegar por defecto)",
+    "ok": true,
+    "detalle": "prototipo"
+  },
+  {
+    "prueba": "Sin ajuste → prototipo",
+    "ok": true,
+    "detalle": "prototipo"
+  },
+  {
+    "prueba": "LIVE sin frase → preview",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "LIVE con frase en minúsculas → preview",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "LIVE confirmado pero faltan datos globales → preview",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "LIVE confirmado y completo → live",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "product = blank (null) en LIVE → false [fallo V1]",
+    "ok": true,
+    "detalle": "false"
+  },
+  {
+    "prueba": "product = blank (\"\") en LIVE → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Producto completo en LIVE → true",
+    "ok": true,
+    "detalle": "true"
+  },
+  {
+    "prueba": "Producto completo en PREVIEW → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Producto completo en PROTOTIPO → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Producto completo, LIVE sin frase → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Producto completo, LIVE sin datos globales → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Producto agotado en LIVE → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Producto sin fotos en LIVE → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Precio no confirmado en LIVE → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.manufacturer_legal_name → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.model_reference → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.intended_purpose → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.materials → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.ifu_es → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.warnings_es → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.contraindications_es → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.eu_declaration_ref → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.economic_operator → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.lot_traceability → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta compliance.claim_approval_version → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta commercial.short_benefit → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta commercial.what_is → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta commercial.how_to_steps → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta commercial.includes → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Falta commercial.delivery_window → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Oferta: blank en PREVIEW → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Oferta: producto en PREVIEW → true",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Oferta: producto en PROTOTIPO → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Precio con product blank + placeholder (featured-product vacío) → sin «19,99»",
+    "ok": true,
+    "detalle": ""
+  },
+  {
+    "prueba": "PREVIEW + precio no confirmado → marcador ⟦PENDIENTE⟧, sin importe",
+    "ok": true,
+    "detalle": "<div class=\"price ds-price-pending\"><mark class=\"ds-placeholder\" data-ds-placeholder>⟦PENDIENTE: precio confirmado⟧</mark>\n</div>"
+  },
+  {
+    "prueba": "PREVIEW + precio confirmado → importe real visible",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Precio tachado sin compare_at_verified → no se muestra «39,90»",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "buy-buttons en prototipo: formulario /cart/add ausente",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "buy-buttons en preview_comercial: formulario /cart/add ausente",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "buy-buttons en live: formulario /cart/add presente",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "buy-buttons con product blank en LIVE → sin formulario",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Contacto escapa: \"><script>alert(1)</script>",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Contacto escapa: ' onmouseover='alert(1)",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Contacto escapa: <img src=x onerror=alert(1)>",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Contacto escapa: Ñandú «comillas» 😴 &amp; <b",
+    "ok": true,
+    "detalle": null
+  }
+]

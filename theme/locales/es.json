@@ -631,6 +631,23 @@
     },
     "notfound": {
       "cta": "Volver al inicio"
+    },
+    "preview": {
+      "cta_title": "Compra desactivada en la vista previa.",
+      "cta_text": "Este botón se activará solo cuando la tienda pase a LIVE con todos los datos confirmados.",
+      "missing": "Falta",
+      "bar": "Ver el producto"
+    },
+    "banner": {
+      "preview_tag": "Vista previa comercial",
+      "preview_text": "Tema no publicado · la compra está desactivada · los datos marcados ⟦PENDIENTE⟧ faltan por confirmar.",
+      "live_blocked_tag": "LIVE bloqueado",
+      "live_no_confirmation": "Falta la frase de confirmación.",
+      "live_missing": "Faltan datos"
+    },
+    "photo": {
+      "title": "FOTO PENDIENTE · NO PUBLICABLE",
+      "default": "Fotografía real del producto, con derechos de uso"
     }
   }
 }

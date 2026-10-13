@@ -1,5 +1,6 @@
+{%- capture ds_mode -%}{%- render 'ds-mode' -%}{%- endcapture -%}
 {%- comment -%} Prototipo: el carrito no se muestra sin GO (docs/03_GO_NO_GO.md). {%- endcomment -%}
-{%- if settings.ds_commerce_enabled -%}
+{%- if ds_mode == 'live' -%}
 {{ 'component-cart.css' | asset_url | stylesheet_tag }}
 {{ 'component-cart-items.css' | asset_url | stylesheet_tag }}
 {{ 'component-totals.css' | asset_url | stylesheet_tag }}

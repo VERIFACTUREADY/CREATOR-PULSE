@@ -555,3 +555,44 @@ a.ds-steps__link:hover { background: var(--ds-sand); }
 
 /* Enlaces pequeños del pie de Dawn: objetivo táctil ≥ 44 px. */
 .copyright__content a { display: inline-flex; align-items: center; min-height: 4.4rem; }
+
+/* =========================================================================
+   V2 · Estados de tienda y marcadores inconfundibles
+   ========================================================================= */
+.ds-proto-banner--preview { background: var(--ds-petrol); color: var(--ds-white); }
+.ds-proto-banner--preview .ds-proto-banner__tag { background: var(--ds-white); color: var(--ds-night); }
+.ds-proto-banner--blocked { background: #8f1d1d; color: var(--ds-white); }
+.ds-proto-banner--blocked .ds-proto-banner__tag { background: var(--ds-white); color: #8f1d1d; }
+
+/* Rayado diagonal: imposible de confundir con contenido final. */
+.ds-placeholder {
+  background: repeating-linear-gradient(-45deg, #fff3c4 0 8px, #ffe68a 8px 16px);
+  color: #3d2e00;
+  border: 1px dashed #6b5300;
+}
+.ds-placeholder--live-error { background: #8f1d1d; color: #fff; border: 2px solid #5c0f0f; }
+
+.ds-photo-placeholder {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2.4rem;
+  border-radius: var(--ds-radius-l);
+  border: 2px dashed #6b5300;
+  background: repeating-linear-gradient(-45deg, #fff3c4 0 14px, #ffe68a 14px 28px);
+  color: #3d2e00;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+}
+.ds-photo-placeholder--landscape { aspect-ratio: 4 / 3; }
+.ds-photo-placeholder figcaption { display: grid; gap: 0.8rem; max-width: 30ch; }
+.ds-photo-placeholder__title { font-weight: 700; font-size: 1.6rem; letter-spacing: 0.04em; }
+.ds-photo-placeholder__text { font-size: 1.5rem; }
+
+.ds-price-pending { font-size: 1.6rem; margin: 1rem 0; }
+
+.ds-preview-cta { margin: 2rem 0; }
+.ds-preview-cta .button[disabled] { opacity: 1; cursor: not-allowed; background: rgba(var(--color-button), 0.45); color: var(--ds-night); }
+.ds-preview-cta__note { font-size: 1.45rem; margin: 1.2rem 0 0; }

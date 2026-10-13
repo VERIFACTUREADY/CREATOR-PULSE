@@ -20,8 +20,9 @@
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
 {% endcomment %}
+{%- capture ds_mode -%}{%- render 'ds-mode' -%}{%- endcapture -%}
 {%- comment -%} Compuerta: sin «añadir rápido» mientras la venta no esté autorizada. {%- endcomment -%}
-{%- unless settings.ds_commerce_enabled -%}
+{%- unless ds_mode == 'live' -%}
   {%- assign quick_add = 'none' -%}
 {%- endunless -%}
 {%- unless skip_styles -%}

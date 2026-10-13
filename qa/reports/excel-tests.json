@@ -1,0 +1,60 @@
+[
+  {
+    "prueba": "Hipótesis reproducen 0,56/7,04/11,54/11,03/7,14",
+    "ok": true,
+    "detalle": [
+      0.56,
+      7.04,
+      11.54,
+      11.03,
+      7.14
+    ]
+  },
+  {
+    "prueba": "REAL vacía = DATOS INCOMPLETOS",
+    "ok": true,
+    "detalle": [
+      "DATOS INCOMPLETOS",
+      "DATOS INCOMPLETOS"
+    ]
+  },
+  {
+    "prueba": "Ningún veredicto dice «rentable»",
+    "ok": true,
+    "detalle": [
+      "No supera (hipótesis)",
+      "Supera umbral (hipótesis)",
+      "Supera umbral (hipótesis)",
+      "Supera umbral (hipótesis)",
+      "Supera umbral (hipótesis)",
+      "DATOS INCOMPLETOS"
+    ]
+  },
+  {
+    "prueba": "REAL con 1/5 partidas → DATOS INCOMPLETOS (V1 habría dado margen)",
+    "ok": true,
+    "detalle": {
+      "V2": "DATOS INCOMPLETOS",
+      "V1_habria_calculado": 13.04
+    }
+  },
+  {
+    "prueba": "Hipótesis con desglose parcial → DATOS INCOMPLETOS",
+    "ok": true,
+    "detalle": "DATOS INCOMPLETOS"
+  },
+  {
+    "prueba": "REAL completo calcula (prueba = 7,04 €)",
+    "ok": true,
+    "detalle": [
+      "COMPLETO",
+      7.04364380165289,
+      "Supera umbral"
+    ]
+  },
+  {
+    "prueba": "0 explícito es dato válido",
+    "ok": true,
+    "detalle": "COMPLETO"
+  }
+]

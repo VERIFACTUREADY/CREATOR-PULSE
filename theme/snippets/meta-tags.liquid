@@ -27,8 +27,12 @@
 {%- endif -%}
 
 {%- if request.page_type == 'product' -%}
+  {%- comment -%} V2: precio en Open Graph solo con compra operativa (evita difundir precios no confirmados). {%- endcomment -%}
+  {%- capture ds_ready_og -%}{%- render 'ds-commerce-ready', product: product -%}{%- endcapture -%}
+  {%- if ds_ready_og == 'true' -%}
   <meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html }}">
   <meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
+  {%- endif -%}
 {%- endif -%}
 
 {%- if settings.social_twitter_link != blank -%}

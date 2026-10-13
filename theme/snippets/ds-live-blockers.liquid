@@ -1,0 +1,32 @@
+{% comment %}
+  Lista (separada por « · ») de datos GLOBALES que impiden LIVE. Vacía si no falta nada.
+  Los datos de cada producto se comprueban aparte en ds-product-missing.
+{% endcomment %}
+{%- liquid
+  assign out = ''
+  if settings.ds_legal_name == blank
+    assign out = out | append: 'razón social · '
+  endif
+  if settings.ds_legal_tax_id == blank
+    assign out = out | append: 'NIF/CIF · '
+  endif
+  if settings.ds_legal_address == blank
+    assign out = out | append: 'domicilio · '
+  endif
+  if settings.ds_legal_email == blank
+    assign out = out | append: 'email de contacto · '
+  endif
+  if settings.ds_offer_shipping == blank
+    assign out = out | append: 'envío · '
+  endif
+  if settings.ds_offer_returns == blank
+    assign out = out | append: 'devoluciones · '
+  endif
+  if settings.ds_offer_support == blank
+    assign out = out | append: 'atención al cliente · '
+  endif
+  if settings.ds_offer_payment == blank
+    assign out = out | append: 'formas de pago · '
+  endif
+  echo out | remove_last: ' · '
+-%}

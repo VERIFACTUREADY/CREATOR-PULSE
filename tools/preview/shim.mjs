@@ -206,7 +206,7 @@ export function createEngine({ themeDir, locale, fallbackLocale, ctx }) {
         else v = yield this.liquid.evalValue(v, context);
         attrs[m[1]] = v;
       }
-      context.push({ form: { errors: null, 'posted_successfully?': false, id: attrs.id } });
+      context.push({ form: { errors: null, 'posted_successfully?': false, id: attrs.id, ...(ctx.formOverride || {}) } });
       const html = yield this.liquid.renderer.renderTemplates(this.templates, context);
       context.pop();
       const action = { contact: '/contact', product: '/cart/add', customer: '/contact#contact_form', localization: '/localization' }[type] || '/' + type;

@@ -1,0 +1,16 @@
+{% comment %}
+  CTA de PREVIEW_COMERCIAL: se ve como el botón de compra final pero NO es un
+  formulario y no envía nada a /cart/add. Indica qué falta para poder vender.
+  Accepts: product
+{% endcomment %}
+{%- capture missing -%}{%- render 'ds-product-missing', product: product -%}{%- endcapture -%}
+<div class="ds-preview-cta">
+  <button type="button" class="button button--full-width button--primary" disabled aria-describedby="DsPreviewCtaNote-{{ product.id }}">
+    {{ 'products.product.add_to_cart' | t }}
+  </button>
+  <p class="ds-preview-cta__note" id="DsPreviewCtaNote-{{ product.id }}">
+    <strong>{{ 'ds.preview.cta_title' | t }}</strong>
+    {{ 'ds.preview.cta_text' | t }}
+    {%- if missing != blank %} {{ 'ds.preview.missing' | t }}: <span class="ds-placeholder" data-ds-placeholder>⟦{{ missing }}⟧</span>{%- endif -%}
+  </p>
+</div>

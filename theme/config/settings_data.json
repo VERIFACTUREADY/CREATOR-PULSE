@@ -191,10 +191,15 @@
           }
         }
       },
-      "ds_commerce_enabled": false,
       "ds_prototype_banner": true,
       "ds_noindex": true,
-      "ds_show_pending": true
+      "ds_show_pending": true,
+      "ds_store_mode": "preview_comercial",
+      "ds_live_confirmation": "",
+      "ds_offer_shipping": "",
+      "ds_offer_returns": "",
+      "ds_offer_support": "",
+      "ds_offer_payment": ""
     }
   }
 }

@@ -46,11 +46,11 @@
         <p class="ds-field__hint">{{ 'ds.contact.required_hint' | t }}</p>
         <div class="ds-field">
           <label for="DsContact-name">{{ 'templates.contact.form.name' | t }} <span class="ds-required" aria-hidden="true">*</span></label>
-          <input id="DsContact-name" type="text" name="contact[name]" autocomplete="name" required aria-required="true" value="{{ form.name }}">
+          <input id="DsContact-name" type="text" name="contact[name]" autocomplete="name" required aria-required="true" value="{{ form.name | escape }}">
         </div>
         <div class="ds-field">
           <label for="DsContact-email">{{ 'templates.contact.form.email' | t }} <span class="ds-required" aria-hidden="true">*</span></label>
-          <input id="DsContact-email" type="email" name="contact[email]" autocomplete="email" spellcheck="false" autocapitalize="off" required aria-required="true" aria-describedby="DsContact-email-hint" value="{{ form.email }}">
+          <input id="DsContact-email" type="email" name="contact[email]" autocomplete="email" spellcheck="false" autocapitalize="off" required aria-required="true" aria-describedby="DsContact-email-hint" value="{{ form.email | escape }}">
           <p class="ds-field__hint" id="DsContact-email-hint">{{ 'ds.contact.email_hint' | t }}</p>
         </div>
         <div class="ds-field">
@@ -65,7 +65,7 @@
         </div>
         <div class="ds-field">
           <label for="DsContact-body">{{ 'templates.contact.form.comment' | t }} <span class="ds-required" aria-hidden="true">*</span></label>
-          <textarea id="DsContact-body" name="contact[body]" rows="8" required aria-required="true" aria-describedby="DsContact-body-hint">{{ form.body }}</textarea>
+          <textarea id="DsContact-body" name="contact[body]" rows="8" required aria-required="true" aria-describedby="DsContact-body-hint">{{ form.body | escape }}</textarea>
           <p class="ds-field__hint" id="DsContact-body-hint">{{ 'ds.contact.body_hint' | t }}</p>
         </div>
         <div class="ds-check">

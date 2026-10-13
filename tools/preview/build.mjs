@@ -1,8 +1,11 @@
 // Genera una previsualización estática del tema en tools/../preview-out.
-// Uso: node preview/build.mjs [--commerce] [--no-pending] [--out dir]
-//  --commerce   simula ds_commerce_enabled = true (para probar la compuerta)
-//  --no-pending simula ds_show_pending = false
-//  --complete-metafields rellena los metacampos compliance.* del producto demo
+// Uso: node preview/build.mjs [--mode prototipo|preview_comercial|live] [--confirm-live]
+//        [--complete-globals] [--complete-metafields] [--no-pending] [--out dir]
+//  --mode               fuerza el estado de la tienda (por defecto, el de settings_data.json)
+//  --confirm-live       escribe la frase de confirmación de LIVE
+//  --complete-globals   rellena titular y oferta con valores FICTICIOS marcados como tales
+//  --no-pending         simula ds_show_pending = false
+//  --complete-metafields rellena los metacampos compliance.* y commercial.* del producto demo
 //               con valores FICTICIOS marcados como tales (solo para probar la compuerta)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -72,7 +75,12 @@ const schemes = Object.entries(current.color_schemes).map(([id, sc]) => {
 });
 for (const s of schemes) schemes[s.id] = s;
 settings.color_schemes = schemes;
-if (args.includes('--commerce')) settings.ds_commerce_enabled = true;
+if (args.includes('--mode')) settings.ds_store_mode = args[args.indexOf('--mode') + 1];
+if (args.includes('--confirm-live')) settings.ds_live_confirmation = 'VENTA REAL AUTORIZADA';
+if (args.includes('--complete-globals')) {
+  for (const k of ['ds_legal_name', 'ds_legal_tax_id', 'ds_legal_address', 'ds_legal_email', 'ds_offer_shipping', 'ds_offer_returns', 'ds_offer_support', 'ds_offer_payment'])
+    settings[k] = 'VALOR FICTICIO DE PRUEBA';
+}
 if (args.includes('--no-pending')) settings.ds_show_pending = false;
 
 // ---- Secciones ----
@@ -178,12 +186,22 @@ for (const w of ['400', '700']) for (const st of ['normal', 'italic'])
   fs.copyFileSync(path.join(fontSrc, `lato-latin-${w}-${st}.woff2`), path.join(outDir, 'fonts', `lato-${w}-${st}.woff2`));
 
 if (args.includes('--complete-metafields')) {
+  // Solo para probar la compuerta. Nada de esto se copia al tema.
   const demo = 'VALOR FICTICIO DE PRUEBA';
-  const keys = ['manufacturer_legal_name', 'model_reference', 'intended_purpose', 'materials', 'ifu_es', 'warnings_es', 'contraindications_es', 'eu_declaration_ref', 'economic_operator', 'lot_traceability', 'delivery_window', 'claim_approval_version'];
+  const comp = ['manufacturer_legal_name', 'model_reference', 'intended_purpose', 'materials', 'ifu_es', 'warnings_es', 'contraindications_es', 'eu_declaration_ref', 'economic_operator', 'lot_traceability', 'claim_approval_version'];
+  const comm = ['short_benefit', 'what_is', 'how_to_steps', 'includes', 'for_whom', 'features', 'care', 'delivery_window'];
+  fs.mkdirSync(path.join(outDir, 'test-media'), { recursive: true });
+  fs.writeFileSync(path.join(outDir, 'test-media/ficticia.svg'), '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><rect width="800" height="800" fill="#ccc"/><text x="400" y="400" font-size="40" text-anchor="middle" font-family="sans-serif">IMAGEN FICTICIA DE PRUEBA</text></svg>');
+  const img = { src: '/test-media/ficticia.svg', width: 800, height: 800, aspect_ratio: 1, alt: 'Imagen ficticia de prueba', id: 901 };
   for (const r of fixture.pages) if (r.product) {
-    r.product.metafields.compliance = Object.fromEntries(keys.map((k) => [k, { value: demo }]));
+    r.product.metafields.compliance = Object.fromEntries(comp.map((k) => [k, { value: demo }]));
+    r.product.metafields.commercial = Object.fromEntries(comm.map((k) => [k, { value: demo }]));
+    r.product.metafields.commercial.price_confirmed = { value: true };
     r.product.price = 2990;
     r.product.selected_or_first_available_variant.price = 2990;
+    r.product.media = [{ id: 901, media_type: 'image', position: 1, alt: img.alt, preview_image: img, src: img.src, width: 800, height: 800, aspect_ratio: 1 }];
+    r.product.featured_media = r.product.media[0];
+    r.product.images = [img];
   }
 }
 const index = [];

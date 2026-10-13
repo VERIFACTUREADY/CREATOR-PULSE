@@ -3,7 +3,8 @@
   evaluación documental»). Muestra con honestidad qué falta. Se oculta sola
   cuando el comercio está habilitado, salvo que se indique lo contrario.
 {%- endcomment -%}
-{%- unless section.settings.hide_when_commerce and settings.ds_commerce_enabled -%}
+{%- capture ds_mode -%}{%- render 'ds-mode' -%}{%- endcapture -%}
+{%- unless section.settings.hide_when_commerce and ds_mode != 'prototipo' -%}
   <section
     class="ds-status ds-section color-{{ section.settings.color_scheme }} gradient"
     style="{% render 'ds-section-vars', section: section %}"

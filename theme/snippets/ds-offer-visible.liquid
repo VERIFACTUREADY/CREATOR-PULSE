@@ -1,0 +1,22 @@
+{% comment %}
+  ¿Se muestra la OFERTA (precio, variantes, CTA comercial) de este producto?
+  Imprime «true» en PREVIEW_COMERCIAL o LIVE si hay producto; «false» en otro caso.
+  Mostrar la oferta no implica poder comprar: eso lo decide ds-commerce-ready.
+  Accepts: product
+{% endcomment %}
+{%- liquid
+  assign visible = false
+  if product != blank
+    capture mode
+      render 'ds-mode'
+    endcapture
+    if mode == 'preview' or mode == 'live'
+      assign visible = true
+    endif
+  endif
+  if visible
+    echo 'true'
+  else
+    echo 'false'
+  endif
+-%}

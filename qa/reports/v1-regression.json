@@ -1,0 +1,17 @@
+[
+  {
+    "caso": "V1 · ds-commerce-ready con product=blank y comercio activado",
+    "resultado": "true",
+    "falla_como_dice_la_auditoria": true
+  },
+  {
+    "caso": "V1 · consecuencia: precio de ejemplo de Dawn con product=blank",
+    "resultado": "19,99 € ",
+    "falla_como_dice_la_auditoria": true
+  },
+  {
+    "caso": "V1 · contacto imprime entrada sin escape",
+    "resultado": "value=\"\"><script>alert(1)</script>\"",
+    "falla_como_dice_la_auditoria": true
+  }
+]

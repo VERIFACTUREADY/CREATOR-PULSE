@@ -1,0 +1,45 @@
+{% comment %}
+  Lista (« · ») de datos que le faltan a un producto para poder venderse.
+  Si product está vacío imprime «producto» (denegar por defecto).
+  Accepts: product
+{% endcomment %}
+{%- liquid
+  assign out = ''
+  if product == blank
+    assign out = 'producto · '
+  else
+  assign c = product.metafields.compliance
+  assign k = product.metafields.commercial
+  if k.price_confirmed.value != true
+    assign out = out | append: 'precio confirmado · '
+  endif
+  if product.media.size == 0
+    assign out = out | append: 'fotos reales · '
+  endif
+  if k.short_benefit == blank
+    assign out = out | append: 'beneficio aprobado · '
+  endif
+  if k.what_is == blank
+    assign out = out | append: 'qué es · '
+  endif
+  if k.how_to_steps == blank
+    assign out = out | append: 'cómo se usa · '
+  endif
+  if k.includes == blank
+    assign out = out | append: 'qué incluye · '
+  endif
+  if k.delivery_window == blank
+    assign out = out | append: 'plazo de entrega · '
+  endif
+  if c.manufacturer_legal_name == blank or c.model_reference == blank or c.intended_purpose == blank or c.materials == blank
+    assign out = out | append: 'ficha técnica · '
+  endif
+  if c.ifu_es == blank or c.warnings_es == blank or c.contraindications_es == blank
+    assign out = out | append: 'instrucciones y advertencias · '
+  endif
+  if c.eu_declaration_ref == blank or c.economic_operator == blank or c.lot_traceability == blank or c.claim_approval_version == blank
+    assign out = out | append: 'documentación · '
+  endif
+  endif
+  echo out | remove_last: ' · '
+-%}

@@ -1,8 +1,9 @@
 {% comment %}
-  Marcador visible de dato pendiente. Se muestra siempre: un dato obligatorio
-  ausente nunca se oculta ni se sustituye por uno inventado.
-
+  Marcador de dato pendiente: inconfundible (⟦…⟧, rayado amarillo, atributo
+  data-ds-placeholder que detecta qa/prelaunch-check.mjs). Nunca se oculta ni se
+  sustituye por un dato inventado. En LIVE se muestra como error en rojo.
   Accepts:
   - label: {String} qué falta (p. ej. «razón social»)
 {% endcomment %}
-<mark class="ds-placeholder">[{{ 'ds.pending.prefix' | t }}: {{ label }}]</mark>
+{%- capture ds_mode_p -%}{%- render 'ds-mode' -%}{%- endcapture -%}
+<mark class="ds-placeholder{% if ds_mode_p == 'live' %} ds-placeholder--live-error{% endif %}" data-ds-placeholder>⟦{{ 'ds.pending.prefix' | t | upcase }}: {{ label }}⟧</mark>

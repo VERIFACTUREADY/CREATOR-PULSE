@@ -12,9 +12,16 @@
   Usage:
   {% render 'price', product: product %}
 {% endcomment %}
-{%- comment -%} Compuerta: no se muestra precio sin oferta real autorizada (docs/03_GO_NO_GO.md). {%- endcomment -%}
-{%- capture ds_ready -%}{%- render 'ds-commerce-ready', product: product -%}{%- endcapture -%}
-{%- if ds_ready == 'true' -%}
+{%- comment -%}
+  Compuerta (auditoría V2, C-03): sin producto o en PROTOTIPO no hay precio (se evita
+  el precio de ejemplo 19,99 € de Dawn). En PREVIEW/LIVE se muestra el precio solo si
+  el titular lo ha confirmado (metacampo commercial.price_confirmed); si no, un
+  marcador ⟦PENDIENTE⟧. El precio tachado solo con commercial.compare_at_verified.
+{%- endcomment -%}
+{%- capture ds_offer -%}{%- render 'ds-offer-visible', product: product -%}{%- endcapture -%}
+{%- if ds_offer == 'true' and product.metafields.commercial.price_confirmed.value != true -%}
+  <div class="price ds-price-pending">{%- render 'ds-pending', label: 'precio confirmado' -%}</div>
+{%- elsif ds_offer == 'true' -%}
 {%- liquid
   if use_variant
     assign target = product.selected_or_first_available_variant
@@ -25,6 +32,9 @@
   endif
 
   assign compare_at_price = target.compare_at_price
+  if product.metafields.commercial.compare_at_verified.value != true
+    assign compare_at_price = nil
+  endif
   assign price = target.price | default: 1999
   assign price_min = product.price_min
   assign price_max = product.price_max

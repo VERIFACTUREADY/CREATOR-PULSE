@@ -1,3 +1,4 @@
+{%- capture ds_mode -%}{%- render 'ds-mode' -%}{%- endcapture -%}
 <link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
@@ -300,7 +301,7 @@
       {%- endfor -%}
 
       {%- comment -%} Sin carrito mientras la venta no esté autorizada. {%- endcomment -%}
-      {%- if settings.ds_commerce_enabled -%}
+      {%- if ds_mode == 'live' -%}
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         {% if cart == empty %}
           <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
@@ -322,7 +323,7 @@
   </header>
 </{{ header_tag }}>
 
-{%- if settings.cart_type == 'notification' and settings.ds_commerce_enabled -%}
+{%- if settings.cart_type == 'notification' and ds_mode == 'live' -%}
   {%- render 'cart-notification',
     color_scheme: section.settings.color_scheme,
     desktop_menu_type: section.settings.menu_type_desktop

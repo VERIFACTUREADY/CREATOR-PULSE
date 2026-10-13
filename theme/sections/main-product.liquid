@@ -75,17 +75,11 @@
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <product-component view-event-payload="{{ product | standard_event_data: 'view', context: 'page' | escape }}">
     <div class="page-width">
-      <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
+      <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col grid--2-col-tablet">
         <div class="grid__item product__media-wrapper">
           {%- if product.media.size == 0 -%}
-            {%- comment -%} Sin fotos reales con derechos: se dice, no se simula (Propuesta de diseño p.6). {%- endcomment -%}
-            <figure class="ds-product-media-placeholder">
-              {{ 'ds-ilustracion-noche.svg' | inline_asset_content }}
-              <figcaption class="visually-hidden">{{ 'ds.product.photo_pending' | t }}</figcaption>
-            </figure>
-            {%- if settings.ds_show_pending -%}
-              <p>{%- render 'ds-pending', label: 'fotografía real del producto con derechos de uso' -%}</p>
-            {%- endif -%}
+            {%- comment -%} Sin fotos reales con derechos: se dice, no se simula (auditoría V2, C-06). {%- endcomment -%}
+            {%- render 'ds-photo-placeholder' -%}
           {%- else -%}
             {% render 'product-media-gallery', variant_images: variant_images %}
           {%- endif -%}
