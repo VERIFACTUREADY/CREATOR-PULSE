@@ -1,0 +1,19 @@
+{
+  "name": "descanso-tools",
+  "private": true,
+  "description": "Previsualizador local y QA del prototipo (sin servicios de pago)",
+  "type": "module",
+  "scripts": {
+    "preview:build": "node preview/build.mjs",
+    "preview:serve": "node preview/serve.mjs",
+    "theme-check": "theme-check ../theme",
+    "qa": "node qa/run-qa.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@shopify/theme-check-node": "^3.30.1",
+    "lighthouse": "^13.5.0",
+    "liquidjs": "^10.30.0",
+    "playwright-core": "^1.64.0"
+  }
+}
