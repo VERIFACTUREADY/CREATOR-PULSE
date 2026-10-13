@@ -1,0 +1,4 @@
+id,fecha_inicio,fecha_fin,cambio_unico,hipotesis,metrica,muestra,condicion_previa,resultado,decision,notas
+EX-01,,,Texto simple vs técnico en «Cómo funciona»,El lenguaje claro facilita la comprensión,Aciertos en test de tareas (5 personas),,Prototipo sin ventas,,,Estudio §17.2
+EX-02,,,Orden de FAQ con «seguridad» primero,Ver seguridad antes reduce confusión,Tiempo hasta localizar advertencias,,Prototipo,,,
+EX-03,,,Hero ilustración vs esquema explicativo,La emoción aumenta interés cualificado,Clic a explicación + feedback,,Prototipo,,,Solo fotos con licencia

@@ -1,6 +1,6 @@
 # 04 · Matriz de claims
 
-**Archivo trazable:** `04_CLAIMS_APPROVAL.csv` (37 filas). Este documento explica las reglas.
+**Archivo trazable:** `04_CLAIMS_APPROVAL.csv` (49 filas). Este documento explica las reglas.
 
 ## Flujo de aprobación (Estudio §11)
 
@@ -17,9 +17,9 @@
 
 ## Qué hay en el prototipo
 
-- **Marca (M-01…M-04):** eslogan y promesas editoriales sin contenido clínico.
-- **Educativo (E-01…E-11):** frases generales con fuente citada. Se muestran con el marcador visible «Borrador · pendiente de revisión sanitaria» mientras el ajuste `Mostrar marcadores de pendiente` esté activo.
-- **Operativo (O-01…O-03):** afirmaciones veraces sobre el estado del proyecto («Todavía no vendemos este producto»).
+- **Marca (M-01…M-06):** eslogan y promesas editoriales sin contenido clínico.
+- **Educativo (E-01…E-18, G-01):** frases generales con fuente citada. Se muestran con el marcador visible «Borrador · pendiente de revisión sanitaria» mientras el ajuste `Mostrar marcadores de pendiente` esté activo.
+- **Operativo (O-01…O-06):** afirmaciones veraces sobre el estado del proyecto («Todavía no vendemos este producto»).
 - **Producto (P-01…P-18):** **ninguno aparece en la web.** Los bloques de ficha que los necesitan leen metacampos vacíos y muestran «Pendiente de documentación del fabricante».
 
 ## Claims bloqueados expresamente (prompt final, apartado C)
