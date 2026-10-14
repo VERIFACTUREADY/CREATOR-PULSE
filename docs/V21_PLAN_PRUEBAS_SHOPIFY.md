@@ -1,5 +1,7 @@
 # V2.1 · Plan de pruebas en Shopify real (EE. UU.)
 
+> **Sustituido por `V22_INSTALACION_Y_E2E_SHOPIFY.md`** (V2.2: dos productos de prueba, rutas de compra alternativas, marca y privacidad).
+
 > **No ejecutado.** No tengo acceso a ninguna tienda (`V21_DATOS_NECESARIOS.md`, punto 22). Este es el guion. Nada de esta lista se da por superado hasta que se ejecute y se guarde la evidencia (capturas, vídeo o HAR) en `qa/shopify-real/AAAA-MM-DD/`.
 
 ## 0. Preparación (sin publicar nada)

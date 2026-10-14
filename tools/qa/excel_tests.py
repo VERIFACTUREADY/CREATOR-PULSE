@@ -1,4 +1,5 @@
-"""Pruebas de regresión de docs/05_ECONOMIA_UNITARIA.xlsx (V2.1, EE. UU., USD).
+"""Pruebas de regresión de docs/05_ECONOMIA_UNITARIA.xlsx (V2.2, EE. UU., USD).
+V2.2: panel con contribución antes/después de captación sin doble conteo de contenido y validación de entradas.
 Cubren el hallazgo P1 de la revisión V2: «Test de precio» debe descontar TODAS las partidas
 variables (devoluciones, contenido…) y usar la comisión real cuando exista.
 Requiere LibreOffice (soffice). Uso: python3 tools/qa/excel_tests.py → qa/reports/excel-tests.json
@@ -9,6 +10,7 @@ from openpyxl import load_workbook
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 SRC = os.path.join(REPO, 'docs/05_ECONOMIA_UNITARIA.xlsx')
 INC = 'DATOS INCOMPLETOS'
+INV = 'DATOS NO VÁLIDOS'
 
 def recalc(path):
     d = tempfile.mkdtemp()
@@ -90,6 +92,49 @@ check('Panel: contribución estimada = pedidos × contribución unitaria', abs(p
 wb = case({**BASE, ('Supuestos', 'B7'): 50, ('Supuestos', 'B9'): 5, ('Capital circulante', 'B4'): 1, ('Capital circulante', 'B7'): 2})
 K = wb['Capital circulante']
 check('Capital: 1 pedido/día × 5 días × 14,50 $ + 2 × 14,50 $ = 101,50 $ → INSUFICIENTE con 50 $', abs(K['B8'].value - 101.5) < 1e-9 and K['B10'].value == 'INSUFICIENTE', (K['B8'].value, K['B10'].value))
+
+# ---------- V2.2 (auditoría V2.1 P1) ----------
+# 11. Panel: contribución ANTES y DESPUÉS de captación; contenido contado UNA vez
+PANEL = {**BASE, ('Panel semanal', 'D2'): 29.99, ('Panel semanal', 'B4'): 1000, ('Panel semanal', 'C4'): 400, ('Panel semanal', 'D4'): 60,
+         ('Panel semanal', 'E4'): 30, ('Panel semanal', 'F4'): 10, ('Panel semanal', 'H4'): 40, ('Panel semanal', 'I4'): 50}
+W = case(PANEL)['Panel semanal']
+before, total, after, cac = W['P4'].value, W['Q4'].value, W['R4'].value, W['O4'].value
+check('Panel V2.2: ANTES = pedidos × contribución; captación = anuncios + contenido; DESPUÉS = ANTES − captación; CAC = captación / pedidos',
+      abs(before - 10 * got[1]) < 1e-6 and abs(total - 90) < 1e-9 and abs(after - (10 * got[1] - 90)) < 1e-6 and abs(cac - 9) < 1e-9,
+      {'antes': round(before, 4), 'captacion': total, 'despues': round(after, 4), 'cac': cac})
+# Sin doble conteo: la producción de contenido (I) NO cambia la contribución ANTES; solo la de DESPUÉS, exactamente una vez
+W2 = case({**PANEL, ('Panel semanal', 'I4'): 150})['Panel semanal']
+check('Contenido +100 $ en el panel: ANTES igual y DESPUÉS baja exactamente 100 $ (sin doble conteo)',
+      abs(W2['P4'].value - before) < 1e-9 and abs((after - W2['R4'].value) - 100) < 1e-6, round(after - W2['R4'].value, 4))
+# Comisiones POR VENTA (fila 11) solo en ANTES: 2 $ × 10 pedidos = 20 $ (y no tocan la captación)
+W3 = case({**PANEL, ('Costes variables', 'B11'): 2})['Panel semanal']
+check('Comisión por venta 2 $ (fila 11): ANTES baja 20 $ con 10 pedidos y la captación no cambia',
+      abs((before - W3['P4'].value) - 20) < 1e-6 and W3['Q4'].value == total, round(before - W3['P4'].value, 4))
+
+# 12. Validación de entradas
+for label, edit in [('coste negativo (−1 $ en producto)', {('Costes variables', 'B4'): -1}),
+                    ('tasa de devolución 500 %', {('Costes variables', 'B12'): 5}),
+                    ('texto en una celda numérica («ocho»)', {('Costes variables', 'B4'): 'ocho'}),
+                    ('comisión supuesta 290 % (2,9 en lugar de 0,029)', {('Supuestos', 'B4'): 2.9}),
+                    ('días hasta cobrar negativos', {('Supuestos', 'B9'): -3})]:
+    wb = case({**BASE, **edit})
+    check(f'Validación: {label} → «{INV}» y sin contribución', wb['Costes variables']['B20'].value == INV and all(wb['Test de precio'][f'G{r}'].value == INV for r in (5, 6, 7)),
+          (wb['Costes variables']['B20'].value, wb['Test de precio']['G6'].value))
+P = case({**BASE, ('Test de precio', 'A6'): -29.99})['Test de precio']
+check('Validación: precio de prueba negativo → «DATOS NO VÁLIDOS» solo en esa fila', P['G6'].value == INV and isinstance(P['G5'].value, float), (P['G5'].value, P['G6'].value))
+W = case({**PANEL, ('Panel semanal', 'D4'): 500})['Panel semanal']
+check('Validación: embudo incoherente (ATC 500 > vistas 400) → fila «DATOS NO VÁLIDOS»', W['T4'].value == INV and W['P4'].value == INV and W['R4'].value == INV, (W['T4'].value, W['P4'].value))
+W = case({**PANEL, ('Panel semanal', 'F4'): -10})['Panel semanal']
+check('Validación: pedidos negativos → fila «DATOS NO VÁLIDOS»', W['T4'].value == INV and W['O4'].value == INV, (W['T4'].value, W['O4'].value))
+W = case({**PANEL, ('Panel semanal', 'D2'): -5})['Panel semanal']
+check('Validación: precio actual negativo en el panel → contribución «DATOS NO VÁLIDOS»', W['P4'].value == INV, W['P4'].value)
+W = case(PANEL)['Panel semanal']
+check('Panel con datos válidos → fila «OK»', W['T4'].value == 'OK', W['T4'].value)
+wbf = load_workbook(SRC)
+dv_refs = {ws.title: ' '.join(str(dv.sqref) for dv in ws.data_validations.dataValidation) for ws in wbf.worksheets}
+need = {'Supuestos': ['B4', 'B9'], 'Costes variables': ['B4', 'B12', 'B17'], 'Test de precio': ['A5', 'A7'], 'Panel semanal': ['D2', 'B4:F15', 'G4:I15'], 'Capital circulante': ['B4', 'B7'], 'Sensibilidad': ['E2']}
+missing = [f'{sh}!{r}' for sh, refs in need.items() for r in refs if r not in dv_refs.get(sh, '')]
+check('Reglas de validación de datos en las celdas editables (Excel/LibreOffice)', not missing, missing or 'ok')
 
 os.makedirs(os.path.join(REPO, 'qa/reports'), exist_ok=True)
 json.dump(res, open(os.path.join(REPO, 'qa/reports/excel-tests.json'), 'w'), indent=2, ensure_ascii=False)

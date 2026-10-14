@@ -10,6 +10,9 @@
   {% render 'quick-order-list', product: product %}
 {% endcomment %}
 
+{%- comment -%} Compuerta POR PRODUCTO (V2.2): sin lista de pedido rápido si el producto no es apto. {%- endcomment -%}
+{%- capture ds_qol_ready -%}{%- render 'ds-commerce-ready', product: product -%}{%- endcapture -%}
+{%- if ds_qol_ready == 'true' -%}
 {% comment %} TODO: enable theme-check once `line_items_for` is accepted as valid filter {% endcomment %}
 {% # theme-check-disable %}
 {%- assign items_in_cart = cart | line_items_for: product | sum: 'quantity' -%}
@@ -298,3 +301,4 @@
     <span class="quick-order-list-error-message caption-large" role="alert"></span>
   </template>
 </div>
+{%- endif -%}

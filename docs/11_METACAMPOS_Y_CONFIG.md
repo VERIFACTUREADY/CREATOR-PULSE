@@ -23,7 +23,8 @@
 > | Sleeping as a couple (landing B) | `landing-partners` | `page.landing-partners` |
 >
 > Menús: `main-menu` = The product (`/products/adjustable-mouthpiece`) · How it works · Use & safety · FAQ · `footer` = About us · Contact · Shipping policy · Return policy · Accessibility · `legal` = Privacy Policy · Terms of Service · Company information.
-> Producto: handle **`adjustable-mouthpiece`**, en estado **Draft**. Metacampos `commercial.*` y `compliance.*` en inglés; `compliance.ifu_es` conserva su nombre técnico pero debe contener el **IFU en inglés**, y `eu_declaration_ref` guarda la referencia regulatoria de EE. UU. (p. ej., el número 510(k)).
+> Producto: handle **`adjustable-mouthpiece`**, en estado **Draft**. Metacampos `commercial.*` en inglés. **V2.2:** los datos regulatorios de EE. UU. van en el namespace **`regulatory_us`** (ver `V22_MIGRACION_METACAMPOS.md` y `V22_FDA_DOCUMENTOS_Y_VALIDACIONES.md`). Los campos europeos de `compliance` (`ifu_es`, `eu_declaration_ref`…) **no** se reutilizan para EE. UU.: se conservan para la trazabilidad del expediente UE y no cuentan con *Mercado regulatorio = United States*. *(La instrucción V2.1 de guardar el 510(k) en `eu_declaration_ref` y el IFU inglés en `ifu_es` queda **anulada**.)*
+> Identidad del vendedor: *Estado de la tienda › País del vendedor* decide la etiqueta fiscal (EIN, NIF/CIF o Tax ID).
 > Marca: *Ajustes del tema › Estado de la tienda › Nombre de marca* (VINCIRENA provisional) + casilla «Marca confirmada».
 
 
@@ -83,6 +84,8 @@ Los textos se editan en **Personalizar** (cada sección y bloque es editable) o 
 | Fecha de última revisión | Actualizar con cada revisión de contenido |
 
 ## 5. Metacampos del producto (Ajustes › Datos personalizados › Productos)
+
+> **V2.2:** con mercado EE. UU. solo cuentan los 4 compartidos (`manufacturer_legal_name`, `model_reference`, `materials`, `lot_traceability`) + los 10 de `regulatory_us` (tabla en `V22_MIGRACION_METACAMPOS.md`). La tabla siguiente describe el mercado **UE**.
 
 Namespace `compliance`. **Ningún campo se rellena sin documento.** Si falta uno solo, la compuerta mantiene la compra oculta aunque se active el comercio.
 

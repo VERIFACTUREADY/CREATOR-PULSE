@@ -1,5 +1,25 @@
 # 10 · QA del prototipo
 
+## V2.2 · Resultados (14/10/2026, EE. UU., inglés, USD, PREVIEW_COMERCIAL)
+
+| Prueba | Resultado |
+|---|---|
+| Theme Check | 0 errores (9 avisos heredados de Dawn) |
+| `gate-tests.mjs` (compuerta, dos productos, mercados US/UE, marca, país, etiqueta fiscal, escape) | **62/62** |
+| `purchase-routes-tests.mjs` (tarjeta estándar/bulk, quick order list, buy-buttons, featured product, carrito [A]/[A,B]/[B] × 3 estados) | **48/48** · con los archivos V2.1 fallan 9 casos (fallos reproducidos) |
+| Estados (`run-qa.mjs`) | **14/14** (nuevos: LIVE completo con marca sin confirmar → bloqueado; marca sustituida en las 18 rutas) |
+| 18 rutas × 375/390/768/1440 (72 combinaciones) | 0 desbordamientos · 1 H1 · 0 enlaces rotos · 0 errores de consola · 0 objetivos < 44 px |
+| axe WCAG 2.2 AA | 0 violaciones |
+| Primera pantalla · claims EN/ES · mezcla de idiomas · rastreadores | ✅ · 0 · 0 · 0 |
+| Lighthouse móvil (6 páginas) | Rendimiento 91–96 · Accesibilidad 100 · Buenas prácticas 96 · SEO 63 (noindex intencionado) · CLS 0 |
+| `excel_tests.py` | **27/27** (13 de regresión + 14 nuevas: antes/después de captación, sin doble conteo, validación) |
+| `prelaunch-check.mjs` (LIVE local con datos FICTICIOS, marca sin confirmar) | NO APTO (264 incidencias; «marca SIN confirmar» en 16/16 páginas) |
+| `v1-regression.mjs` | La V1 sigue reproduciendo sus fallos |
+
+Capturas: `qa/screenshots/v2.2/`. Sin verificar: todo `V22_INSTALACION_Y_E2E_SHOPIFY.md` (Shopify real).
+
+---
+
 ## V2.1 · Resultados (13/10/2026, EE. UU., inglés, USD, PREVIEW_COMERCIAL)
 
 | Prueba | Resultado |

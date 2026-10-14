@@ -13,19 +13,26 @@ const readJSON = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
 const ctx = { missingTranslations: new Set(), errors: [], formOverride: null };
 const engine = createEngine({ themeDir, locale: readJSON(path.join(themeDir, 'locales/en.default.json')), fallbackLocale: readJSON(path.join(themeDir, 'locales/en.default.json')), ctx });
 
-const GLOBALS = { ds_legal_name: 'X', ds_legal_tax_id: 'X', ds_legal_address: 'X', ds_legal_email: 'x@x', ds_offer_shipping: 'X', ds_offer_returns: 'X', ds_offer_support: 'X', ds_offer_payment: 'X' };
-const COMP = ['manufacturer_legal_name', 'model_reference', 'intended_purpose', 'materials', 'ifu_es', 'warnings_es', 'contraindications_es', 'eu_declaration_ref', 'economic_operator', 'lot_traceability', 'claim_approval_version'];
+const GLOBALS = { ds_legal_name: 'X', ds_legal_tax_id: 'X', ds_legal_address: 'X', ds_legal_email: 'x@x', ds_offer_shipping: 'X', ds_offer_returns: 'X', ds_offer_support: 'X', ds_offer_payment: 'X', ds_brand_confirmed: true, ds_seller_country: 'US' };
+// V2.2: campos por mercado. Valores 'x' = datos de PRUEBA, no documentos reales.
+const SHARED = ['manufacturer_legal_name', 'model_reference', 'materials', 'lot_traceability'];
+const EU = ['intended_purpose', 'ifu_es', 'warnings_es', 'contraindications_es', 'eu_declaration_ref', 'economic_operator', 'claim_approval_version'];
+const US = ['fda_510k_number', 'fda_product_code', 'indications_for_use', 'ifu_en', 'warnings_en', 'contraindications_en', 'us_importer_of_record', 'fda_registration_listing', 'ftc_claims_review', 'human_verification'];
 const COMM = ['short_benefit', 'what_is', 'how_to_steps', 'includes', 'delivery_window'];
-function product(over = {}) {
+const fill = (keys) => Object.fromEntries(keys.map((k) => [k, { value: 'x' }]));
+// Producto A: completo para EE. UU. · Producto B: NO apto (solo documentación europea, sin regulatory_us).
+function product(over = {}, { market = 'us' } = {}) {
   const p = {
-    id: 7, title: 'Producto de prueba', available: true, price: 2990, media: [{ id: 1 }],
-    selected_or_first_available_variant: { id: 70, price: 2990, available: true },
-    metafields: { compliance: Object.fromEntries(COMP.map((k) => [k, { value: 'x' }])), commercial: { ...Object.fromEntries(COMM.map((k) => [k, { value: 'x' }])), price_confirmed: { value: true } } },
+    id: 7, title: 'Producto A (prueba)', handle: 'producto-a', url: '/products/producto-a', available: true, price: 2990, price_min: 2990, price_max: 2990, media: [{ id: 1 }],
+    variants: [{ id: 70, price: 2990, available: true, title: 'Default Title' }], variants_count: 1, has_only_default_variant: true,
+    selected_or_first_available_variant: { id: 70, price: 2990, available: true, title: 'Default Title' },
+    metafields: { compliance: { ...fill(SHARED), ...(market === 'eu' ? fill(EU) : {}) }, regulatory_us: market === 'us' ? fill(US) : {}, commercial: { ...fill(COMM), price_confirmed: { value: true } } },
   };
   return { ...p, ...over };
 }
+const productB = () => product({ id: 8, title: 'Producto B (prueba, no apto)', handle: 'producto-b', url: '/products/producto-b', variants: [{ id: 80, price: 2990, available: true, title: 'Default Title' }], selected_or_first_available_variant: { id: 80, price: 2990, available: true, title: 'Default Title' } }, { market: 'eu' });
 function settings(mode, { confirm = true, globals = true } = {}) {
-  return { ds_store_mode: mode, ds_live_confirmation: confirm ? 'VENTA REAL AUTORIZADA' : '', ds_show_pending: true, ...(globals ? GLOBALS : {}) };
+  return { ds_store_mode: mode, ds_live_confirmation: confirm ? 'VENTA REAL AUTORIZADA' : '', ds_show_pending: true, ds_market: 'us', ...(globals ? GLOBALS : {}) };
 }
 const render = (tpl, s, scope = {}) => engine.parseAndRender(tpl, scope, { globals: { settings: s } }).then((x) => x.trim());
 const ready = (s, p) => render("{% render 'ds-commerce-ready', product: p %}", s, { p });
@@ -42,6 +49,17 @@ check('LIVE sin frase → preview', (await mode(settings('live', { confirm: fals
 check('LIVE con frase en minúsculas → preview', (await mode({ ...settings('live'), ds_live_confirmation: 'venta real autorizada' })) === 'preview', null);
 check('LIVE confirmado pero faltan datos globales → preview', (await mode(settings('live', { globals: false }))) === 'preview', null);
 check('LIVE confirmado y completo → live', (await mode(settings('live'))) === 'live', null);
+// V2.2 (auditoría V2.1 P1): marca provisional y país del vendedor bloquean LIVE
+check('LIVE completo con marca SIN confirmar → preview', (await mode({ ...settings('live'), ds_brand_confirmed: false })) === 'preview', null);
+check('LIVE completo sin país del vendedor → preview', (await mode({ ...settings('live'), ds_seller_country: '' })) === 'preview', null);
+{
+  const bl = await render("{% render 'ds-live-blockers' %}", { ...settings('live'), ds_brand_confirmed: false, ds_seller_country: '' });
+  check('Bloqueos de LIVE nombran la marca y el país del vendedor', /brand confirmation/.test(bl) && /seller country/.test(bl), bl);
+}
+for (const [c, want] of [['US', 'EIN'], ['ES', 'NIF/CIF (Spain)'], ['OTHER', 'Tax ID'], ['', 'Tax ID (seller country pending)']]) {
+  const got = await render("{% render 'ds-tax-label' %}", { ds_seller_country: c });
+  check(`Etiqueta fiscal según país del vendedor «${c || 'vacío'}» → ${want}`, got === want, got);
+}
 
 // --- ds-commerce-ready (C-03) ---
 const LIVE = settings('live');
@@ -58,13 +76,25 @@ check('Producto sin fotos en LIVE → false', (await ready(LIVE, product({ media
   const p = product(); p.metafields.commercial.price_confirmed = { value: false };
   check('Precio no confirmado en LIVE → false', (await ready(LIVE, p)) === 'false', null);
 }
-for (const k of COMP) {
-  const p = product(); delete p.metafields.compliance[k];
-  check(`Falta compliance.${k} → false`, (await ready(LIVE, p)) === 'false', null);
+for (const k of [...SHARED, ...US]) {
+  const p = product(); delete p.metafields.compliance[k]; delete p.metafields.regulatory_us[k];
+  check(`EE. UU.: falta ${k} → false`, (await ready(LIVE, p)) === 'false', null);
 }
 for (const k of COMM) {
   const p = product(); delete p.metafields.commercial[k];
   check(`Falta commercial.${k} → false`, (await ready(LIVE, p)) === 'false', null);
+}
+// --- V2.2 P0-1: los campos europeos NO cuentan como estadounidenses ---
+check('Producto B (solo documentación UE completa) en mercado EE. UU. → false', (await ready(LIVE, productB())) === 'false', null);
+{
+  const m = await render("{% render 'ds-product-missing', product: p %}", LIVE, { p: productB() });
+  check('Producto B: la lista de faltas nombra FDA, instrucciones en inglés y verificación humana', /FDA clearance/.test(m) && /English instructions/.test(m) && /human regulatory verification/.test(m), m);
+}
+check('Producto B en mercado UE (con sus campos UE) → true', (await ready({ ...LIVE, ds_market: 'eu' }, productB())) === 'true', null);
+check('Producto A (solo regulatory_us) en mercado UE → false (tampoco al revés)', (await ready({ ...LIVE, ds_market: 'eu' }, product())) === 'false', null);
+{
+  const p = product(); p.metafields.compliance = { ...p.metafields.compliance, ...fill(EU) }; delete p.metafields.regulatory_us.fda_510k_number;
+  check('A con docs UE completas pero sin 510(k) → false (la UE no sustituye a la FDA)', (await ready(LIVE, p)) === 'false', null);
 }
 
 // --- ds-offer-visible ---

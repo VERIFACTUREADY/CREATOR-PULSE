@@ -13,7 +13,7 @@ Mientras falte un dato, la tienda muestra **⟦PENDING: …⟧** y **LIVE queda 
 6. Variantes y stock reales.
 7. Qué es · cómo se usa (3–5 pasos) · para quién · qué incluye · cuidados y limpieza, en inglés.
 8. Plazo de entrega real a EE. UU. (`commercial.delivery_window`).
-9. **Estado regulatorio en EE. UU.** del modelo exacto. Por ejemplo, número FDA 510(k) y si está autorizado para venta sin receta (OTC). Ver `V21_GO_NO_GO_EEUU.md`.
+9. **Estado regulatorio en EE. UU.** del modelo exacto. Por ejemplo, número FDA 510(k) y si está autorizado para venta sin receta (OTC). Ver `V21_GO_NO_GO_EEUU.md` y, desde V2.2, `V22_FDA_DOCUMENTOS_Y_VALIDACIONES.md` (namespace `regulatory_us`).
 10. Instrucciones de uso, advertencias y contraindicaciones del fabricante **en inglés**. Materiales (para valorar avisos como la Proposition 65 de California).
 
 ## Fotos y vídeo

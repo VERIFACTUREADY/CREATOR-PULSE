@@ -30,6 +30,41 @@
     "detalle": null
   },
   {
+    "prueba": "LIVE completo con marca SIN confirmar → preview",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "LIVE completo sin país del vendedor → preview",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Bloqueos de LIVE nombran la marca y el país del vendedor",
+    "ok": true,
+    "detalle": "brand confirmation (trademark and domain search) · seller country"
+  },
+  {
+    "prueba": "Etiqueta fiscal según país del vendedor «US» → EIN",
+    "ok": true,
+    "detalle": "EIN"
+  },
+  {
+    "prueba": "Etiqueta fiscal según país del vendedor «ES» → NIF/CIF (Spain)",
+    "ok": true,
+    "detalle": "NIF/CIF (Spain)"
+  },
+  {
+    "prueba": "Etiqueta fiscal según país del vendedor «OTHER» → Tax ID",
+    "ok": true,
+    "detalle": "Tax ID"
+  },
+  {
+    "prueba": "Etiqueta fiscal según país del vendedor «vacío» → Tax ID (seller country pending)",
+    "ok": true,
+    "detalle": "Tax ID (seller country pending)"
+  },
+  {
     "prueba": "product = blank (null) en LIVE → false [fallo V1]",
     "ok": true,
     "detalle": "false"
@@ -80,57 +115,72 @@
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.manufacturer_legal_name → false",
+    "prueba": "EE. UU.: falta manufacturer_legal_name → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.model_reference → false",
+    "prueba": "EE. UU.: falta model_reference → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.intended_purpose → false",
+    "prueba": "EE. UU.: falta materials → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.materials → false",
+    "prueba": "EE. UU.: falta lot_traceability → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.ifu_es → false",
+    "prueba": "EE. UU.: falta fda_510k_number → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.warnings_es → false",
+    "prueba": "EE. UU.: falta fda_product_code → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.contraindications_es → false",
+    "prueba": "EE. UU.: falta indications_for_use → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.eu_declaration_ref → false",
+    "prueba": "EE. UU.: falta ifu_en → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.economic_operator → false",
+    "prueba": "EE. UU.: falta warnings_en → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.lot_traceability → false",
+    "prueba": "EE. UU.: falta contraindications_en → false",
     "ok": true,
     "detalle": null
   },
   {
-    "prueba": "Falta compliance.claim_approval_version → false",
+    "prueba": "EE. UU.: falta us_importer_of_record → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "EE. UU.: falta fda_registration_listing → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "EE. UU.: falta ftc_claims_review → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "EE. UU.: falta human_verification → false",
     "ok": true,
     "detalle": null
   },
@@ -156,6 +206,31 @@
   },
   {
     "prueba": "Falta commercial.delivery_window → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Producto B (solo documentación UE completa) en mercado EE. UU. → false",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Producto B: la lista de faltas nombra FDA, instrucciones en inglés y verificación humana",
+    "ok": true,
+    "detalle": "FDA clearance details · English instructions and warnings · US importer and FDA registration · FTC claims review · human regulatory verification record"
+  },
+  {
+    "prueba": "Producto B en mercado UE (con sus campos UE) → true",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "Producto A (solo regulatory_us) en mercado UE → false (tampoco al revés)",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "A con docs UE completas pero sin 510(k) → false (la UE no sustituye a la FDA)",
     "ok": true,
     "detalle": null
   },

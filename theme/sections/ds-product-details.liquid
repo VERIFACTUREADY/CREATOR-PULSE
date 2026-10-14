@@ -7,6 +7,25 @@
   economic_operator, lot_traceability, delivery_window, claim_approval_version.
 {%- endcomment -%}
 {%- assign c = product.metafields.compliance -%}
+{%- comment -%}
+  V2.2: los campos se eligen por MERCADO (ajuste ds_market). En EE. UU. se usan
+  regulatory_us.* y nunca los europeos (ifu_es, eu_declaration_ref…), que se conservan
+  en compliance.* solo por trazabilidad (docs/V22_MIGRACION_METACAMPOS.md).
+{%- endcomment -%}
+{%- liquid
+  assign u = product.metafields.regulatory_us
+  if settings.ds_market == 'eu'
+    assign f_purpose = c.intended_purpose
+    assign f_ifu = c.ifu_es
+    assign f_warn = c.warnings_es
+    assign f_contra = c.contraindications_es
+  else
+    assign f_purpose = u.indications_for_use
+    assign f_ifu = u.ifu_en
+    assign f_warn = u.warnings_en
+    assign f_contra = u.contraindications_en
+  endif
+-%}
 {%- capture ds_mode_d -%}{%- render 'ds-mode' -%}{%- endcapture -%}
 {%- capture missing -%}{%- render 'ds-pending', label: 'manufacturer documentation' -%}{%- endcapture -%}
 <section
@@ -26,8 +45,8 @@
             <dl class="ds-details__fields">
               <dt>{{ 'ds.product.model' | t }}</dt>
               <dd>{% if c.model_reference != blank %}{{ c.model_reference | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
-              <dt>{{ 'ds.product.purpose' | t }}</dt>
-              <dd>{% if c.intended_purpose != blank %}{{ c.intended_purpose | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dt>{% if settings.ds_market == 'eu' %}{{ 'ds.product.purpose_eu' | t }}{% else %}{{ 'ds.product.purpose' | t }}{% endif %}</dt>
+              <dd>{% if f_purpose != blank %}{{ f_purpose | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
               <dt>{{ 'ds.product.manufacturer' | t }}</dt>
               <dd>{% if c.manufacturer_legal_name != blank %}{{ c.manufacturer_legal_name | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
             </dl>
@@ -38,7 +57,7 @@
         <details class="ds-details__item">
           <summary>{{ 'ds.product.how' | t }}</summary>
           <div class="ds-details__body ds-rte">
-            {%- if c.ifu_es != blank -%}{{ c.ifu_es | metafield_tag }}{%- else -%}<p>{{ 'ds.product.ifu_missing' | t }}</p><p>{{ missing }}</p>{%- endif -%}
+            {%- if f_ifu != blank -%}{{ f_ifu | metafield_tag }}{%- else -%}<p>{{ 'ds.product.ifu_missing' | t }}</p><p>{{ missing }}</p>{%- endif -%}
           </div>
         </details>
         {%- endif -%}
@@ -47,9 +66,9 @@
           <div class="ds-details__body ds-rte">
             <dl class="ds-details__fields">
               <dt>{{ 'ds.product.warnings' | t }}</dt>
-              <dd>{% if c.warnings_es != blank %}{{ c.warnings_es | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dd>{% if f_warn != blank %}{{ f_warn | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
               <dt>{{ 'ds.product.contraindications' | t }}</dt>
-              <dd>{% if c.contraindications_es != blank %}{{ c.contraindications_es | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dd>{% if f_contra != blank %}{{ f_contra | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
             </dl>
             {%- comment -%} Advertencias generales E-09 y E-11 (docs/04_CLAIMS_APPROVAL.csv). {%- endcomment -%}
             {%- render 'ds-review-badge', kind: 'sanitaria' -%}
@@ -70,10 +89,21 @@
           <summary>{{ 'ds.product.docs' | t }}</summary>
           <div class="ds-details__body">
             <dl class="ds-details__fields">
+              {%- if settings.ds_market == 'eu' -%}
               <dt>{{ 'ds.product.declaration' | t }}</dt>
               <dd>{% if c.eu_declaration_ref != blank %}{{ c.eu_declaration_ref | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
               <dt>{{ 'ds.product.operator' | t }}</dt>
               <dd>{% if c.economic_operator != blank %}{{ c.economic_operator | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              {%- else -%}
+              <dt>{{ 'ds.product.us_510k' | t }}</dt>
+              <dd>{% if u.fda_510k_number != blank %}{{ u.fda_510k_number | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dt>{{ 'ds.product.us_product_code' | t }}</dt>
+              <dd>{% if u.fda_product_code != blank %}{{ u.fda_product_code | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dt>{{ 'ds.product.us_registration' | t }}</dt>
+              <dd>{% if u.fda_registration_listing != blank %}{{ u.fda_registration_listing | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              <dt>{{ 'ds.product.us_importer' | t }}</dt>
+              <dd>{% if u.us_importer_of_record != blank %}{{ u.us_importer_of_record | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
+              {%- endif -%}
               <dt>{{ 'ds.product.lot' | t }}</dt>
               <dd>{% if c.lot_traceability != blank %}{{ c.lot_traceability | metafield_tag }}{% else %}{{ missing }}{% endif %}</dd>
             </dl>

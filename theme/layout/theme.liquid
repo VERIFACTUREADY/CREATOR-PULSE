@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="js" lang="{{ request.locale.iso_code }}">
+<html class="js" lang="{{ request.locale.iso_code }}" data-ds-brand-confirmed="{{ settings.ds_brand_confirmed }}" data-ds-seller-country="{{ settings.ds_seller_country | default: 'pending' | escape }}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,11 +19,14 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {%- capture ds_brand_raw -%}{%- render 'ds-brand', unescaped: true -%}{%- endcapture -%}
+    {%- assign ds_title = page_title -%}
+    {%- if page_title == blank or page_title == shop.name -%}{%- assign ds_title = ds_brand_raw -%}{%- endif -%}
     <title>
-      {{ page_title }}
+      {{ ds_title | escape }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless ds_title contains ds_brand_raw %} &ndash; {{ ds_brand_raw | escape }}{% endunless -%}
     </title>
 
     {% if page_description %}

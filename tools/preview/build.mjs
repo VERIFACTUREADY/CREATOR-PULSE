@@ -4,6 +4,7 @@
 //  --mode               fuerza el estado de la tienda (por defecto, el de settings_data.json)
 //  --confirm-live       escribe la frase de confirmación de LIVE
 //  --complete-globals   rellena titular y oferta con valores FICTICIOS marcados como tales
+//  --confirm-brand      simula ds_brand_confirmed = true (V2.2; sin ello LIVE queda bloqueado)
 //  --no-pending         simula ds_show_pending = false
 //  --complete-metafields rellena los metacampos compliance.* y commercial.* del producto demo
 //               con valores FICTICIOS marcados como tales (solo para probar la compuerta)
@@ -83,7 +84,12 @@ if (args.includes('--confirm-live')) settings.ds_live_confirmation = 'VENTA REAL
 if (args.includes('--complete-globals')) {
   for (const k of ['ds_legal_name', 'ds_legal_tax_id', 'ds_legal_address', 'ds_legal_email', 'ds_offer_shipping', 'ds_offer_returns', 'ds_offer_support', 'ds_offer_payment'])
     settings[k] = 'VALOR FICTICIO DE PRUEBA';
+  settings.ds_seller_country = 'US'; // V2.2: país del vendedor de PRUEBA (identidad fiscal → EIN)
 }
+// V2.2: la marca solo se da por confirmada con --confirm-brand (simula la búsqueda de marca y dominio concluida)
+if (args.includes('--confirm-brand')) settings.ds_brand_confirmed = true;
+// V2.2: --brand NOMBRE sustituye el ajuste de marca (prueba de coherencia: cabecera, pie, <title>, OG, JSON-LD)
+if (args.includes('--brand')) settings.ds_brand_name = args[args.indexOf('--brand') + 1];
 if (args.includes('--no-pending')) settings.ds_show_pending = false;
 
 // ---- Secciones ----
@@ -159,7 +165,7 @@ async function renderRoute(route) {
     page_description: route.description || null,
     // Shopify inyecta el objeto global `Shopify` mediante content_for_header.
     content_for_header: '<script>window.Shopify = window.Shopify || { designMode: false };</script>',
-    powered_by_link: '<a href="https://www.shopify.com" rel="nofollow" target="_blank">Tecnología de Shopify</a>',
+    powered_by_link: '<a href="https://www.shopify.com" rel="nofollow" target="_blank">Powered by Shopify</a>',
     current_page: 1,
     current_tags: null,
     scheme_classes: '',
@@ -191,13 +197,16 @@ for (const w of ['400', '700']) for (const st of ['normal', 'italic'])
 if (args.includes('--complete-metafields')) {
   // Solo para probar la compuerta. Nada de esto se copia al tema.
   const demo = 'VALOR FICTICIO DE PRUEBA';
-  const comp = ['manufacturer_legal_name', 'model_reference', 'intended_purpose', 'materials', 'ifu_es', 'warnings_es', 'contraindications_es', 'eu_declaration_ref', 'economic_operator', 'lot_traceability', 'claim_approval_version'];
+  // V2.2: mercado EE. UU. → campos compartidos + regulatory_us. Los europeos NO se rellenan (no cuentan en EE. UU.).
+  const comp = ['manufacturer_legal_name', 'model_reference', 'materials', 'lot_traceability'];
+  const regUs = ['fda_510k_number', 'fda_product_code', 'indications_for_use', 'ifu_en', 'warnings_en', 'contraindications_en', 'us_importer_of_record', 'fda_registration_listing', 'ftc_claims_review', 'human_verification'];
   const comm = ['short_benefit', 'what_is', 'how_to_steps', 'includes', 'for_whom', 'features', 'care', 'delivery_window'];
   fs.mkdirSync(path.join(outDir, 'test-media'), { recursive: true });
   fs.writeFileSync(path.join(outDir, 'test-media/ficticia.svg'), '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><rect width="800" height="800" fill="#ccc"/><text x="400" y="400" font-size="40" text-anchor="middle" font-family="sans-serif">IMAGEN FICTICIA DE PRUEBA</text></svg>');
   const img = { src: '/test-media/ficticia.svg', width: 800, height: 800, aspect_ratio: 1, alt: 'Imagen ficticia de prueba', id: 901 };
   for (const r of fixture.pages) if (r.product) {
     r.product.metafields.compliance = Object.fromEntries(comp.map((k) => [k, { value: demo }]));
+    r.product.metafields.regulatory_us = Object.fromEntries(regUs.map((k) => [k, { value: demo }]));
     r.product.metafields.commercial = Object.fromEntries(comm.map((k) => [k, { value: demo }]));
     r.product.metafields.commercial.price_confirmed = { value: true };
     r.product.price = 2990;

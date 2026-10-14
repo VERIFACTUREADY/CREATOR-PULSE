@@ -1,8 +1,12 @@
+{%- capture ds_brand_raw -%}{%- render 'ds-brand', unescaped: true -%}{%- endcapture -%}
 {%- liquid
-  assign og_title = page_title | default: shop.name
+  assign og_title = page_title | default: ds_brand_raw
+  if og_title == shop.name
+    assign og_title = ds_brand_raw
+  endif
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name
+  assign og_description = page_description | default: shop.description | default: ds_brand_raw
 
   if request.page_type == 'product'
     assign og_type = 'product'
@@ -13,7 +17,7 @@
   endif
 %}
 
-<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:site_name" content="{{ ds_brand_raw | escape }}">
 <meta property="og:url" content="{{ og_url }}">
 <meta property="og:title" content="{{ og_title | escape }}">
 <meta property="og:type" content="{{ og_type }}">

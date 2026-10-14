@@ -10,7 +10,7 @@
 |---|---|---|
 | PROTOTIPO | Web informativa, sin oferta | No (no existe formulario de pedido) |
 | **PREVIEW_COMERCIAL** (entregado) | Tienda de venta completa: hero de producto, ficha, landings, envío y devoluciones. Lo que falta aparece como ⟦PENDING⟧ | No (CTA desactivada, sin `/cart/add`) |
-| LIVE | Tienda operativa | Solo con la frase `VENTA REAL AUTORIZADA`, los datos del titular y la oferta, y la ficha completa. Si falta algo, vuelve a PREVIEW con un aviso rojo |
+| LIVE | Tienda operativa | Solo con la frase `VENTA REAL AUTORIZADA`, marca confirmada, país del vendedor, los datos del titular y la oferta, y la ficha completa (en EE. UU., con los datos `regulatory_us`). Si falta algo, vuelve a PREVIEW con un aviso rojo |
 
 ## Oferta: fuentes de verdad
 
@@ -20,7 +20,7 @@
 | Beneficio aprobado | `commercial.short_benefit` | Hero, ficha |
 | Qué es / cómo se usa / para quién / qué incluye / cuidados | `commercial.*` | Ficha, portada |
 | Envío, devoluciones, atención, pago | Ajustes del tema › Oferta (en inglés) | Hero, ficha, FAQ (`[[ENVIO]]`…), Shipping, Returns |
-| Marca | Ajustes del tema › Nombre de marca (o nombre de la tienda) | Cabecera, pie, avisos |
+| Marca | Ajustes del tema › Nombre de marca (o nombre de la tienda) | Cabecera, pie, `<title>`, OpenGraph, JSON-LD, contraseña, avisos |
 | Plazo de entrega | `commercial.delivery_window` | Ficha, puntos de oferta |
 | Titular | Ajustes del tema › Identidad | Pie, aviso legal |
 
@@ -49,4 +49,4 @@ El ZIP de `dist/` se genera siempre desde el commit en el que se versiona. No ha
 
 ## Antes de LIVE
 
-`docs/V21_GO_NO_GO_EEUU.md` y `docs/V21_DATOS_NECESARIOS.md`. Hoja: `docs/05_ECONOMIA_UNITARIA.xlsx` (USD).
+`docs/V21_GO_NO_GO_EEUU.md`, `docs/V21_DATOS_NECESARIOS.md`, `docs/V22_FDA_DOCUMENTOS_Y_VALIDACIONES.md` y `docs/V22_INSTALACION_Y_E2E_SHOPIFY.md`. Hoja: `docs/05_ECONOMIA_UNITARIA.xlsx` (USD).

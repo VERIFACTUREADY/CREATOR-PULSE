@@ -26,11 +26,11 @@
     ]
   },
   "/pages/landing-snoring": {
-    "performance": 93,
+    "performance": 96,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "3.0 s",
+    "LCP": "2.4 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -52,11 +52,11 @@
     ]
   },
   "/pages/faq": {
-    "performance": 93,
+    "performance": 96,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "3.0 s",
+    "LCP": "2.4 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -65,11 +65,11 @@
     ]
   },
   "/pages/contact": {
-    "performance": 93,
+    "performance": 96,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "3.0 s",
+    "LCP": "2.4 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [

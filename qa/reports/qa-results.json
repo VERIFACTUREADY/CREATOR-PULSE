@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-13T21:20:15.904Z",
+  "date": "2026-10-14T00:44:48.527Z",
   "routes": {
     "/": {
       "375": {
@@ -950,7 +950,9 @@
     "PREVIEW: aviso «Vista previa comercial» y noindex en todas las páginas": true,
     "LIVE sin frase de confirmación: sin compra y aviso de bloqueo": true,
     "LIVE confirmado con ficha incompleta: sin compra": true,
-    "LIVE confirmado y completo: compra, JSON-LD y carrito en la ficha": true
+    "LIVE completo pero marca SIN confirmar: sin compra y aviso de bloqueo (V2.2)": true,
+    "LIVE confirmado y completo: compra, JSON-LD y carrito en la ficha": true,
+    "Marca: cabecera, pie, <title>, og:site_name y JSON-LD usan el ajuste de marca en todas las rutas (V2.2)": true
   },
   "claims": {
     "forbiddenPatterns": 18,
@@ -1056,6 +1058,7 @@
     "spanishLeakPages": 0,
     "trackerHits": 0
   },
+  "brand": [],
   "placeholdersByState": {
     "prototipo": {
       "/": 3,
@@ -1065,15 +1068,15 @@
       "/pages/faq": 3,
       "/pages/about": 4,
       "/pages/contact": 5,
-      "/pages/shipping": 18,
-      "/pages/returns": 15,
-      "/pages/privacy": 15,
+      "/pages/shipping": 19,
+      "/pages/returns": 16,
+      "/pages/privacy": 17,
       "/pages/terms": 9,
-      "/pages/company-information": 12,
+      "/pages/company-information": 13,
       "/pages/accessibility": 5,
       "/pages/landing-snoring": 3,
       "/pages/landing-partners": 3,
-      "/products/adjustable-mouthpiece": 20,
+      "/products/adjustable-mouthpiece": 22,
       "/cart": 3,
       "/404": 3
     },
@@ -1085,15 +1088,15 @@
       "/pages/faq": 6,
       "/pages/about": 4,
       "/pages/contact": 5,
-      "/pages/shipping": 22,
-      "/pages/returns": 19,
-      "/pages/privacy": 15,
+      "/pages/shipping": 23,
+      "/pages/returns": 20,
+      "/pages/privacy": 17,
       "/pages/terms": 9,
-      "/pages/company-information": 12,
+      "/pages/company-information": 13,
       "/pages/accessibility": 5,
       "/pages/landing-snoring": 16,
       "/pages/landing-partners": 16,
-      "/products/adjustable-mouthpiece": 28,
+      "/products/adjustable-mouthpiece": 30,
       "/cart": 3,
       "/404": 3
     },
@@ -1102,7 +1105,7 @@
       "/pages/contact": 1,
       "/pages/shipping": 11,
       "/pages/returns": 8,
-      "/pages/privacy": 8,
+      "/pages/privacy": 9,
       "/pages/terms": 6,
       "/pages/company-information": 5,
       "/pages/accessibility": 2
@@ -1113,20 +1116,30 @@
       "/pages/contact": 1,
       "/pages/shipping": 11,
       "/pages/returns": 8,
-      "/pages/privacy": 8,
+      "/pages/privacy": 9,
       "/pages/terms": 6,
       "/pages/company-information": 5,
       "/pages/accessibility": 2,
       "/pages/landing-snoring": 6,
       "/pages/landing-partners": 6,
-      "/products/adjustable-mouthpiece": 17
+      "/products/adjustable-mouthpiece": 19
     },
     "liveComplete": {
       "/pages/about": 1,
       "/pages/contact": 1,
       "/pages/shipping": 11,
       "/pages/returns": 8,
-      "/pages/privacy": 8,
+      "/pages/privacy": 9,
+      "/pages/terms": 6,
+      "/pages/company-information": 5,
+      "/pages/accessibility": 2
+    },
+    "liveNoBrand": {
+      "/pages/about": 1,
+      "/pages/contact": 1,
+      "/pages/shipping": 11,
+      "/pages/returns": 8,
+      "/pages/privacy": 9,
       "/pages/terms": 6,
       "/pages/company-information": 5,
       "/pages/accessibility": 2

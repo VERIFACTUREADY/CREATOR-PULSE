@@ -1,0 +1,242 @@
+[
+  {
+    "prueba": "[live] card-product quick_add=standard · producto A → con compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] card-product quick_add=bulk · producto A → con compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] quick-order-list · producto A → con formulario",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] buy-buttons (ficha / featured-product) · producto A → con /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] featured-product (sección) · producto A → con /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] card-product quick_add=standard · producto B → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] card-product quick_add=bulk · producto B → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] quick-order-list · producto B → SIN formulario",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] buy-buttons (ficha / featured-product) · producto B → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] featured-product (sección) · producto B → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] /cart con [A] → checkout visible",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] ds-cart-ready [A] → true",
+    "ok": true,
+    "detalle": "true"
+  },
+  {
+    "prueba": "[live] /cart con [A, B] → checkout OCULTO",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] ds-cart-ready [A, B] → false",
+    "ok": true,
+    "detalle": "false"
+  },
+  {
+    "prueba": "[live] /cart con [B] → checkout OCULTO",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[live] ds-cart-ready [B] → false",
+    "ok": true,
+    "detalle": "false"
+  },
+  {
+    "prueba": "[preview_comercial] card-product quick_add=standard · producto A → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] card-product quick_add=bulk · producto A → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] quick-order-list · producto A → SIN formulario",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] buy-buttons (ficha / featured-product) · producto A → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] featured-product (sección) · producto A → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] card-product quick_add=standard · producto B → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] card-product quick_add=bulk · producto B → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] quick-order-list · producto B → SIN formulario",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] buy-buttons (ficha / featured-product) · producto B → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] featured-product (sección) · producto B → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] /cart con [A] → checkout OCULTO",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] ds-cart-ready [A] → false",
+    "ok": true,
+    "detalle": "false"
+  },
+  {
+    "prueba": "[preview_comercial] /cart con [A, B] → checkout OCULTO",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] ds-cart-ready [A, B] → false",
+    "ok": true,
+    "detalle": "false"
+  },
+  {
+    "prueba": "[preview_comercial] /cart con [B] → checkout OCULTO",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[preview_comercial] ds-cart-ready [B] → false",
+    "ok": true,
+    "detalle": "false"
+  },
+  {
+    "prueba": "[prototipo] card-product quick_add=standard · producto A → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] card-product quick_add=bulk · producto A → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] quick-order-list · producto A → SIN formulario",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] buy-buttons (ficha / featured-product) · producto A → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] featured-product (sección) · producto A → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] card-product quick_add=standard · producto B → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] card-product quick_add=bulk · producto B → SIN compra",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] quick-order-list · producto B → SIN formulario",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] buy-buttons (ficha / featured-product) · producto B → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] featured-product (sección) · producto B → SIN /cart/add",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] /cart con [A] → checkout OCULTO",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] ds-cart-ready [A] → false",
+    "ok": true,
+    "detalle": "false"
+  },
+  {
+    "prueba": "[prototipo] /cart con [A, B] → checkout OCULTO",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] ds-cart-ready [A, B] → false",
+    "ok": true,
+    "detalle": "false"
+  },
+  {
+    "prueba": "[prototipo] /cart con [B] → checkout OCULTO",
+    "ok": true,
+    "detalle": null
+  },
+  {
+    "prueba": "[prototipo] ds-cart-ready [B] → false",
+    "ok": true,
+    "detalle": "false"
+  }
+]

@@ -35,6 +35,9 @@ const RULES = [
   [/ds-proto-banner/g, 'aviso de prototipo / preview / bloqueo'],
   [/translation missing/g, 'traducción ausente'],
   [/\[Descripción comercial|\[Product description/g, 'descripción pendiente'],
+  // V2.2 (auditoría V2.1 P1): marca provisional y país del vendedor sin confirmar bloquean LIVE.
+  [/data-ds-brand-confirmed="false"/g, 'marca SIN confirmar (búsqueda de marca y dominio pendiente)'],
+  [/data-ds-seller-country="pending"/g, 'país del vendedor sin confirmar (identidad fiscal)'],
 ];
 const report = { base, date: new Date().toISOString(), pages: {}, blocking: 0, warnings: [] };
 for (const r of routes) {

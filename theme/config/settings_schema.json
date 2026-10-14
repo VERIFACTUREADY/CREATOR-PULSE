@@ -63,6 +63,23 @@
         "info": "Escribe exactamente VENTA REAL AUTORIZADA. Sin esta frase, LIVE se comporta como PREVIEW_COMERCIAL."
       },
       {
+        "type": "select",
+        "id": "ds_market",
+        "label": "Mercado regulatorio de la tienda",
+        "default": "us",
+        "options": [
+          {
+            "value": "us",
+            "label": "Estados Unidos (metacampos regulatory_us.*)"
+          },
+          {
+            "value": "eu",
+            "label": "Unión Europea / España (metacampos compliance.* UE)"
+          }
+        ],
+        "info": "Decide qué documentación exige la compuerta. Los campos de un mercado NUNCA sirven para el otro."
+      },
+      {
         "type": "header",
         "content": "Oferta (fuente única de verdad)"
       },
@@ -128,6 +145,31 @@
         "content": "Si un campo está vacío, la web muestra un marcador «[Pendiente: …]». No inventar datos."
       },
       {
+        "type": "select",
+        "id": "ds_seller_country",
+        "label": "País donde está registrada la empresa vendedora",
+        "default": "",
+        "options": [
+          {
+            "value": "",
+            "label": "Pendiente de confirmar"
+          },
+          {
+            "value": "US",
+            "label": "Estados Unidos (EIN)"
+          },
+          {
+            "value": "ES",
+            "label": "España (NIF/CIF)"
+          },
+          {
+            "value": "OTHER",
+            "label": "Otro país (identificador fiscal local)"
+          }
+        ],
+        "info": "Determina la etiqueta del identificador fiscal. No se deduce del mercado de venta."
+      },
+      {
         "type": "text",
         "id": "ds_legal_name",
         "label": "Razón social o nombre del titular"
@@ -135,7 +177,7 @@
       {
         "type": "text",
         "id": "ds_legal_tax_id",
-        "label": "NIF / CIF"
+        "label": "Identificador fiscal (EIN, NIF/CIF u otro según el país)"
       },
       {
         "type": "text",

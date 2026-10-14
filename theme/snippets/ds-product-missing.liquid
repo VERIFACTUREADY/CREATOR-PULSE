@@ -1,6 +1,13 @@
 {% comment %}
   Lista (« · ») de datos que le faltan a un producto para poder venderse.
-  Si product está vacío imprime «producto» (denegar por defecto).
+  Denegar por defecto: sin producto imprime «product».
+
+  V2.2 (auditoría V2.1, P0): la documentación depende del MERCADO (ajuste ds_market).
+  - us (por defecto): exige regulatory_us.* + datos compartidos. Los campos europeos
+    (compliance.ifu_es, eu_declaration_ref, economic_operator…) NO cuentan.
+  - eu: exige los campos europeos de compliance.*.
+  Que un campo esté relleno solo indica que existe el dato; la verificación es humana
+  (registro regulatory_us.human_verification y docs/V22_FDA_DOCUMENTOS_Y_VALIDACIONES.md).
   Accepts: product
 {% endcomment %}
 {%- liquid
@@ -8,38 +15,57 @@
   if product == blank
     assign out = 'product · '
   else
-  assign c = product.metafields.compliance
-  assign k = product.metafields.commercial
-  if k.price_confirmed.value != true
-    assign out = out | append: 'confirmed price · '
-  endif
-  if product.media.size == 0
-    assign out = out | append: 'real photos · '
-  endif
-  if k.short_benefit == blank
-    assign out = out | append: 'approved benefit · '
-  endif
-  if k.what_is == blank
-    assign out = out | append: 'what it is · '
-  endif
-  if k.how_to_steps == blank
-    assign out = out | append: 'how to use · '
-  endif
-  if k.includes == blank
-    assign out = out | append: 'what’s included · '
-  endif
-  if k.delivery_window == blank
-    assign out = out | append: 'delivery time · '
-  endif
-  if c.manufacturer_legal_name == blank or c.model_reference == blank or c.intended_purpose == blank or c.materials == blank
-    assign out = out | append: 'technical details · '
-  endif
-  if c.ifu_es == blank or c.warnings_es == blank or c.contraindications_es == blank
-    assign out = out | append: 'instructions and warnings · '
-  endif
-  if c.eu_declaration_ref == blank or c.economic_operator == blank or c.lot_traceability == blank or c.claim_approval_version == blank
-    assign out = out | append: 'documentation · '
-  endif
+    assign c = product.metafields.compliance
+    assign k = product.metafields.commercial
+    assign u = product.metafields.regulatory_us
+    if k.price_confirmed.value != true
+      assign out = out | append: 'confirmed price · '
+    endif
+    if product.media.size == 0
+      assign out = out | append: 'real photos · '
+    endif
+    if k.short_benefit == blank
+      assign out = out | append: 'approved benefit · '
+    endif
+    if k.what_is == blank
+      assign out = out | append: 'what it is · '
+    endif
+    if k.how_to_steps == blank
+      assign out = out | append: 'how to use · '
+    endif
+    if k.includes == blank
+      assign out = out | append: 'what’s included · '
+    endif
+    if k.delivery_window == blank
+      assign out = out | append: 'delivery time · '
+    endif
+    if c.manufacturer_legal_name == blank or c.model_reference == blank or c.materials == blank or c.lot_traceability == blank
+      assign out = out | append: 'technical details · '
+    endif
+    if settings.ds_market == 'eu'
+      if c.intended_purpose == blank or c.ifu_es == blank or c.warnings_es == blank or c.contraindications_es == blank
+        assign out = out | append: 'EU instructions and warnings · '
+      endif
+      if c.eu_declaration_ref == blank or c.economic_operator == blank or c.claim_approval_version == blank
+        assign out = out | append: 'EU documentation · '
+      endif
+    else
+      if u.fda_510k_number == blank or u.fda_product_code == blank or u.indications_for_use == blank
+        assign out = out | append: 'FDA clearance details · '
+      endif
+      if u.ifu_en == blank or u.warnings_en == blank or u.contraindications_en == blank
+        assign out = out | append: 'English instructions and warnings · '
+      endif
+      if u.us_importer_of_record == blank or u.fda_registration_listing == blank
+        assign out = out | append: 'US importer and FDA registration · '
+      endif
+      if u.ftc_claims_review == blank
+        assign out = out | append: 'FTC claims review · '
+      endif
+      if u.human_verification == blank
+        assign out = out | append: 'human regulatory verification record · '
+      endif
+    endif
   endif
   echo out | remove_last: ' · '
 -%}

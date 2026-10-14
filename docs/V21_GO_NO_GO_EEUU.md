@@ -1,5 +1,7 @@
 # V2.1 · GO / NO-GO para el mercado de EE. UU.
 
+> **V2.2:** documentos y validaciones humanas que faltan para EE. UU. en `V22_FDA_DOCUMENTOS_Y_VALIDACIONES.md` (ninguno disponible: **NO-GO**). La marca y el país del vendedor sin confirmar también bloquean LIVE.
+
 **Estado: 🔴 NO-GO para LIVE.** El tema queda en PREVIEW_COMERCIAL, sin publicar.
 
 > **Por qué este documento:** el titular dio por cerrada la verificación sanitaria **para España/UE**. Al cambiar el mercado principal a EE. UU. cambia el marco aplicable (FDA y FTC en lugar de MDR y AEMPS). No se reabre el análisis europeo. Este documento solo enumera lo que **EE. UU.** exige y que todavía no consta en el proyecto.

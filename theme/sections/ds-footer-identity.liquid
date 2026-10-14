@@ -6,7 +6,8 @@
     <p>
       <strong>{{ 'ds.footer.seller' | t }}:</strong>
       {% render 'ds-legal-value', value: settings.ds_legal_name, label: 'legal business name' %} ·
-      {{ 'ds.legal.tax_id' | t }} {% render 'ds-legal-value', value: settings.ds_legal_tax_id, label: 'EIN / tax ID' %} ·
+      {%- capture ds_tax_label -%}{%- render 'ds-tax-label' -%}{%- endcapture -%}
+      {{ ds_tax_label }} {% render 'ds-legal-value', value: settings.ds_legal_tax_id, label: ds_tax_label %} ·
       {% render 'ds-legal-value', value: settings.ds_legal_address, label: 'business address' %}
     </p>
     {%- if section.settings.text != blank -%}<div class="ds-rte">{{ section.settings.text }}</div>{%- endif -%}

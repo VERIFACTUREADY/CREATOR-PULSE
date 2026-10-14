@@ -43,11 +43,14 @@
         >
           {{- 'general.cart.view_empty_cart' | t -}}
         </a>
+        {%- capture ds_cart_ok -%}{%- render 'ds-cart-ready' -%}{%- endcapture -%}
+        {%- if ds_cart_ok == 'true' -%}
         <form action="{{ routes.cart_url }}" method="post" id="cart-notification-form">
           <button class="button button--primary button--full-width" name="checkout">
             {{ 'sections.cart.checkout' | t }}
           </button>
         </form>
+        {%- endif -%}
         <button type="button" class="link button-label">{{ 'general.continue_shopping' | t }}</button>
       </div>
     </div>

@@ -84,5 +84,104 @@
       101.5,
       "INSUFICIENTE"
     ]
+  },
+  {
+    "prueba": "Panel V2.2: ANTES = pedidos × contribución; captación = anuncios + contenido; DESPUÉS = ANTES − captación; CAC = captación / pedidos",
+    "ok": true,
+    "detalle": {
+      "antes": 130.2029,
+      "captacion": 90,
+      "despues": 40.2029,
+      "cac": 9
+    }
+  },
+  {
+    "prueba": "Contenido +100 $ en el panel: ANTES igual y DESPUÉS baja exactamente 100 $ (sin doble conteo)",
+    "ok": true,
+    "detalle": 100.0
+  },
+  {
+    "prueba": "Comisión por venta 2 $ (fila 11): ANTES baja 20 $ con 10 pedidos y la captación no cambia",
+    "ok": true,
+    "detalle": 20.0
+  },
+  {
+    "prueba": "Validación: coste negativo (−1 $ en producto) → «DATOS NO VÁLIDOS» y sin contribución",
+    "ok": true,
+    "detalle": [
+      "DATOS NO VÁLIDOS",
+      "DATOS NO VÁLIDOS"
+    ]
+  },
+  {
+    "prueba": "Validación: tasa de devolución 500 % → «DATOS NO VÁLIDOS» y sin contribución",
+    "ok": true,
+    "detalle": [
+      "DATOS NO VÁLIDOS",
+      "DATOS NO VÁLIDOS"
+    ]
+  },
+  {
+    "prueba": "Validación: texto en una celda numérica («ocho») → «DATOS NO VÁLIDOS» y sin contribución",
+    "ok": true,
+    "detalle": [
+      "DATOS NO VÁLIDOS",
+      "DATOS NO VÁLIDOS"
+    ]
+  },
+  {
+    "prueba": "Validación: comisión supuesta 290 % (2,9 en lugar de 0,029) → «DATOS NO VÁLIDOS» y sin contribución",
+    "ok": true,
+    "detalle": [
+      "DATOS NO VÁLIDOS",
+      "DATOS NO VÁLIDOS"
+    ]
+  },
+  {
+    "prueba": "Validación: días hasta cobrar negativos → «DATOS NO VÁLIDOS» y sin contribución",
+    "ok": true,
+    "detalle": [
+      "DATOS NO VÁLIDOS",
+      "DATOS NO VÁLIDOS"
+    ]
+  },
+  {
+    "prueba": "Validación: precio de prueba negativo → «DATOS NO VÁLIDOS» solo en esa fila",
+    "ok": true,
+    "detalle": [
+      8.16529,
+      "DATOS NO VÁLIDOS"
+    ]
+  },
+  {
+    "prueba": "Validación: embudo incoherente (ATC 500 > vistas 400) → fila «DATOS NO VÁLIDOS»",
+    "ok": true,
+    "detalle": [
+      "DATOS NO VÁLIDOS",
+      "DATOS NO VÁLIDOS"
+    ]
+  },
+  {
+    "prueba": "Validación: pedidos negativos → fila «DATOS NO VÁLIDOS»",
+    "ok": true,
+    "detalle": [
+      "DATOS NO VÁLIDOS",
+      "DATOS NO VÁLIDOS"
+    ]
+  },
+  {
+    "prueba": "Validación: precio actual negativo en el panel → contribución «DATOS NO VÁLIDOS»",
+    "ok": true,
+    "detalle": "DATOS NO VÁLIDOS"
+  },
+  {
+    "prueba": "Panel con datos válidos → fila «OK»",
+    "ok": true,
+    "detalle": "OK"
+  },
+  {
+    "prueba": "Reglas de validación de datos en las celdas editables (Excel/LibreOffice)",
+    "ok": true,
+    "detalle": "ok"
   }
 ]

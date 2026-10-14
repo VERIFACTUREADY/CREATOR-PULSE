@@ -46,12 +46,15 @@ function serve(root, port) {
 const results = { date: new Date().toISOString(), routes: {}, gate: {}, claims: {}, tracking: {}, keyboard: {}, summary: {} };
 
 // ---------- 1. Compilar los estados de la tienda ----------
-const OUT = Object.fromEntries(['prototipo', 'preview', 'liveNoConfirm', 'liveIncomplete', 'liveComplete'].map((k) => [k, path.join(tmp, k)]));
+const OUT = Object.fromEntries(['prototipo', 'preview', 'liveNoConfirm', 'liveIncomplete', 'liveComplete', 'liveNoBrand'].map((k) => [k, path.join(tmp, k)]));
 const routes = build(OUT.preview, ['--mode', 'preview_comercial']);
 build(OUT.prototipo, ['--mode', 'prototipo']);
 build(OUT.liveNoConfirm, ['--mode', 'live', '--complete-globals', '--complete-metafields']);
 build(OUT.liveIncomplete, ['--mode', 'live', '--confirm-live', '--complete-globals']);
-build(OUT.liveComplete, ['--mode', 'live', '--confirm-live', '--complete-globals', '--complete-metafields']);
+build(OUT.liveComplete, ['--mode', 'live', '--confirm-live', '--complete-globals', '--complete-metafields', '--confirm-brand']);
+build(OUT.liveNoBrand, ['--mode', 'live', '--confirm-live', '--complete-globals', '--complete-metafields']);
+const OUT_BRAND = path.join(tmp, 'brandSwap');
+build(OUT_BRAND, ['--mode', 'preview_comercial', '--brand', 'TESTBRAND Q']);
 const outDefault = OUT.preview;
 
 // ---------- 2. Compuerta de venta (análisis estático del HTML) ----------
@@ -79,6 +82,7 @@ function gateFacts(root) {
   }
   return facts;
 }
+const visibleTextAll = (html) => html.replace(/<style[\s\S]*?<\/style>/g, ' ');
 const any = (facts, k) => Object.values(facts).some((f) => f[k]);
 const all = (facts, k) => Object.values(facts).every((f) => f[k]);
 const F = Object.fromEntries(Object.entries(OUT).map(([k, d]) => [k, gateFacts(d)]));
@@ -94,8 +98,30 @@ results.gate = {
   'PREVIEW: aviso «Vista previa comercial» y noindex en todas las páginas': all(F.preview, 'previewBanner') && all(F.preview, 'noindex'),
   'LIVE sin frase de confirmación: sin compra y aviso de bloqueo': !any(F.liveNoConfirm, 'cartAddForm') && all(F.liveNoConfirm, 'blockedBanner'),
   'LIVE confirmado con ficha incompleta: sin compra': !any(F.liveIncomplete, 'cartAddForm'),
+  'LIVE completo pero marca SIN confirmar: sin compra y aviso de bloqueo (V2.2)': !any(F.liveNoBrand, 'cartAddForm') && all(F.liveNoBrand, 'blockedBanner'),
   'LIVE confirmado y completo: compra, JSON-LD y carrito en la ficha': F.liveComplete[PRODUCT].cartAddForm && F.liveComplete[PRODUCT].productJsonLd && F.liveComplete[PRODUCT].cartIcon,
 };
+// V2.2 · Coherencia de marca: con otra marca en el ajuste, TODAS las superficies cambian y no queda la anterior.
+{
+  const brandFails = [];
+  for (const r of routes) {
+    const html = fs.readFileSync(path.join(OUT_BRAND, r === '/' ? 'index.html' : r + '/index.html'), 'utf8');
+    const title = (html.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '';
+    const checks = {
+      title: /TESTBRAND Q/.test(title),
+      og_site_name: /<meta property="og:site_name" content="TESTBRAND Q">/.test(html),
+      jsonld_org: /"@type": "Organization",\s*"name": "TESTBRAND Q"/.test(html),
+      header: /class="header__heading[\s\S]{0,800}TESTBRAND Q/.test(html),
+      footer: /class="copyright__content"[\s\S]{0,200}TESTBRAND Q/.test(html),
+      sin_marca_anterior: !/VINCIRENA/.test(visibleTextAll(html)),
+    };
+    if (r === '/') checks.jsonld_website = /"@type": "WebSite",\s*"name": "TESTBRAND Q"/.test(html);
+    const bad = Object.entries(checks).filter(([, v]) => !v).map(([k]) => k);
+    if (bad.length) brandFails.push({ route: r, bad });
+  }
+  results.brand = brandFails;
+  results.gate['Marca: cabecera, pie, <title>, og:site_name y JSON-LD usan el ajuste de marca en todas las rutas (V2.2)'] = brandFails.length === 0;
+}
 results.placeholdersByState = Object.fromEntries(Object.entries(F).map(([k, f]) => [k, Object.fromEntries(Object.entries(f).filter(([, v]) => v.placeholders).map(([r, v]) => [r, v.placeholders]))]));
 
 // ---------- 3. Claims prohibidos y rastreadores ----------

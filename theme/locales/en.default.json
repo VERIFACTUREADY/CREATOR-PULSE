@@ -576,7 +576,19 @@
       "tax_id": "EIN / Tax ID",
       "address": "Address",
       "email": "Email",
-      "registry": "State of formation / registration"
+      "registry": "State of formation / registration",
+      "tax_us": "EIN",
+      "tax_es": "NIF/CIF (Spain)",
+      "tax_other": "Tax ID",
+      "tax_pending": "Tax ID (seller country pending)",
+      "registry_us": "State of formation",
+      "registry_es": "Commercial registry (Spain)",
+      "registry_other": "Company registration",
+      "registry_pending": "Registration (seller country pending)",
+      "country": "Country of registration",
+      "country_US": "United States",
+      "country_ES": "Spain",
+      "country_OTHER": "Other (specify in address)"
     },
     "contact": {
       "health_title": "Please don't include health information",
@@ -594,7 +606,7 @@
     "product": {
       "what": "What it is and its intended use",
       "model": "Exact model",
-      "purpose": "Manufacturer's intended use",
+      "purpose": "Indications for use (as stated in the FDA clearance)",
       "manufacturer": "Manufacturer",
       "how": "How to use it",
       "ifu_missing": "Instructions for use, fitting and cleaning must come from the manufacturer, in English. We don't have them yet, so we don't publish them.",
@@ -605,14 +617,19 @@
       "general_2": "If you feel pain in your jaw, teeth or ear, stop using the device and talk to a healthcare provider or dentist.",
       "materials": "Materials and cleaning",
       "docs": "Manufacturer and documentation",
-      "declaration": "Regulatory reference (for example, FDA 510(k) number)",
-      "operator": "US importer / distributor of record",
+      "declaration": "EU declaration of conformity (EU market only)",
+      "operator": "EU economic operator (EU market only)",
       "lot": "Batch traceability",
       "shipping": "Shipping and returns",
       "delivery": "Delivery time",
       "shipping_link": "Shipping conditions",
       "returns_link": "Returns and warranty",
-      "photo_pending": "Real product photo pending"
+      "photo_pending": "Real product photo pending",
+      "us_510k": "FDA 510(k) number",
+      "us_product_code": "FDA product code",
+      "us_registration": "FDA establishment registration and device listing",
+      "us_importer": "US importer of record",
+      "purpose_eu": "Manufacturer's intended purpose (EU)"
     },
     "footer": {
       "seller": "Seller"

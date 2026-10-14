@@ -52,7 +52,7 @@
     "severity": "warning",
     "check": "UndefinedObject",
     "file": "layout/theme.liquid",
-    "line": 86,
+    "line": 89,
     "message": "Unknown object 'scheme_classes' used."
   },
   {

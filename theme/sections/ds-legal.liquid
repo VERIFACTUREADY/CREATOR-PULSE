@@ -26,14 +26,25 @@
           <dl>
             <dt>{{ 'ds.legal.name' | t }}</dt>
             <dd>{%- render 'ds-legal-value', value: settings.ds_legal_name, label: 'legal business name' -%}</dd>
-            <dt>{{ 'ds.legal.tax_id' | t }}</dt>
-            <dd>{%- render 'ds-legal-value', value: settings.ds_legal_tax_id, label: 'EIN / tax ID' -%}</dd>
+            {%- capture ds_tax_label -%}{%- render 'ds-tax-label' -%}{%- endcapture -%}
+            <dt>{{ 'ds.legal.country' | t }}</dt>
+            <dd>
+              {%- case settings.ds_seller_country -%}
+                {%- when 'US' -%}{{ 'ds.legal.country_US' | t }}
+                {%- when 'ES' -%}{{ 'ds.legal.country_ES' | t }}
+                {%- when 'OTHER' -%}{{ 'ds.legal.country_OTHER' | t }}
+                {%- else -%}{%- render 'ds-pending', label: 'seller country' -%}
+              {%- endcase -%}
+            </dd>
+            <dt>{{ ds_tax_label }}</dt>
+            <dd>{%- render 'ds-legal-value', value: settings.ds_legal_tax_id, label: ds_tax_label -%}</dd>
             <dt>{{ 'ds.legal.address' | t }}</dt>
             <dd>{%- render 'ds-legal-value', value: settings.ds_legal_address, label: 'business address' -%}</dd>
             <dt>{{ 'ds.legal.email' | t }}</dt>
             <dd>{%- render 'ds-legal-value', value: settings.ds_legal_email, label: 'contact email' -%}</dd>
-            <dt>{{ 'ds.legal.registry' | t }}</dt>
-            <dd>{%- render 'ds-legal-value', value: settings.ds_legal_registry, label: 'state of formation / registration' -%}</dd>
+            {%- capture ds_reg_label -%}{%- render 'ds-tax-label', kind: 'registry' -%}{%- endcapture -%}
+            <dt>{{ ds_reg_label }}</dt>
+            <dd>{%- render 'ds-legal-value', value: settings.ds_legal_registry, label: ds_reg_label -%}</dd>
           </dl>
         </div>
       {%- endif -%}

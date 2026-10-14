@@ -20,11 +20,14 @@
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
 {% endcomment %}
-{%- capture ds_mode -%}{%- render 'ds-mode' -%}{%- endcapture -%}
-{%- comment -%} Compuerta: sin «añadir rápido» mientras la venta no esté autorizada. {%- endcomment -%}
-{%- unless ds_mode == 'live' -%}
+{%- comment -%}
+  Compuerta POR PRODUCTO (V2.2, auditoría V2.1 P0): el «añadir rápido» (estándar o bulk)
+  solo existe si ESTE producto es apto (ds-commerce-ready), no solo si la tienda está en LIVE.
+{%- endcomment -%}
+{%- capture ds_card_ready -%}{%- render 'ds-commerce-ready', product: card_product -%}{%- endcapture -%}
+{%- if ds_card_ready != 'true' -%}
   {%- assign quick_add = 'none' -%}
-{%- endunless -%}
+{%- endif -%}
 {%- unless skip_styles -%}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}

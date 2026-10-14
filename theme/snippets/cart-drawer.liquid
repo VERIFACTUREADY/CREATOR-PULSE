@@ -574,6 +574,10 @@
 
         <!-- CTAs -->
 
+        {%- capture ds_cart_ok -%}{%- render 'ds-cart-ready' -%}{%- endcapture -%}
+        {%- if ds_cart_ok != 'true' -%}
+          <div class="cart__ctas">{%- render 'ds-product-gate' -%}</div>
+        {%- else -%}
         <div class="cart__ctas" {{ block.shopify_attributes }}>
           <button
             type="submit"
@@ -588,6 +592,7 @@
             {{ 'sections.cart.checkout' | t }}
           </button>
         </div>
+        {%- endif -%}
       </div>
     </div>
   </div>

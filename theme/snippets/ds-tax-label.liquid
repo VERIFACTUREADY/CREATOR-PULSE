@@ -1,0 +1,19 @@
+{% comment %}
+  V2.2 · Etiqueta fiscal según el país REAL del vendedor (ajuste ds_seller_country).
+  US → EIN · ES → NIF/CIF · OTHER → Tax ID · vacío → pendiente (bloquea LIVE en ds-live-blockers).
+  Accepts: kind: 'tax' (por defecto) o 'registry'.
+{% endcomment %}
+{%- liquid
+  assign k = kind | default: 'tax'
+  case settings.ds_seller_country
+    when 'US'
+      assign key = 'ds.legal.' | append: k | append: '_us'
+    when 'ES'
+      assign key = 'ds.legal.' | append: k | append: '_es'
+    when 'OTHER'
+      assign key = 'ds.legal.' | append: k | append: '_other'
+    else
+      assign key = 'ds.legal.' | append: k | append: '_pending'
+  endcase
+  echo key | t
+-%}

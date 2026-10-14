@@ -2,5 +2,14 @@
   Nombre de marca (fuente única). Ajuste del tema «Nombre de marca» o, si está
   vacío, el nombre de la tienda en Shopify (Configuración › Detalles de la tienda).
   Cambiar la marca = cambiar ese ajuste o el nombre de la tienda; ningún texto la repite.
+  V2.2: lo usan cabecera, pie, <title>, OpenGraph, JSON-LD y la página de contraseña.
+  Parámetro opcional unescaped: true → sin escapar (para aplicar | json o | escape en el llamador).
 {% endcomment %}
-{{- settings.ds_brand_name | default: shop.name | escape -}}
+{%- liquid
+  assign ds_b = settings.ds_brand_name | strip | default: shop.name
+  if unescaped
+    echo ds_b
+  else
+    echo ds_b | escape
+  endif
+-%}

@@ -1,83 +1,99 @@
 {
   "base": "http://localhost:4197",
-  "date": "2026-10-13T21:23:00.514Z",
+  "date": "2026-10-14T00:47:29.206Z",
   "pages": {
     "/": {
       "valor ficticio de prueba": 16,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/how-it-works": {
       "valor ficticio de prueba": 3,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/the-product": {
       "valor ficticio de prueba": 3,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/use-and-safety": {
       "valor ficticio de prueba": 3,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/faq": {
       "valor ficticio de prueba": 6,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/about": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 1,
       "valor ficticio de prueba": 3,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/contact": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 1,
       "valor ficticio de prueba": 5,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/shipping": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 11,
       "valor ficticio de prueba": 11,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/returns": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 8,
       "valor ficticio de prueba": 11,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/privacy": {
-      "marcador ⟦PENDIENTE⟧ / hueco de foto": 8,
+      "marcador ⟦PENDIENTE⟧ / hueco de foto": 9,
       "valor ficticio de prueba": 7,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/terms": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 6,
       "valor ficticio de prueba": 3,
+      "aviso de prototipo / preview / bloqueo": 4,
       "descripción pendiente": 1,
-      "noindex activo (se esperaba indexable)": 1
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/company-information": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 5,
       "valor ficticio de prueba": 7,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/accessibility": {
       "marcador ⟦PENDIENTE⟧ / hueco de foto": 2,
       "valor ficticio de prueba": 3,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/landing-snoring": {
       "valor ficticio de prueba": 14,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/pages/landing-partners": {
       "valor ficticio de prueba": 14,
-      "noindex activo (se esperaba indexable)": 1
+      "aviso de prototipo / preview / bloqueo": 4,
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     },
     "/products/adjustable-mouthpiece": {
-      "valor ficticio de prueba": 28,
+      "valor ficticio de prueba": 30,
+      "aviso de prototipo / preview / bloqueo": 4,
       "descripción pendiente": 1,
-      "noindex activo (se esperaba indexable)": 1
+      "marca SIN confirmar (búsqueda de marca y dominio pendiente)": 1
     }
   },
-  "blocking": 197,
+  "blocking": 264,
   "warnings": [
     "/: noindex activo",
     "/pages/how-it-works: noindex activo",

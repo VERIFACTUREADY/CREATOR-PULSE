@@ -108,7 +108,8 @@
               </div>
             {%- else -%}
               {%- comment -%} Prototipo: sin checkout hasta el GO (docs/03_GO_NO_GO.md). {%- endcomment -%}
-              {%- unless ds_mode == 'live' -%}
+              {%- capture ds_cart_ok -%}{%- render 'ds-cart-ready' -%}{%- endcapture -%}
+              {%- unless ds_cart_ok == 'true' -%}
                 <div class="cart__ctas" {{ block.shopify_attributes }}>{%- render 'ds-product-gate' -%}</div>
               {%- else -%}
               <div class="cart__ctas" {{ block.shopify_attributes }}>

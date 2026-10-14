@@ -4,11 +4,17 @@
 {% endcomment %}
 {%- liquid
   assign out = ''
+  unless settings.ds_brand_confirmed
+    assign out = out | append: 'brand confirmation (trademark and domain search) · '
+  endunless
+  if settings.ds_seller_country == blank
+    assign out = out | append: 'seller country · '
+  endif
   if settings.ds_legal_name == blank
     assign out = out | append: 'legal business name · '
   endif
   if settings.ds_legal_tax_id == blank
-    assign out = out | append: 'EIN · '
+    assign out = out | append: 'tax ID · '
   endif
   if settings.ds_legal_address == blank
     assign out = out | append: 'business address · '

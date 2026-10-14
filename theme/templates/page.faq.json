@@ -222,7 +222,7 @@
           "type": "question",
           "settings": {
             "question": "Do you use advertising cookies?",
-            "answer": "<p>No. Right now we don't use advertising or analytics cookies. If that ever changes, we'll update our Privacy Policy and give you a way to opt out.</p>",
+            "answer": "<p>We haven't installed advertising pixels or advertising cookies (for example, from Meta, Google Ads or TikTok). Shopify, the platform that runs this store, uses cookies the store needs to work and its built-in analytics, which record events such as page views. Our Privacy Policy explains this. If we ever add advertising tools, we'll update the policy first and give you a way to opt out.</p>",
             "link_label": "Privacy Policy",
             "link": "/pages/privacy",
             "visible_in": "all"

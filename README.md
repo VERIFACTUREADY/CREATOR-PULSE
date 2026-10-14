@@ -1,6 +1,8 @@
 # VINCIRENA (marca provisional) · Tienda Shopify para EE. UU. sobre Dawn
 
-> 🟡 **ESTADO V2.1 (13/10/2026): mercado principal EE. UU. · tienda en inglés y USD · PREVIEW_COMERCIAL · tema SIN PUBLICAR · compra DESACTIVADA · LIVE NO autorizado.** Empieza por **`docs/V21_CHANGELOG.md`**, **`docs/V21_DATOS_NECESARIOS.md`**, **`docs/V21_GO_NO_GO_EEUU.md`** y **`docs/QA_REPRODUCIR.md`**. Marca: VINCIRENA es un nombre de trabajo, sustituible en un ajuste.
+> 🟡 **ESTADO V2.2 (14/10/2026): PREVIEW_COMERCIAL · noindex · tema SIN PUBLICAR · compra DESACTIVADA · NO-GO para LIVE.** Correcciones focalizadas de la auditoría V2.1: empieza por **`docs/V22_CHANGELOG.md`**, **`docs/V22_FDA_DOCUMENTOS_Y_VALIDACIONES.md`** (la revisión europea **no** equivale a autorización FDA), **`docs/V22_MIGRACION_METACAMPOS.md`** y **`docs/V22_INSTALACION_Y_E2E_SHOPIFY.md`**. VINCIRENA sigue provisional hasta una búsqueda de marca y dominio concluyente.
+>
+> Historial V2.1 (13/10/2026): mercado principal EE. UU. · tienda en inglés y USD · PREVIEW_COMERCIAL · tema SIN PUBLICAR · compra DESACTIVADA · LIVE NO autorizado.** Empieza por **`docs/V21_CHANGELOG.md`**, **`docs/V21_DATOS_NECESARIOS.md`**, **`docs/V21_GO_NO_GO_EEUU.md`** y **`docs/QA_REPRODUCIR.md`**. Marca: VINCIRENA es un nombre de trabajo, sustituible en un ajuste.
 >
 > Historial V2 (España): PREVIEW_COMERCIAL · tema SIN PUBLICAR · compra DESACTIVADA.** La tienda ya se ve como tienda de venta (portada comercial, ficha, landings), pero la compra solo funcionará en LIVE, que exige orden expresa del titular, la frase de confirmación y todos los datos reales. Lo que falta aparece como ⟦PENDIENTE⟧. Ver **`docs/V2_CHANGELOG.md`**, **`docs/V2_PENDIENTES_Y_DATOS.md`** y **`README_COMERCIAL.md`**.
 >
@@ -20,6 +22,11 @@ Nombre de marca **provisional**, pendiente de búsqueda en OEPM/EUIPO (DP-12).
 | `qa/screenshots/` | 62 capturas (15 rutas × 375/390/768/1440, menú móvil y foco de teclado) |
 | `qa/reports/` | Resultados de QA en JSON, Theme Check e informes HTML de Lighthouse |
 | `tools/` | Previsualizador local (liquidjs) y scripts de QA. Todo gratuito y sin credenciales |
+
+## Novedades V2.2 (auditoría V2.1)
+
+- **P0:** campos regulatorios de EE. UU. separados (`regulatory_us.*`, ajuste *Mercado regulatorio*); los europeos se conservan y no cuentan. Compuerta **por producto** en tarjetas (añadir rápido estándar/bulk), *quick order list* y carrito (`ds-cart-ready`). Pruebas con dos productos (A completo, B no apto).
+- **P1:** marca única en cabecera, pie, `<title>`, OpenGraph y JSON-LD; marca y país del vendedor bloquean LIVE y `prelaunch-check`; etiqueta fiscal según país; privacidad coherente con la analítica integrada de Shopify; hoja con contribución antes/después de captación, sin doble conteo y con validación de entradas.
 
 ## Novedades V2.1 (EE. UU.)
 

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const dir = path.join(repo, 'qa/screenshots/v2.1'); fs.mkdirSync(dir, { recursive: true });
 const tmp = path.join(repo, 'preview-out-shots');
-const states = { prototipo: ['--mode', 'prototipo'], preview: ['--mode', 'preview_comercial'], liveBloqueado: ['--mode', 'live'], liveCompletoFicticio: ['--mode', 'live', '--confirm-live', '--complete-globals', '--complete-metafields'] };
+const states = { prototipo: ['--mode', 'prototipo'], preview: ['--mode', 'preview_comercial'], liveBloqueado: ['--mode', 'live'], liveCompletoFicticio: ['--mode', 'live', '--confirm-live', '--confirm-brand', '--complete-globals', '--complete-metafields'] };
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
 let port = 4300;
 async function shots(state, list) {

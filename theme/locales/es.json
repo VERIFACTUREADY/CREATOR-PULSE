@@ -588,7 +588,19 @@
       "tax_id": "NIF/CIF",
       "address": "Domicilio",
       "email": "Email",
-      "registry": "Datos registrales"
+      "registry": "Datos registrales",
+      "tax_us": "EIN",
+      "tax_es": "NIF/CIF",
+      "tax_other": "Identificación fiscal",
+      "tax_pending": "Identificación fiscal (país del vendedor pendiente)",
+      "registry_us": "Estado de constitución",
+      "registry_es": "Registro Mercantil",
+      "registry_other": "Registro de la empresa",
+      "registry_pending": "Registro (país del vendedor pendiente)",
+      "country": "País de registro",
+      "country_US": "Estados Unidos",
+      "country_ES": "España",
+      "country_OTHER": "Otro (indicado en el domicilio)"
     },
     "contact": {
       "health_title": "No escribas datos de salud",
@@ -624,7 +636,12 @@
       "delivery": "Plazo de entrega",
       "shipping_link": "Condiciones de envío",
       "returns_link": "Devoluciones y garantía",
-      "photo_pending": "Fotografía real del producto pendiente"
+      "photo_pending": "Fotografía real del producto pendiente",
+      "us_510k": "Número FDA 510(k)",
+      "us_product_code": "Código de producto FDA",
+      "us_registration": "Registro del establecimiento y listado del dispositivo (FDA)",
+      "us_importer": "Importador de registro en EE. UU.",
+      "purpose_eu": "Finalidad prevista por el fabricante (UE)"
     },
     "footer": {
       "seller": "Quién vende"

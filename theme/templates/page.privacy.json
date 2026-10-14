@@ -55,8 +55,8 @@
         "legal_5": {
           "type": "clause",
           "settings": {
-            "heading": "Cookies",
-            "text": "<p>Shopify uses cookies needed for the store to work. We don't use advertising or analytics cookies today. [Final cookie list after the store is set up]</p>",
+            "heading": "Cookies and analytics",
+            "text": "<p>This store runs on Shopify. Shopify sets <strong>cookies the store needs to work</strong> (for example, to keep your cart, remember your cookie choice and protect the site), and it provides <strong>built-in analytics</strong>: this website sends Shopify standard events such as page views, product and collection views, searches and cart updates, so we can see how the store is used. Where the law requires consent, analytics cookies are only used if you accept them in the cookie banner. [Confirm the Customer privacy settings in Shopify, including the cookie banner regions and Global Privacy Control]</p><p>We haven't installed advertising pixels or third-party analytics or marketing apps. [Final cookie list, taken from the live store and Shopify's cookie documentation after setup]</p>",
             "visible_in": "all"
           }
         },
