@@ -79,7 +79,7 @@
         <div class="grid__item product__media-wrapper">
           {%- if product.media.size == 0 -%}
             {%- comment -%} Sin fotos reales con derechos: se dice, no se simula (auditoría V2, C-06). {%- endcomment -%}
-            {%- render 'ds-photo-placeholder' -%}
+            {%- render 'ds-gallery-slots' -%}
           {%- else -%}
             {% render 'product-media-gallery', variant_images: variant_images %}
           {%- endif -%}
@@ -103,6 +103,10 @@
                       {%- render 'ds-pending', label: 'approved product benefit' -%}
                     {%- endif -%}
                   </p>
+                {%- when 'ds_highlights' -%}
+                  {%- render 'ds-highlights', product: product, block: block -%}
+                {%- when 'ds_offer_table' -%}
+                  {%- render 'ds-offer-table', product: product, block: block -%}
                 {%- when 'ds_offer_points' -%}
                   <div {{ block.shopify_attributes }}>{%- render 'ds-offer-points', product: product, compact: true -%}</div>
                 {%- when 'ds_prototype_label' -%}
@@ -803,6 +807,34 @@
         {
           "type": "paragraph",
           "content": "Muestra el metacampo commercial.short_benefit (texto aprobado por el titular). Si falta, marcador ⟦PENDIENTE⟧."
+        }
+      ]
+    },
+    {
+      "type": "ds_highlights",
+      "name": "DS · Características resumidas",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "V3. Muestra commercial.features junto a la compra. Si falta, ⟦PENDING⟧."
+        }
+      ]
+    },
+    {
+      "type": "ds_offer_table",
+      "name": "DS · Opciones de la oferta",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "V3. Compara variantes reales (unidad, pack, kit). Sin variantes reales solo indica si hay cargos recurrentes. No inventar packs ni descuentos."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Título de la tabla",
+          "default": "Compare options"
         }
       ]
     },

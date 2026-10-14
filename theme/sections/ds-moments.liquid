@@ -1,0 +1,113 @@
+{%- comment -%}
+  V3 · «El problema cotidiano»: momentos de la noche contados con empatía, sin
+  culpables ni afirmaciones médicas. Bloques editables; fuente opcional para el
+  dato educativo (US-E-01).
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
+<section
+  class="ds-moments ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  aria-labelledby="DsMoments-{{ section.id }}"
+>
+  <div class="page-width">
+    {%- capture head_id -%}DsMoments-{{ section.id }}{%- endcapture -%}
+    {%- render 'ds-section-head',
+      id: head_id,
+      eyebrow: section.settings.eyebrow,
+      heading: section.settings.heading,
+      intro: section.settings.intro,
+      center: section.settings.center,
+      review: section.settings.review
+    -%}
+    <ol class="ds-moments__list" role="list">
+      {%- for block in section.blocks -%}
+        <li class="ds-moments__item" {{ block.shopify_attributes }}>
+          <span class="ds-moments__icon" aria-hidden="true">{%- render 'ds-icon', name: block.settings.icon -%}</span>
+          <p class="ds-moments__label">{{ block.settings.label | escape }}</p>
+          <p class="ds-moments__text">{{ block.settings.text | escape }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+    {%- if section.settings.footnote != blank -%}
+      <div class="ds-moments__foot ds-rte">{{ section.settings.footnote }}</div>
+    {%- endif -%}
+    {%- if section.settings.source_label != blank -%}
+      <span class="ds-source">
+        {{- 'ds.sources.label' | t }}:
+        <a href="{{ section.settings.source_url }}" rel="noopener" target="_blank">{{ section.settings.source_label | escape }}<span class="visually-hidden"> ({{ 'accessibility.link_messages.new_window' | t }})</span></a>
+      </span>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Momentos (problema)",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "comercial",
+      "options": [
+        { "value": "all", "label": "Todos los estados" },
+        { "value": "prototipo", "label": "Solo PROTOTIPO" },
+        { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" }
+      ]
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "text", "id": "anchor", "label": "Ancla" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Snoring rarely keeps just one person awake." },
+    { "type": "richtext", "id": "intro", "label": "Entradilla" },
+    { "type": "checkbox", "id": "center", "label": "Centrar cabecera", "default": false },
+    { "type": "richtext", "id": "footnote", "label": "Nota final" },
+    { "type": "text", "id": "source_label", "label": "Fuente (texto)" },
+    { "type": "url", "id": "source_url", "label": "Fuente (enlace)" },
+    {
+      "type": "select",
+      "id": "review",
+      "label": "Etiqueta de revisión (solo PROTOTIPO)",
+      "default": "",
+      "options": [
+        { "value": "", "label": "Ninguna" },
+        { "value": "sanitaria", "label": "Sanitaria" },
+        { "value": "titular", "label": "Titular" }
+      ]
+    },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "moment",
+      "name": "Momento",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "default": "moon",
+          "options": [
+            { "value": "moon", "label": "Luna" },
+            { "value": "pillows", "label": "Almohadas" },
+            { "value": "clock", "label": "Reloj" },
+            { "value": "pause", "label": "Pausa" },
+            { "value": "chat", "label": "Conversación" },
+            { "value": "person", "label": "Persona" }
+          ]
+        },
+        { "type": "text", "id": "label", "label": "Momento", "default": "Lights out" },
+        { "type": "textarea", "id": "text", "label": "Texto (1–2 frases)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "DS · Momentos (problema)" }]
+}
+{% endschema %}

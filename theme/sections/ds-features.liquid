@@ -1,0 +1,144 @@
+{%- comment -%}
+  V3 · Características destacadas (3–5 tarjetas). El texto de cada tarjeta sale de un
+  metacampo del producto (ficha aprobada / documentación del fabricante). Si falta,
+  ⟦PENDING⟧: nunca se rellena con propiedades de otras marcas ni con suposiciones.
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
+{%- liquid
+  assign p = section.settings.product
+  if p == blank
+    assign p = product
+  endif
+-%}
+<section
+  class="ds-features ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  aria-labelledby="DsFeat-{{ section.id }}"
+>
+  <div class="page-width">
+    {%- capture head_id -%}DsFeat-{{ section.id }}{%- endcapture -%}
+    {%- render 'ds-section-head', id: head_id, eyebrow: section.settings.eyebrow, heading: section.settings.heading, intro: section.settings.intro, center: section.settings.center -%}
+    <ul class="ds-features__grid" role="list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign v = nil
+          assign label = ''
+          case block.settings.source
+            when 'features'
+              assign v = p.metafields.commercial.features
+              assign label = 'features (approved product sheet)'
+            when 'materials'
+              assign v = p.metafields.compliance.materials
+              assign label = 'materials (manufacturer documentation)'
+            when 'care'
+              assign v = p.metafields.commercial.care
+              assign label = 'care and cleaning (approved product sheet)'
+            when 'includes'
+              assign v = p.metafields.commercial.includes
+              assign label = 'what’s included (approved product sheet)'
+            when 'for_whom'
+              assign v = p.metafields.commercial.for_whom
+              assign label = 'who it’s for (approved product sheet)'
+            when 'delivery'
+              assign v = p.metafields.commercial.delivery_window
+              assign label = 'confirmed delivery time'
+          endcase
+        -%}
+        <li class="ds-feature" {{ block.shopify_attributes }}>
+          <span class="ds-feature__icon" aria-hidden="true">{%- render 'ds-icon', name: block.settings.icon -%}</span>
+          <h3 class="ds-feature__title">{{ block.settings.title | escape }}</h3>
+          <div class="ds-feature__text ds-rte">
+            {%- if block.settings.source == 'custom' -%}
+              {{ block.settings.text }}
+            {%- elsif v != blank -%}
+              {{ v | metafield_tag }}
+            {%- else -%}
+              <p>{%- render 'ds-pending', label: label -%}</p>
+            {%- endif -%}
+          </div>
+          {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+            <a class="ds-link-arrow ds-feature__link" href="{{ block.settings.link }}">{{ block.settings.link_label | escape }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Características",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "comercial",
+      "options": [
+        { "value": "all", "label": "Todos los estados" },
+        { "value": "prototipo", "label": "Solo PROTOTIPO" },
+        { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" }
+      ]
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-5" },
+    { "type": "text", "id": "anchor", "label": "Ancla" },
+    { "type": "product", "id": "product", "label": "Producto", "info": "En la ficha se usa el producto actual." },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "The details that matter" },
+    { "type": "richtext", "id": "intro", "label": "Entradilla" },
+    { "type": "checkbox", "id": "center", "label": "Centrar cabecera", "default": false },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Característica",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "default": "check",
+          "options": [
+            { "value": "check", "label": "Check" },
+            { "value": "steps", "label": "Ajuste" },
+            { "value": "doc", "label": "Documento" },
+            { "value": "book", "label": "Libro" },
+            { "value": "moon", "label": "Luna" },
+            { "value": "truck", "label": "Envío" },
+            { "value": "person", "label": "Persona" },
+            { "value": "pillows", "label": "Almohadas" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Título" },
+        {
+          "type": "select",
+          "id": "source",
+          "label": "Texto desde",
+          "default": "features",
+          "options": [
+            { "value": "features", "label": "commercial.features" },
+            { "value": "materials", "label": "compliance.materials" },
+            { "value": "care", "label": "commercial.care" },
+            { "value": "includes", "label": "commercial.includes" },
+            { "value": "for_whom", "label": "commercial.for_whom" },
+            { "value": "delivery", "label": "commercial.delivery_window" },
+            { "value": "custom", "label": "Texto propio (solo con evidencia)" }
+          ]
+        },
+        { "type": "richtext", "id": "text", "label": "Texto propio", "info": "Solo con «Texto propio». Una característica verificable, con su evidencia registrada." },
+        { "type": "text", "id": "link_label", "label": "Enlace (texto)" },
+        { "type": "url", "id": "link", "label": "Enlace (destino)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "DS · Características" }]
+}
+{% endschema %}

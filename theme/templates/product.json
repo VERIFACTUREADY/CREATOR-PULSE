@@ -1,5 +1,5 @@
 /*
- * Product page V2.1: offer visible in PREVIEW_COMERCIAL; purchase only in LIVE with complete data (ds-commerce-ready).
+ * Product page V3: offer visible in PREVIEW_COMERCIAL; purchase only in LIVE with complete data (ds-commerce-ready).
  */
 {
   "sections": {
@@ -10,15 +10,15 @@
         "color_scheme": "scheme-1",
         "media_position": "left",
         "gallery_layout": "thumbnail_slider",
-        "media_size": "large",
+        "media_size": "medium",
         "constrain_to_viewport": true,
         "media_fit": "contain",
         "image_zoom": "lightbox",
         "mobile_thumbnails": "show",
         "hide_variants": true,
         "enable_video_looping": false,
-        "padding_top": 40,
-        "padding_bottom": 24
+        "padding_top": 32,
+        "padding_bottom": 48
       },
       "blocks": {
         "main_1": {
@@ -58,10 +58,20 @@
           }
         },
         "main_8": {
-          "type": "ds_offer_points",
+          "type": "ds_highlights",
           "settings": {}
         },
         "main_9": {
+          "type": "ds_offer_table",
+          "settings": {
+            "heading": "Compare options"
+          }
+        },
+        "main_10": {
+          "type": "ds_offer_points",
+          "settings": {}
+        },
+        "main_11": {
           "type": "description",
           "settings": {}
         }
@@ -75,7 +85,75 @@
         "main_6",
         "main_7",
         "main_8",
-        "main_9"
+        "main_9",
+        "main_10",
+        "main_11"
+      ]
+    },
+    "mech": {
+      "type": "ds-mechanism",
+      "settings": {
+        "visible_in": "comercial",
+        "product": "adjustable-mouthpiece",
+        "color_scheme": "scheme-2",
+        "anchor": "how-to-use",
+        "eyebrow": "How it works",
+        "heading": "How to use it, step by step",
+        "intro": "<p>Mouthpieces of this kind are called mandibular advancement devices. Here is the general idea, in three steps.</p>",
+        "steps_source": "metafield",
+        "show_diagram": true,
+        "mechanism_verified": false,
+        "caution": "<p><strong>Before you use one:</strong> an oral device doesn't replace a diagnosis or treatment from a healthcare provider. Check with your dentist first if you have braces, dentures, implants or jaw-joint problems. If you feel pain in your jaw, teeth or ear, stop and talk to a provider.</p>",
+        "source_label": "AASM/AADSM clinical practice guideline (2015)",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4481062/",
+        "link_label": "Read use & safety",
+        "link": "/pages/use-and-safety",
+        "review": "sanitaria"
+      },
+      "blocks": {},
+      "block_order": []
+    },
+    "features": {
+      "type": "ds-features",
+      "settings": {
+        "visible_in": "comercial",
+        "product": "adjustable-mouthpiece",
+        "color_scheme": "scheme-5",
+        "anchor": "features",
+        "eyebrow": "The details",
+        "heading": "The details",
+        "intro": "<p>Each card shows information from the product's approved documentation. Where something is still missing, we say so.</p>"
+      },
+      "blocks": {
+        "features_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "title": "Fit & adjustment",
+            "source": "features"
+          }
+        },
+        "features_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "doc",
+            "title": "Materials",
+            "source": "materials"
+          }
+        },
+        "features_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "Delivery time",
+            "source": "delivery"
+          }
+        }
+      },
+      "block_order": [
+        "features_1",
+        "features_2",
+        "features_3"
       ]
     },
     "what": {
@@ -87,23 +165,14 @@
         "anchor": "what-it-is"
       }
     },
-    "how": {
-      "type": "ds-product-module",
-      "settings": {
-        "visible_in": "comercial",
-        "module": "how_to_steps",
-        "heading": "How to use it, step by step",
-        "anchor": "how-to-use",
-        "color_scheme": "scheme-2"
-      }
-    },
     "forwhom": {
       "type": "ds-product-module",
       "settings": {
         "visible_in": "comercial",
         "module": "for_whom",
         "heading": "Who it's for",
-        "anchor": "who-its-for"
+        "anchor": "who-its-for",
+        "color_scheme": "scheme-5"
       }
     },
     "includes": {
@@ -112,8 +181,7 @@
         "visible_in": "comercial",
         "module": "includes",
         "heading": "What's included",
-        "anchor": "whats-included",
-        "color_scheme": "scheme-5"
+        "anchor": "whats-included"
       }
     },
     "care": {
@@ -122,7 +190,8 @@
         "visible_in": "comercial",
         "module": "care",
         "heading": "Care and cleaning",
-        "anchor": "care"
+        "anchor": "care",
+        "color_scheme": "scheme-5"
       }
     },
     "details": {
@@ -142,6 +211,36 @@
         "faq_1": {
           "type": "question",
           "settings": {
+            "question": "How do I adjust it?",
+            "answer": "<p>Fitting and adjusting depend on the exact model. We show the manufacturer's steps on the product page. Follow them closely.</p>",
+            "link_label": "How to use it",
+            "link": "/products/adjustable-mouthpiece#how-to-use",
+            "visible_in": "comercial"
+          }
+        },
+        "faq_2": {
+          "type": "question",
+          "settings": {
+            "question": "How do I clean it?",
+            "answer": "<p>Cleaning steps come from the manufacturer's instructions. You'll find them under “Care and cleaning” on the product page.</p>",
+            "link_label": "Care and cleaning",
+            "link": "/products/adjustable-mouthpiece#care",
+            "visible_in": "comercial"
+          }
+        },
+        "faq_3": {
+          "type": "question",
+          "settings": {
+            "question": "What if it feels uncomfortable?",
+            "answer": "<p>If you feel pain in your jaw, teeth or ear, stop using it and talk to a healthcare provider or your dentist. Our return policy explains what you can send back.</p>",
+            "link_label": "Use & safety",
+            "link": "/pages/use-and-safety",
+            "visible_in": "comercial"
+          }
+        },
+        "faq_4": {
+          "type": "question",
+          "settings": {
             "question": "How much is shipping and how long does it take?",
             "answer": "<p>[[ENVIO]]</p>",
             "link_label": "Shipping policy",
@@ -149,7 +248,7 @@
             "visible_in": "comercial"
           }
         },
-        "faq_2": {
+        "faq_5": {
           "type": "question",
           "settings": {
             "question": "Can I return it?",
@@ -159,7 +258,7 @@
             "visible_in": "comercial"
           }
         },
-        "faq_3": {
+        "faq_6": {
           "type": "question",
           "settings": {
             "question": "Is it right for me?",
@@ -169,7 +268,7 @@
             "visible_in": "comercial"
           }
         },
-        "faq_4": {
+        "faq_7": {
           "type": "question",
           "settings": {
             "question": "Is snoring the same as sleep apnea?",
@@ -179,7 +278,7 @@
             "visible_in": "all"
           }
         },
-        "faq_5": {
+        "faq_8": {
           "type": "question",
           "settings": {
             "question": "Which payment methods do you accept?",
@@ -189,7 +288,7 @@
             "visible_in": "comercial"
           }
         },
-        "faq_6": {
+        "faq_9": {
           "type": "question",
           "settings": {
             "question": "How can I contact you?",
@@ -206,7 +305,10 @@
         "faq_3",
         "faq_4",
         "faq_5",
-        "faq_6"
+        "faq_6",
+        "faq_7",
+        "faq_8",
+        "faq_9"
       ]
     },
     "help": {
@@ -227,8 +329,9 @@
   },
   "order": [
     "main",
+    "mech",
+    "features",
     "what",
-    "how",
     "forwhom",
     "includes",
     "care",

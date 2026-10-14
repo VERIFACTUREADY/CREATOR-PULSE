@@ -666,7 +666,9 @@
     },
     "photo": {
       "title": "FOTO PENDIENTE · NO PUBLICABLE",
-      "default": "Fotografía real del producto, con derechos de uso"
+      "default": "Fotografía real del producto, con derechos de uso",
+      "needed": "Fotos que faltan",
+      "short": "Foto pendiente"
     },
     "offer": {
       "shipping": "Envío:",
@@ -674,6 +676,18 @@
       "support": "Atención:",
       "payment": "Pago:",
       "conditions": "Ver condiciones"
+    },
+    "v3": {
+      "trust_shipping": "Detalles de envío",
+      "trust_returns": "Política de devoluciones",
+      "trust_contact": "¿Dudas? Escríbenos",
+      "all_features": "Ver todas las características",
+      "offer_option": "Opción",
+      "offer_total": "Total",
+      "offer_unit": "Por unidad",
+      "offer_saving": "Ahorras",
+      "one_time": "Compra única. Sin suscripción ni cargos recurrentes.",
+      "has_plans": "Hay opciones de suscripción. Los cargos y cómo cancelar se muestran antes de pagar."
     }
   }
 }

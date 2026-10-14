@@ -2,3 +2,9 @@ id,fecha_inicio,fecha_fin,cambio_unico,hipotesis,metrica,muestra,condicion_previ
 EX-01,,,Texto simple vs técnico en «Cómo funciona»,El lenguaje claro facilita la comprensión,Aciertos en test de tareas (5 personas),,Prototipo sin ventas,,,Estudio §17.2
 EX-02,,,Orden de FAQ con «seguridad» primero,Ver seguridad antes reduce confusión,Tiempo hasta localizar advertencias,,Prototipo,,,
 EX-03,,,Hero ilustración vs esquema explicativo,La emoción aumenta interés cualificado,Clic a explicación + feedback,,Prototipo,,,Solo fotos con licencia
+V3-A,,,Hero emocional (V3) vs. centrado en producto,Una primera pantalla de producto cambia el CTR del hero y la CR,CTR hero→ficha; CR,,Beneficio aprobado y foto real,,,docs/V3_SEO_ANALITICA_AB.md §4
+V3-B,,,1 unidad vs. 1 unidad + pack de 2 (variante real),Un pack sube el AOV sin bajar la CR,AOV; contribución por pedido,,"Precio, COGS y pack reales",,,docs/V3_SEO_ANALITICA_AB.md §4
+V3-C,,,CTA tradicional vs. barra fija móvil,La barra fija mejora el add to cart,Add to cart por vista de ficha,,LIVE autorizado; prueba de accesibilidad,,,docs/V3_SEO_ANALITICA_AB.md §4
+V3-D,,,How it works tras «Meet the mouthpiece» vs. tras el hero,La posición cambia la comprensión y la CR,Scroll hasta la FAQ; CR,,—,,,docs/V3_SEO_ANALITICA_AB.md §4
+V3-E,,,Producto primero vs. lifestyle primero en la galería,La composición influye en la CR,CR; tiempo hasta el primer clic,,Fotos reales,,,docs/V3_SEO_ANALITICA_AB.md §4
+V3-F,,,Características debajo vs. encima de la CTA,Encima ayuda a decidir si son cortas,Add to cart; CTA visible,,3 viñetas aprobadas,,,docs/V3_SEO_ANALITICA_AB.md §4

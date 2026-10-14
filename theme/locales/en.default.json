@@ -654,7 +654,9 @@
     },
     "photo": {
       "title": "PHOTO PENDING · NOT PUBLISHABLE",
-      "default": "Real product photo, with usage rights"
+      "default": "Real product photo, with usage rights",
+      "needed": "Photos still needed",
+      "short": "Photo pending"
     },
     "offer": {
       "shipping": "Shipping:",
@@ -662,6 +664,18 @@
       "support": "Customer care:",
       "payment": "Payment:",
       "conditions": "See conditions"
+    },
+    "v3": {
+      "trust_shipping": "Shipping details",
+      "trust_returns": "Return policy",
+      "trust_contact": "Questions? Contact us",
+      "all_features": "See all features",
+      "offer_option": "Option",
+      "offer_total": "Total",
+      "offer_unit": "Per unit",
+      "offer_saving": "You save",
+      "one_time": "One-time purchase. No subscription and no recurring charges.",
+      "has_plans": "Subscription options are available. Charges and how to cancel are shown before you pay."
     }
   }
 }

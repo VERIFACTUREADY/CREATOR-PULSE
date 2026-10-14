@@ -240,11 +240,12 @@ for (const r of ['/', '/pages/landing-snoring', '/pages/landing-partners', PRODU
     await pg.goto('http://localhost:4199' + r, { waitUntil: 'networkidle' });
     results.firstScreen[`${r}@${w}x${h}`] = await pg.evaluate((isProduct) => {
       const vis = (el) => !!el && el.getBoundingClientRect().bottom <= window.innerHeight && el.getBoundingClientRect().height > 0;
-      const root = isProduct ? document.querySelector('.product__info-container') : document.querySelector('.ds-phero');
+      // V3: el hero puede ser el de producto (.ds-phero) o el editorial con H1 (.ds-editorial, landing B).
+      const root = isProduct ? document.querySelector('.product__info-container') : [...document.querySelectorAll('.ds-phero, .ds-editorial')].find((el) => el.querySelector('h1'));
       return {
         titulo: vis(root && root.querySelector('h1')),
-        precio: vis(root && (root.querySelector('.ds-phero__price') || root.querySelector('.price'))),
-        cta: vis(root && (root.querySelector('.ds-phero__actions .button') || root.querySelector('.ds-preview-cta .button, product-form .button'))),
+        precio: vis(root && (root.querySelector('.ds-phero__price, .ds-editorial__price') || root.querySelector('.price'))),
+        cta: vis(root && (root.querySelector('.ds-phero__actions .button, .ds-editorial__actions .button') || root.querySelector('.ds-preview-cta .button, product-form .button'))),
       };
     }, r === PRODUCT);
     if (w === 390) await pg.screenshot({ path: path.join(shotsDir, `primera-pantalla_${r === '/' ? 'inicio' : r.slice(1).replace(/\//g, '_')}-390x844.png`) });

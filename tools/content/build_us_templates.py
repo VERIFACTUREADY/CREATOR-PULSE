@@ -70,29 +70,90 @@ FAQ_COM = [
 
 
 def build():
-    # ------------------------------------------------------------- HOME
+    # ------------------------------------------------------------- V3 · piezas comunes
+    # Copy V3: docs/V3_COPY_Y_CRO.md (alternativas evaluadas) y docs/04_CLAIMS_APPROVAL_US.csv (US-M-06…).
+    # Ningún texto afirma beneficios del producto: eso sale de metacampos aprobados o de ⟦PENDING⟧.
+    CAUTION = ("<p><strong>Before you use one:</strong> an oral device doesn't replace a diagnosis or treatment from a healthcare provider. "
+               "Check with your dentist first if you have braces, dentures, implants or jaw-joint problems. "
+               "If you feel pain in your jaw, teeth or ear, stop and talk to a provider.</p>")
+    MECH_STEPS = [('step', {'title': 'You wear it while you sleep', 'text': 'It fits over your upper and lower teeth, like two connected trays.'}),
+                  ('step', {'title': 'It holds your lower jaw slightly forward', 'text': 'That is what “mandibular advancement” means.'}),
+                  ('step', {'title': 'The fit is personal', 'text': "Fitting and adjusting depend on the exact model. Always follow the manufacturer's instructions."})]
+
+    def mechanism(t, key='mech', steps_source='blocks', heading='How this type of mouthpiece works', anchor='how-it-works', scheme='scheme-2', link=('Read use & safety', '/pages/use-and-safety'), eyebrow='How it works'):
+        t.add(key, 'ds-mechanism', {'visible_in': 'comercial', 'product': PH, 'color_scheme': scheme, 'anchor': anchor, 'eyebrow': eyebrow, 'heading': heading,
+              'intro': '<p>Mouthpieces of this kind are called mandibular advancement devices. Here is the general idea, in three steps.</p>',
+              'steps_source': steps_source, 'show_diagram': True, 'mechanism_verified': False, 'caution': CAUTION,
+              'source_label': AASM[0], 'source_url': AASM[1], 'link_label': link[0], 'link': link[1], 'review': 'sanitaria'},
+              MECH_STEPS if steps_source == 'blocks' else [])
+
+    def features(t, key='features', heading="What you'll want to know first", scheme='scheme-1', cards=None, anchor='features'):
+        cards = cards or [('check', 'Fit & adjustment', 'features'), ('doc', 'Materials', 'materials'), ('book', 'Cleaning & care', 'care'), ('pillows', "What's in the box", 'includes')]
+        t.add(key, 'ds-features', {'visible_in': 'comercial', 'product': PH, 'color_scheme': scheme, 'anchor': anchor, 'eyebrow': 'The details', 'heading': heading,
+              'intro': "<p>Each card shows information from the product's approved documentation. Where something is still missing, we say so.</p>"},
+              [('feature', {'icon': i, 'title': ti, 'source': so}) for i, ti, so in cards])
+
+    def compare(t, key='compare', scheme='scheme-5'):
+        t.add(key, 'ds-compare', {'visible_in': 'comercial', 'color_scheme': scheme, 'anchor': 'options', 'heading': 'Different options work in different ways',
+              'intro': '<p>This compares how each type of option works — not which one works best. That depends on the person and the cause of the snoring.</p>',
+              'caption': "How each option works. It doesn't show effectiveness. If you have questions about your situation, talk to a healthcare provider.",
+              'review': 'sanitaria', 'col_1': 'Option', 'col_2': 'What it is', 'col_3': 'Where it acts', 'col_4': 'Things to consider'}, [
+            ('row', {'name': 'Adjustable oral appliance', 'what': 'A reusable device you wear in your mouth while you sleep.', 'where': "On your jaw's position.", 'consider': 'Fit, comfort, possible discomfort and product documentation.'}),
+            ('row', {'name': 'Custom-made oral appliance', 'what': 'Made and adjusted by a dental professional.', 'where': "On your jaw's position.", 'consider': 'Requires appointments and follow-up. Higher cost.'}),
+            ('row', {'name': 'Nasal strips', 'what': 'Single-use adhesive strips you place on your nose.', 'where': 'In the nose.', 'consider': 'Usefulness depends on the cause of snoring.'}),
+            ('row', {'name': 'Habit changes and a medical evaluation', 'what': 'Not a product.', 'where': 'Depends on the cause.', 'consider': 'May be the most appropriate option, depending on the cause.'})])
+
+    FAQ_V3 = {
+        'what': Q('What is it?', "<p>It's an adjustable mouthpiece you wear while you sleep. The product page explains what it is, based on the manufacturer's documentation.</p>", 'What it is', PURL + '#what-it-is', v='comercial'),
+        'adjust': Q('How do I adjust it?', "<p>Fitting and adjusting depend on the exact model. We show the manufacturer's steps on the product page. Follow them closely.</p>", 'How to use it', PURL + '#how-to-use', v='comercial'),
+        'who': Q('Who can use it?', '<p>The product page explains who it is intended for and its precautions. If you have questions about your health, talk to a healthcare provider or your dentist.</p>', 'Use & safety', '/pages/use-and-safety', v='comercial'),
+        'materials': Q('What is it made of?', "<p>You'll find the materials on the product page, taken from the manufacturer's documentation.</p>", 'See the details', PURL + '#features', v='comercial'),
+        'clean': Q('How do I clean it?', "<p>Cleaning steps come from the manufacturer's instructions. You'll find them under “Care and cleaning” on the product page.</p>", 'Care and cleaning', PURL + '#care', v='comercial'),
+        'discomfort': Q('What if it feels uncomfortable?', '<p>If you feel pain in your jaw, teeth or ear, stop using it and talk to a healthcare provider or your dentist. Our return policy explains what you can send back.</p>', 'Use & safety', '/pages/use-and-safety', v='comercial'),
+        'partner': Q('Can I buy it for my partner?', '<p>Yes, but fit and comfort are personal. They should read the instructions and precautions before using it, and decide for themselves.</p>', 'Use & safety', '/pages/use-and-safety', v='comercial'),
+    }
+    COM = {b[1]['question']: b for b in FAQ_COM}
+    INCLUDED, SHIP, RET, RIGHT, APNEA, PAY, CONTACT = [COM[k] for k in ("What's included in my order?", 'How much is shipping and how long does it take?', 'Can I return it?', 'Is it right for me?', 'Is snoring the same as sleep apnea?', 'Which payment methods do you accept?', 'How can I contact you?')]
+
+    def closing(t, key='closing_c', heading='Because you share the night.'):
+        t.add(key, 'ds-callout', {'visible_in': 'comercial', 'color_scheme': 'scheme-4', 'style': 'center', 'heading': heading, 'text': "<p>See the mouthpiece, how it's used and what's included.</p>", 'button_label': 'See the mouthpiece', 'button_link': PURL, 'padding_top': 88, 'padding_bottom': 88})
+
+    # ------------------------------------------------------------- HOME (V3)
+    # Secuencia comercial: comprensión → interés → evaluación → confianza → decisión.
     t = T()
-    t.add('phero', 'ds-product-hero', {'visible_in': 'comercial', 'product': PH, 'eyebrow': 'Because you share the night',
-          'subheading': "<p>See what it is, how it's used and what's included — explained simply.</p>",
-          'button_label': 'View the product', 'secondary_label': 'How it works', 'secondary_link': '/pages/how-it-works', 'show_points': False, 'show_benefit': True})
+    t.add('phero', 'ds-product-hero', {'visible_in': 'comercial', 'product': PH, 'eyebrow': 'The adjustable mouthpiece', 'heading': 'Because peaceful nights matter to both of you.',
+          'subheading': "<p>Snoring can affect the person who snores and the person next to them. Meet our adjustable mouthpiece — what it is, how it's used and what's included, explained simply.</p>",
+          'button_label': 'See the mouthpiece', 'secondary_label': 'How it works', 'secondary_link': '#how-it-works', 'show_points': False, 'show_benefit': True, 'show_trust_links': True, 'padding_top': 32, 'padding_bottom': 64})
     t.add('hero', 'ds-hero', {'visible_in': 'prototipo', 'eyebrow': 'Sleeping as a couple', 'heading': 'Because you share the night.',
           'text': '<p>Snoring can affect the nights you share. Learn about its causes and the options available.</p>',
           'button_label': 'Understand your options', 'button_link': '/pages/how-it-works', 'quick_label': 'Quick links', 'padding_top': 40, 'padding_bottom': 48},
           [('link', {'label': 'What an oral appliance is', 'link': '/pages/how-it-works#what-it-is'}), ('link', {'label': 'When to talk to a provider', 'link': '/pages/use-and-safety#when-to-talk-to-a-provider'}), ('link', {'label': 'FAQ', 'link': '/pages/faq'})])
-    t.add('strip', 'ds-offer-strip', {'visible_in': 'comercial', 'product': PH, 'color_scheme': 'scheme-2'})
+    t.add('moments', 'ds-moments', {'visible_in': 'comercial', 'color_scheme': 'scheme-3', 'eyebrow': 'The everyday side of snoring', 'heading': 'Snoring rarely keeps just one person awake.',
+          'intro': "<p>It's common, it's nobody's fault, and it's worth talking about.</p>", 'source_label': AASM[0], 'source_url': AASM[1], 'review': 'sanitaria'},
+          [('moment', {'icon': 'person', 'label': "If you're the one who snores", 'text': "Many people only find out because someone tells them. It can be awkward to hear, and hard to know what to do next."}),
+           ('moment', {'icon': 'pillows', 'label': 'If you sleep next to someone who snores', 'text': 'Light sleepers can wake up again and again, then lie awake waiting for the next sound.'}),
+           ('moment', {'icon': 'chat', 'label': 'For both of you', 'text': "Earplugs, nudges, the couch, separate rooms. Small fixes that don't feel like a real plan."})])
     t.add('start', 'ds-steps', {'visible_in': 'prototipo', 'heading': 'Where to start', 'padding_top': 16, 'padding_bottom': 64},
           [('step', {'title': 'Understand the problem', 'text': "What snoring is and why it isn't always the same.", 'link': '/pages/how-it-works#snoring'}),
            ('step', {'title': 'Explore your options', 'text': 'How the different solutions work.', 'link': '/pages/how-it-works#options'}),
            ('step', {'title': 'Check the precautions', 'text': "When it's worth talking to a professional.", 'link': '/pages/use-and-safety'})])
-    t.add('empathy', 'ds-callout', {'visible_in': 'all', 'color_scheme': 'scheme-3', 'style': 'quote', 'heading': 'When one person snores, two people can be awake.',
+    t.add('empathy', 'ds-callout', {'visible_in': 'prototipo', 'color_scheme': 'scheme-3', 'style': 'quote', 'heading': 'When one person snores, two people can be awake.',
           'text': '<p>Snoring can affect the sleep of the person who snores and the person who shares the bed. Talking about it without blame is a good first step.</p>',
           'source_label': AASM[0], 'source_url': AASM[1], 'review': 'sanitaria', 'padding_top': 64, 'padding_bottom': 64})
-    t.add('how', 'ds-product-module', {'visible_in': 'comercial', 'product': PH, 'module': 'how_to_steps', 'eyebrow': 'In three steps', 'heading': "How it's used", 'link_label': 'See the full product page', 'anchor': 'how-to-use'})
+    t.add('meet', 'ds-editorial', {'visible_in': 'comercial', 'color_scheme': 'scheme-5', 'layout': 'image_right', 'product': PH,
+          'image_note': 'Product photo: the real mouthpiece and its case on a neutral background (licensed)', 'eyebrow': 'Meet the mouthpiece', 'heading': 'A simple device, explained clearly.',
+          'text': "<p>It's a mouthpiece you wear while you sleep. Here's what it is in plain words — based on the manufacturer's documentation, not on guesswork.</p>",
+          'metafield': 'what_is', 'show_price': True, 'button_label': 'See the mouthpiece', 'button_link': PURL, 'secondary_label': "What's included", 'secondary_link': PURL + '#whats-included'})
+    mechanism(t, link=('See the full product page', PURL))
+    features(t)
     t.add('basics', 'ds-cards', {'visible_in': 'prototipo', 'color_scheme': 'scheme-2', 'eyebrow': 'Clear information', 'heading': 'The basics, in three ideas', 'columns': '3', 'tinted': True, 'review': 'sanitaria'},
           [('card', {'icon': 'moon', 'title': 'What snoring is', 'text': '<p>It is the sound made when you breathe during sleep and the airway narrows.</p>', 'source_label': AASM[0], 'source_url': AASM[1], 'link_label': 'Learn more', 'link': '/pages/how-it-works#snoring'}),
            ('card', {'icon': 'compare', 'title': 'Not all causes are the same', 'text': "<p>Snoring doesn't always have the same cause. That's why there is no single solution for everyone.</p>", 'source_label': ADA[0], 'source_url': ADA[1], 'link_label': 'See the options', 'link': '/pages/how-it-works#options'}),
            ('card', {'icon': 'alert', 'title': "When it's worth talking to a provider", 'text': '<p>If someone notices you stop breathing for a few seconds while you sleep, you wake up gasping or choking, or you feel very sleepy during the day, talk to a healthcare provider.</p>', 'source_label': ADA[0], 'source_url': ADA[1], 'link_label': 'See the signs', 'link': '/pages/use-and-safety#when-to-talk-to-a-provider'})])
-    t.add('includes', 'ds-product-module', {'visible_in': 'comercial', 'product': PH, 'module': 'includes', 'heading': "What's included", 'color_scheme': 'scheme-5', 'link_label': 'View the product'})
+    t.add('couple', 'ds-editorial', {'visible_in': 'comercial', 'color_scheme': 'scheme-3', 'layout': 'image_left',
+          'image_note': 'Lifestyle photo: an adult couple, relaxed, in a calm bedroom (licensed, real models)', 'eyebrow': 'Sleeping as a couple', 'heading': 'Better nights are a team effort.',
+          'text': "<p>Talking about snoring can feel awkward. It goes better when it's about sleep, not blame — and when you look at the options together.</p>",
+          'button_label': 'Read our guide for couples', 'button_link': '/pages/landing-partners', 'secondary_label': 'See the mouthpiece', 'secondary_link': PURL})
     t.add('status', 'ds-status', {'visible_in': 'prototipo', 'eyebrow': 'Product under document review', 'heading': 'Before we sell, we check',
           'intro': "<p>We're evaluating an adjustable oral device. <strong>This product isn't for sale yet.</strong> We'll only sell it if it passes every check below.</p>",
           'button_label': 'What we know about the product', 'button_link': '/pages/the-product'},
@@ -101,12 +162,21 @@ def build():
            ('item', {'label': 'US regulatory status', 'note': 'For example, an FDA 510(k) number for the exact device.', 'status': 'pending'}),
            ('item', {'label': 'Instructions and warnings in English', 'status': 'pending'}),
            ('item', {'label': 'Final price and real delivery times', 'status': 'pending'})])
-    t.add('trust', 'ds-cards', {'visible_in': 'all', 'color_scheme': 'scheme-5', 'eyebrow': 'Our commitment', 'heading': 'What you can expect from us', 'columns': '4'},
+    compare(t)
+    t.add('trust_v3', 'ds-trust', {'visible_in': 'comercial', 'color_scheme': 'scheme-2', 'product': PH, 'eyebrow': 'Before you decide', 'heading': 'Straight answers about buying from us'},
+          [('offer', {'kind': 'shipping', 'title': 'Shipping', 'link_label': 'Shipping policy'}),
+           ('offer', {'kind': 'returns', 'title': 'Returns', 'link_label': 'Return policy'}),
+           ('offer', {'kind': 'support', 'title': 'Customer care', 'link_label': 'Contact us'}),
+           ('offer', {'kind': 'payment', 'title': 'Payment'}),
+           ('manufacturer', {'title': 'Who makes it', 'link_label': 'Manufacturer and documentation', 'link': PURL + '#details'}),
+           ('custom', {'icon': 'check', 'title': 'No made-up reviews', 'text': "<p>We don't publish made-up reviews, unsupported percentages or seals we don't have.</p>"})])
+    t.add('trust', 'ds-cards', {'visible_in': 'prototipo', 'color_scheme': 'scheme-5', 'eyebrow': 'Our commitment', 'heading': 'What you can expect from us', 'columns': '4'},
           [('card', {'icon': 'book', 'title': 'Clear information', 'text': "<p>We tell you what is known, what isn't, and when it's worth talking to a professional.</p>"}),
            ('card', {'icon': 'check', 'title': 'No miracle claims', 'text': "<p>We don't publish made-up reviews, unsupported percentages or seals we don't have.</p>"}),
            ('card', {'icon': 'alert', 'title': 'Precautions up front', 'text': '<p>Warnings are one click away from any page.</p>', 'link_label': 'Use & safety', 'link': '/pages/use-and-safety'}),
            ('card', {'icon': 'person', 'title': 'Who sells, always visible', 'text': '<p>Business name, contact details and policies, before you buy.</p>', 'link_label': 'About us', 'link': '/pages/about'})])
-    t.add('faq_c', 'ds-faq', {'visible_in': 'comercial', 'heading': 'Questions before you buy', 'more_label': 'See all questions', 'more_link': '/pages/faq'}, FAQ_COM)
+    t.add('faq_c', 'ds-faq', {'visible_in': 'comercial', 'heading': 'Questions, answered simply', 'more_label': 'See all questions', 'more_link': '/pages/faq', 'padding_top': 72, 'padding_bottom': 72},
+          [FAQ_V3['what'], FAQ_V3['adjust'], FAQ_V3['who'], FAQ_V3['materials'], FAQ_V3['clean'], INCLUDED, FAQ_V3['discomfort'], APNEA, SHIP, RET, CONTACT])
     t.add('faq', 'ds-faq', {'visible_in': 'prototipo', 'heading': 'Frequently asked questions', 'review': 'sanitaria', 'more_label': 'See all questions', 'more_link': '/pages/faq', 'padding_top': 32},
           [Q('Can I buy the device yet?', "<p>Not yet. We're still checking its documentation, its US regulatory status and its real cost.</p>", 'What we know about the product', '/pages/the-product'),
            Q('Is snoring the same as sleep apnea?', '<p>No. Snoring and sleep apnea are not the same thing. Some signs need to be checked by a healthcare provider.</p>', 'See the signs', '/pages/use-and-safety#when-to-talk-to-a-provider'),
@@ -114,43 +184,71 @@ def build():
            Q('Does an oral appliance replace seeing a doctor or dentist?', "<p>No. An oral device doesn't replace a diagnosis or treatment from a healthcare provider.</p>"),
            Q("What does “FDA cleared” mean?", "<p>Many medical devices sold in the US need FDA clearance through a process called 510(k). “Cleared” is not the same as “approved.” A cleared device has a 510(k) number you can look up in the FDA database. We'll only describe a product as cleared after we've checked its number.</p>"),
            Q('Do you collect health information?', "<p>No. We don't need any health information to answer your questions. Please don't include it in the contact form.</p>")])
-    t.add('closing_c', 'ds-callout', {'visible_in': 'comercial', 'color_scheme': 'scheme-4', 'style': 'center', 'heading': 'Because you share the night.', 'text': "<p>See the device, how it's used and what's included.</p>", 'button_label': 'View the product', 'button_link': PURL, 'padding_top': 72, 'padding_bottom': 72})
+    closing(t)
     t.add('closing', 'ds-callout', {'visible_in': 'prototipo', 'color_scheme': 'scheme-4', 'style': 'center', 'heading': 'Take your time to get informed.', 'text': '<p>Because you share the night — and because it pays to get informed before you decide.</p>', 'button_label': 'Understand your options', 'button_link': '/pages/how-it-works', 'padding_top': 72, 'padding_bottom': 72})
-    t.write('index')
+    t.write('index', 'US English storefront (V3). Seed generated by tools/content/build_us_templates.py; edit in the theme editor.')
 
-    # ------------------------------------------------------------- PRODUCT
+    # ------------------------------------------------------------- PRODUCT (V3)
     t = T()
-    t.add('main', 'main-product', {'enable_sticky_info': True, 'color_scheme': 'scheme-1', 'media_position': 'left', 'gallery_layout': 'thumbnail_slider', 'media_size': 'large',
-          'constrain_to_viewport': True, 'media_fit': 'contain', 'image_zoom': 'lightbox', 'mobile_thumbnails': 'show', 'hide_variants': True, 'enable_video_looping': False, 'padding_top': 40, 'padding_bottom': 24},
+    t.add('main', 'main-product', {'enable_sticky_info': True, 'color_scheme': 'scheme-1', 'media_position': 'left', 'gallery_layout': 'thumbnail_slider', 'media_size': 'medium',
+          'constrain_to_viewport': True, 'media_fit': 'contain', 'image_zoom': 'lightbox', 'mobile_thumbnails': 'show', 'hide_variants': True, 'enable_video_looping': False, 'padding_top': 32, 'padding_bottom': 48},
           [('ds_prototype_label', {'text': 'Product under document review'}), ('title', {}), ('ds_benefit', {}), ('price', {}),
            ('variant_picker', {'picker_type': 'button', 'swatch_shape': 'circle'}), ('quantity_selector', {}),
-           ('buy_buttons', {'show_dynamic_checkout': False, 'show_gift_card_recipient': False}), ('ds_offer_points', {}), ('description', {})])
+           ('buy_buttons', {'show_dynamic_checkout': False, 'show_gift_card_recipient': False}), ('ds_highlights', {}), ('ds_offer_table', {'heading': 'Compare options'}), ('ds_offer_points', {}), ('description', {})])
+    mechanism(t, steps_source='metafield', heading='How to use it, step by step', anchor='how-to-use', link=('Read use & safety', '/pages/use-and-safety'))
+    features(t, heading='The details', scheme='scheme-5', cards=[('check', 'Fit & adjustment', 'features'), ('doc', 'Materials', 'materials'), ('truck', 'Delivery time', 'delivery')])
     t.add('what', 'ds-product-module', {'visible_in': 'comercial', 'module': 'what_is', 'heading': 'What it is', 'anchor': 'what-it-is'})
-    t.add('how', 'ds-product-module', {'visible_in': 'comercial', 'module': 'how_to_steps', 'heading': 'How to use it, step by step', 'anchor': 'how-to-use', 'color_scheme': 'scheme-2'})
-    t.add('forwhom', 'ds-product-module', {'visible_in': 'comercial', 'module': 'for_whom', 'heading': "Who it's for", 'anchor': 'who-its-for'})
-    t.add('includes', 'ds-product-module', {'visible_in': 'comercial', 'module': 'includes', 'heading': "What's included", 'anchor': 'whats-included', 'color_scheme': 'scheme-5'})
-    t.add('care', 'ds-product-module', {'visible_in': 'comercial', 'module': 'care', 'heading': 'Care and cleaning', 'anchor': 'care'})
+    t.add('forwhom', 'ds-product-module', {'visible_in': 'comercial', 'module': 'for_whom', 'heading': "Who it's for", 'anchor': 'who-its-for', 'color_scheme': 'scheme-5'})
+    t.add('includes', 'ds-product-module', {'visible_in': 'comercial', 'module': 'includes', 'heading': "What's included", 'anchor': 'whats-included'})
+    t.add('care', 'ds-product-module', {'visible_in': 'comercial', 'module': 'care', 'heading': 'Care and cleaning', 'anchor': 'care', 'color_scheme': 'scheme-5'})
     t.add('details', 'ds-product-details', {'heading': 'Technical details and precautions', 'open_safety': True})
-    t.add('faq', 'ds-faq', {'visible_in': 'comercial', 'heading': 'Frequently asked questions'}, [b for b in FAQ_COM if b[1]['question'] not in ('How do I use it?', "What's included in my order?")])
+    t.add('faq', 'ds-faq', {'visible_in': 'comercial', 'heading': 'Frequently asked questions'}, [FAQ_V3['adjust'], FAQ_V3['clean'], FAQ_V3['discomfort'], SHIP, RET, RIGHT, APNEA, PAY, CONTACT])
     t.add('help', 'ds-callout', {'visible_in': 'all', 'color_scheme': 'scheme-2', 'style': 'center', 'heading': 'Have another question?', 'text': "<p>Write to us and we'll get back to you. Please don't include health information.</p>", 'button_label': 'Contact us', 'button_link': '/pages/contact', 'button_secondary': True, 'padding_top': 48, 'padding_bottom': 48})
-    t.write('product', 'Product page V2.1: offer visible in PREVIEW_COMERCIAL; purchase only in LIVE with complete data (ds-commerce-ready).')
+    t.write('product', 'Product page V3: offer visible in PREVIEW_COMERCIAL; purchase only in LIVE with complete data (ds-commerce-ready).')
 
-    # ------------------------------------------------------------- LANDINGS
-    def landing(name, eyebrow, heading, sub, qhead, qtext, src):
-        t = T()
-        t.add('proto', 'ds-callout', {'visible_in': 'prototipo', 'style': 'prototype', 'icon': 'doc', 'heading': 'Campaign landing page', 'heading_level': 'h1', 'text': '<p>This page is shown in PREVIEW_COMERCIAL and LIVE. There is no offer in PROTOTIPO.</p>'})
-        t.add('phero', 'ds-product-hero', {'visible_in': 'comercial', 'product': PH, 'eyebrow': eyebrow, 'heading': heading, 'subheading': sub, 'button_label': 'View the product', 'secondary_label': 'How it works', 'secondary_link': '/pages/how-it-works', 'show_points': True})
-        t.add('problem', 'ds-callout', {'visible_in': 'comercial', 'color_scheme': 'scheme-3', 'style': 'quote', 'heading': qhead, 'text': qtext, 'source_label': src[0], 'source_url': src[1], 'padding_top': 56, 'padding_bottom': 56})
-        t.add('how', 'ds-product-module', {'visible_in': 'comercial', 'product': PH, 'module': 'how_to_steps', 'heading': "How it's used", 'link_label': 'See the full product page'})
-        t.add('faq', 'ds-faq', {'visible_in': 'comercial', 'heading': 'Before you buy'}, [b for b in FAQ_COM if b[1]['question'] in ('How much is shipping and how long does it take?', 'Can I return it?', 'Is it right for me?', 'How can I contact you?')])
-        t.add('closing', 'ds-callout', {'visible_in': 'comercial', 'color_scheme': 'scheme-4', 'style': 'center', 'heading': 'Because you share the night.', 'button_label': 'View the product', 'button_link': PURL, 'padding_top': 64, 'padding_bottom': 64})
-        t.write(name)
+    # ------------------------------------------------------------- LANDINGS (V3: estructura y mensaje propios)
+    PROTO = ('ds-callout', {'visible_in': 'prototipo', 'style': 'prototype', 'icon': 'doc', 'heading': 'Campaign landing page', 'heading_level': 'h1', 'text': '<p>This page is shown in PREVIEW_COMERCIAL and LIVE. There is no offer in PROTOTIPO.</p>'})
 
-    landing('page.landing-snoring', 'If you snore', 'Worried about your snoring?', "<p>See what our mouthpiece is, how it's used and what's included — explained simply.</p>",
-            'Not all snoring is the same.', "<p>Snoring doesn't always have the same cause. If someone notices you stop breathing for a few seconds while you sleep, talk to a healthcare provider.</p>", ADA)
-    landing('page.landing-partners', 'Sleeping as a couple', 'When one person snores, two people can be awake.', "<p>Because you share the night. See what our mouthpiece is and how it's used.</p>",
-            'Talking about snoring without blame is a good first step.', '<p>Snoring can affect the sleep of the person who snores and the person who shares the bed.</p>', AASM)
+    # A · La persona que ronca: entender → opciones → cómo funciona → detalles → dudas.
+    t = T()
+    t.add('proto', *PROTO)
+    t.add('phero', 'ds-product-hero', {'visible_in': 'comercial', 'product': PH, 'eyebrow': 'If you snore', 'heading': 'Worried about your snoring?',
+          'subheading': "<p>See what our mouthpiece is, how it's used and what's included — explained simply.</p>", 'button_label': 'See the mouthpiece',
+          'secondary_label': 'How it works', 'secondary_link': '#how-it-works', 'show_points': False, 'show_trust_links': True, 'padding_top': 32, 'padding_bottom': 64})
+    t.add('explain', 'ds-cards', {'visible_in': 'comercial', 'color_scheme': 'scheme-5', 'eyebrow': 'Snoring, explained', 'heading': 'Three things worth knowing first', 'columns': '3', 'review': 'sanitaria'},
+          [('card', {'icon': 'moon', 'title': 'What snoring is', 'text': '<p>It is the sound made when you breathe during sleep and the airway narrows.</p>', 'source_label': AASM[0], 'source_url': AASM[1]}),
+           ('card', {'icon': 'compare', 'title': 'Not all snoring is the same', 'text': "<p>Snoring doesn't always have the same cause. That's why there is no single solution for everyone.</p>", 'source_label': ADA[0], 'source_url': ADA[1]}),
+           ('card', {'icon': 'alert', 'title': 'When to talk to a provider', 'text': '<p>If someone notices you stop breathing for a few seconds while you sleep, you wake up gasping or choking, or you feel very sleepy during the day, talk to a healthcare provider.</p>', 'source_label': ADA[0], 'source_url': ADA[1], 'link_label': 'See the signs', 'link': '/pages/use-and-safety#when-to-talk-to-a-provider'})])
+    compare(t, scheme='scheme-1')
+    mechanism(t, link=('See the full product page', PURL))
+    features(t, scheme='scheme-5')
+    t.add('faq', 'ds-faq', {'visible_in': 'comercial', 'heading': 'Before you buy'}, [RIGHT, APNEA, FAQ_V3['adjust'], FAQ_V3['discomfort'], SHIP, RET, CONTACT])
+    closing(t, 'closing')
+    t.write('page.landing-snoring', 'Landing A · person who snores (V3). Seed generated by tools/content/build_us_templates.py; edit in the theme editor.')
 
+    # B · Descanso en pareja: emoción → la noche compartida → hablarlo → una opción → dudas.
+    t = T()
+    t.add('proto', *PROTO)
+    t.add('hero', 'ds-editorial', {'visible_in': 'comercial', 'color_scheme': 'scheme-1', 'layout': 'image_right', 'heading_level': 'h1', 'padding_top': 32, 'padding_bottom': 64,
+          'image_note': 'Lifestyle photo: an adult couple waking up rested in a calm bedroom (licensed, real models)', 'eyebrow': 'Sleeping as a couple',
+          'heading': 'When one person snores, two people can be awake.', 'text': "<p>Because you share the night. Here's a calmer way to talk about snoring — and a closer look at one option.</p>",
+          'product': PH, 'show_price': True, 'button_label': 'See the mouthpiece', 'button_link': PURL, 'secondary_label': 'How to talk about it', 'secondary_link': '#talk'})
+    t.add('night', 'ds-moments', {'visible_in': 'comercial', 'color_scheme': 'scheme-3', 'eyebrow': 'Sound familiar?', 'heading': 'One night, two very different experiences.', 'source_label': AASM[0], 'source_url': AASM[1], 'review': 'sanitaria'},
+          [('moment', {'icon': 'moon', 'label': 'Lights out', 'text': 'One of you falls asleep fast. The other lies awake, listening.'}),
+           ('moment', {'icon': 'clock', 'label': 'The middle of the night', 'text': 'A nudge, a sigh, a pillow over the head. Neither of you sleeps well.'}),
+           ('moment', {'icon': 'pause', 'label': 'The next morning', 'text': "You're both tired, and it's easy for it to turn into blame. It doesn't have to."})])
+    t.add('talk', 'ds-cards', {'visible_in': 'comercial', 'color_scheme': 'scheme-5', 'anchor': 'talk', 'eyebrow': 'Talking about it, kindly', 'heading': 'Four ways to make the conversation easier', 'columns': '4'},
+          [('card', {'icon': 'chat', 'title': 'Pick a calm moment', 'text': '<p>Not at 3 a.m. A quiet moment during the day makes it easier to listen.</p>'}),
+           ('card', {'icon': 'person', 'title': 'Talk about sleep, not fault', 'text': "<p>Snoring isn't a choice. Say how you're both sleeping, not what the other person is doing wrong.</p>"}),
+           ('card', {'icon': 'compare', 'title': 'Look at the options together', 'text': "<p>There is no single solution for everyone. Read about the options side by side.</p>", 'link_label': 'Compare options', 'link': '/pages/how-it-works#options-table'}),
+           ('card', {'icon': 'alert', 'title': 'Know when to see a provider', 'text': '<p>If someone stops breathing for a few seconds while asleep, wakes up gasping or choking, or is very sleepy during the day, talk to a healthcare provider.</p>', 'source_label': ADA[0], 'source_url': ADA[1]})])
+    t.add('phero', 'ds-product-hero', {'visible_in': 'comercial', 'product': PH, 'color_scheme': 'scheme-2', 'heading_level': 'h2', 'eyebrow': 'One option to look at',
+          'subheading': "<p>See what it is, how it's used and what's included — explained simply.</p>", 'button_label': 'See the mouthpiece',
+          'secondary_label': "What's included", 'secondary_link': PURL + '#whats-included', 'show_points': False, 'show_benefit': True, 'show_trust_links': True, 'padding_top': 72, 'padding_bottom': 72})
+    mechanism(t, scheme='scheme-1', link=('See the full product page', PURL))
+    t.add('faq', 'ds-faq', {'visible_in': 'comercial', 'heading': 'Questions couples ask'}, [FAQ_V3['partner'], RIGHT, FAQ_V3['discomfort'], APNEA, SHIP, RET, CONTACT])
+    closing(t, 'closing', 'Sleep is something you share.')
+    t.write('page.landing-partners', 'Landing B · sleeping as a couple (V3). Seed generated by tools/content/build_us_templates.py; edit in the theme editor.')
     # ------------------------------------------------------------- HOW IT WORKS
     t = T()
     header(t, "<p>What snoring is, why it isn't always the same, and what kinds of solutions exist. No promises.</p>", 'sanitaria')

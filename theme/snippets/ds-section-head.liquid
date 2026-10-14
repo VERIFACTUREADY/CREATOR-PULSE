@@ -1,0 +1,24 @@
+{% comment %}
+  V3 · Cabecera de sección común (antetítulo + título + entradilla). Evita repetir
+  el mismo marcado en cada sección ds-*.
+  Accepts:
+  - id: {String} id del título (para aria-labelledby)
+  - eyebrow: {String} opcional
+  - heading: {String} título
+  - level: {String} 'h1' | 'h2' (por defecto h2)
+  - intro: {String} richtext opcional
+  - center: {Boolean} centrado
+  - review: {String} etiqueta de revisión (solo PROTOTIPO)
+{% endcomment %}
+<div class="ds-section-head{% if center %} ds-section-head--center{% endif %}">
+  {%- render 'ds-review-badge', kind: review -%}
+  {%- if eyebrow != blank -%}<p class="ds-eyebrow">{{ eyebrow | escape }}</p>{%- endif -%}
+  {%- if heading != blank -%}
+    {%- if level == 'h1' -%}
+      <h1 id="{{ id }}" class="ds-heading h1 ds-v3-title">{{ heading | escape }}</h1>
+    {%- else -%}
+      <h2 id="{{ id }}" class="ds-heading h2">{{ heading | escape }}</h2>
+    {%- endif -%}
+  {%- endif -%}
+  {%- if intro != blank -%}<div class="ds-lead ds-rte">{{ intro }}</div>{%- endif -%}
+</div>

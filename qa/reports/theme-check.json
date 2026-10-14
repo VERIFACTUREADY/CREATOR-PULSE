@@ -38,7 +38,7 @@
     "severity": "warning",
     "check": "UnusedAssign",
     "file": "sections/main-product.liquid",
-    "line": 770,
+    "line": 774,
     "message": "The variable 'seo_media' is assigned but not used"
   },
   {
@@ -59,7 +59,7 @@
     "severity": "warning",
     "check": "UndefinedObject",
     "file": "sections/main-product.liquid",
-    "line": 626,
+    "line": 630,
     "message": "Unknown object 'continue' used."
   }
 ]

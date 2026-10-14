@@ -1,6 +1,8 @@
 # VINCIRENA (marca provisional) · Tienda Shopify para EE. UU. sobre Dawn
 
-> 🟡 **ESTADO V2.2 (14/10/2026): PREVIEW_COMERCIAL · noindex · tema SIN PUBLICAR · compra DESACTIVADA · NO-GO para LIVE.** Correcciones focalizadas de la auditoría V2.1: empieza por **`docs/V22_CHANGELOG.md`**, **`docs/V22_FDA_DOCUMENTOS_Y_VALIDACIONES.md`** (la revisión europea **no** equivale a autorización FDA), **`docs/V22_MIGRACION_METACAMPOS.md`** y **`docs/V22_INSTALACION_Y_E2E_SHOPIFY.md`**. VINCIRENA sigue provisional hasta una búsqueda de marca y dominio concluyente.
+> 🟡 **V3 (14/10/2026) · rediseño comercial premium · PREVIEW_COMERCIAL · noindex · tema SIN PUBLICAR · compra DESACTIVADA · NO-GO para LIVE.** Rama `claude/vincirena-v3`. Empieza por **`docs/V3_CHANGELOG_Y_QA.md`**, después `docs/V3_REFERENCIAS_Y_AUDITORIA.md`, `docs/V3_SISTEMA_DE_DISENO.md`, `docs/V3_COPY_Y_CRO.md`, `docs/V3_PLAN_DE_ACTIVOS.md` y `docs/V3_SEO_ANALITICA_AB.md`. Comparativa visual: `qa/screenshots/v3/`. Compuerta, estados, carrito, marca y noindex de la V2.2 **sin cambios** (62/62 · 48/48).
+>
+> Historial V2.2 · 🟡 **ESTADO V2.2 (14/10/2026): PREVIEW_COMERCIAL · noindex · tema SIN PUBLICAR · compra DESACTIVADA · NO-GO para LIVE.** Correcciones focalizadas de la auditoría V2.1: empieza por **`docs/V22_CHANGELOG.md`**, **`docs/V22_FDA_DOCUMENTOS_Y_VALIDACIONES.md`** (la revisión europea **no** equivale a autorización FDA), **`docs/V22_MIGRACION_METACAMPOS.md`** y **`docs/V22_INSTALACION_Y_E2E_SHOPIFY.md`**. VINCIRENA sigue provisional hasta una búsqueda de marca y dominio concluyente.
 >
 > Historial V2.1 (13/10/2026): mercado principal EE. UU. · tienda en inglés y USD · PREVIEW_COMERCIAL · tema SIN PUBLICAR · compra DESACTIVADA · LIVE NO autorizado.** Empieza por **`docs/V21_CHANGELOG.md`**, **`docs/V21_DATOS_NECESARIOS.md`**, **`docs/V21_GO_NO_GO_EEUU.md`** y **`docs/QA_REPRODUCIR.md`**. Marca: VINCIRENA es un nombre de trabajo, sustituible en un ajuste.
 >

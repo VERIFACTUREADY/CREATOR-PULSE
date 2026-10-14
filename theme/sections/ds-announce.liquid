@@ -1,0 +1,84 @@
+{%- comment -%}
+  V3 · Barra de anuncio veraz. Solo muestra un dato REAL de los ajustes del tema
+  (envío, devoluciones o atención) o un texto propio aprobado. Si el dato está vacío
+  no se pinta nada: nunca urgencia, contadores ni descuentos inventados.
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- liquid
+  case section.settings.source
+    when 'shipping'
+      assign msg = settings.ds_offer_shipping
+    when 'returns'
+      assign msg = settings.ds_offer_returns
+    when 'support'
+      assign msg = settings.ds_offer_support
+    else
+      assign msg = section.settings.text
+  endcase
+-%}
+{%- if ds_show == 'true' and msg != blank -%}
+  <div class="ds-announce color-{{ section.settings.color_scheme }} gradient" role="region" aria-label="{{ 'sections.header.announcement' | t }}">
+    <p class="page-width ds-announce__text">
+      {%- if section.settings.link != blank -%}
+        <a href="{{ section.settings.link }}">{{ msg | escape }}</a>
+      {%- else -%}
+        {{ msg | escape }}
+      {%- endif -%}
+    </p>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Anuncio veraz",
+  "tag": "div",
+  "class": "section-ds-announce",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Solo se muestra si el dato existe. Sin urgencia ni descuentos sin historial (FTC)."
+    },
+    {
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "comercial",
+      "options": [
+        { "value": "all", "label": "Todos los estados" },
+        { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "source",
+      "label": "Mensaje",
+      "default": "shipping",
+      "options": [
+        { "value": "shipping", "label": "Envío (Ajustes del tema › Oferta)" },
+        { "value": "returns", "label": "Devoluciones (Ajustes del tema › Oferta)" },
+        { "value": "support", "label": "Atención al cliente (Ajustes del tema › Oferta)" },
+        { "value": "custom", "label": "Texto propio aprobado" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Texto propio aprobado",
+      "info": "Solo con «Texto propio aprobado». Debe figurar en docs/04_CLAIMS_APPROVAL_US.csv."
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Enlace"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-4"
+    }
+  ],
+  "presets": [{ "name": "DS · Anuncio veraz" }]
+}
+{% endschema %}

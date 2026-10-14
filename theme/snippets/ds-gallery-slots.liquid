@@ -1,0 +1,18 @@
+{% comment %}
+  V3 · Huecos de la galería de la ficha mientras no haya fotos con derechos.
+  Lista visible (plegable para no empujar la CTA fuera de la primera pantalla) de las
+  tomas necesarias (docs/V3_PLAN_DE_ACTIVOS.md). Cada hueco es un marcador ⟦PENDING⟧
+  detectable por prelaunch-check; nunca una foto simulada.
+{% endcomment %}
+{%- assign shots = 'Side view|In the hand (to show size)|Fit adjustment detail|Material close-up|Case and packaging|Real use (authorized)|Lifestyle: adult couple at night' | split: '|' -%}
+<div class="ds-gallery-slots">
+  {%- render 'ds-photo-placeholder', label: 'Front view of the real product on a neutral background' -%}
+  <details class="ds-gallery-slots__more">
+    <summary>{{ 'ds.photo.needed' | t }} ({{ shots.size | plus: 1 }})</summary>
+    <ul class="ds-gallery-slots__list" role="list">
+      {%- for s in shots -%}
+        <li class="ds-gallery-slots__item" data-ds-placeholder><span>⟦{{ 'ds.photo.short' | t }}⟧</span> {{ s }}</li>
+      {%- endfor -%}
+    </ul>
+  </details>
+</div>

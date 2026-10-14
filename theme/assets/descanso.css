@@ -673,3 +673,264 @@ a.ds-steps__link:hover { background: var(--ds-sand); }
 }
 .ds-wordmark { white-space: nowrap; }
 @media screen and (max-width: 389px) { .ds-wordmark { font-size: 1.5rem; } }
+
+/* =========================================================================
+   V3 · Sistema de diseño VINCIRENA (docs/V3_SISTEMA_DE_DISENO.md)
+   Mobile-first. Evoluciona la paleta aprobada sin sustituirla: añade tonos
+   suaves derivados (sage-soft, sand-soft) y un gris tinta para textos
+   secundarios. Contrastes medidos en el documento (todos ≥ 4,5:1 en texto).
+   Breakpoints (no admiten variables en @media): 750 · 990 · 1200 px.
+   ========================================================================= */
+:root {
+  /* Color: base aprobada + derivados */
+  --ds-night-hover: #24404f;
+  --ds-ink-soft: #3d5260;          /* texto secundario: 7,5:1 sobre marfil */
+  --ds-sage-soft: #eaf1ec;
+  --ds-sand-soft: #f4ece2;
+  --ds-line: rgba(23, 43, 55, 0.12);
+  --ds-line-strong: rgba(23, 43, 55, 0.24);
+  --ds-warn-bg: #fff3c4;
+  --ds-warn-ink: #4a3800;
+  /* Tipografía (Lato 400/700, ver evaluación en el documento) */
+  --ds-fs-display: clamp(3.4rem, 8.4vw, 6.4rem);
+  --ds-fs-h2: clamp(2.8rem, 5.6vw, 4.4rem);
+  --ds-fs-h3: 2rem;
+  --ds-fs-lead: clamp(1.75rem, 2.2vw, 2.1rem);
+  --ds-fs-body: 1.7rem;
+  --ds-fs-small: 1.45rem;
+  --ds-fs-micro: 1.3rem;
+  --ds-lh-tight: 1.08;
+  --ds-lh-head: 1.18;
+  --ds-lh-body: 1.6;
+  --ds-track-display: -0.022em;
+  --ds-track-caps: 0.12em;
+  /* Espaciado (escala 4/8) */
+  --ds-space-7: 8rem;
+  --ds-space-8: 9.6rem;
+  /* Radios y sombras */
+  --ds-radius-xl: 32px;
+  --ds-radius-pill: 999px;
+  --ds-shadow-1: 0 1px 2px rgba(23, 43, 55, 0.05), 0 6px 18px rgba(23, 43, 55, 0.06);
+  --ds-shadow-2: 0 2px 6px rgba(23, 43, 55, 0.06), 0 24px 56px rgba(23, 43, 55, 0.12);
+  /* Anchuras */
+  --ds-text-w: 64rem;
+  --ds-head-w: 76rem;
+  /* Controles */
+  --ds-btn-h: 5.2rem;
+  --ds-btn-h-s: 4.4rem;
+  --ds-focus-ring: 3px;
+  /* Movimiento (respeta prefers-reduced-motion, ver arriba) */
+  --ds-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ds-dur: 220ms;
+}
+
+/* ---------- V3 · Tipografía y controles ---------- */
+body { font-size: var(--ds-fs-body); }
+.ds-heading.h2, .ds-editorial__title.h2 { font-size: var(--ds-fs-h2); line-height: var(--ds-lh-head); letter-spacing: -0.015em; }
+.ds-eyebrow { font-size: var(--ds-fs-micro); letter-spacing: var(--ds-track-caps); }
+.ds-lead { color: var(--ds-ink-soft); max-width: var(--ds-text-w); }
+.color-scheme-4 .ds-lead { color: rgba(var(--color-foreground), 0.9); }
+.ds-section-head { max-width: var(--ds-head-w); margin-bottom: var(--ds-space-5); }
+.ds-section-head .ds-lead { margin-bottom: 0; }
+.button { min-height: var(--ds-btn-h); padding: 0 3.2rem; font-size: 1.6rem; letter-spacing: 0.01em; transition: transform var(--ds-dur) var(--ds-ease), background-color var(--ds-dur) var(--ds-ease); }
+.button--primary:not([disabled]):hover { transform: translateY(-1px); }
+.ds-section { scroll-margin-top: 8rem; }
+
+/* ---------- V3 · Anuncio veraz ---------- */
+.ds-announce { font-size: var(--ds-fs-small); text-align: center; }
+.ds-announce__text { margin: 0 auto; padding-top: 0.9rem; padding-bottom: 0.9rem; max-width: none; }
+.ds-announce a { color: inherit; }
+
+/* ---------- V3 · Cabecera: acceso directo al producto ---------- */
+.ds-header-cta { display: none; }
+@media screen and (min-width: 750px) {
+  .ds-header-cta { display: inline-flex; min-height: var(--ds-btn-h-s); padding: 0 2.2rem; margin-left: 1.2rem; font-size: 1.5rem; align-self: center; }
+}
+
+/* ---------- V3 · Hero de producto ---------- */
+.ds-phero { position: relative; overflow: hidden; }
+.ds-phero::before {
+  content: '';
+  position: absolute;
+  inset: auto -20% 40% auto;
+  width: 70vw;
+  height: 70vw;
+  max-width: 72rem;
+  max-height: 72rem;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(216, 229, 220, 0.9), rgba(216, 229, 220, 0));
+  pointer-events: none;
+}
+.ds-phero .page-width { position: relative; }
+.ds-phero__media { border-radius: var(--ds-radius-xl); background: var(--ds-sage-soft); box-shadow: var(--ds-shadow-2); }
+.ds-phero__media .ds-photo-placeholder { border-radius: var(--ds-radius-xl); }
+.ds-phero__content .ds-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--ds-radius-pill);
+  background: var(--ds-sage-soft);
+  color: var(--ds-night);
+  border: 1px solid var(--ds-line);
+}
+.ds-phero__title { font-size: var(--ds-fs-display); line-height: var(--ds-lh-tight); letter-spacing: var(--ds-track-display); }
+.ds-phero__text { color: var(--ds-ink-soft); font-size: var(--ds-fs-lead); }
+.ds-phero__price .price { font-size: 2.6rem; }
+.ds-phero__trust {
+  list-style: none;
+  margin: 0;
+  padding: 1.6rem 0 0;
+  border-top: 1px solid var(--ds-line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 2rem;
+  font-size: var(--ds-fs-small);
+}
+.ds-phero__trust li { display: inline-flex; align-items: center; gap: 0.6rem; max-width: none; }
+.ds-phero__trust .ds-icon { width: 2rem; height: 2rem; color: var(--ds-petrol); }
+.ds-phero__trust a { color: rgb(var(--color-foreground)); min-height: 4.4rem; display: inline-flex; align-items: center; }
+@media screen and (min-width: 990px) {
+  .ds-phero__grid { grid-template-columns: 1.05fr 0.95fr; gap: 8rem; }
+  .ds-phero__actions .button { min-width: 26rem; }
+}
+@media screen and (max-width: 749px) {
+  .ds-phero__title { font-size: 3.2rem; }
+  .ds-phero__media { box-shadow: var(--ds-shadow-1); }
+  .ds-phero__content > .ds-phero__trust { order: 8; }
+  .ds-phero__trust { gap: 0 1.6rem; }
+}
+
+/* ---------- V3 · Momentos (problema cotidiano) ---------- */
+.ds-moments__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem; counter-reset: ds-moment; }
+@media screen and (min-width: 750px) { .ds-moments__list { grid-template-columns: repeat(3, 1fr); gap: 2.4rem; } }
+.ds-moments__item {
+  position: relative;
+  max-width: none;
+  padding: 2.8rem 2.4rem;
+  border-radius: var(--ds-radius-l);
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid var(--ds-line);
+}
+.color-scheme-1 .ds-moments__item, .color-scheme-5 .ds-moments__item { background: #fff; box-shadow: var(--ds-shadow-1); }
+.ds-moments__icon { display: inline-flex; width: 4.4rem; height: 4.4rem; align-items: center; justify-content: center; border-radius: 50%; background: var(--ds-night); color: var(--ds-sage); margin-bottom: 1.6rem; }
+.ds-moments__label { margin: 0 0 0.6rem; font-size: var(--ds-fs-micro); font-weight: 700; letter-spacing: var(--ds-track-caps); text-transform: uppercase; color: var(--ds-night); }
+.ds-moments__text { margin: 0; font-size: 1.8rem; line-height: 1.5; color: rgb(var(--color-foreground)); }
+.ds-moments__foot { margin-top: var(--ds-space-4); font-size: var(--ds-fs-lead); max-width: var(--ds-text-w); }
+
+/* ---------- V3 · Cómo funciona (diagrama) ---------- */
+.ds-mech__grid { display: grid; gap: 3.2rem; align-items: start; }
+@media screen and (min-width: 990px) { .ds-mech__grid { grid-template-columns: 1.1fr 0.9fr; gap: 6.4rem; } .ds-mech__grid--single { grid-template-columns: 1fr; max-width: 80rem; } }
+.ds-mech__figure { margin: 0; padding: 1.6rem; border-radius: var(--ds-radius-xl); background: #fff; box-shadow: var(--ds-shadow-1); }
+.ds-diagram { display: block; width: 100%; height: auto; }
+.ds-mech__legend { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 0.8rem 2rem; font-size: var(--ds-fs-small); }
+@media screen and (min-width: 750px) { .ds-mech__legend { grid-template-columns: 1fr 1fr; } }
+.ds-mech__legend li { display: flex; align-items: center; gap: 1rem; max-width: none; color: var(--ds-night); }
+.ds-mech__legend span { flex: none; display: inline-flex; width: 2.6rem; height: 2.6rem; border-radius: 50%; align-items: center; justify-content: center; background: var(--ds-night); color: var(--ds-ivory); font-weight: 700; font-size: 1.3rem; }
+.ds-mech__note { margin: 1.4rem 0 0; font-size: var(--ds-fs-small); }
+.ds-mech__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.ds-mech__step { display: grid; grid-template-columns: 4.4rem 1fr; gap: 1.6rem; padding: 2rem 0; border-bottom: 1px solid var(--ds-line-strong); max-width: none; }
+.ds-mech__step:first-child { padding-top: 0; }
+.ds-mech__num { display: inline-flex; width: 4.4rem; height: 4.4rem; border-radius: 50%; align-items: center; justify-content: center; background: var(--ds-night); color: var(--ds-ivory); font-weight: 700; font-size: 1.7rem; }
+.ds-mech__title { margin: 0.8rem 0 0.4rem; font-size: 1.9rem; font-weight: 700; line-height: 1.3; color: rgb(var(--color-foreground)); }
+.ds-mech__text { margin: 0; font-size: 1.65rem; }
+.ds-mech__caution { display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; margin-top: 2.4rem; padding: 1.8rem 2rem; border-radius: var(--ds-radius-m); background: var(--ds-ivory); border-left: 4px solid var(--ds-night); font-size: 1.55rem; color: var(--ds-night); }
+.ds-mech__caution-icon { color: var(--ds-night); }
+.ds-mech__more { margin: 1.6rem 0 0; }
+
+/* ---------- V3 · Características ---------- */
+.ds-features__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem; }
+@media screen and (min-width: 750px) { .ds-features__grid { grid-template-columns: repeat(2, 1fr); gap: 2.4rem; } }
+@media screen and (min-width: 1200px) { .ds-features__grid { grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr)); } }
+.ds-feature { display: flex; flex-direction: column; max-width: none; padding: 2.8rem 2.4rem; border-radius: var(--ds-radius-l); background: rgb(var(--color-background)); border: 1px solid var(--ds-line); transition: box-shadow var(--ds-dur) var(--ds-ease), transform var(--ds-dur) var(--ds-ease); }
+.ds-feature:hover { box-shadow: var(--ds-shadow-1); }
+.color-scheme-5 .ds-feature { background: var(--ds-ivory); }
+.ds-feature__icon { display: inline-flex; width: 4.8rem; height: 4.8rem; align-items: center; justify-content: center; border-radius: 1.4rem; background: var(--ds-sage); color: var(--ds-night); margin-bottom: 2rem; }
+.ds-feature__title { font-size: var(--ds-fs-h3); margin: 0 0 0.8rem; line-height: 1.25; }
+.ds-feature__text { font-size: 1.6rem; flex: 1; }
+.ds-feature__link { margin-top: 1.2rem; }
+
+/* ---------- V3 · Editorial imagen + texto ---------- */
+.ds-editorial__grid { display: grid; gap: 3.2rem; align-items: center; }
+@media screen and (min-width: 990px) {
+  .ds-editorial__grid { grid-template-columns: 1fr 1fr; gap: 8rem; }
+  .ds-editorial__grid--image_right .ds-editorial__media { order: 2; }
+}
+.ds-editorial__media { border-radius: var(--ds-radius-xl); overflow: hidden; }
+.ds-editorial__media img { display: block; width: 100%; height: auto; }
+.ds-editorial__media .ds-photo-placeholder { border-radius: var(--ds-radius-xl); }
+.ds-editorial__title { margin: 0 0 1.6rem; }
+.ds-editorial__title--h1 { font-size: var(--ds-fs-display); line-height: var(--ds-lh-tight); letter-spacing: var(--ds-track-display); }
+.ds-editorial__text { font-size: var(--ds-fs-lead); line-height: 1.55; }
+.ds-editorial__mf { margin-top: 1.6rem; font-size: 1.65rem; }
+.ds-editorial__price { margin-top: 2rem; }
+.ds-editorial__price .price { font-size: 2.4rem; font-weight: 700; }
+.ds-editorial__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2.4rem; margin-top: 2.8rem; }
+@media screen and (max-width: 749px) {
+  .ds-editorial__actions .button { width: 100%; }
+  .ds-editorial__media .ds-photo-placeholder--landscape { min-height: 0; aspect-ratio: 16 / 10; }
+  .ds-editorial__title--h1 { font-size: 3.2rem; }
+}
+
+/* ---------- V3 · Confianza ---------- */
+.ds-trust__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--ds-line-strong); }
+@media screen and (min-width: 750px) { .ds-trust__grid { grid-template-columns: repeat(2, 1fr); column-gap: 4rem; } }
+@media screen and (min-width: 1200px) { .ds-trust__grid { grid-template-columns: repeat(3, 1fr); } }
+.ds-trust__item { display: grid; grid-template-columns: 4.8rem 1fr; gap: 1.6rem; padding: 2.4rem 0; border-bottom: 1px solid var(--ds-line-strong); max-width: none; }
+.ds-trust__icon { display: inline-flex; width: 4.8rem; height: 4.8rem; align-items: center; justify-content: center; border-radius: 50%; background: var(--ds-sage); color: var(--ds-night); }
+.color-scheme-2 .ds-trust__icon { background: var(--ds-ivory); }
+.ds-trust__title { margin: 0.4rem 0 0.4rem; font-size: 1.8rem; }
+.ds-trust__text { font-size: 1.55rem; }
+.ds-trust__text p { margin: 0; }
+.ds-trust__link { display: inline-flex; align-items: center; min-height: 4.4rem; font-weight: 700; color: rgb(var(--color-foreground)); }
+
+/* ---------- V3 · Comparativa, FAQ y cierre ---------- */
+.ds-compare__table { background: rgb(var(--color-background)); border-radius: var(--ds-radius-l); overflow: hidden; }
+.ds-faq__wrap { max-width: 88rem; }
+.ds-faq__item summary { min-height: 6.4rem; }
+.ds-callout--center .ds-callout__title { font-size: var(--ds-fs-h2); letter-spacing: -0.015em; }
+
+/* ---------- V3 · Ficha de producto ---------- */
+.ds-gallery-slots { display: grid; gap: 1.2rem; }
+.ds-gallery-slots__more { border: 1px dashed #8a6d00; border-radius: var(--ds-radius-m); background: var(--ds-warn-bg); color: var(--ds-warn-ink); font-size: var(--ds-fs-small); }
+.ds-gallery-slots__more summary { cursor: pointer; min-height: 4.4rem; display: flex; align-items: center; padding: 0 1.6rem; font-weight: 700; }
+.ds-gallery-slots__list { list-style: none; margin: 0; padding: 0 1.6rem 1.6rem; display: grid; gap: 0.6rem; }
+@media screen and (min-width: 750px) { .ds-gallery-slots__list { grid-template-columns: 1fr 1fr; } }
+.ds-gallery-slots__item { max-width: none; }
+.ds-gallery-slots__item span { font-weight: 700; }
+.product__info-container .product__title h1 { letter-spacing: -0.015em; }
+.ds-highlights { margin: 1.6rem 0; padding: 1.6rem 2rem; border-radius: var(--ds-radius-m); background: var(--ds-sage-soft); border: 1px solid var(--ds-line); font-size: 1.55rem; }
+.ds-highlights__body { margin: 0; }
+.ds-highlights__body ul { list-style: none; padding: 0; margin: 0; }
+.ds-highlights__body li { position: relative; padding-left: 2.4rem; }
+.ds-highlights__body li::before { content: '✓'; position: absolute; left: 0; font-weight: 700; color: var(--ds-petrol); }
+.ds-highlights__link { min-height: 4.4rem; font-size: 1.5rem; }
+.ds-offer-table { margin: 1.6rem 0 0; }
+.ds-offer-table__table { width: 100%; border-collapse: collapse; font-size: 1.5rem; margin-bottom: 1.2rem; }
+.ds-offer-table__table caption { text-align: left; font-weight: 700; padding-bottom: 0.8rem; }
+.ds-offer-table__table th, .ds-offer-table__table td { text-align: left; padding: 1rem 0.8rem; border-bottom: 1px solid var(--ds-line); }
+.ds-offer-table__note { display: flex; gap: 0.8rem; align-items: flex-start; margin: 0; font-size: 1.45rem; color: var(--ds-ink-soft); }
+.ds-offer-table__note .ds-icon { width: 2rem; height: 2rem; color: var(--ds-petrol); }
+@media screen and (max-width: 749px) {
+  .ds-highlights { margin: 1rem 0; padding: 1.2rem 1.6rem; }
+  .ds-highlights__body { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+}
+.ds-phero__content .ds-eyebrow { align-self: flex-start; width: fit-content; }
+.product__info-container .ds-highlights { margin-top: 2rem; }
+
+/* V3 · Primera pantalla móvil: título, precio y CTA visibles también a 375×667 (QA C-01). */
+@media screen and (max-width: 749px) {
+  .ds-editorial--hero .ds-editorial__grid { gap: 1.6rem; }
+  .ds-editorial--hero .ds-editorial__media .ds-photo-placeholder { max-height: 22vh; aspect-ratio: auto; min-height: 12rem; padding: 1.2rem; }
+  .ds-editorial--hero .ds-editorial__content { display: flex; flex-direction: column; }
+  .ds-editorial--hero .ds-editorial__content > .ds-eyebrow { order: 1; margin-bottom: 0.6rem; }
+  .ds-editorial--hero .ds-editorial__title { order: 2; margin-bottom: 0.8rem; }
+  .ds-editorial--hero .ds-editorial__price { order: 3; margin-top: 0; }
+  .ds-editorial--hero .ds-editorial__actions { order: 4; margin-top: 1.2rem; }
+  .ds-editorial--hero .ds-editorial__text { order: 5; margin-top: 1.6rem; font-size: 1.7rem; }
+}
+@media screen and (max-width: 749px) and (max-height: 700px) {
+  .ds-phero__title, .ds-editorial--hero .ds-editorial__title { font-size: 2.6rem; }
+  .ds-phero__content .ds-eyebrow { padding: 0.3rem 1rem; }
+  .ds-editorial--hero .ds-editorial__media .ds-photo-placeholder { max-height: 15vh; min-height: 0; }
+  .ds-editorial--hero .ds-photo-placeholder__text { display: none; }
+}

@@ -300,6 +300,10 @@
         {%- endcase -%}
       {%- endfor -%}
 
+      {%- comment -%} V3: acceso directo al producto (PREVIEW_COMERCIAL y LIVE). Solo enlaza; no añade al carrito. {%- endcomment -%}
+      {%- if ds_mode != 'prototipo' and section.settings.ds_cta_label != blank and section.settings.ds_cta_link != blank -%}
+        <a class="button button--primary ds-header-cta" href="{{ section.settings.ds_cta_link }}">{{ section.settings.ds_cta_label | escape }}</a>
+      {%- endif -%}
       {%- comment -%} Sin carrito mientras la venta no esté autorizada. {%- endcomment -%}
       {%- if ds_mode == 'live' -%}
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
@@ -509,6 +513,22 @@
   "class": "section-header",
   "max_blocks": 3,
   "settings": [
+    {
+      "type": "header",
+      "content": "DS · Acceso directo al producto (V3)"
+    },
+    {
+      "type": "text",
+      "id": "ds_cta_label",
+      "label": "Botón de cabecera",
+      "default": "Shop the mouthpiece",
+      "info": "Solo en PREVIEW_COMERCIAL y LIVE, en pantallas ≥ 750 px. Enlaza a la ficha; no compra."
+    },
+    {
+      "type": "url",
+      "id": "ds_cta_link",
+      "label": "Botón de cabecera (destino)"
+    },
     {
       "type": "select",
       "id": "logo_position",

@@ -22,7 +22,18 @@
 >
   <div class="page-width ds-phero__grid">
     <div class="ds-phero__media">
-      {%- if p.featured_media != blank -%}
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1400
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '375, 550, 750, 1000, 1400',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            alt: section.settings.image.alt
+        }}
+      {%- elsif p.featured_media != blank -%}
         {{
           p.featured_media
           | image_url: width: 1200
@@ -39,9 +50,12 @@
     </div>
     <div class="ds-phero__content">
       {%- if section.settings.eyebrow != blank -%}<p class="ds-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
-      <h1 id="DsPHeroTitle-{{ section.id }}" class="ds-phero__title">
-        {%- if heading != blank -%}{{ heading | escape }}{%- else -%}{%- render 'ds-pending', label: 'product' -%}{%- endif -%}
-      </h1>
+      {%- capture ds_htitle -%}{%- if heading != blank -%}{{ heading | escape }}{%- else -%}{%- render 'ds-pending', label: 'product' -%}{%- endif -%}{%- endcapture -%}
+      {%- if section.settings.heading_level == 'h2' -%}
+        <h2 id="DsPHeroTitle-{{ section.id }}" class="ds-phero__title">{{ ds_htitle }}</h2>
+      {%- else -%}
+        <h1 id="DsPHeroTitle-{{ section.id }}" class="ds-phero__title">{{ ds_htitle }}</h1>
+      {%- endif -%}
       {%- if section.settings.subheading != blank -%}<div class="ds-phero__text ds-rte">{{ section.settings.subheading }}</div>{%- endif -%}
       {%- if section.settings.show_benefit -%}
         <p class="ds-phero__benefit">
@@ -71,6 +85,14 @@
       </div>
       {%- if section.settings.show_points -%}
         {%- render 'ds-offer-points', product: p, compact: true -%}
+      {%- endif -%}
+      {%- if section.settings.show_trust_links -%}
+        {%- comment -%} V3: confianza junto a la CTA, solo enlaces a políticas reales (sin sellos ni promesas). {%- endcomment -%}
+        <ul class="ds-phero__trust" role="list">
+          <li><span aria-hidden="true">{%- render 'ds-icon', name: 'truck' -%}</span><a href="/pages/shipping">{{ 'ds.v3.trust_shipping' | t }}</a></li>
+          <li><span aria-hidden="true">{%- render 'ds-icon', name: 'return' -%}</span><a href="/pages/returns">{{ 'ds.v3.trust_returns' | t }}</a></li>
+          <li><span aria-hidden="true">{%- render 'ds-icon', name: 'chat' -%}</span><a href="/pages/contact">{{ 'ds.v3.trust_contact' | t }}</a></li>
+        </ul>
       {%- endif -%}
     </div>
   </div>
@@ -114,6 +136,22 @@
       "id": "product",
       "label": "Producto",
       "info": "En la ficha se usa el producto actual."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen propia (V3)",
+      "info": "Solo con licencia. Vacío = foto principal del producto o hueco ⟦PENDING⟧."
+    },
+    {
+      "type": "select",
+      "id": "heading_level",
+      "label": "Nivel del título",
+      "default": "h1",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2 (si la página ya tiene un H1)" }
+      ]
     },
     {
       "type": "text",
@@ -160,6 +198,12 @@
       "id": "show_points",
       "label": "Mostrar envío, devoluciones, atención y pago",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_links",
+      "label": "Enlaces de confianza junto a la CTA (V3)",
+      "default": false
     },
     {
       "type": "range",

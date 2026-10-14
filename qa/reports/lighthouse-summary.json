@@ -1,10 +1,10 @@
 {
   "/": {
-    "performance": 95,
+    "performance": 94,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "2.6 s",
+    "LCP": "2.7 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -13,11 +13,11 @@
     ]
   },
   "/products/adjustable-mouthpiece": {
-    "performance": 91,
+    "performance": 90,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "3.0 s",
+    "LCP": "3.2 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -26,11 +26,11 @@
     ]
   },
   "/pages/landing-snoring": {
-    "performance": 96,
+    "performance": 90,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "2.4 s",
+    "LCP": "3.3 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -39,11 +39,11 @@
     ]
   },
   "/pages/landing-partners": {
-    "performance": 93,
+    "performance": 94,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "3.0 s",
+    "LCP": "2.7 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [
@@ -65,11 +65,11 @@
     ]
   },
   "/pages/contact": {
-    "performance": 96,
+    "performance": 95,
     "accessibility": 100,
     "bestPractices": 96,
     "seo": 63,
-    "LCP": "2.4 s",
+    "LCP": "2.6 s",
     "CLS": "0",
     "TBT": "0 ms",
     "failed": [

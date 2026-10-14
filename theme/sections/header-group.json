@@ -44,11 +44,24 @@
         "mobile_logo_position": "center",
         "margin_bottom": 0,
         "padding_top": 16,
-        "padding_bottom": 16
+        "padding_bottom": 16,
+        "ds_cta_label": "Shop the mouthpiece",
+        "ds_cta_link": "shopify://products/adjustable-mouthpiece"
+      }
+    },
+    "ds_announce": {
+      "type": "ds-announce",
+      "settings": {
+        "visible_in": "comercial",
+        "source": "shipping",
+        "text": "",
+        "link": "/pages/shipping",
+        "color_scheme": "scheme-4"
       }
     }
   },
   "order": [
+    "ds_announce",
     "announcement-bar",
     "header"
   ]

@@ -1,0 +1,179 @@
+{%- comment -%}
+  V3 · Confianza con datos reales: envío, devoluciones, atención y pago (Ajustes del
+  tema › Oferta), fabricante (compliance.manufacturer_legal_name) y compromisos de
+  marca. Sin cifras de clientes, estrellas, sellos ni reseñas: las reseñas solo
+  podrán añadirse con una fuente verificada (docs/V3_COPY_Y_CRO.md §Confianza).
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
+{%- liquid
+  assign p = section.settings.product
+  if p == blank
+    assign p = product
+  endif
+-%}
+<section
+  class="ds-trust ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  aria-labelledby="DsTrust-{{ section.id }}"
+>
+  <div class="page-width">
+    {%- capture head_id -%}DsTrust-{{ section.id }}{%- endcapture -%}
+    {%- render 'ds-section-head', id: head_id, eyebrow: section.settings.eyebrow, heading: section.settings.heading, intro: section.settings.intro -%}
+    <ul class="ds-trust__grid" role="list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign icon = 'check'
+          assign title = block.settings.title
+          assign value = nil
+          assign pending = ''
+          assign link = block.settings.link
+          case block.type
+            when 'offer'
+              case block.settings.kind
+                when 'shipping'
+                  assign icon = 'truck'
+                  assign value = settings.ds_offer_shipping
+                  assign pending = 'shipping'
+                  if link == blank
+                    assign link = '/pages/shipping'
+                  endif
+                when 'returns'
+                  assign icon = 'return'
+                  assign value = settings.ds_offer_returns
+                  assign pending = 'returns'
+                  if link == blank
+                    assign link = '/pages/returns'
+                  endif
+                when 'support'
+                  assign icon = 'chat'
+                  assign value = settings.ds_offer_support
+                  assign pending = 'customer care'
+                  if link == blank
+                    assign link = '/pages/contact'
+                  endif
+                else
+                  assign icon = 'check'
+                  assign value = settings.ds_offer_payment
+                  assign pending = 'payment methods'
+              endcase
+            when 'manufacturer'
+              assign icon = 'doc'
+              assign value = p.metafields.compliance.manufacturer_legal_name.value
+              assign pending = 'manufacturer legal name'
+            when 'custom'
+              assign icon = block.settings.icon
+          endcase
+        -%}
+        <li class="ds-trust__item" {{ block.shopify_attributes }}>
+          <span class="ds-trust__icon" aria-hidden="true">{%- render 'ds-icon', name: icon -%}</span>
+          <div>
+            <h3 class="ds-trust__title">{{ title | escape }}</h3>
+            <div class="ds-trust__text">
+              {%- if block.type == 'custom' -%}
+                {{ block.settings.text }}
+              {%- elsif value != blank -%}
+                <p>{{ value | escape }}</p>
+              {%- else -%}
+                <p>{%- render 'ds-pending', label: pending -%}</p>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.link_label != blank and link != blank -%}
+              <a class="ds-trust__link" href="{{ link }}">{{ block.settings.link_label | escape }}</a>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Confianza",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "comercial",
+      "options": [
+        { "value": "all", "label": "Todos los estados" },
+        { "value": "prototipo", "label": "Solo PROTOTIPO" },
+        { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" }
+      ]
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "text", "id": "anchor", "label": "Ancla" },
+    { "type": "product", "id": "product", "label": "Producto" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Before you decide" },
+    { "type": "richtext", "id": "intro", "label": "Entradilla" },
+    { "type": "paragraph", "content": "Sin estrellas, cifras de clientes, sellos ni reseñas no verificadas (FTC 16 CFR 465)." },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    {
+      "type": "offer",
+      "name": "Dato de la oferta",
+      "settings": [
+        {
+          "type": "select",
+          "id": "kind",
+          "label": "Dato",
+          "default": "shipping",
+          "options": [
+            { "value": "shipping", "label": "Envío" },
+            { "value": "returns", "label": "Devoluciones" },
+            { "value": "support", "label": "Atención al cliente" },
+            { "value": "payment", "label": "Formas de pago" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Título" },
+        { "type": "text", "id": "link_label", "label": "Enlace (texto)" },
+        { "type": "url", "id": "link", "label": "Enlace (destino)", "info": "Vacío = página de la política correspondiente." }
+      ]
+    },
+    {
+      "type": "manufacturer",
+      "name": "Fabricante",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título", "default": "Who makes it" },
+        { "type": "text", "id": "link_label", "label": "Enlace (texto)" },
+        { "type": "url", "id": "link", "label": "Enlace (destino)" }
+      ]
+    },
+    {
+      "type": "custom",
+      "name": "Compromiso",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "default": "check",
+          "options": [
+            { "value": "check", "label": "Check" },
+            { "value": "book", "label": "Libro" },
+            { "value": "person", "label": "Persona" },
+            { "value": "alert", "label": "Aviso" },
+            { "value": "doc", "label": "Documento" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Título" },
+        { "type": "richtext", "id": "text", "label": "Texto (verificable)" },
+        { "type": "text", "id": "link_label", "label": "Enlace (texto)" },
+        { "type": "url", "id": "link", "label": "Enlace (destino)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "DS · Confianza" }]
+}
+{% endschema %}

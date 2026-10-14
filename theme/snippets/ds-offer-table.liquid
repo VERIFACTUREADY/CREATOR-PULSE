@@ -1,0 +1,41 @@
+{% comment %}
+  V3 · Comparación de opciones REALES (variantes del catálogo: 1 unidad, 2 unidades, kit…).
+  Precio solo con commercial.price_confirmed; precio por unidad solo con el «unit price»
+  nativo de Shopify; ahorro solo con commercial.compare_at_verified. Indica si hay
+  cargos recurrentes (planes de venta). Nunca inventa packs ni descuentos.
+  Accepts: product, block
+{% endcomment %}
+{%- capture ds_ov -%}{%- render 'ds-offer-visible', product: product -%}{%- endcapture -%}
+{%- if ds_ov == 'true' -%}
+  <div class="ds-offer-table" {{ block.shopify_attributes }}>
+    {%- if product.variants.size > 1 -%}
+      {%- assign ds_pc = product.metafields.commercial.price_confirmed.value -%}
+      {%- assign ds_cv = product.metafields.commercial.compare_at_verified.value -%}
+      <table class="ds-offer-table__table">
+        <caption>{{ block.settings.heading | escape }}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{{ 'ds.v3.offer_option' | t }}</th>
+            <th scope="col">{{ 'ds.v3.offer_total' | t }}</th>
+            <th scope="col">{{ 'ds.v3.offer_unit' | t }}</th>
+            <th scope="col">{{ 'ds.v3.offer_saving' | t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for v in product.variants -%}
+            <tr>
+              <th scope="row">{{ v.title | escape }}</th>
+              <td>{%- if ds_pc == true -%}{{ v.price | money }}{%- else -%}{%- render 'ds-pending', label: 'confirmed price' -%}{%- endif -%}</td>
+              <td>{%- if ds_pc == true and v.unit_price_measurement -%}{{ v.unit_price | money }}/{{ v.unit_price_measurement.reference_unit }}{%- else -%}—{%- endif -%}</td>
+              <td>{%- if ds_pc == true and ds_cv == true and v.compare_at_price > v.price -%}{{ v.compare_at_price | minus: v.price | money }}{%- else -%}—{%- endif -%}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    {%- endif -%}
+    <p class="ds-offer-table__note">
+      <span aria-hidden="true">{%- render 'ds-icon', name: 'check' -%}</span>
+      {%- if product.selling_plan_groups.size > 0 -%}{{ 'ds.v3.has_plans' | t }}{%- else -%}{{ 'ds.v3.one_time' | t }}{%- endif -%}
+    </p>
+  </div>
+{%- endif -%}

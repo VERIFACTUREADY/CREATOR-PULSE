@@ -1,0 +1,142 @@
+{%- comment -%}
+  V3 · Bloque editorial imagen + texto (descanso en pareja, «qué es», hero de la
+  landing B). Sin foto con derechos se muestra un hueco ⟦PENDING⟧ con la toma que
+  falta. Opcionalmente muestra un metacampo del producto (qué es / para quién) y su
+  precio confirmado. Puede ser el H1 de una landing.
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
+{%- liquid
+  assign p = section.settings.product
+  if p == blank
+    assign p = product
+  endif
+  assign mf = nil
+  if section.settings.metafield == 'what_is'
+    assign mf = p.metafields.commercial.what_is
+    assign mf_label = 'what it is (approved product sheet)'
+  elsif section.settings.metafield == 'for_whom'
+    assign mf = p.metafields.commercial.for_whom
+    assign mf_label = 'who it’s for (approved product sheet)'
+  endif
+  assign is_h1 = false
+  if section.settings.heading_level == 'h1'
+    assign is_h1 = true
+  endif
+-%}
+<section
+  class="ds-editorial{% if is_h1 %} ds-editorial--hero{% endif %} ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  aria-labelledby="DsEdit-{{ section.id }}"
+>
+  <div class="page-width ds-editorial__grid ds-editorial__grid--{{ section.settings.layout }}">
+    <div class="ds-editorial__media">
+      {%- if section.settings.image != blank -%}
+        {%- if is_h1 -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '375, 550, 750, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: section.settings.image.alt }}
+        {%- else -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '375, 550, 750, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: section.settings.image.alt }}
+        {%- endif -%}
+      {%- else -%}
+        {%- render 'ds-photo-placeholder', label: section.settings.image_note, ratio: 'landscape' -%}
+      {%- endif -%}
+    </div>
+    <div class="ds-editorial__content">
+      {%- if section.settings.eyebrow != blank -%}<p class="ds-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      {%- if is_h1 -%}
+        <h1 id="DsEdit-{{ section.id }}" class="ds-editorial__title ds-editorial__title--h1">{{ section.settings.heading | escape }}</h1>
+      {%- else -%}
+        <h2 id="DsEdit-{{ section.id }}" class="ds-editorial__title h2">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}<div class="ds-editorial__text ds-rte">{{ section.settings.text }}</div>{%- endif -%}
+      {%- if section.settings.metafield != 'none' -%}
+        <div class="ds-editorial__mf ds-rte">
+          {%- if mf != blank -%}{{ mf | metafield_tag }}{%- else -%}<p>{%- render 'ds-pending', label: mf_label -%}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.show_price and p != blank -%}
+        <div class="ds-editorial__price">{%- render 'price', product: p, use_variant: true -%}</div>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank or section.settings.secondary_label != blank -%}
+        <div class="ds-editorial__actions">
+          {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+            <a class="button button--primary" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}</a>
+          {%- endif -%}
+          {%- if section.settings.secondary_label != blank and section.settings.secondary_link != blank -%}
+            <a class="ds-link-arrow" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label | escape }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Editorial",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "visible_in",
+      "label": "Mostrar en",
+      "default": "comercial",
+      "options": [
+        { "value": "all", "label": "Todos los estados" },
+        { "value": "prototipo", "label": "Solo PROTOTIPO" },
+        { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" }
+      ]
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-3" },
+    { "type": "text", "id": "anchor", "label": "Ancla" },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Composición (escritorio)",
+      "default": "image_left",
+      "options": [
+        { "value": "image_left", "label": "Imagen a la izquierda" },
+        { "value": "image_right", "label": "Imagen a la derecha" }
+      ]
+    },
+    { "type": "image_picker", "id": "image", "label": "Imagen (solo con licencia y autorizada)" },
+    { "type": "text", "id": "image_note", "label": "Toma que falta (si no hay imagen)", "default": "Lifestyle photo: an adult couple in a calm bedroom (licensed)" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Because you share the night." },
+    {
+      "type": "select",
+      "id": "heading_level",
+      "label": "Nivel del título",
+      "default": "h2",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h1", "label": "H1 (solo una vez por página)" }
+      ]
+    },
+    { "type": "richtext", "id": "text", "label": "Texto (breve)" },
+    { "type": "product", "id": "product", "label": "Producto" },
+    {
+      "type": "select",
+      "id": "metafield",
+      "label": "Añadir del producto",
+      "default": "none",
+      "options": [
+        { "value": "none", "label": "Nada" },
+        { "value": "what_is", "label": "Qué es (commercial.what_is)" },
+        { "value": "for_whom", "label": "Para quién (commercial.for_whom)" }
+      ]
+    },
+    { "type": "checkbox", "id": "show_price", "label": "Mostrar precio (solo si está confirmado)", "default": false },
+    { "type": "text", "id": "button_label", "label": "Botón" },
+    { "type": "url", "id": "button_link", "label": "Botón (destino)" },
+    { "type": "text", "id": "secondary_label", "label": "Enlace secundario" },
+    { "type": "url", "id": "secondary_link", "label": "Enlace secundario (destino)" },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 }
+  ],
+  "presets": [{ "name": "DS · Editorial" }]
+}
+{% endschema %}
