@@ -18,6 +18,6 @@ Ajustes en el tema subido: `ds_store_mode = preview_comercial`, `ds_noindex = tr
 No se ha publicado ni sustituido el tema principal. No se ha tocado la contraseña, los pagos, los mercados, los impuestos, los envíos ni el nombre de la tienda. No se han creado productos, páginas, menús ni metacampos (pasos 2–5 de `docs/PROMPT_OTRO_CHAT_SHOPIFY.md`, pendientes de autorización). No se ha instalado ninguna app ni píxel.
 
 ## Pendiente
-- Sin la página `adjustable-mouthpiece` ni las páginas `/pages/*`, la vista previa muestra la portada con ⟦PENDING⟧, pero la ficha, las landings y el botón de la cabecera dan 404.
+- Sin el producto `adjustable-mouthpiece` ni las páginas `/pages/*`, la vista previa muestra la portada con ⟦PENDING⟧, pero la ficha, las landings y el botón de la cabecera dan 404.
 - Un producto en Draft no se ve en la tienda; solo desde el admin con «Preview».
 - El tema `Horizon` y el `Helio` publicado siguen como estaban.
