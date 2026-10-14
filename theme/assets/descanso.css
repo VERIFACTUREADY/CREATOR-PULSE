@@ -934,3 +934,30 @@ body { font-size: var(--ds-fs-body); }
   .ds-editorial--hero .ds-editorial__media .ds-photo-placeholder { max-height: 15vh; min-height: 0; }
   .ds-editorial--hero .ds-photo-placeholder__text { display: none; }
 }
+
+/* V3 · Fotos reales del producto (fondo blanco): se muestran enteras, sin recortar. */
+.ds-phero__media:has(img) { background: #fff; }
+.ds-phero__media img { width: 100%; height: auto; object-fit: contain; }
+@media screen and (max-width: 749px) {
+  .ds-phero__media img { max-height: 30vh; object-fit: contain; background: #fff; }
+}
+@media screen and (max-width: 749px) and (max-height: 700px) {
+  .ds-phero__media img { max-height: 22vh; }
+}
+.ds-editorial__media:has(img) { box-shadow: var(--ds-shadow-1); }
+@media screen and (max-width: 749px) {
+  .ds-editorial--hero .ds-editorial__media img { max-height: 28vh; object-fit: cover; }
+}
+@media screen and (max-width: 749px) and (max-height: 700px) {
+  .ds-editorial--hero .ds-editorial__media img { max-height: 18vh; }
+}
+
+/* V3 · Primera pantalla con fotos reales (QA C-01: título, precio y CTA visibles en móvil). */
+@media screen and (max-width: 749px) {
+  .product__media-wrapper .product-media-container.constrain-height { max-width: calc(30vh * var(--ratio)); margin-left: auto; margin-right: auto; }
+  .product__media-wrapper .product__media-list { margin-bottom: 0; }
+}
+@media screen and (max-width: 749px) and (max-height: 700px) {
+  .product__media-wrapper .product-media-container.constrain-height { max-width: calc(12vh * var(--ratio)); }
+  .ds-phero__media img { max-height: 16vh; }
+}

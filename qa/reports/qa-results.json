@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-14T22:27:53.558Z",
+  "date": "2026-10-14T23:48:38.733Z",
   "routes": {
     "/": {
       "375": {
@@ -1076,12 +1076,12 @@
       "/pages/accessibility": 5,
       "/pages/landing-snoring": 3,
       "/pages/landing-partners": 3,
-      "/products/adjustable-mouthpiece": 29,
+      "/products/adjustable-mouthpiece": 21,
       "/cart": 3,
       "/404": 3
     },
     "preview": {
-      "/": 23,
+      "/": 20,
       "/pages/how-it-works": 3,
       "/pages/the-product": 3,
       "/pages/use-and-safety": 3,
@@ -1094,14 +1094,14 @@
       "/pages/terms": 9,
       "/pages/company-information": 13,
       "/pages/accessibility": 5,
-      "/pages/landing-snoring": 14,
-      "/pages/landing-partners": 12,
-      "/products/adjustable-mouthpiece": 42,
+      "/pages/landing-snoring": 13,
+      "/pages/landing-partners": 10,
+      "/products/adjustable-mouthpiece": 34,
       "/cart": 3,
       "/404": 3
     },
     "liveNoConfirm": {
-      "/": 3,
+      "/": 1,
       "/pages/about": 1,
       "/pages/contact": 1,
       "/pages/shipping": 11,
@@ -1111,11 +1111,11 @@
       "/pages/company-information": 5,
       "/pages/accessibility": 2,
       "/pages/landing-snoring": 1,
-      "/pages/landing-partners": 2,
+      "/pages/landing-partners": 1,
       "/products/adjustable-mouthpiece": 1
     },
     "liveIncomplete": {
-      "/": 13,
+      "/": 10,
       "/pages/about": 1,
       "/pages/contact": 1,
       "/pages/shipping": 11,
@@ -1124,12 +1124,12 @@
       "/pages/terms": 6,
       "/pages/company-information": 5,
       "/pages/accessibility": 2,
-      "/pages/landing-snoring": 8,
-      "/pages/landing-partners": 6,
-      "/products/adjustable-mouthpiece": 31
+      "/pages/landing-snoring": 7,
+      "/pages/landing-partners": 4,
+      "/products/adjustable-mouthpiece": 23
     },
     "liveComplete": {
-      "/": 3,
+      "/": 1,
       "/pages/about": 1,
       "/pages/contact": 1,
       "/pages/shipping": 11,
@@ -1139,11 +1139,11 @@
       "/pages/company-information": 5,
       "/pages/accessibility": 2,
       "/pages/landing-snoring": 1,
-      "/pages/landing-partners": 2,
+      "/pages/landing-partners": 1,
       "/products/adjustable-mouthpiece": 1
     },
     "liveNoBrand": {
-      "/": 3,
+      "/": 1,
       "/pages/about": 1,
       "/pages/contact": 1,
       "/pages/shipping": 11,
@@ -1153,7 +1153,7 @@
       "/pages/company-information": 5,
       "/pages/accessibility": 2,
       "/pages/landing-snoring": 1,
-      "/pages/landing-partners": 2,
+      "/pages/landing-partners": 1,
       "/products/adjustable-mouthpiece": 1
     }
   },

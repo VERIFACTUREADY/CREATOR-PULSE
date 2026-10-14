@@ -28,7 +28,8 @@
         "show_points": false,
         "show_trust_links": true,
         "padding_top": 32,
-        "padding_bottom": 64
+        "padding_bottom": 64,
+        "image": "shopify://shop_images/vincirena-mouthpiece-3-4-right.jpg"
       }
     },
     "explain": {

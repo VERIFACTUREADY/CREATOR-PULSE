@@ -51,6 +51,13 @@ Documentos V3: `V3_REFERENCIAS_Y_AUDITORIA.md` (fases 1 y 2) · `V3_SISTEMA_DE_D
 
 **Objetivos del brief (LCP < 2,5 s, CLS ≤ 0,1, INP < 200 ms): no se pueden declarar cumplidos.** CLS = 0 y TBT = 0 ms (indicador de INP en laboratorio) son buenos. El **LCP local no alcanza los 2,5 s** en 5 de 6 rutas, igual que en la V2.2. El elemento LCP es el H1 (texto) y el retraso se debe al CSS que bloquea el render (Dawn + `descanso.css`), que el servidor local entrega sin compresión. En Shopify (CDN con brotli y HTTP/2) hay que medir de nuevo con PageSpeed Insights y los datos de campo (CrUX/Web Vitals de Shopify). Si sigue por encima de 2,5 s, las medidas son: CSS crítico del hero en línea y el resto con `media="print"` y `onload`, o dividir `descanso.css` por plantilla.
 
+## Actualización 14/10/2026: fotos reales del producto
+
+- 8 fotos del titular en la galería de la ficha y en los heros y bloques editoriales (detalle en `V3_PLAN_DE_ACTIVOS.md`). Las 3 de estética espectacular se descartan para la web.
+- CSS: las fotos de producto se ven enteras sobre blanco. En móvil, la galería de la ficha se limita a 30 vh (12 vh en pantallas de 667 px o menos) y se ocultan las miniaturas (`mobile_thumbnails: hide`, galería deslizable), para que título, precio y botón sigan en la primera pantalla.
+- Previsualizador local: sirve `shopify://shop_images/*` desde `media/producto/`, y `image_tag` toma el texto alternativo de la imagen, como hace Shopify. Limitación conocida: las miniaturas de Dawn salen como texto en local, pero en Shopify se renderizan bien.
+- QA repetido: Theme Check 0 errores · compuerta 62/62 · rutas de compra 48/48 · `run-qa` sin incidencias (0 imágenes sin texto alternativo, axe 0, primera pantalla 8/8).
+
 ## Lo que NO se ha hecho
 
 - No se han visitado HONEX, Snoozer ni AliExpress (bloqueados en el entorno). Ver `V3_REFERENCIAS_Y_AUDITORIA.md` §1.

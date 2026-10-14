@@ -70,6 +70,11 @@ FAQ_COM = [
 
 
 def build():
+    # Fotos reales del producto en Shopify Files (subidas el 14/10/2026; copia en media/producto/). Ver docs/V3_PLAN_DE_ACTIVOS.md.
+    IMG = {k: 'shopify://shop_images/vincirena-' + v + '.jpg' for k, v in {
+        '34left': 'mouthpiece-3-4-left', '34right': 'mouthpiece-3-4-right', 'front': 'mouthpiece-front',
+        'case': 'mouthpiece-case-tool', 'couple': 'lifestyle-couple-bedside'}.items()}
+
     # ------------------------------------------------------------- V3 · piezas comunes
     # Copy V3: docs/V3_COPY_Y_CRO.md (alternativas evaluadas) y docs/04_CLAIMS_APPROVAL_US.csv (US-M-06…).
     # Ningún texto afirma beneficios del producto: eso sale de metacampos aprobados o de ⟦PENDING⟧.
@@ -123,7 +128,8 @@ def build():
     t = T()
     t.add('phero', 'ds-product-hero', {'visible_in': 'comercial', 'product': PH, 'eyebrow': 'The adjustable mouthpiece', 'heading': 'Because peaceful nights matter to both of you.',
           'subheading': "<p>Snoring can affect the person who snores and the person next to them. Meet our adjustable mouthpiece — what it is, how it's used and what's included, explained simply.</p>",
-          'button_label': 'See the mouthpiece', 'secondary_label': 'How it works', 'secondary_link': '#how-it-works', 'show_points': False, 'show_benefit': True, 'show_trust_links': True, 'padding_top': 32, 'padding_bottom': 64})
+          'button_label': 'See the mouthpiece', 'secondary_label': 'How it works', 'secondary_link': '#how-it-works', 'show_points': False, 'show_benefit': True, 'show_trust_links': True, 'padding_top': 32, 'padding_bottom': 64,
+          'image': IMG['34left']})
     t.add('hero', 'ds-hero', {'visible_in': 'prototipo', 'eyebrow': 'Sleeping as a couple', 'heading': 'Because you share the night.',
           'text': '<p>Snoring can affect the nights you share. Learn about its causes and the options available.</p>',
           'button_label': 'Understand your options', 'button_link': '/pages/how-it-works', 'quick_label': 'Quick links', 'padding_top': 40, 'padding_bottom': 48},
@@ -141,7 +147,7 @@ def build():
           'text': '<p>Snoring can affect the sleep of the person who snores and the person who shares the bed. Talking about it without blame is a good first step.</p>',
           'source_label': AASM[0], 'source_url': AASM[1], 'review': 'sanitaria', 'padding_top': 64, 'padding_bottom': 64})
     t.add('meet', 'ds-editorial', {'visible_in': 'comercial', 'color_scheme': 'scheme-5', 'layout': 'image_right', 'product': PH,
-          'image_note': 'Product photo: the real mouthpiece and its case on a neutral background (licensed)', 'eyebrow': 'Meet the mouthpiece', 'heading': 'A simple device, explained clearly.',
+          'image': IMG['case'], 'image_note': 'Product photo: the real mouthpiece and its case on a neutral background (licensed)', 'eyebrow': 'Meet the mouthpiece', 'heading': 'A simple device, explained clearly.',
           'text': "<p>It's a mouthpiece you wear while you sleep. Here's what it is in plain words — based on the manufacturer's documentation, not on guesswork.</p>",
           'metafield': 'what_is', 'show_price': True, 'button_label': 'See the mouthpiece', 'button_link': PURL, 'secondary_label': "What's included", 'secondary_link': PURL + '#whats-included'})
     mechanism(t, link=('See the full product page', PURL))
@@ -151,7 +157,7 @@ def build():
            ('card', {'icon': 'compare', 'title': 'Not all causes are the same', 'text': "<p>Snoring doesn't always have the same cause. That's why there is no single solution for everyone.</p>", 'source_label': ADA[0], 'source_url': ADA[1], 'link_label': 'See the options', 'link': '/pages/how-it-works#options'}),
            ('card', {'icon': 'alert', 'title': "When it's worth talking to a provider", 'text': '<p>If someone notices you stop breathing for a few seconds while you sleep, you wake up gasping or choking, or you feel very sleepy during the day, talk to a healthcare provider.</p>', 'source_label': ADA[0], 'source_url': ADA[1], 'link_label': 'See the signs', 'link': '/pages/use-and-safety#when-to-talk-to-a-provider'})])
     t.add('couple', 'ds-editorial', {'visible_in': 'comercial', 'color_scheme': 'scheme-3', 'layout': 'image_left',
-          'image_note': 'Lifestyle photo: an adult couple, relaxed, in a calm bedroom (licensed, real models)', 'eyebrow': 'Sleeping as a couple', 'heading': 'Better nights are a team effort.',
+          'image': IMG['couple'], 'image_note': 'Lifestyle photo: an adult couple, relaxed, in a calm bedroom (licensed, real models)', 'eyebrow': 'Sleeping as a couple', 'heading': 'Better nights are a team effort.',
           'text': "<p>Talking about snoring can feel awkward. It goes better when it's about sleep, not blame — and when you look at the options together.</p>",
           'button_label': 'Read our guide for couples', 'button_link': '/pages/landing-partners', 'secondary_label': 'See the mouthpiece', 'secondary_link': PURL})
     t.add('status', 'ds-status', {'visible_in': 'prototipo', 'eyebrow': 'Product under document review', 'heading': 'Before we sell, we check',
@@ -191,7 +197,7 @@ def build():
     # ------------------------------------------------------------- PRODUCT (V3)
     t = T()
     t.add('main', 'main-product', {'enable_sticky_info': True, 'color_scheme': 'scheme-1', 'media_position': 'left', 'gallery_layout': 'thumbnail_slider', 'media_size': 'medium',
-          'constrain_to_viewport': True, 'media_fit': 'contain', 'image_zoom': 'lightbox', 'mobile_thumbnails': 'show', 'hide_variants': True, 'enable_video_looping': False, 'padding_top': 32, 'padding_bottom': 48},
+          'constrain_to_viewport': True, 'media_fit': 'contain', 'image_zoom': 'lightbox', 'mobile_thumbnails': 'hide', 'hide_variants': True, 'enable_video_looping': False, 'padding_top': 32, 'padding_bottom': 48},
           [('ds_prototype_label', {'text': 'Product under document review'}), ('title', {}), ('ds_benefit', {}), ('price', {}),
            ('variant_picker', {'picker_type': 'button', 'swatch_shape': 'circle'}), ('quantity_selector', {}),
            ('buy_buttons', {'show_dynamic_checkout': False, 'show_gift_card_recipient': False}), ('ds_highlights', {}), ('ds_offer_table', {'heading': 'Compare options'}), ('ds_offer_points', {}), ('description', {})])
@@ -214,7 +220,7 @@ def build():
     t.add('proto', *PROTO)
     t.add('phero', 'ds-product-hero', {'visible_in': 'comercial', 'product': PH, 'eyebrow': 'If you snore', 'heading': 'Worried about your snoring?',
           'subheading': "<p>See what our mouthpiece is, how it's used and what's included — explained simply.</p>", 'button_label': 'See the mouthpiece',
-          'secondary_label': 'How it works', 'secondary_link': '#how-it-works', 'show_points': False, 'show_trust_links': True, 'padding_top': 32, 'padding_bottom': 64})
+          'secondary_label': 'How it works', 'secondary_link': '#how-it-works', 'show_points': False, 'show_trust_links': True, 'padding_top': 32, 'padding_bottom': 64, 'image': IMG['34right']})
     t.add('explain', 'ds-cards', {'visible_in': 'comercial', 'color_scheme': 'scheme-5', 'eyebrow': 'Snoring, explained', 'heading': 'Three things worth knowing first', 'columns': '3', 'review': 'sanitaria'},
           [('card', {'icon': 'moon', 'title': 'What snoring is', 'text': '<p>It is the sound made when you breathe during sleep and the airway narrows.</p>', 'source_label': AASM[0], 'source_url': AASM[1]}),
            ('card', {'icon': 'compare', 'title': 'Not all snoring is the same', 'text': "<p>Snoring doesn't always have the same cause. That's why there is no single solution for everyone.</p>", 'source_label': ADA[0], 'source_url': ADA[1]}),
@@ -230,7 +236,7 @@ def build():
     t = T()
     t.add('proto', *PROTO)
     t.add('hero', 'ds-editorial', {'visible_in': 'comercial', 'color_scheme': 'scheme-1', 'layout': 'image_right', 'heading_level': 'h1', 'padding_top': 32, 'padding_bottom': 64,
-          'image_note': 'Lifestyle photo: an adult couple waking up rested in a calm bedroom (licensed, real models)', 'eyebrow': 'Sleeping as a couple',
+          'image': IMG['couple'], 'image_note': 'Lifestyle photo: an adult couple waking up rested in a calm bedroom (licensed, real models)', 'eyebrow': 'Sleeping as a couple',
           'heading': 'When one person snores, two people can be awake.', 'text': "<p>Because you share the night. Here's a calmer way to talk about snoring — and a closer look at one option.</p>",
           'product': PH, 'show_price': True, 'button_label': 'See the mouthpiece', 'button_link': PURL, 'secondary_label': 'How to talk about it', 'secondary_link': '#talk'})
     t.add('night', 'ds-moments', {'visible_in': 'comercial', 'color_scheme': 'scheme-3', 'eyebrow': 'Sound familiar?', 'heading': 'One night, two very different experiences.', 'source_label': AASM[0], 'source_url': AASM[1], 'review': 'sanitaria'},
@@ -244,7 +250,7 @@ def build():
            ('card', {'icon': 'alert', 'title': 'Know when to see a provider', 'text': '<p>If someone stops breathing for a few seconds while asleep, wakes up gasping or choking, or is very sleepy during the day, talk to a healthcare provider.</p>', 'source_label': ADA[0], 'source_url': ADA[1]})])
     t.add('phero', 'ds-product-hero', {'visible_in': 'comercial', 'product': PH, 'color_scheme': 'scheme-2', 'heading_level': 'h2', 'eyebrow': 'One option to look at',
           'subheading': "<p>See what it is, how it's used and what's included — explained simply.</p>", 'button_label': 'See the mouthpiece',
-          'secondary_label': "What's included", 'secondary_link': PURL + '#whats-included', 'show_points': False, 'show_benefit': True, 'show_trust_links': True, 'padding_top': 72, 'padding_bottom': 72})
+          'secondary_label': "What's included", 'secondary_link': PURL + '#whats-included', 'show_points': False, 'show_benefit': True, 'show_trust_links': True, 'padding_top': 72, 'padding_bottom': 72, 'image': IMG['front']})
     mechanism(t, scheme='scheme-1', link=('See the full product page', PURL))
     t.add('faq', 'ds-faq', {'visible_in': 'comercial', 'heading': 'Questions couples ask'}, [FAQ_V3['partner'], RIGHT, FAQ_V3['discomfort'], APNEA, SHIP, RET, CONTACT])
     closing(t, 'closing', 'Sleep is something you share.')

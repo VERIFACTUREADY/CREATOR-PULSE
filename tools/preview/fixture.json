@@ -285,9 +285,236 @@
         "price": 0,
         "price_min": 0,
         "price_max": 0,
-        "media": [],
-        "featured_media": null,
-        "images": [],
+        "media": [
+          {
+            "id": 1000,
+            "media_type": "image",
+            "position": 1,
+            "alt": "Adjustable mouthpiece, three-quarter view showing the upper and lower trays",
+            "preview_image": {
+              "src": "/shop-images/vincirena-mouthpiece-3-4-left.jpg",
+              "width": 1254,
+              "height": 1254,
+              "aspect_ratio": 1.0,
+              "alt": "Adjustable mouthpiece, three-quarter view showing the upper and lower trays",
+              "id": 1000
+            },
+            "src": "/shop-images/vincirena-mouthpiece-3-4-left.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0
+          },
+          {
+            "id": 1001,
+            "media_type": "image",
+            "position": 2,
+            "alt": "Adjustable mouthpiece, front view",
+            "preview_image": {
+              "src": "/shop-images/vincirena-mouthpiece-front.jpg",
+              "width": 1254,
+              "height": 1254,
+              "aspect_ratio": 1.0,
+              "alt": "Adjustable mouthpiece, front view",
+              "id": 1001
+            },
+            "src": "/shop-images/vincirena-mouthpiece-front.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0
+          },
+          {
+            "id": 1002,
+            "media_type": "image",
+            "position": 3,
+            "alt": "Adjustable mouthpiece seen from above, showing the inside of the upper tray",
+            "preview_image": {
+              "src": "/shop-images/vincirena-mouthpiece-top-front.jpg",
+              "width": 1254,
+              "height": 1254,
+              "aspect_ratio": 1.0,
+              "alt": "Adjustable mouthpiece seen from above, showing the inside of the upper tray",
+              "id": 1002
+            },
+            "src": "/shop-images/vincirena-mouthpiece-top-front.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0
+          },
+          {
+            "id": 1003,
+            "media_type": "image",
+            "position": 4,
+            "alt": "Adjustable mouthpiece, side view showing the metal adjustment point",
+            "preview_image": {
+              "src": "/shop-images/vincirena-mouthpiece-3-4-right.jpg",
+              "width": 1254,
+              "height": 1254,
+              "aspect_ratio": 1.0,
+              "alt": "Adjustable mouthpiece, side view showing the metal adjustment point",
+              "id": 1003
+            },
+            "src": "/shop-images/vincirena-mouthpiece-3-4-right.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0
+          },
+          {
+            "id": 1004,
+            "media_type": "image",
+            "position": 5,
+            "alt": "Adjustable mouthpiece, top-down view of the tray surface",
+            "preview_image": {
+              "src": "/shop-images/vincirena-mouthpiece-top.jpg",
+              "width": 1254,
+              "height": 1254,
+              "aspect_ratio": 1.0,
+              "alt": "Adjustable mouthpiece, top-down view of the tray surface",
+              "id": 1004
+            },
+            "src": "/shop-images/vincirena-mouthpiece-top.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0
+          },
+          {
+            "id": 1005,
+            "media_type": "image",
+            "position": 6,
+            "alt": "Adjustable mouthpiece, rear view",
+            "preview_image": {
+              "src": "/shop-images/vincirena-mouthpiece-back.jpg",
+              "width": 1254,
+              "height": 1254,
+              "aspect_ratio": 1.0,
+              "alt": "Adjustable mouthpiece, rear view",
+              "id": 1005
+            },
+            "src": "/shop-images/vincirena-mouthpiece-back.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0
+          },
+          {
+            "id": 1006,
+            "media_type": "image",
+            "position": 7,
+            "alt": "The mouthpiece next to its storage case and a small adjustment tool",
+            "preview_image": {
+              "src": "/shop-images/vincirena-mouthpiece-case-tool.jpg",
+              "width": 1254,
+              "height": 1254,
+              "aspect_ratio": 1.0,
+              "alt": "The mouthpiece next to its storage case and a small adjustment tool",
+              "id": 1006
+            },
+            "src": "/shop-images/vincirena-mouthpiece-case-tool.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0
+          },
+          {
+            "id": 1007,
+            "media_type": "image",
+            "position": 8,
+            "alt": "An adult couple asleep; the mouthpiece, its case and the tool rest on the bedside table",
+            "preview_image": {
+              "src": "/shop-images/vincirena-lifestyle-couple-bedside.jpg",
+              "width": 1536,
+              "height": 1024,
+              "aspect_ratio": 1.5,
+              "alt": "An adult couple asleep; the mouthpiece, its case and the tool rest on the bedside table",
+              "id": 1007
+            },
+            "src": "/shop-images/vincirena-lifestyle-couple-bedside.jpg",
+            "width": 1536,
+            "height": 1024,
+            "aspect_ratio": 1.5
+          }
+        ],
+        "featured_media": {
+          "id": 1000,
+          "media_type": "image",
+          "position": 1,
+          "alt": "Adjustable mouthpiece, three-quarter view showing the upper and lower trays",
+          "preview_image": {
+            "src": "/shop-images/vincirena-mouthpiece-3-4-left.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0,
+            "alt": "Adjustable mouthpiece, three-quarter view showing the upper and lower trays",
+            "id": 1000
+          },
+          "src": "/shop-images/vincirena-mouthpiece-3-4-left.jpg",
+          "width": 1254,
+          "height": 1254,
+          "aspect_ratio": 1.0
+        },
+        "images": [
+          {
+            "src": "/shop-images/vincirena-mouthpiece-3-4-left.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0,
+            "alt": "Adjustable mouthpiece, three-quarter view showing the upper and lower trays",
+            "id": 1000
+          },
+          {
+            "src": "/shop-images/vincirena-mouthpiece-front.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0,
+            "alt": "Adjustable mouthpiece, front view",
+            "id": 1001
+          },
+          {
+            "src": "/shop-images/vincirena-mouthpiece-top-front.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0,
+            "alt": "Adjustable mouthpiece seen from above, showing the inside of the upper tray",
+            "id": 1002
+          },
+          {
+            "src": "/shop-images/vincirena-mouthpiece-3-4-right.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0,
+            "alt": "Adjustable mouthpiece, side view showing the metal adjustment point",
+            "id": 1003
+          },
+          {
+            "src": "/shop-images/vincirena-mouthpiece-top.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0,
+            "alt": "Adjustable mouthpiece, top-down view of the tray surface",
+            "id": 1004
+          },
+          {
+            "src": "/shop-images/vincirena-mouthpiece-back.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0,
+            "alt": "Adjustable mouthpiece, rear view",
+            "id": 1005
+          },
+          {
+            "src": "/shop-images/vincirena-mouthpiece-case-tool.jpg",
+            "width": 1254,
+            "height": 1254,
+            "aspect_ratio": 1.0,
+            "alt": "The mouthpiece next to its storage case and a small adjustment tool",
+            "id": 1006
+          },
+          {
+            "src": "/shop-images/vincirena-lifestyle-couple-bedside.jpg",
+            "width": 1536,
+            "height": 1024,
+            "aspect_ratio": 1.5,
+            "alt": "An adult couple asleep; the mouthpiece, its case and the tool rest on the bedside table",
+            "id": 1007
+          }
+        ],
         "tags": [],
         "options": [
           "Title"
@@ -333,5 +560,47 @@
       "template": "404",
       "title": "Page not found"
     }
-  ]
+  ],
+  "shop_images": {
+    "vincirena-mouthpiece-3-4-left.jpg": {
+      "width": 1254,
+      "height": 1254,
+      "alt": "Adjustable mouthpiece, three-quarter view showing the upper and lower trays"
+    },
+    "vincirena-mouthpiece-front.jpg": {
+      "width": 1254,
+      "height": 1254,
+      "alt": "Adjustable mouthpiece, front view"
+    },
+    "vincirena-mouthpiece-top-front.jpg": {
+      "width": 1254,
+      "height": 1254,
+      "alt": "Adjustable mouthpiece seen from above, showing the inside of the upper tray"
+    },
+    "vincirena-mouthpiece-3-4-right.jpg": {
+      "width": 1254,
+      "height": 1254,
+      "alt": "Adjustable mouthpiece, side view showing the metal adjustment point"
+    },
+    "vincirena-mouthpiece-top.jpg": {
+      "width": 1254,
+      "height": 1254,
+      "alt": "Adjustable mouthpiece, top-down view of the tray surface"
+    },
+    "vincirena-mouthpiece-back.jpg": {
+      "width": 1254,
+      "height": 1254,
+      "alt": "Adjustable mouthpiece, rear view"
+    },
+    "vincirena-mouthpiece-case-tool.jpg": {
+      "width": 1254,
+      "height": 1254,
+      "alt": "The mouthpiece next to its storage case and a small adjustment tool"
+    },
+    "vincirena-lifestyle-couple-bedside.jpg": {
+      "width": 1536,
+      "height": 1024,
+      "alt": "An adult couple asleep; the mouthpiece, its case and the tool rest on the bedside table"
+    }
+  }
 }

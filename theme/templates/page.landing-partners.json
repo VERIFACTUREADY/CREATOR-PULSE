@@ -23,6 +23,7 @@
         "heading_level": "h1",
         "padding_top": 32,
         "padding_bottom": 64,
+        "image": "shopify://shop_images/vincirena-lifestyle-couple-bedside.jpg",
         "image_note": "Lifestyle photo: an adult couple waking up rested in a calm bedroom (licensed, real models)",
         "eyebrow": "Sleeping as a couple",
         "heading": "When one person snores, two people can be awake.",
@@ -149,7 +150,8 @@
         "show_benefit": true,
         "show_trust_links": true,
         "padding_top": 72,
-        "padding_bottom": 72
+        "padding_bottom": 72,
+        "image": "shopify://shop_images/vincirena-mouthpiece-front.jpg"
       }
     },
     "mech": {

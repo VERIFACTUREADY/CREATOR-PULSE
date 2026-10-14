@@ -56,7 +56,13 @@ function resolveSetting(def, value) {
     case 'range': case 'number': return v === undefined || v === null || v === '' ? null : Number(v);
     case 'url': return v ? shopifyUrl(v) : null;
     case 'product': return v ? (fixture.pages.find((r) => r.product && r.product.handle === v) || {}).product || null : null;
-    case 'image_picker': case 'video': case 'collection': case 'blog': case 'page': case 'metaobject': return null;
+    case 'image_picker': {
+      // V3: imágenes reales de Shopify Files (shopify://shop_images/<archivo>) servidas desde media/producto/.
+      const name = typeof v === 'string' && v.startsWith('shopify://shop_images/') ? v.slice('shopify://shop_images/'.length) : null;
+      const meta = name && (fixture.shop_images || {})[name];
+      return meta ? { src: '/shop-images/' + name, width: meta.width, height: meta.height, aspect_ratio: meta.width / meta.height, alt: meta.alt } : null;
+    }
+    case 'video': case 'collection': case 'blog': case 'page': case 'metaobject': return null;
     default: return v === undefined ? null : v;
   }
 }
@@ -193,6 +199,10 @@ fs.mkdirSync(path.join(outDir, 'fonts'), { recursive: true });
 const fontSrc = path.join(here, '../node_modules/@fontsource/lato/files');
 for (const w of ['400', '700']) for (const st of ['normal', 'italic'])
   fs.copyFileSync(path.join(fontSrc, `lato-latin-${w}-${st}.woff2`), path.join(outDir, 'fonts', `lato-${w}-${st}.woff2`));
+
+// V3: fotos reales del producto (mismas que en Shopify Files), fuera del ZIP del tema.
+fs.mkdirSync(path.join(outDir, 'shop-images'), { recursive: true });
+for (const f of fs.readdirSync(path.join(repo, 'media/producto'))) fs.copyFileSync(path.join(repo, 'media/producto', f), path.join(outDir, 'shop-images', f));
 
 if (args.includes('--complete-metafields')) {
   // Solo para probar la compuerta. Nada de esto se copia al tema.

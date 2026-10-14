@@ -18,7 +18,8 @@
         "show_benefit": true,
         "show_trust_links": true,
         "padding_top": 32,
-        "padding_bottom": 64
+        "padding_bottom": 64,
+        "image": "shopify://shop_images/vincirena-mouthpiece-3-4-left.jpg"
       }
     },
     "hero": {
@@ -169,6 +170,7 @@
         "color_scheme": "scheme-5",
         "layout": "image_right",
         "product": "adjustable-mouthpiece",
+        "image": "shopify://shop_images/vincirena-mouthpiece-case-tool.jpg",
         "image_note": "Product photo: the real mouthpiece and its case on a neutral background (licensed)",
         "eyebrow": "Meet the mouthpiece",
         "heading": "A simple device, explained clearly.",
@@ -343,6 +345,7 @@
         "visible_in": "comercial",
         "color_scheme": "scheme-3",
         "layout": "image_left",
+        "image": "shopify://shop_images/vincirena-lifestyle-couple-bedside.jpg",
         "image_note": "Lifestyle photo: an adult couple, relaxed, in a calm bedroom (licensed, real models)",
         "eyebrow": "Sleeping as a couple",
         "heading": "Better nights are a team effort.",

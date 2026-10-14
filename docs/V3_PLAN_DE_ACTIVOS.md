@@ -22,3 +22,27 @@ Mientras falte un activo, el tema muestra su hueco ⟦PENDING⟧ con la toma nec
 | `video-ugc-*.mp4` | Anuncios (no en la web por ahora) | Prueba social | MP4 | 9:16 | 1080×1920 | — | No | **Solo** con creadores reales, aviso de patrocinio (FTC Endorsement Guides) y sin claims de salud |
 
 Registro: anotar cada activo, con su licencia, fecha, autor y consentimiento, en `docs/12_REGISTRO_EVIDENCIAS.md`.
+
+## Estado al 14/10/2026: fotos entregadas por el titular
+
+El titular entregó 11 imágenes. Convertidas de PNG a JPEG de calidad 90 (unos 200 KB cada una frente a los 2–4 MB originales). Copia en `media/producto/`. Subidas a Shopify como medios del producto `adjustable-mouthpiece`; también aparecen en *Content › Files*.
+
+| # | Archivo en Shopify | Uso en el tema | Texto alternativo |
+|---|---|---|---|
+| 1 | `vincirena-mouthpiece-3-4-left.jpg` | Galería de la ficha (1ª, imagen principal) · hero de la portada | Adjustable mouthpiece, three-quarter view showing the upper and lower trays |
+| 2 | `vincirena-mouthpiece-front.jpg` | Galería (2ª) · bloque de producto de la landing B | Adjustable mouthpiece, front view |
+| 3 | `vincirena-mouthpiece-top-front.jpg` | Galería (3ª) | Adjustable mouthpiece seen from above, showing the inside of the upper tray |
+| 4 | `vincirena-mouthpiece-3-4-right.jpg` | Galería (4ª) · hero de la landing A | Adjustable mouthpiece, side view showing the metal adjustment point |
+| 5 | `vincirena-mouthpiece-top.jpg` | Galería (5ª) | Adjustable mouthpiece, top-down view of the tray surface |
+| 6 | `vincirena-mouthpiece-back.jpg` | Galería (6ª) | Adjustable mouthpiece, rear view |
+| 8 | `vincirena-mouthpiece-case-tool.jpg` | Galería (7ª) · «Meet the mouthpiece» de la portada | The mouthpiece next to its storage case and a small adjustment tool |
+| 7 | `vincirena-lifestyle-couple-bedside.jpg` | Galería (8ª) · «Better nights are a team effort» de la portada · hero de la landing B | An adult couple asleep; the mouthpiece, its case and the tool rest on the bedside table |
+
+**No se usan en la web (9, 10 y 11: anillo dorado y columnas, salpicadura de agua y rascacielos de noche).** Su estética espectacular choca con la dirección calmada y clara de la marca (`V3_SISTEMA_DE_DISENO.md` §1). Además, la salpicadura de agua podría sugerir propiedades no verificadas, como resistencia al agua, lavado o higiene. Pueden servir para anuncios si se aprueban, y no se han subido a Shopify.
+
+**Pendiente de confirmar por el titular:**
+- **Origen y licencia** de cada imagen.
+- Si son **renders o imágenes generadas con IA**, que reproducen fielmente el artículo real (forma, punto de ajuste metálico, pestaña lateral, estuche y herramienta).
+- En la foto lifestyle, que las personas son modelos con consentimiento o imagen generada. Nunca se presentarán como clientes reales.
+
+Las fotos 7 y 8 muestran un estuche y una herramienta. **No se afirma en ningún texto** que se incluyan: eso debe venir de `commercial.includes`, la ficha aprobada.

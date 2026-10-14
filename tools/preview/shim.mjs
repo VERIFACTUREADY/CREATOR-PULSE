@@ -92,9 +92,17 @@ export function createEngine({ themeDir, locale, fallbackLocale, ctx }) {
   });
   f('stylesheet_tag', (u, ...args) => `<link href="${u}" rel="stylesheet" type="text/css" media="all" />`);
   f('script_tag', (u) => `<script src="${u}" type="text/javascript"></script>`);
-  f('image_url', (img) => (img && img.src) || '');
+  // Como en Shopify: image_url conserva el alt de la imagen e image_tag lo usa si no se pasa uno explícito.
+  f('image_url', (img) => {
+    if (!img || !img.src) return '';
+    const u = new String(img.src); // eslint-disable-line no-new-wrappers
+    u.alt = img.alt || '';
+    return u;
+  });
   f('image_tag', (url, ...args) => {
-    const attrs = args.filter(Array.isArray).map(([k, v]) => `${k}="${v}"`).join(' ');
+    const pairs = args.filter(Array.isArray);
+    if (!pairs.some(([k]) => k === 'alt')) pairs.push(['alt', String((url && url.alt) || '').replace(/"/g, '&quot;')]);
+    const attrs = pairs.map(([k, v]) => `${k}="${v}"`).join(' ');
     return `<img src="${url}" ${attrs}>`;
   });
   f('placeholder_svg_tag', (name, cls) => `<svg class="${cls || ''}" role="img" aria-label="Imagen pendiente" viewBox="0 0 100 60"><rect width="100" height="60" fill="#E9DBCA"/></svg>`);
