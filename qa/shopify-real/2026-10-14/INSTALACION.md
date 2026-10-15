@@ -74,3 +74,4 @@ Contraseña **activada** · `Helio` sigue siendo **MAIN** · tema V3 **UNPUBLISH
   2. Conectar silexora.com: *Settings › Domains › Connect existing domain*.
   3. Correo de remitente y de atención con el dominio nuevo.
 - Las fotos conservan su nombre de archivo (`vincirena-*.jpg`) para no romper las referencias del tema. No se ven en la tienda; solo aparecen en la URL de la imagen.
+- Subida el 15/10/2026 (commit 8f59375) con `themeFilesUpsert`. MD5 de `descanso.css` y `settings_schema.json` idénticos. `settings_data.json` solo difiere en la cabecera que añade Shopify, y su contenido confirma `"ds_brand_name": "SILEXORA"`. `themeUpdate` → «SILEXORA · PREVIEW (no publicar)», que sigue como UNPUBLISHED.
