@@ -113,7 +113,7 @@ results.gate = {
       jsonld_org: /"@type": "Organization",\s*"name": "TESTBRAND Q"/.test(html),
       header: /class="header__heading[\s\S]{0,800}TESTBRAND Q/.test(html),
       footer: /class="copyright__content"[\s\S]{0,200}TESTBRAND Q/.test(html),
-      sin_marca_anterior: !/VINCIRENA/.test(visibleTextAll(html)),
+      sin_marca_anterior: !/SILEXORA|VINCIRENA/.test(visibleTextAll(html)),
     };
     if (r === '/') checks.jsonld_website = /"@type": "WebSite",\s*"name": "TESTBRAND Q"/.test(html);
     const bad = Object.entries(checks).filter(([, v]) => !v).map(([k]) => k);

@@ -64,3 +64,13 @@ Contraseña **activada** · `Helio` sigue siendo **MAIN** · tema V3 **UNPUBLISH
 ## Pendiente
 - Un producto en Draft no aparece en la tienda: la ficha solo se ve desde el admin (Products › Adjustable Mouthpiece › Preview, eligiendo el tema V3). En la vista previa del tema, el botón «Shop the mouthpiece» y «The product» darán 404 mientras siga en Draft.
 - Rellenar los metacampos solo con documentos (ficha aprobada, IFU del fabricante).
+
+## 15/10/2026 · Cambio de marca a SILEXORA (dominio silexora.com)
+- Ajuste del tema `ds_brand_name` = **SILEXORA** en el tema sin publicar. Cambia la cabecera, el pie, `<title>`, OpenGraph, el JSON-LD y la página de contraseña.
+- Tema renombrado a «SILEXORA · PREVIEW (no publicar)».
+- `ds_brand_confirmed` sigue en **false**: comprar el dominio no sustituye la búsqueda de marca (USPTO/EUIPO). Solo bloquea LIVE.
+- **Pendiente en el admin (el conector no lo permite):**
+  1. Nombre de la tienda: *Settings › General › Store name* = SILEXORA.
+  2. Conectar silexora.com: *Settings › Domains › Connect existing domain*.
+  3. Correo de remitente y de atención con el dominio nuevo.
+- Las fotos conservan su nombre de archivo (`vincirena-*.jpg`) para no romper las referencias del tema. No se ven en la tienda; solo aparecen en la URL de la imagen.

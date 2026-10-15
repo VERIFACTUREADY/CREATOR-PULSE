@@ -18,7 +18,7 @@
         "type": "text",
         "id": "ds_brand_name",
         "label": "Nombre de marca",
-        "default": "VINCIRENA",
+        "default": "SILEXORA",
         "info": "Candidato provisional. Vacío = nombre de la tienda en Shopify. Cambiar aquí actualiza cabecera, pie y avisos."
       },
       {

@@ -675,7 +675,7 @@ a.ds-steps__link:hover { background: var(--ds-sand); }
 @media screen and (max-width: 389px) { .ds-wordmark { font-size: 1.5rem; } }
 
 /* =========================================================================
-   V3 · Sistema de diseño VINCIRENA (docs/V3_SISTEMA_DE_DISENO.md)
+   V3 · Sistema de diseño SILEXORA (antes VINCIRENA) (docs/V3_SISTEMA_DE_DISENO.md)
    Mobile-first. Evoluciona la paleta aprobada sin sustituirla: añade tonos
    suaves derivados (sage-soft, sand-soft) y un gris tinta para textos
    secundarios. Contrastes medidos en el documento (todos ≥ 4,5:1 en texto).

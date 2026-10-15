@@ -65,7 +65,7 @@ def inp(ws, r, c, v, fmt=USD):
 # ------------------------------------------------------------------ Leyenda
 L = wb.active; L.title = 'Leyenda'
 lines = [
-    ('Economía unitaria · VINCIRENA (marca provisional) · Mercado EE. UU. · USD · V2.2 (14/10/2026)', H1),
+    ('Economía unitaria · SILEXORA · Mercado EE. UU. · USD · V2.2 (14/10/2026)', H1),
     ('Ninguna celda contiene costes, precios ni umbrales reales: se rellenan con cotizaciones, facturas y decisiones del titular. Mientras falte un dato obligatorio, la hoja muestra «DATOS INCOMPLETOS».', BOLD),
     ('', None),
     ('Cómo usarlo', BOLD),
