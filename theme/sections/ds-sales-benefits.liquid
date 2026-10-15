@@ -1,0 +1,80 @@
+{%- comment -%}
+  V4 · Lista de ventajas con icono (tipo HONEX): título grande, subtítulo, ventajas
+  (icono + título en negrita + texto) y botón ancho hacia la zona de compra.
+  Cada ventaja es un bloque editable: solo características verificables
+  (docs/04_CLAIMS_APPROVAL_US.csv).
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
+<section
+  class="ds-sbenefits ds-section color-{{ section.settings.color_scheme }} gradient"
+  style="{% render 'ds-section-vars', section: section %}"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  aria-labelledby="DsSBen-{{ section.id }}"
+>
+  <div class="page-width ds-sbenefits__inner">
+    <h2 id="DsSBen-{{ section.id }}" class="ds-display">{{ section.settings.heading | escape }}</h2>
+    {%- if section.settings.subheading != blank -%}<p class="ds-sbenefits__sub">{{ section.settings.subheading | escape }}</p>{%- endif -%}
+    <ul class="ds-benlist" role="list">
+      {%- for block in section.blocks -%}
+        <li class="ds-benlist__item" {{ block.shopify_attributes }}>
+          <span class="ds-benlist__icon" aria-hidden="true">{%- render 'ds-icon', name: block.settings.icon -%}</span>
+          <div>
+            <h3 class="ds-benlist__title">{{ block.settings.title | escape }}</h3>
+            <p class="ds-benlist__text">{{ block.settings.text | escape }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+      <a class="button button--primary ds-btn-xl ds-btn-block" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}</a>
+    {%- endif -%}
+    {%- if section.settings.show_guarantee -%}
+      <div class="ds-gnote">
+        {%- if settings.ds_offer_guarantee != blank -%}
+          <p class="ds-seal ds-seal--sm" aria-hidden="true"><span>{{ settings.ds_offer_guarantee | escape }}</span></p>
+          <div class="ds-gnote__text ds-rte">{{ settings.ds_offer_guarantee_text }}</div>
+        {%- else -%}
+          <p class="ds-gnote__text">{%- render 'ds-pending', label: 'guarantee (Theme settings › Offer)' -%}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Ventajas",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "select", "id": "visible_in", "label": "Mostrar en", "default": "comercial", "options": [
+      { "value": "all", "label": "Todos los estados" },
+      { "value": "prototipo", "label": "Solo PROTOTIPO" },
+      { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" } ] },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "text", "id": "anchor", "label": "Ancla" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "The adjustable mouthpiece" },
+    { "type": "text", "id": "subheading", "label": "Subtítulo" },
+    { "type": "text", "id": "button_label", "label": "Botón" },
+    { "type": "url", "id": "button_link", "label": "Botón (destino)" },
+    { "type": "checkbox", "id": "show_guarantee", "label": "Mostrar la garantía (Ajustes › Oferta)", "default": true },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 56 }
+  ],
+  "blocks": [
+    { "type": "benefit", "name": "Ventaja", "settings": [
+      { "type": "select", "id": "icon", "label": "Icono", "default": "check", "options": [
+        { "value": "sliders", "label": "Ajuste" }, { "value": "screw", "label": "Tornillo" },
+        { "value": "tooth", "label": "Diente" }, { "value": "box", "label": "Caja" },
+        { "value": "feather", "label": "Ligero" }, { "value": "shield", "label": "Escudo" },
+        { "value": "moon", "label": "Luna" }, { "value": "check", "label": "Check" },
+        { "value": "return", "label": "Devolución" }, { "value": "truck", "label": "Envío" } ] },
+      { "type": "text", "id": "title", "label": "Título" },
+      { "type": "textarea", "id": "text", "label": "Texto (1–2 frases, verificable)" } ] }
+  ],
+  "presets": [{ "name": "DS · Ventajas" }]
+}
+{% endschema %}

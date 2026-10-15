@@ -1,0 +1,96 @@
+{%- comment -%}
+  V4 · «Anatomía» del producto (tipo HONEX «Comfort you can sleep in»): etiqueta,
+  titular grande, foto con etiquetas que señalan sus partes y tarjetas de detalle.
+  Las etiquetas describen solo partes visibles; las propiedades (material, etc.)
+  deben venir de la ficha aprobada.
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
+<section class="ds-anatomy ds-section color-{{ section.settings.color_scheme }} gradient" style="{% render 'ds-section-vars', section: section %}" aria-labelledby="DsAnat-{{ section.id }}">
+  <div class="page-width">
+    <div class="ds-center-head">
+      {%- if section.settings.eyebrow != blank -%}<p class="ds-pill">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h2 id="DsAnat-{{ section.id }}" class="ds-display">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.subheading != blank -%}<p class="ds-center-head__sub">{{ section.settings.subheading | escape }}</p>{%- endif -%}
+    </div>
+    <div class="ds-anatomy__grid">
+      <figure class="ds-anatomy__figure">
+        <div class="ds-anatomy__img">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '375, 550, 750, 1000, 1200', sizes: '(min-width: 990px) 560px, 100vw', alt: section.settings.image.alt }}
+          {%- else -%}
+            {%- render 'ds-photo-placeholder', label: 'Product photo for the parts diagram' -%}
+          {%- endif -%}
+          {%- assign n = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'callout' -%}
+              {%- assign n = n | plus: 1 -%}
+              <span class="ds-anatomy__dot" style="left: {{ block.settings.x }}%; top: {{ block.settings.y }}%;" aria-hidden="true" {{ block.shopify_attributes }}>{{ n }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <figcaption>
+          <ol class="ds-anatomy__legend" role="list">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'callout' -%}
+                <li><span class="ds-anatomy__num" aria-hidden="true"></span><span><strong>{{ block.settings.label | escape }}</strong>{% if block.settings.text != blank %} · {{ block.settings.text | escape }}{% endif %}</span></li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ol>
+        </figcaption>
+      </figure>
+      <ul class="ds-cardlist" role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'card' -%}
+            <li class="ds-cardlist__item" {{ block.shopify_attributes }}>
+              <span class="ds-cardlist__icon" aria-hidden="true">{%- render 'ds-icon', name: block.settings.icon -%}</span>
+              <div>
+                <h3 class="ds-cardlist__title">{{ block.settings.title | escape }}</h3>
+                <p class="ds-cardlist__text">{{ block.settings.text | escape }}</p>
+              </div>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Anatomía",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 10,
+  "settings": [
+    { "type": "select", "id": "visible_in", "label": "Mostrar en", "default": "comercial", "options": [
+      { "value": "all", "label": "Todos los estados" },
+      { "value": "prototipo", "label": "Solo PROTOTIPO" },
+      { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" } ] },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-2" },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta superior" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Every part, explained." },
+    { "type": "text", "id": "subheading", "label": "Subtítulo" },
+    { "type": "image_picker", "id": "image", "label": "Foto del producto" },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    { "type": "callout", "name": "Etiqueta en la foto", "settings": [
+      { "type": "text", "id": "label", "label": "Parte" },
+      { "type": "text", "id": "text", "label": "Detalle (verificable)" },
+      { "type": "range", "id": "x", "label": "Posición horizontal", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+      { "type": "range", "id": "y", "label": "Posición vertical", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 } ] },
+    { "type": "card", "name": "Tarjeta", "settings": [
+      { "type": "select", "id": "icon", "label": "Icono", "default": "check", "options": [
+        { "value": "sliders", "label": "Ajuste" }, { "value": "screw", "label": "Tornillo" },
+        { "value": "tooth", "label": "Diente" }, { "value": "box", "label": "Caja" },
+        { "value": "feather", "label": "Ligero" }, { "value": "shield", "label": "Escudo" },
+        { "value": "moon", "label": "Luna" }, { "value": "check", "label": "Check" } ] },
+      { "type": "text", "id": "title", "label": "Título" },
+      { "type": "textarea", "id": "text", "label": "Texto (verificable)" } ] }
+  ],
+  "presets": [{ "name": "DS · Anatomía" }]
+}
+{% endschema %}

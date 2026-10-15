@@ -676,6 +676,11 @@
       "offer_saving": "You save",
       "one_time": "One-time purchase. No subscription and no recurring charges.",
       "has_plans": "Subscription options are available. Charges and how to cancel are shown before you pay."
+    },
+    "v4": {
+      "photo_n": "Photo {{ n }}",
+      "choose_pack": "Choose your pack",
+      "preview_note": "Purchasing is turned off in this preview. Prices and packs are shown for review only."
     }
   }
 }

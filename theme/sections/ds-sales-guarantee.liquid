@@ -1,0 +1,50 @@
+{%- comment -%}
+  V4 · Tarjeta de garantía (tipo HONEX «Just try it»): foto + sello + texto. Todo sale
+  de Ajustes del tema › Oferta (ds_offer_guarantee / ds_offer_guarantee_text). Sin
+  datos: en PREVIEW un pendiente discreto; en LIVE la sección no se muestra.
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- capture ds_mode_g -%}{%- render 'ds-mode' -%}{%- endcapture -%}
+{%- assign has_g = false -%}
+{%- if settings.ds_offer_guarantee != blank and settings.ds_offer_guarantee_text != blank -%}{%- assign has_g = true -%}{%- endif -%}
+{%- if ds_show == 'true' -%}{%- if has_g or ds_mode_g != 'live' -%}
+<section class="ds-guar ds-section color-{{ section.settings.color_scheme }} gradient" style="{% render 'ds-section-vars', section: section %}" aria-labelledby="DsGuar-{{ section.id }}">
+  <div class="page-width ds-guar__inner">
+    {%- if section.settings.image != blank -%}
+      <div class="ds-guar__media">
+        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '375, 750, 1100', sizes: '(min-width: 990px) 560px, 100vw', alt: section.settings.image.alt }}
+        {%- if settings.ds_offer_guarantee != blank -%}<p class="ds-seal" aria-hidden="true"><span>{{ settings.ds_offer_guarantee | escape }}</span></p>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="ds-guar__card">
+      <h2 id="DsGuar-{{ section.id }}" class="ds-guar__title">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.intro != blank -%}<p class="ds-guar__intro">{{ section.settings.intro | escape }}</p>{%- endif -%}
+      <div class="ds-guar__text ds-rte">
+        {%- if settings.ds_offer_guarantee_text != blank -%}{{ settings.ds_offer_guarantee_text }}{%- else -%}<p>{%- render 'ds-pending', label: 'guarantee terms (Theme settings › Offer)' -%}</p>{%- endif -%}
+      </div>
+      <a class="ds-guar__link" href="/pages/returns">{{ 'ds.v3.trust_returns' | t }}</a>
+    </div>
+  </div>
+</section>
+{%- endif -%}{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Garantía",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "select", "id": "visible_in", "label": "Mostrar en", "default": "comercial", "options": [
+      { "value": "all", "label": "Todos los estados" },
+      { "value": "prototipo", "label": "Solo PROTOTIPO" },
+      { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" } ] },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-2" },
+    { "type": "image_picker", "id": "image", "label": "Foto" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Try it with peace of mind" },
+    { "type": "text", "id": "intro", "label": "Entradilla" },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 64 }
+  ],
+  "presets": [{ "name": "DS · Garantía" }]
+}
+{% endschema %}

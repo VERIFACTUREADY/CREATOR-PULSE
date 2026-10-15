@@ -1,0 +1,159 @@
+{%- comment -%}
+  V4 · Zona de compra con packs (tipo HONEX). Packs = variantes REALES del producto
+  (1 unidad, 2 unidades…), con etiqueta opcional por posición. Precio solo si
+  commercial.price_confirmed; tachado solo si commercial.compare_at_verified.
+  La compra (formulario /cart/add) solo existe si ds-commerce-ready = true (LIVE con
+  datos completos). En PREVIEW el botón se ve desactivado. Sin producto publicado
+  (borrador) se muestran los packs de los bloques con el precio pendiente.
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' -%}
+{%- liquid
+  assign p = section.settings.product
+  if p == blank
+    assign p = product
+  endif
+  assign ready = 'false'
+  if p != blank
+    capture ready
+      render 'ds-commerce-ready', product: p
+    endcapture
+    assign ready = ready | strip
+    assign pc = p.metafields.commercial.price_confirmed.value
+    assign cv = p.metafields.commercial.compare_at_verified.value
+  endif
+-%}
+<section class="ds-buy ds-section color-{{ section.settings.color_scheme }} gradient" style="{% render 'ds-section-vars', section: section %}" id="{{ section.settings.anchor | default: 'buy' | handleize }}" aria-labelledby="DsBuy-{{ section.id }}">
+  <div class="page-width ds-buy__inner">
+    <div class="ds-center-head">
+      <h2 id="DsBuy-{{ section.id }}" class="ds-display">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.subheading != blank -%}<p class="ds-center-head__sub">{{ section.settings.subheading | escape }}</p>{%- endif -%}
+    </div>
+    {%- assign checks = section.blocks | where: 'type', 'check' -%}
+    {%- if checks.size > 0 -%}
+      {%- if section.settings.checks_title != blank -%}<p class="ds-buy__checks-title">{{ section.settings.checks_title | escape }}</p>{%- endif -%}
+      <ul class="ds-checks" role="list">
+        {%- for block in checks -%}
+          {%- liquid
+            assign t = block.settings.text
+            case block.settings.source
+              when 'guarantee'
+                assign t = settings.ds_offer_guarantee
+              when 'shipping'
+                assign t = settings.ds_offer_shipping
+              when 'returns'
+                assign t = settings.ds_offer_returns
+            endcase
+          -%}
+          <li class="ds-checks__item" {{ block.shopify_attributes }}>
+            <span class="ds-checks__icon" aria-hidden="true">{%- render 'ds-icon', name: 'check' -%}</span>
+            <span>{%- if t != blank -%}{{ t | escape }}{%- else -%}{%- render 'ds-pending', label: block.settings.source -%}{%- endif -%}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- capture ds_packs -%}
+      <fieldset class="ds-packs">
+        <legend class="visually-hidden">{{ 'ds.v4.choose_pack' | t }}</legend>
+        {%- assign packs = section.blocks | where: 'type', 'pack' -%}
+        {%- if p != blank -%}
+          {%- for v in p.variants -%}
+            {%- assign pk = packs[forloop.index0] -%}
+            <label class="ds-pack{% if pk.settings.badge != blank %} ds-pack--badge{% endif %}">
+              <input type="radio" name="id" value="{{ v.id }}" {% if forloop.index0 == section.settings.default_index %}checked{% endif %}>
+              <span class="ds-pack__radio" aria-hidden="true"></span>
+              <span class="ds-pack__name">
+                <strong>{%- if pk.settings.title != blank -%}{{ pk.settings.title | escape }}{%- elsif p.has_only_default_variant -%}{{ p.title | escape }}{%- else -%}{{ v.title | escape }}{%- endif -%}</strong>
+                {%- if pk.settings.subtitle != blank -%}<small>{{ pk.settings.subtitle | escape }}</small>{%- endif -%}
+              </span>
+              <span class="ds-pack__price">
+                {%- if pc == true -%}
+                  <strong>{{ v.price | money }}</strong>
+                  {%- if cv == true and v.compare_at_price > v.price -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}
+                {%- else -%}
+                  {%- render 'ds-pending', label: 'price' -%}
+                {%- endif -%}
+              </span>
+              {%- if pk.settings.badge != blank -%}<span class="ds-pack__badge">{{ pk.settings.badge | escape }}</span>{%- endif -%}
+            </label>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for pk in packs -%}
+            <label class="ds-pack{% if pk.settings.badge != blank %} ds-pack--badge{% endif %}" {{ pk.shopify_attributes }}>
+              <input type="radio" name="ds-pack-preview-{{ section.id }}" {% if forloop.index0 == section.settings.default_index %}checked{% endif %}>
+              <span class="ds-pack__radio" aria-hidden="true"></span>
+              <span class="ds-pack__name"><strong>{{ pk.settings.title | escape }}</strong>{%- if pk.settings.subtitle != blank -%}<small>{{ pk.settings.subtitle | escape }}</small>{%- endif -%}</span>
+              <span class="ds-pack__price">{%- render 'ds-pending', label: 'price' -%}</span>
+              {%- if pk.settings.badge != blank -%}<span class="ds-pack__badge">{{ pk.settings.badge | escape }}</span>{%- endif -%}
+            </label>
+          {%- endfor -%}
+        {%- endif -%}
+      </fieldset>
+    {%- endcapture -%}
+
+    {%- if ready == 'true' -%}
+      {%- form 'product', p, id: 'DsBuyForm', class: 'ds-buy__form' -%}
+        {{ ds_packs }}
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="button button--primary ds-btn-xl ds-btn-block ds-buy__cta">
+          <span aria-hidden="true">{%- render 'ds-icon', name: 'box' -%}</span> {{ 'products.product.add_to_cart' | t }}
+        </button>
+      {%- endform -%}
+    {%- else -%}
+      <div class="ds-buy__form">
+        {{ ds_packs }}
+        <button type="button" class="button button--primary ds-btn-xl ds-btn-block ds-buy__cta" disabled aria-describedby="DsBuyNote-{{ section.id }}">
+          {{ 'products.product.add_to_cart' | t }}
+        </button>
+        <p class="ds-buy__note" id="DsBuyNote-{{ section.id }}">{{ 'ds.v4.preview_note' | t }}</p>
+      </div>
+    {%- endif -%}
+
+    {%- if shop.enabled_payment_types.size > 0 -%}
+      <ul class="ds-buy__pay" role="list" aria-label="{{ 'ds.offer.payment' | t }}">
+        {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Zona de compra",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "select", "id": "visible_in", "label": "Mostrar en", "default": "comercial", "options": [
+      { "value": "all", "label": "Todos los estados" },
+      { "value": "prototipo", "label": "Solo PROTOTIPO" },
+      { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" } ] },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-1" },
+    { "type": "text", "id": "anchor", "label": "Ancla", "default": "buy" },
+    { "type": "product", "id": "product", "label": "Producto", "info": "En la ficha se usa el producto actual." },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Choose your pack" },
+    { "type": "text", "id": "subheading", "label": "Subtítulo" },
+    { "type": "text", "id": "checks_title", "label": "Título de la lista" },
+    { "type": "range", "id": "default_index", "label": "Pack seleccionado por defecto (0 = primero)", "min": 0, "max": 5, "step": 1, "default": 0 },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 72 }
+  ],
+  "blocks": [
+    { "type": "check", "name": "Punto de la lista", "settings": [
+      { "type": "select", "id": "source", "label": "Texto desde", "default": "custom", "options": [
+        { "value": "custom", "label": "Texto propio (verificable)" },
+        { "value": "guarantee", "label": "Garantía (Ajustes › Oferta)" },
+        { "value": "shipping", "label": "Envío (Ajustes › Oferta)" },
+        { "value": "returns", "label": "Devoluciones (Ajustes › Oferta)" } ] },
+      { "type": "text", "id": "text", "label": "Texto propio" } ] },
+    { "type": "pack", "name": "Etiqueta de pack", "settings": [
+      { "type": "paragraph", "content": "El 1.er bloque etiqueta la 1.ª variante del producto, el 2.º la 2.ª, etc. Precio y descuento salen de la variante." },
+      { "type": "text", "id": "title", "label": "Nombre del pack" },
+      { "type": "text", "id": "subtitle", "label": "Detalle" },
+      { "type": "text", "id": "badge", "label": "Etiqueta (p. ej. «For couples»)", "info": "Nada de «Most popular» o «Best deal» sin datos de ventas que lo respalden." } ] }
+  ],
+  "presets": [{ "name": "DS · Zona de compra" }]
+}
+{% endschema %}

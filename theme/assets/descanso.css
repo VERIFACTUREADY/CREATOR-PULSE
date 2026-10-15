@@ -961,3 +961,257 @@ body { font-size: var(--ds-fs-body); }
   .product__media-wrapper .product-media-container.constrain-height { max-width: calc(12vh * var(--ratio)); }
   .ds-phero__media img { max-height: 16vh; }
 }
+
+/* =========================================================================
+   V4 · Estilo página de venta (referencia de estructura: HONEX; diseño propio)
+   Marino #0F1B3D · azul acción #2347C5 (blanco sobre azul 6,9:1) · texto gris
+   #4A5573 (7,6:1 sobre blanco) · sello #C93A2A (blanco 5,2:1).
+   ========================================================================= */
+:root {
+  --v4-navy: #0f1b3d;
+  --v4-blue: #2347c5;
+  --v4-blue-soft: #e8eefb;
+  --v4-ink: #4a5573;
+  --v4-line: #d9dfec;
+  --v4-bg: #f3f6fc;
+  --v4-red: #c93a2a;
+  --v4-radius: 18px;
+}
+body { color: var(--v4-ink); }
+h1, h2, h3, .h0, .h1, .h2, .h3 { color: rgb(var(--color-foreground)); letter-spacing: -0.02em; }
+.ds-display {
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: clamp(3.4rem, 8.6vw, 5.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.6rem;
+  color: rgb(var(--color-foreground));
+}
+.ds-pill {
+  display: inline-block;
+  margin: 0 0 1.6rem;
+  padding: 0.8rem 2rem;
+  border-radius: 999px;
+  background: rgba(15, 27, 61, 0.07);
+  color: var(--v4-navy);
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.color-scheme-4 .ds-pill { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.ds-center-head { text-align: center; max-width: 76rem; margin: 0 auto 3.2rem; }
+.ds-center-head__sub { font-size: 1.9rem; line-height: 1.5; margin: 0 auto; color: var(--v4-ink); }
+.ds-btn-xl {
+  min-height: 6.4rem;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 24px rgba(35, 71, 197, 0.28);
+}
+.ds-btn-block { display: flex; width: 100%; justify-content: center; align-items: center; gap: 1rem; }
+.ds-btn-xl .ds-icon { width: 2.4rem; height: 2.4rem; }
+.button--primary:not([disabled]):hover { filter: brightness(1.08); }
+
+/* Pendientes discretos (siguen siendo detectables: data-ds-placeholder) */
+.ds-placeholder {
+  background: #eef1f8;
+  color: #3b4767;
+  border: 1px dashed #a3aec8;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.86em;
+  padding: 0.1rem 0.6rem;
+}
+.ds-photo-placeholder { background: repeating-linear-gradient(135deg, #f3f6fc 0 14px, #e8eefb 14px 28px); border: 1px dashed #a3aec8; color: #3b4767; }
+.ds-proto-banner--preview { background: var(--v4-navy); }
+.ds-proto-banner { font-size: 1.25rem; }
+.ds-proto-banner__inner { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+
+/* Cabecera marino */
+.color-scheme-4 .ds-wordmark__icon { background: #fff; color: var(--v4-navy); }
+.header-wrapper.color-scheme-4 { border-bottom: 0; }
+
+/* ---------- Hero de venta ---------- */
+.ds-shero__grid { display: grid; gap: 2.4rem; }
+.ds-shero__copy { text-align: center; }
+.ds-shero__title {
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: clamp(4rem, 11vw, 7.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin: 0 0 1.6rem;
+}
+.ds-shero__text { font-size: clamp(1.8rem, 2.4vw, 2.2rem); line-height: 1.5; color: var(--v4-ink); max-width: 60rem; margin: 0 auto 2.4rem; }
+.ds-shero__text p { margin: 0; max-width: none; }
+.ds-shero__cta { margin-bottom: 0.8rem; }
+.ds-shero__media { position: relative; background: var(--v4-bg); border-radius: var(--v4-radius); overflow: visible; }
+.ds-shero__media img { display: block; width: 100%; height: auto; border-radius: var(--v4-radius); background: #fff; }
+.ds-seal {
+  position: absolute;
+  top: -1.2rem;
+  right: -0.4rem;
+  width: clamp(11rem, 34vw, 17rem);
+  aspect-ratio: 1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--v4-red);
+  border: 5px solid #fff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-heading-family);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding: 1.6rem;
+  max-width: none;
+}
+.ds-seal--sm { position: static; width: 13rem; font-size: 1.5rem; flex: none; }
+.ds-trustrow { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin: 3.2rem auto 0; padding-top: 0; text-align: center; }
+.ds-trustrow__item { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; max-width: none; }
+.ds-trustrow__icon { color: var(--v4-navy); }
+.ds-trustrow__icon .ds-icon { width: 4rem; height: 4rem; stroke-width: 1.8; }
+.ds-trustrow__title { font-family: var(--font-heading-family); font-weight: 800; font-size: 1.45rem; line-height: 1.25; color: var(--v4-navy); }
+.ds-trustrow__text { font-size: 1.3rem; line-height: 1.35; color: var(--v4-ink); }
+@media screen and (min-width: 990px) {
+  .ds-shero__grid { grid-template-columns: 1fr 1fr; gap: 6.4rem; align-items: center; }
+  .ds-shero__copy { text-align: left; }
+  .ds-shero__text { margin-left: 0; }
+  .ds-shero__cta { min-width: 32rem; }
+  .ds-trustrow { gap: 3.2rem; }
+  .ds-trustrow__title { font-size: 1.7rem; }
+  .ds-trustrow__text { font-size: 1.5rem; }
+}
+
+/* ---------- Ventajas ---------- */
+.ds-sbenefits__inner { max-width: 82rem; }
+.ds-sbenefits__sub { font-size: 2.2rem; line-height: 1.4; margin: 0 0 3.2rem; color: var(--v4-ink); }
+.ds-benlist { list-style: none; margin: 0 0 3.2rem; padding: 0; display: grid; gap: 2.8rem; }
+.ds-benlist__item { display: grid; grid-template-columns: 5.6rem 1fr; gap: 1.6rem; max-width: none; }
+.ds-benlist__icon { color: var(--v4-blue); padding-top: 0.2rem; }
+.ds-benlist__icon .ds-icon { width: 4rem; height: 4rem; stroke-width: 1.7; }
+.ds-benlist__title { font-family: var(--font-heading-family); font-weight: 700; font-size: 2.1rem; line-height: 1.25; margin: 0 0 0.6rem; letter-spacing: -0.01em; }
+.ds-benlist__text { margin: 0; font-size: 1.7rem; line-height: 1.6; color: var(--v4-ink); }
+.ds-gnote { display: flex; gap: 2rem; align-items: center; margin-top: 3.2rem; }
+.ds-gnote__text { font-size: 1.8rem; line-height: 1.5; }
+
+/* ---------- Galería ---------- */
+.ds-sgallery__track { list-style: none; margin: 0; padding: 0; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; gap: 1.2rem; scrollbar-width: none; }
+.ds-sgallery__track::-webkit-scrollbar { display: none; }
+.ds-sgallery__slide { flex: 0 0 100%; scroll-snap-align: center; max-width: none; background: #fff; border-radius: var(--v4-radius); overflow: hidden; }
+.ds-sgallery__slide img { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; background: #fff; }
+.ds-sgallery__thumbs { list-style: none; margin: 1.2rem 0 0; padding: 0; display: flex; gap: 0.8rem; overflow-x: auto; scrollbar-width: none; }
+.ds-sgallery__thumbs li { flex: 0 0 auto; max-width: none; }
+.ds-sgallery__thumb { display: block; width: 7.2rem; height: 7.2rem; border-radius: 12px; overflow: hidden; border: 2px solid var(--v4-line); background: #fff; }
+.ds-sgallery__thumb:hover, .ds-sgallery__thumb:focus-visible { border-color: var(--v4-navy); }
+.ds-sgallery__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media screen and (min-width: 990px) {
+  .ds-sgallery .page-width { max-width: 96rem; }
+  .ds-sgallery__slide img { aspect-ratio: 16 / 10; }
+}
+
+/* ---------- Cómo funciona en marino ---------- */
+.color-scheme-4.ds-mech .ds-heading, .color-scheme-4.ds-mech .ds-mech__title { color: #fff; }
+.color-scheme-4.ds-mech .ds-heading.h2 { font-family: var(--font-heading-family); font-weight: 800; font-size: clamp(3rem, 7vw, 4.8rem); line-height: 1.08; letter-spacing: -0.03em; }
+.color-scheme-4.ds-mech .ds-lead, .color-scheme-4.ds-mech .ds-mech__text, .color-scheme-4.ds-mech .ds-source { color: rgba(255, 255, 255, 0.78); }
+.color-scheme-4.ds-mech .ds-eyebrow { color: #9db4ff; }
+.color-scheme-4.ds-mech .ds-mech__num { border-radius: 16px; width: 5.2rem; height: 5.2rem; background: rgba(255, 255, 255, 0.08); color: #9db4ff; font-family: var(--font-heading-family); font-size: 2rem; }
+.color-scheme-4.ds-mech .ds-mech__step { grid-template-columns: 5.2rem 1fr; border-bottom-color: rgba(255, 255, 255, 0.12); }
+.color-scheme-4.ds-mech .ds-mech__title { font-family: var(--font-heading-family); font-size: 2.1rem; }
+.color-scheme-4.ds-mech .ds-mech__caution { background: rgba(255, 255, 255, 0.06); color: #fff; border-left-color: #9db4ff; }
+.color-scheme-4.ds-mech .ds-mech__caution-icon { color: #9db4ff; }
+.color-scheme-4.ds-mech .ds-link-arrow { color: #fff; }
+.color-scheme-4.ds-mech .ds-mech__figure { background: #fff; }
+
+/* ---------- Anatomía ---------- */
+.ds-anatomy__grid { display: grid; gap: 2.4rem; }
+@media screen and (min-width: 990px) { .ds-anatomy__grid { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: start; } }
+.ds-anatomy__figure { margin: 0; padding: 2rem; background: #fff; border: 1px solid var(--v4-line); border-radius: var(--v4-radius); box-shadow: 0 10px 30px rgba(15, 27, 61, 0.06); }
+.ds-anatomy__img { position: relative; }
+.ds-anatomy__img img { display: block; width: 100%; height: auto; }
+.ds-anatomy__dot { position: absolute; transform: translate(-50%, -50%); width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--v4-navy); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading-family); font-weight: 800; font-size: 1.4rem; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); }
+.ds-anatomy__legend { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; gap: 1rem; counter-reset: anat; font-size: 1.55rem; color: var(--v4-ink); }
+@media screen and (min-width: 750px) { .ds-anatomy__legend { grid-template-columns: 1fr 1fr; } }
+.ds-anatomy__legend li { display: flex; gap: 1rem; align-items: flex-start; max-width: none; counter-increment: anat; }
+.ds-anatomy__legend strong { color: var(--v4-navy); }
+.ds-anatomy__num::before { content: counter(anat); display: inline-flex; width: 2.6rem; height: 2.6rem; border-radius: 50%; background: var(--v4-navy); color: #fff; align-items: center; justify-content: center; font-weight: 800; font-size: 1.25rem; }
+.ds-cardlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.6rem; }
+.ds-cardlist__item { display: grid; grid-template-columns: 6.4rem 1fr; gap: 2rem; align-items: start; padding: 2.8rem 2.4rem; background: #fff; border: 1px solid var(--v4-line); border-radius: var(--v4-radius); box-shadow: 0 10px 30px rgba(15, 27, 61, 0.05); max-width: none; }
+.ds-cardlist__icon { display: inline-flex; width: 6.4rem; height: 6.4rem; border-radius: 14px; background: var(--v4-bg); color: var(--v4-blue); align-items: center; justify-content: center; }
+.ds-cardlist__icon .ds-icon { width: 3rem; height: 3rem; }
+.ds-cardlist__title { font-family: var(--font-heading-family); font-weight: 800; font-size: 2.2rem; line-height: 1.2; margin: 0 0 0.6rem; }
+.ds-cardlist__text { margin: 0; font-size: 1.7rem; line-height: 1.55; color: var(--v4-ink); }
+
+/* ---------- Garantía ---------- */
+.ds-guar__inner { display: grid; gap: 2.4rem; max-width: 96rem; }
+@media screen and (min-width: 990px) { .ds-guar__inner { grid-template-columns: 1fr 1fr; align-items: center; gap: 4.8rem; } }
+.ds-guar__media { position: relative; }
+.ds-guar__media img { display: block; width: 100%; height: auto; border-radius: var(--v4-radius); }
+.ds-guar__media .ds-seal { top: -1.2rem; left: -0.4rem; right: auto; }
+.ds-guar__card { padding: 3.2rem 2.8rem; background: #fff; border: 1px solid var(--v4-line); border-radius: 24px; }
+.ds-guar__title { font-family: var(--font-heading-family); font-weight: 800; font-size: 2.2rem; text-transform: uppercase; letter-spacing: 0.01em; margin: 0 0 1.6rem; }
+.ds-guar__intro, .ds-guar__text { font-size: 1.9rem; line-height: 1.6; color: rgb(var(--color-foreground)); }
+.ds-guar__link { display: inline-flex; min-height: 4.4rem; align-items: center; font-weight: 700; color: var(--v4-blue); }
+
+/* ---------- Zona de compra ---------- */
+.ds-buy__inner { max-width: 72rem; }
+.ds-buy__checks-title { text-align: center; font-family: var(--font-heading-family); font-weight: 800; font-size: 2.2rem; color: var(--v4-navy); text-decoration: underline; text-decoration-color: var(--v4-blue); text-decoration-thickness: 3px; text-underline-offset: 0.3em; margin: 0 auto 2rem; }
+.ds-checks { list-style: none; margin: 0 0 3.2rem; padding: 0; display: grid; gap: 1.4rem; }
+.ds-checks__item { display: grid; grid-template-columns: 3.2rem 1fr; gap: 1.4rem; align-items: start; font-family: var(--font-heading-family); font-weight: 700; font-size: 1.7rem; line-height: 1.4; color: var(--v4-navy); max-width: none; }
+.ds-checks__icon { display: inline-flex; width: 3.2rem; height: 3.2rem; border-radius: 50%; background: var(--v4-blue); color: #fff; align-items: center; justify-content: center; }
+.ds-checks__icon .ds-icon { width: 1.8rem; height: 1.8rem; stroke-width: 2.6; }
+.ds-packs { border: 0; margin: 0 0 2.4rem; padding: 0; display: grid; gap: 1.4rem; }
+.ds-pack { position: relative; display: grid; grid-template-columns: 3rem 1fr auto; gap: 1.6rem; align-items: center; padding: 2rem 2rem; border: 2px solid var(--v4-line); border-radius: 14px; background: #fff; cursor: pointer; }
+.ds-pack--badge { margin-bottom: 1.4rem; }
+.ds-pack input { position: absolute; opacity: 0; pointer-events: none; }
+.ds-pack__radio { width: 2.8rem; height: 2.8rem; border-radius: 50%; border: 2px solid #b4bdd2; position: relative; }
+.ds-pack:has(input:checked) { border: 3px solid var(--v4-navy); box-shadow: 0 8px 20px rgba(15, 27, 61, 0.08); }
+.ds-pack:has(input:checked) .ds-pack__radio { border-color: var(--v4-navy); }
+.ds-pack:has(input:checked) .ds-pack__radio::after { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: var(--v4-navy); }
+.ds-pack:has(input:focus-visible) { outline: 3px solid var(--v4-blue); outline-offset: 3px; }
+.ds-pack__name strong { display: block; font-size: 1.9rem; color: var(--v4-navy); }
+.ds-pack__name small { display: block; font-size: 1.45rem; color: var(--v4-ink); margin-top: 0.2rem; }
+.ds-pack__price { text-align: right; font-size: 1.9rem; color: var(--v4-navy); }
+.ds-pack__price s { display: block; font-size: 1.45rem; color: #77819b; }
+.ds-pack__badge { position: absolute; right: 2rem; bottom: -1.4rem; background: var(--v4-navy); color: #fff; font-weight: 700; font-size: 1.35rem; padding: 0.4rem 1.4rem; border-radius: 6px; }
+.ds-buy__cta { margin-top: 0.8rem; }
+.ds-buy__cta[disabled] { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+.ds-buy__note { text-align: center; font-size: 1.45rem; margin: 1.2rem 0 0; color: var(--v4-ink); }
+.ds-buy__pay { list-style: none; display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; margin: 2rem 0 0; padding: 0; }
+.ds-buy__pay li { max-width: none; }
+
+/* ---------- Ajustes generales V4 ---------- */
+.ds-faq__item summary, .ds-faq__question { font-family: var(--font-heading-family); font-weight: 700; color: var(--v4-navy); }
+.ds-faq .ds-heading.h2, .ds-editorial__title.h2, .ds-callout--center .ds-callout__title { font-family: var(--font-heading-family); font-weight: 800; letter-spacing: -0.03em; }
+.ds-editorial__text { color: var(--v4-ink); }
+.color-scheme-4 .ds-editorial__text, .color-scheme-4 .ds-rte { color: rgba(255, 255, 255, 0.85); }
+.color-scheme-1 .ds-link-arrow, .color-scheme-5 .ds-link-arrow, .color-scheme-2 .ds-link-arrow { color: var(--v4-blue); }
+.color-scheme-1 .ds-rte a:not(.button):not(.ds-link-arrow), .color-scheme-5 .ds-rte a:not(.button):not(.ds-link-arrow) { color: var(--v4-blue); }
+.ds-pack { grid-template-columns: 3rem minmax(0, 1fr) auto; }
+.ds-pack__price .ds-placeholder { font-size: 1.25rem; white-space: nowrap; }
+.ds-eyebrow { color: var(--v4-blue); }
+.color-scheme-1 .ds-eyebrow, .color-scheme-5 .ds-eyebrow { color: var(--v4-blue); }
+:focus-visible, .button:focus-visible, a:focus-visible, summary:focus-visible { outline-color: var(--v4-blue) !important; }
+.color-scheme-4 :focus-visible { outline-color: #9db4ff !important; }
+.ds-pack input { inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; pointer-events: auto; z-index: 1; }
+.ds-shero__price { margin: 0 0 2rem; font-family: var(--font-heading-family); }
+.ds-shero__price .price { font-size: 3rem; font-weight: 800; color: var(--v4-navy); }
+.ds-sgallery__track:focus-visible { outline-offset: 4px; }
+@media screen and (max-width: 749px) {
+  .ds-shero__title { font-size: 3.8rem; }
+  .ds-shero__text { font-size: 1.7rem; margin-bottom: 1.6rem; }
+  .ds-shero__price { margin-bottom: 1.2rem; }
+  .ds-shero__copy { display: flex; flex-direction: column; align-items: center; }
+}
+.ds-shero__price .ds-placeholder, .ds-pack__price .ds-placeholder { font-size: 1.4rem; font-family: var(--font-body-family); letter-spacing: 0; }

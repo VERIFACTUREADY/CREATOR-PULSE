@@ -7,62 +7,62 @@
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#F8F5EE",
+            "background": "#FFFFFF",
             "background_gradient": "",
-            "text": "#172B37",
-            "button": "#3E746F",
+            "text": "#0F1B3D",
+            "button": "#2347C5",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#172B37",
-            "shadow": "#172B37"
+            "secondary_button_label": "#0F1B3D",
+            "shadow": "#0F1B3D"
           }
         },
         "scheme-2": {
           "settings": {
-            "background": "#D8E5DC",
+            "background": "#F3F6FC",
             "background_gradient": "",
-            "text": "#172B37",
-            "button": "#172B37",
-            "button_label": "#F8F5EE",
-            "secondary_button_label": "#172B37",
-            "shadow": "#172B37"
+            "text": "#0F1B3D",
+            "button": "#2347C5",
+            "button_label": "#FFFFFF",
+            "secondary_button_label": "#0F1B3D",
+            "shadow": "#0F1B3D"
           }
         },
         "scheme-3": {
           "settings": {
-            "background": "#E9DBCA",
+            "background": "#E8EEFB",
             "background_gradient": "",
-            "text": "#172B37",
-            "button": "#172B37",
-            "button_label": "#F8F5EE",
-            "secondary_button_label": "#172B37",
-            "shadow": "#172B37"
+            "text": "#0F1B3D",
+            "button": "#2347C5",
+            "button_label": "#FFFFFF",
+            "secondary_button_label": "#0F1B3D",
+            "shadow": "#0F1B3D"
           }
         },
         "scheme-4": {
           "settings": {
-            "background": "#172B37",
+            "background": "#0F1B3D",
             "background_gradient": "",
-            "text": "#F8F5EE",
-            "button": "#D8E5DC",
-            "button_label": "#172B37",
-            "secondary_button_label": "#F8F5EE",
-            "shadow": "#172B37"
+            "text": "#FFFFFF",
+            "button": "#2347C5",
+            "button_label": "#FFFFFF",
+            "secondary_button_label": "#FFFFFF",
+            "shadow": "#000000"
           }
         },
         "scheme-5": {
           "settings": {
             "background": "#FFFFFF",
             "background_gradient": "",
-            "text": "#172B37",
-            "button": "#3E746F",
+            "text": "#0F1B3D",
+            "button": "#2347C5",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#172B37",
-            "shadow": "#172B37"
+            "secondary_button_label": "#0F1B3D",
+            "shadow": "#0F1B3D"
           }
         }
       },
-      "type_header_font": "lato_n7",
-      "heading_scale": 105,
+      "type_header_font": "poppins_n8",
+      "heading_scale": 110,
       "type_body_font": "lato_n4",
       "body_scale": 110,
       "page_width": 1200,
@@ -73,7 +73,7 @@
       "animations_hover_elements": "none",
       "buttons_border_thickness": 1,
       "buttons_border_opacity": 100,
-      "buttons_radius": 40,
+      "buttons_radius": 14,
       "buttons_shadow_opacity": 0,
       "buttons_shadow_horizontal_offset": 0,
       "buttons_shadow_vertical_offset": 4,
@@ -204,7 +204,9 @@
       "ds_brand_confirmed": false,
       "ds_last_review": "October 13, 2026",
       "ds_market": "us",
-      "ds_seller_country": ""
+      "ds_seller_country": "",
+      "ds_offer_guarantee": "",
+      "ds_offer_guarantee_text": ""
     }
   }
 }

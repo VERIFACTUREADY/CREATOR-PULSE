@@ -123,22 +123,21 @@ def build():
     def closing(t, key='closing_c', heading='Because you share the night.'):
         t.add(key, 'ds-callout', {'visible_in': 'comercial', 'color_scheme': 'scheme-4', 'style': 'center', 'heading': heading, 'text': "<p>See the mouthpiece, how it's used and what's included.</p>", 'button_label': 'See the mouthpiece', 'button_link': PURL, 'padding_top': 88, 'padding_bottom': 88})
 
-    # ------------------------------------------------------------- HOME (V3)
-    # Secuencia comercial: comprensión → interés → evaluación → confianza → decisión.
+    # ------------------------------------------------------------- HOME (V4 · página de venta, estructura tipo HONEX)
+    # Comprensión → interés → evaluación → confianza → decisión, con la compra al final (#buy).
+    # Textos de producto limitados a lo visible en las fotos; pendientes de confirmar con la ficha (docs/V4_DISENO_VENTA.md).
+    GAL = ['mouthpiece-3-4-left', 'mouthpiece-front', 'mouthpiece-top-front', 'mouthpiece-3-4-right', 'mouthpiece-top', 'mouthpiece-back', 'mouthpiece-case-tool', 'lifestyle-couple-bedside']
     t = T()
-    t.add('phero', 'ds-product-hero', {'visible_in': 'comercial', 'product': PH, 'eyebrow': 'The adjustable mouthpiece', 'heading': 'Because peaceful nights matter to both of you.',
-          'subheading': "<p>Snoring can affect the person who snores and the person next to them. Meet our adjustable mouthpiece — what it is, how it's used and what's included, explained simply.</p>",
-          'button_label': 'See the mouthpiece', 'secondary_label': 'How it works', 'secondary_link': '#how-it-works', 'show_points': False, 'show_benefit': True, 'show_trust_links': True, 'padding_top': 32, 'padding_bottom': 64,
-          'image': IMG['34left']})
+    t.add('shero', 'ds-sales-hero', {'visible_in': 'comercial', 'color_scheme': 'scheme-1', 'heading': 'Peaceful nights, for both of you.',
+          'text': "<p>An adjustable mouthpiece you wear while you sleep. Set the fit with a small screw, keep it in its case, and see exactly how it works before you buy.</p>",
+          'button_label': 'See packs & prices', 'button_link': '#buy', 'image': IMG['34left'], 'product': PH, 'show_price': True, 'show_badge': True, 'padding_top': 40, 'padding_bottom': 48},
+          [('trust', {'kind': 'guarantee', 'icon': 'shield', 'title': 'Guarantee'}),
+           ('trust', {'kind': 'shipping', 'icon': 'truck', 'title': 'Shipping'}),
+           ('trust', {'kind': 'returns', 'icon': 'return', 'title': 'Easy returns'})])
     t.add('hero', 'ds-hero', {'visible_in': 'prototipo', 'eyebrow': 'Sleeping as a couple', 'heading': 'Because you share the night.',
           'text': '<p>Snoring can affect the nights you share. Learn about its causes and the options available.</p>',
           'button_label': 'Understand your options', 'button_link': '/pages/how-it-works', 'quick_label': 'Quick links', 'padding_top': 40, 'padding_bottom': 48},
           [('link', {'label': 'What an oral appliance is', 'link': '/pages/how-it-works#what-it-is'}), ('link', {'label': 'When to talk to a provider', 'link': '/pages/use-and-safety#when-to-talk-to-a-provider'}), ('link', {'label': 'FAQ', 'link': '/pages/faq'})])
-    t.add('moments', 'ds-moments', {'visible_in': 'comercial', 'color_scheme': 'scheme-3', 'eyebrow': 'The everyday side of snoring', 'heading': 'Snoring rarely keeps just one person awake.',
-          'intro': "<p>It's common, it's nobody's fault, and it's worth talking about.</p>", 'source_label': AASM[0], 'source_url': AASM[1], 'review': 'sanitaria'},
-          [('moment', {'icon': 'person', 'label': "If you're the one who snores", 'text': "Many people only find out because someone tells them. It can be awkward to hear, and hard to know what to do next."}),
-           ('moment', {'icon': 'pillows', 'label': 'If you sleep next to someone who snores', 'text': 'Light sleepers can wake up again and again, then lie awake waiting for the next sound.'}),
-           ('moment', {'icon': 'chat', 'label': 'For both of you', 'text': "Earplugs, nudges, the couch, separate rooms. Small fixes that don't feel like a real plan."})])
     t.add('start', 'ds-steps', {'visible_in': 'prototipo', 'heading': 'Where to start', 'padding_top': 16, 'padding_bottom': 64},
           [('step', {'title': 'Understand the problem', 'text': "What snoring is and why it isn't always the same.", 'link': '/pages/how-it-works#snoring'}),
            ('step', {'title': 'Explore your options', 'text': 'How the different solutions work.', 'link': '/pages/how-it-works#options'}),
@@ -146,20 +145,38 @@ def build():
     t.add('empathy', 'ds-callout', {'visible_in': 'prototipo', 'color_scheme': 'scheme-3', 'style': 'quote', 'heading': 'When one person snores, two people can be awake.',
           'text': '<p>Snoring can affect the sleep of the person who snores and the person who shares the bed. Talking about it without blame is a good first step.</p>',
           'source_label': AASM[0], 'source_url': AASM[1], 'review': 'sanitaria', 'padding_top': 64, 'padding_bottom': 64})
-    t.add('meet', 'ds-editorial', {'visible_in': 'comercial', 'color_scheme': 'scheme-5', 'layout': 'image_right', 'product': PH,
-          'image': IMG['case'], 'image_note': 'Product photo: the real mouthpiece and its case on a neutral background (licensed)', 'eyebrow': 'Meet the mouthpiece', 'heading': 'A simple device, explained clearly.',
-          'text': "<p>It's a mouthpiece you wear while you sleep. Here's what it is in plain words — based on the manufacturer's documentation, not on guesswork.</p>",
-          'metafield': 'what_is', 'show_price': True, 'button_label': 'See the mouthpiece', 'button_link': PURL, 'secondary_label': "What's included", 'secondary_link': PURL + '#whats-included'})
-    mechanism(t, link=('See the full product page', PURL))
-    features(t)
+    t.add('benefits', 'ds-sales-benefits', {'visible_in': 'comercial', 'color_scheme': 'scheme-1', 'anchor': 'benefits', 'heading': 'The adjustable mouthpiece',
+          'subheading': 'Made for shared nights.', 'button_label': 'See packs & prices', 'button_link': '#buy', 'show_guarantee': True, 'padding_top': 32},
+          [('benefit', {'icon': 'screw', 'title': 'Adjustable fit', 'text': 'An adjustment screw on the side lets you fine-tune where the lower tray sits.'}),
+           ('benefit', {'icon': 'tooth', 'title': 'Two-tray design', 'text': 'An upper and a lower tray fit over your teeth and work together while you sleep.'}),
+           ('benefit', {'icon': 'box', 'title': 'Case and adjustment tool', 'text': 'Keep it stored between nights and make small adjustments with the tool.'}),
+           ('benefit', {'icon': 'shield', 'title': 'Precautions up front', 'text': 'Instructions and warnings are always one tap away, before and after you buy.'})])
+    t.add('gallery', 'ds-sales-gallery', {'visible_in': 'comercial', 'color_scheme': 'scheme-1', 'label': 'Product photos', 'padding_top': 0, 'padding_bottom': 56},
+          [('image', {'image': 'shopify://shop_images/vincirena-' + g + '.jpg'}) for g in GAL])
+    t.add('mech', 'ds-mechanism', {'visible_in': 'comercial', 'product': PH, 'color_scheme': 'scheme-4', 'anchor': 'how-it-works', 'eyebrow': 'How it works',
+          'heading': 'It holds your lower jaw slightly forward',
+          'intro': '<p>When you sleep, the muscles in your throat relax and the airway can narrow. That narrowing is where the snoring sound comes from. Mouthpieces like this one hold your lower jaw slightly forward while you sleep.</p>',
+          'steps_source': 'blocks', 'show_diagram': True, 'mechanism_verified': False, 'caution': CAUTION, 'source_label': AASM[0], 'source_url': AASM[1],
+          'link_label': 'Read use & safety', 'link': '/pages/use-and-safety', 'review': 'sanitaria', 'padding_top': 80, 'padding_bottom': 80},
+          [('step', {'title': 'It fits over your teeth', 'text': 'The upper and lower trays sit over your teeth like two connected guards.'}),
+           ('step', {'title': 'You set the position', 'text': 'Turn the adjustment screw to move the lower tray forward, a little at a time, following the instructions.'}),
+           ('step', {'title': 'You wear it at night', 'text': 'Put it in before you sleep, take it out in the morning, clean it and keep it in its case.'})])
     t.add('basics', 'ds-cards', {'visible_in': 'prototipo', 'color_scheme': 'scheme-2', 'eyebrow': 'Clear information', 'heading': 'The basics, in three ideas', 'columns': '3', 'tinted': True, 'review': 'sanitaria'},
           [('card', {'icon': 'moon', 'title': 'What snoring is', 'text': '<p>It is the sound made when you breathe during sleep and the airway narrows.</p>', 'source_label': AASM[0], 'source_url': AASM[1], 'link_label': 'Learn more', 'link': '/pages/how-it-works#snoring'}),
            ('card', {'icon': 'compare', 'title': 'Not all causes are the same', 'text': "<p>Snoring doesn't always have the same cause. That's why there is no single solution for everyone.</p>", 'source_label': ADA[0], 'source_url': ADA[1], 'link_label': 'See the options', 'link': '/pages/how-it-works#options'}),
            ('card', {'icon': 'alert', 'title': "When it's worth talking to a provider", 'text': '<p>If someone notices you stop breathing for a few seconds while you sleep, you wake up gasping or choking, or you feel very sleepy during the day, talk to a healthcare provider.</p>', 'source_label': ADA[0], 'source_url': ADA[1], 'link_label': 'See the signs', 'link': '/pages/use-and-safety#when-to-talk-to-a-provider'})])
-    t.add('couple', 'ds-editorial', {'visible_in': 'comercial', 'color_scheme': 'scheme-3', 'layout': 'image_left',
-          'image': IMG['couple'], 'image_note': 'Lifestyle photo: an adult couple, relaxed, in a calm bedroom (licensed, real models)', 'eyebrow': 'Sleeping as a couple', 'heading': 'Better nights are a team effort.',
-          'text': "<p>Talking about snoring can feel awkward. It goes better when it's about sleep, not blame — and when you look at the options together.</p>",
-          'button_label': 'Read our guide for couples', 'button_link': '/pages/landing-partners', 'secondary_label': 'See the mouthpiece', 'secondary_link': PURL})
+    t.add('anatomy', 'ds-sales-anatomy', {'visible_in': 'comercial', 'color_scheme': 'scheme-2', 'eyebrow': 'The details', 'heading': 'Every part, explained.',
+          'subheading': 'What you see in the photos, and what each part is for.', 'image': IMG['front']},
+          [('callout', {'label': 'Upper tray', 'text': 'Fits over your upper teeth.', 'x': 50, 'y': 27}),
+           ('callout', {'label': 'Lower tray', 'text': 'Fits over your lower teeth.', 'x': 50, 'y': 82}),
+           ('callout', {'label': 'Adjustment screw', 'text': 'Sets how far forward the lower tray sits.', 'x': 67, 'y': 64}),
+           ('card', {'icon': 'sliders', 'title': 'Adjust it step by step', 'text': "Small changes, one at a time, following the manufacturer's instructions."}),
+           ('card', {'icon': 'box', 'title': 'Easy to store', 'text': 'Keep it in its case between nights.'}),
+           ('card', {'icon': 'shield', 'title': 'Know the precautions', 'text': 'Check the warnings and contraindications before you use it.'})])
+    t.add('couple', 'ds-editorial', {'visible_in': 'comercial', 'color_scheme': 'scheme-1', 'layout': 'image_left', 'image': IMG['couple'],
+          'image_note': 'Lifestyle photo', 'eyebrow': 'Sleeping as a couple', 'heading': 'Because you share the night.',
+          'text': "<p>Snoring can affect the person who snores and the person next to them. Talking about it goes better when it's about sleep, not blame.</p>",
+          'button_label': 'See packs & prices', 'button_link': '#buy', 'secondary_label': 'Read our guide for couples', 'secondary_link': '/pages/landing-partners'})
     t.add('status', 'ds-status', {'visible_in': 'prototipo', 'eyebrow': 'Product under document review', 'heading': 'Before we sell, we check',
           'intro': "<p>We're evaluating an adjustable oral device. <strong>This product isn't for sale yet.</strong> We'll only sell it if it passes every check below.</p>",
           'button_label': 'What we know about the product', 'button_link': '/pages/the-product'},
@@ -168,21 +185,23 @@ def build():
            ('item', {'label': 'US regulatory status', 'note': 'For example, an FDA 510(k) number for the exact device.', 'status': 'pending'}),
            ('item', {'label': 'Instructions and warnings in English', 'status': 'pending'}),
            ('item', {'label': 'Final price and real delivery times', 'status': 'pending'})])
-    compare(t)
-    t.add('trust_v3', 'ds-trust', {'visible_in': 'comercial', 'color_scheme': 'scheme-2', 'product': PH, 'eyebrow': 'Before you decide', 'heading': 'Straight answers about buying from us'},
-          [('offer', {'kind': 'shipping', 'title': 'Shipping', 'link_label': 'Shipping policy'}),
-           ('offer', {'kind': 'returns', 'title': 'Returns', 'link_label': 'Return policy'}),
-           ('offer', {'kind': 'support', 'title': 'Customer care', 'link_label': 'Contact us'}),
-           ('offer', {'kind': 'payment', 'title': 'Payment'}),
-           ('manufacturer', {'title': 'Who makes it', 'link_label': 'Manufacturer and documentation', 'link': PURL + '#details'}),
-           ('custom', {'icon': 'check', 'title': 'No made-up reviews', 'text': "<p>We don't publish made-up reviews, unsupported percentages or seals we don't have.</p>"})])
     t.add('trust', 'ds-cards', {'visible_in': 'prototipo', 'color_scheme': 'scheme-5', 'eyebrow': 'Our commitment', 'heading': 'What you can expect from us', 'columns': '4'},
           [('card', {'icon': 'book', 'title': 'Clear information', 'text': "<p>We tell you what is known, what isn't, and when it's worth talking to a professional.</p>"}),
            ('card', {'icon': 'check', 'title': 'No miracle claims', 'text': "<p>We don't publish made-up reviews, unsupported percentages or seals we don't have.</p>"}),
            ('card', {'icon': 'alert', 'title': 'Precautions up front', 'text': '<p>Warnings are one click away from any page.</p>', 'link_label': 'Use & safety', 'link': '/pages/use-and-safety'}),
            ('card', {'icon': 'person', 'title': 'Who sells, always visible', 'text': '<p>Business name, contact details and policies, before you buy.</p>', 'link_label': 'About us', 'link': '/pages/about'})])
-    t.add('faq_c', 'ds-faq', {'visible_in': 'comercial', 'heading': 'Questions, answered simply', 'more_label': 'See all questions', 'more_link': '/pages/faq', 'padding_top': 72, 'padding_bottom': 72},
-          [FAQ_V3['what'], FAQ_V3['adjust'], FAQ_V3['who'], FAQ_V3['materials'], FAQ_V3['clean'], INCLUDED, FAQ_V3['discomfort'], APNEA, SHIP, RET, CONTACT])
+    t.add('guarantee', 'ds-sales-guarantee', {'visible_in': 'comercial', 'color_scheme': 'scheme-2', 'image': IMG['case'], 'heading': 'Try it with peace of mind',
+          'intro': 'We know buying something new for your sleep is a big step.'})
+    t.add('buy', 'ds-buy-box', {'visible_in': 'comercial', 'color_scheme': 'scheme-1', 'anchor': 'buy', 'product': PH, 'heading': 'Choose your pack',
+          'subheading': 'Shipping, returns and support are explained before you pay.', 'checks_title': 'What you get:', 'default_index': 0},
+          [('check', {'source': 'custom', 'text': 'Adjustable two-tray mouthpiece'}),
+           ('check', {'source': 'custom', 'text': 'Storage case and adjustment tool'}),
+           ('check', {'source': 'shipping', 'text': ''}),
+           ('check', {'source': 'returns', 'text': ''}),
+           ('pack', {'title': '1 mouthpiece', 'subtitle': 'For one sleeper', 'badge': ''}),
+           ('pack', {'title': '2 mouthpieces', 'subtitle': 'One for each of you', 'badge': 'For couples'})])
+    t.add('faq_c', 'ds-faq', {'visible_in': 'comercial', 'color_scheme': 'scheme-2', 'heading': 'Questions, answered', 'more_label': 'See all questions', 'more_link': '/pages/faq', 'padding_top': 72, 'padding_bottom': 72},
+          [FAQ_V3['adjust'], FAQ_V3['who'], FAQ_V3['clean'], FAQ_V3['discomfort'], APNEA, SHIP, RET, CONTACT])
     t.add('faq', 'ds-faq', {'visible_in': 'prototipo', 'heading': 'Frequently asked questions', 'review': 'sanitaria', 'more_label': 'See all questions', 'more_link': '/pages/faq', 'padding_top': 32},
           [Q('Can I buy the device yet?', "<p>Not yet. We're still checking its documentation, its US regulatory status and its real cost.</p>", 'What we know about the product', '/pages/the-product'),
            Q('Is snoring the same as sleep apnea?', '<p>No. Snoring and sleep apnea are not the same thing. Some signs need to be checked by a healthcare provider.</p>', 'See the signs', '/pages/use-and-safety#when-to-talk-to-a-provider'),
@@ -190,9 +209,9 @@ def build():
            Q('Does an oral appliance replace seeing a doctor or dentist?', "<p>No. An oral device doesn't replace a diagnosis or treatment from a healthcare provider.</p>"),
            Q("What does “FDA cleared” mean?", "<p>Many medical devices sold in the US need FDA clearance through a process called 510(k). “Cleared” is not the same as “approved.” A cleared device has a 510(k) number you can look up in the FDA database. We'll only describe a product as cleared after we've checked its number.</p>"),
            Q('Do you collect health information?', "<p>No. We don't need any health information to answer your questions. Please don't include it in the contact form.</p>")])
-    closing(t)
+    t.add('closing_c', 'ds-callout', {'visible_in': 'comercial', 'color_scheme': 'scheme-4', 'style': 'center', 'heading': 'Because you share the night.', 'text': '<p>Choose your pack and see shipping and returns before you pay.</p>', 'button_label': 'See packs & prices', 'button_link': '#buy', 'padding_top': 88, 'padding_bottom': 88})
     t.add('closing', 'ds-callout', {'visible_in': 'prototipo', 'color_scheme': 'scheme-4', 'style': 'center', 'heading': 'Take your time to get informed.', 'text': '<p>Because you share the night — and because it pays to get informed before you decide.</p>', 'button_label': 'Understand your options', 'button_link': '/pages/how-it-works', 'padding_top': 72, 'padding_bottom': 72})
-    t.write('index', 'US English storefront (V3). Seed generated by tools/content/build_us_templates.py; edit in the theme editor.')
+    t.write('index', 'US English storefront (V4 sales page). Seed generated by tools/content/build_us_templates.py; edit in the theme editor.')
 
     # ------------------------------------------------------------- PRODUCT (V3)
     t = T()

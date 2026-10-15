@@ -23,6 +23,7 @@ export class Color extends Drop {
 const FONTS = {
   lato: { family: 'Lato', fallback: 'sans-serif' },
   assistant: { family: 'Assistant', fallback: 'sans-serif' },
+  poppins: { family: 'Poppins', fallback: 'sans-serif' },
 };
 export class Font extends Drop {
   constructor(handle) {
@@ -147,6 +148,7 @@ export function createEngine({ themeDir, locale, fallbackLocale, ctx }) {
   f('external_video_url', (v) => '');
   f('external_video_tag', () => '');
   f('media_tag', () => '');
+  f('payment_type_svg_tag', () => '');
   f('video_tag', () => '');
   f('unit_price_with_measurement', () => '');
   f('payment_button', () => '');

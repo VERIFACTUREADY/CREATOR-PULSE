@@ -108,6 +108,18 @@
         "label": "Formas de pago aceptadas"
       },
       {
+        "type": "text",
+        "id": "ds_offer_guarantee",
+        "label": "Garantía (texto corto del sello)",
+        "info": "Ej.: «60-night trial». Solo si existe una política real. Vacío = no se muestra el sello."
+      },
+      {
+        "type": "richtext",
+        "id": "ds_offer_guarantee_text",
+        "label": "Garantía (explicación)",
+        "info": "Condiciones reales de la garantía. Debe coincidir con la Return policy."
+      },
+      {
         "type": "header",
         "content": "Modo prototipo"
       },

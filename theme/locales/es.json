@@ -688,6 +688,11 @@
       "offer_saving": "Ahorras",
       "one_time": "Compra única. Sin suscripción ni cargos recurrentes.",
       "has_plans": "Hay opciones de suscripción. Los cargos y cómo cancelar se muestran antes de pagar."
+    },
+    "v4": {
+      "photo_n": "Foto {{ n }}",
+      "choose_pack": "Elige tu pack",
+      "preview_note": "La compra está desactivada en esta vista previa. Precios y packs solo para revisión."
     }
   }
 }

@@ -1,0 +1,54 @@
+{%- comment -%}
+  V4 · Galería deslizable con miniaturas (CSS scroll-snap, sin JavaScript).
+  Bloques de imagen desde Shopify Files; funciona aunque el producto esté en borrador.
+{%- endcomment -%}
+{%- capture ds_show -%}{%- render 'ds-visible', when: section.settings.visible_in -%}{%- endcapture -%}
+{%- if ds_show == 'true' and section.blocks.size > 0 -%}
+<section class="ds-sgallery ds-section color-{{ section.settings.color_scheme }} gradient" style="{% render 'ds-section-vars', section: section %}" aria-label="{{ section.settings.label | escape }}">
+  <div class="page-width">
+    <ul class="ds-sgallery__track" role="list" tabindex="0" aria-label="{{ section.settings.label | escape }}">
+      {%- for block in section.blocks -%}
+        <li class="ds-sgallery__slide" id="DsSlide-{{ section.id }}-{{ forloop.index }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '375, 550, 750, 1000, 1400', sizes: '(min-width: 990px) 900px, 100vw', alt: block.settings.image.alt }}
+          {%- else -%}
+            {%- render 'ds-photo-placeholder', label: 'Gallery photo' -%}
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+    <ul class="ds-sgallery__thumbs" role="list">
+      {%- for block in section.blocks -%}
+        <li>
+          <a href="#DsSlide-{{ section.id }}-{{ forloop.index }}" class="ds-sgallery__thumb" aria-label="{{ 'ds.v4.photo_n' | t: n: forloop.index }}">
+            {%- if block.settings.image != blank -%}{{ block.settings.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "DS · Galería",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "select", "id": "visible_in", "label": "Mostrar en", "default": "comercial", "options": [
+      { "value": "all", "label": "Todos los estados" },
+      { "value": "prototipo", "label": "Solo PROTOTIPO" },
+      { "value": "comercial", "label": "Solo PREVIEW_COMERCIAL y LIVE" } ] },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Esquema de color", "default": "scheme-2" },
+    { "type": "text", "id": "label", "label": "Nombre accesible", "default": "Product photos" },
+    { "type": "range", "id": "padding_top", "label": "Margen superior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Margen inferior", "min": 0, "max": 120, "step": 8, "unit": "px", "default": 32 }
+  ],
+  "blocks": [
+    { "type": "image", "name": "Foto", "settings": [ { "type": "image_picker", "id": "image", "label": "Imagen" } ] }
+  ],
+  "presets": [{ "name": "DS · Galería" }]
+}
+{% endschema %}

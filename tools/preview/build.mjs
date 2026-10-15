@@ -199,6 +199,8 @@ fs.mkdirSync(path.join(outDir, 'fonts'), { recursive: true });
 const fontSrc = path.join(here, '../node_modules/@fontsource/lato/files');
 for (const w of ['400', '700']) for (const st of ['normal', 'italic'])
   fs.copyFileSync(path.join(fontSrc, `lato-latin-${w}-${st}.woff2`), path.join(outDir, 'fonts', `lato-${w}-${st}.woff2`));
+// V4: titulares en Poppins (mismo archivo que sirve la biblioteca de fuentes de Shopify).
+for (const w of ['700', '800']) fs.copyFileSync(path.join(here, `../node_modules/@fontsource/poppins/files/poppins-latin-${w}-normal.woff2`), path.join(outDir, 'fonts', `poppins-${w}-normal.woff2`));
 
 // V3: fotos reales del producto (mismas que en Shopify Files), fuera del ZIP del tema.
 fs.mkdirSync(path.join(outDir, 'shop-images'), { recursive: true });

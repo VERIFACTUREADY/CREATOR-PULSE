@@ -10,30 +10,30 @@
   <title id="DsDiagramTitle-{{ id }}">{{ title | escape }}</title>
   <defs>
     <marker id="DsArrow-{{ id }}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10 z" fill="#3E746F"/>
+      <path d="M0 0 L10 5 L0 10 z" fill="#2347C5"/>
     </marker>
   </defs>
-  <rect x="1" y="1" width="638" height="328" rx="28" fill="#F8F5EE" stroke="#172B37" stroke-opacity=".1"/>
+  <rect x="1" y="1" width="638" height="328" rx="28" fill="#F3F6FC" stroke="#0F1B3D" stroke-opacity=".1"/>
   {%- comment -%} 1 · Férula superior {%- endcomment -%}
-  <path d="M120 96 h352 a26 26 0 0 1 26 26 v18 a8 8 0 0 1 -8 8 H102 a8 8 0 0 1 -8 -8 v-18 a26 26 0 0 1 26 -26 z" fill="#D8E5DC" stroke="#172B37" stroke-width="2.5"/>
-  <path d="M128 148 v-14 M168 148 v-14 M208 148 v-14 M248 148 v-14 M288 148 v-14 M328 148 v-14 M368 148 v-14 M408 148 v-14 M448 148 v-14" stroke="#172B37" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M120 96 h352 a26 26 0 0 1 26 26 v18 a8 8 0 0 1 -8 8 H102 a8 8 0 0 1 -8 -8 v-18 a26 26 0 0 1 26 -26 z" fill="#DCE6FF" stroke="#0F1B3D" stroke-width="2.5"/>
+  <path d="M128 148 v-14 M168 148 v-14 M208 148 v-14 M248 148 v-14 M288 148 v-14 M328 148 v-14 M368 148 v-14 M408 148 v-14 M448 148 v-14" stroke="#0F1B3D" stroke-opacity=".35" stroke-width="2"/>
   {%- comment -%} Posición neutra de la férula inferior (referencia, discontinua) {%- endcomment -%}
-  <path d="M102 176 H490 a8 8 0 0 1 8 8 v18 a26 26 0 0 1 -26 26 H120 a26 26 0 0 1 -26 -26 v-18 a8 8 0 0 1 8 -8 z" fill="none" stroke="#172B37" stroke-opacity=".45" stroke-width="2" stroke-dasharray="7 7"/>
+  <path d="M102 176 H490 a8 8 0 0 1 8 8 v18 a26 26 0 0 1 -26 26 H120 a26 26 0 0 1 -26 -26 v-18 a8 8 0 0 1 8 -8 z" fill="none" stroke="#0F1B3D" stroke-opacity=".45" stroke-width="2" stroke-dasharray="7 7"/>
   {%- comment -%} 2 · Férula inferior, adelantada {%- endcomment -%}
-  <path d="M146 170 H534 a8 8 0 0 1 8 8 v18 a26 26 0 0 1 -26 26 H164 a26 26 0 0 1 -26 -26 v-18 a8 8 0 0 1 8 -8 z" fill="#E9DBCA" stroke="#172B37" stroke-width="2.5"/>
-  <path d="M172 170 v14 M212 170 v14 M252 170 v14 M292 170 v14 M332 170 v14 M372 170 v14 M412 170 v14 M452 170 v14 M492 170 v14" stroke="#172B37" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M146 170 H534 a8 8 0 0 1 8 8 v18 a26 26 0 0 1 -26 26 H164 a26 26 0 0 1 -26 -26 v-18 a8 8 0 0 1 8 -8 z" fill="#B9CCFF" stroke="#0F1B3D" stroke-width="2.5"/>
+  <path d="M172 170 v14 M212 170 v14 M252 170 v14 M292 170 v14 M332 170 v14 M372 170 v14 M412 170 v14 M452 170 v14 M492 170 v14" stroke="#0F1B3D" stroke-opacity=".35" stroke-width="2"/>
   {%- comment -%} 3 · Ajuste (si el modelo lo tiene) {%- endcomment -%}
-  <rect x="182" y="140" width="34" height="38" rx="8" fill="#3E746F"/>
+  <rect x="182" y="140" width="34" height="38" rx="8" fill="#2347C5"/>
   <path d="M190 151 h18 M190 159 h18 M190 167 h18" stroke="#F8F5EE" stroke-width="2"/>
   {%- comment -%} 4 · Desplazamiento hacia delante {%- endcomment -%}
-  <path d="M300 262 H420" stroke="#3E746F" stroke-width="4" stroke-linecap="round" marker-end="url(#DsArrow-{{ id }})"/>
+  <path d="M300 262 H420" stroke="#2347C5" stroke-width="4" stroke-linecap="round" marker-end="url(#DsArrow-{{ id }})"/>
   <g font-family="inherit" font-size="18" font-weight="700" text-anchor="middle">
-    <circle cx="560" cy="110" r="17" fill="#172B37"/><text x="560" y="116" fill="#F8F5EE">1</text>
-    <circle cx="580" cy="200" r="17" fill="#172B37"/><text x="580" y="206" fill="#F8F5EE">2</text>
-    <circle cx="150" cy="70" r="17" fill="#172B37"/><text x="150" y="76" fill="#F8F5EE">3</text>
-    <path d="M160 84 L190 136" stroke="#172B37" stroke-width="2"/>
-    <circle cx="460" cy="262" r="17" fill="#172B37"/><text x="460" y="268" fill="#F8F5EE">4</text>
+    <circle cx="560" cy="110" r="17" fill="#0F1B3D"/><text x="560" y="116" fill="#F8F5EE">1</text>
+    <circle cx="580" cy="200" r="17" fill="#0F1B3D"/><text x="580" y="206" fill="#F8F5EE">2</text>
+    <circle cx="150" cy="70" r="17" fill="#0F1B3D"/><text x="150" y="76" fill="#F8F5EE">3</text>
+    <path d="M160 84 L190 136" stroke="#0F1B3D" stroke-width="2"/>
+    <circle cx="460" cy="262" r="17" fill="#0F1B3D"/><text x="460" y="268" fill="#F8F5EE">4</text>
   </g>
-  <text x="58" y="300" font-family="inherit" font-size="15" fill="#172B37" fill-opacity=".8">◂ back</text>
-  <text x="582" y="300" font-family="inherit" font-size="15" fill="#172B37" fill-opacity=".8" text-anchor="end">front ▸</text>
+  <text x="58" y="300" font-family="inherit" font-size="15" fill="#0F1B3D" fill-opacity=".8">◂ back</text>
+  <text x="582" y="300" font-family="inherit" font-size="15" fill="#0F1B3D" fill-opacity=".8" text-anchor="end">front ▸</text>
 </svg>
