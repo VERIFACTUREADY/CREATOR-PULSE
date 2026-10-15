@@ -1,10 +1,10 @@
-{% comment %}
+{%- comment -%}
   Hueco de fotografía pendiente: rayado, con texto explícito y detectable por
   qa/prelaunch-check.mjs. Sustituye a cualquier imagen simulada (auditoría V2, C-06).
   Accepts:
   - label: {String} qué foto falta (opcional)
   - ratio: {String} 'square' | 'landscape' (opcional, por defecto square)
-{% endcomment %}
+{%- endcomment -%}
 <figure class="ds-photo-placeholder ds-photo-placeholder--{{ ratio | default: 'square' }}" data-ds-placeholder>
   <figcaption>
     <span class="ds-photo-placeholder__title">⟦{{ 'ds.photo.title' | t }}⟧</span>

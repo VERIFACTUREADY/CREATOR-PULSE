@@ -1,9 +1,9 @@
-{% comment %}
+{%- comment -%}
   Sustituye [[ENVIO]], [[DEVOLUCIONES]], [[ATENCION]] y [[PAGO]] por los ajustes de
   «Oferta» del tema (fuente única de verdad, auditoría V2 C-07). Si un ajuste está
   vacío, inserta un marcador ⟦PENDIENTE⟧.
   Accepts: text
-{% endcomment %}
+{%- endcomment -%}
 {%- liquid
   assign out = text
   if out contains '[['

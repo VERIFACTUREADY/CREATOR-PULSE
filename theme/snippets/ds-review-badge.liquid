@@ -1,10 +1,10 @@
-{% comment %}
+{%- comment -%}
   Etiqueta «Borrador · pendiente de revisión …». Solo aparece mientras el
   ajuste «Mostrar marcadores de contenido pendiente» esté activo.
 
   Accepts:
   - kind: {String} 'sanitaria' | 'juridica' | 'fabricante' | 'titular'
-{% endcomment %}
+{%- endcomment -%}
 {%- comment -%} V2: la revisión sanitaria está declarada cerrada por el titular; estas etiquetas solo se ven en PROTOTIPO. {%- endcomment -%}
 {%- capture ds_mode_r -%}{%- render 'ds-mode' -%}{%- endcapture -%}
 {%- if settings.ds_show_pending and kind != blank and ds_mode_r == 'prototipo' -%}

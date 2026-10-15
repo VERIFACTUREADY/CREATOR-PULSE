@@ -1,4 +1,4 @@
-{% comment %}
+{%- comment -%}
   Lista (« · ») de datos que le faltan a un producto para poder venderse.
   Denegar por defecto: sin producto imprime «product».
 
@@ -9,7 +9,7 @@
   Que un campo esté relleno solo indica que existe el dato; la verificación es humana
   (registro regulatory_us.human_verification y docs/V22_FDA_DOCUMENTOS_Y_VALIDACIONES.md).
   Accepts: product
-{% endcomment %}
+{%- endcomment -%}
 {%- liquid
   assign out = ''
   if product == blank

@@ -1,4 +1,4 @@
-{% comment %}
+{%- comment -%}
   Estado EFECTIVO de la tienda. Imprime 'prototipo', 'preview' o 'live'.
   LIVE solo es efectivo si (1) el ajuste es LIVE, (2) la confirmación es
   exactamente «VENTA REAL AUTORIZADA» y (3) no falta ningún dato global
@@ -7,7 +7,7 @@
 
   Usage:
   {%- capture ds_mode -%}{%- render 'ds-mode' -%}{%- endcapture -%}
-{% endcomment %}
+{%- endcomment -%}
 {%- liquid
   assign m = 'prototipo'
   if settings.ds_store_mode == 'preview_comercial'

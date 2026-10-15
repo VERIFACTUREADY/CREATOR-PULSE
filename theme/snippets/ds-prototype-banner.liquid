@@ -1,9 +1,9 @@
-{% comment %}
+{%- comment -%}
   Aviso de estado, siempre visible salvo en LIVE efectivo:
   - PROTOTIPO: aviso de prototipo privado (ajustable).
   - PREVIEW_COMERCIAL: «Vista previa comercial · compra desactivada».
   - LIVE solicitado pero bloqueado: aviso rojo con lo que falta.
-{% endcomment %}
+{%- endcomment -%}
 {%- capture ds_mode_b -%}{%- render 'ds-mode' -%}{%- endcapture -%}
 {%- if settings.ds_store_mode == 'live' and ds_mode_b != 'live' -%}
   {%- capture blockers -%}{%- render 'ds-live-blockers' -%}{%- endcapture -%}

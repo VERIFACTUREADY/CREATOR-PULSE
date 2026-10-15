@@ -1,7 +1,7 @@
-{% comment %}
+{%- comment -%}
   V3 · Características resumidas junto a la compra (commercial.features). Si falta, ⟦PENDING⟧.
   Accepts: product, block
-{% endcomment %}
+{%- endcomment -%}
 {%- capture ds_hv -%}{%- render 'ds-visible', when: 'comercial' -%}{%- endcapture -%}
 {%- if ds_hv == 'true' -%}
   <div class="ds-highlights" {{ block.shopify_attributes }}>

@@ -1,4 +1,4 @@
-{% comment %}
+{%- comment -%}
   ¿Se puede COMPRAR este producto? Imprime «true» o «false». Denegar por defecto.
   true solo si: estado efectivo LIVE, hay producto, no le falta ningún dato
   (ds-product-missing vacío) y Shopify lo marca como disponible.
@@ -6,7 +6,7 @@
 
   Accepts:
   - product: {Object} producto (obligatorio)
-{% endcomment %}
+{%- endcomment -%}
 {%- liquid
   assign ready = false
   if product != blank

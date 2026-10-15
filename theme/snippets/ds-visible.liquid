@@ -1,8 +1,8 @@
-{% comment %}
+{%- comment -%}
   ¿Se muestra este contenido en el estado actual? Imprime «true» o «false».
   Accepts:
   - when: {String} 'all' (o vacío) | 'prototipo' | 'comercial' (PREVIEW_COMERCIAL y LIVE) | 'no_live' (todo salvo LIVE)
-{% endcomment %}
+{%- endcomment -%}
 {%- capture ds_mode_v -%}{%- render 'ds-mode' -%}{%- endcapture -%}
 {%- liquid
   assign show = true

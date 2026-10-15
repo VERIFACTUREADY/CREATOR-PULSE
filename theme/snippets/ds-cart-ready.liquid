@@ -1,10 +1,10 @@
-{% comment %}
+{%- comment -%}
   ¿Se puede pasar por caja con este carrito? Imprime «true» o «false». Denegar por defecto.
   true solo si el estado efectivo es LIVE y CADA artículo del carrito pertenece a un
   producto apto (ds-commerce-ready). Así, un producto añadido por una ruta alternativa
   (petición directa a /cart/add, app, enlace antiguo) no llega al checkout desde el tema.
   No sustituye al control del servidor: el producto no apto debe seguir en borrador en Shopify.
-{% endcomment %}
+{%- endcomment -%}
 {%- liquid
   capture mode
     render 'ds-mode'

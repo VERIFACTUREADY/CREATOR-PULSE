@@ -1,10 +1,10 @@
-{% comment %}
+{%- comment -%}
   Puntos de confianza de la oferta (envío, devoluciones, atención y pago) desde los
   ajustes del tema. Nunca inventa: si falta un dato, marcador ⟦PENDIENTE⟧.
   Accepts:
   - product: {Object} opcional; si tiene commercial.delivery_window se muestra como plazo
   - compact: {Boolean} versión en una columna para la ficha
-{% endcomment %}
+{%- endcomment -%}
 <ul class="ds-offer-points{% if compact %} ds-offer-points--compact{% endif %}" role="list">
   <li>
     <span class="ds-offer-points__icon">{%- render 'ds-icon', name: 'truck' -%}</span>
