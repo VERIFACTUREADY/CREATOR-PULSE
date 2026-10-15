@@ -48,7 +48,7 @@
           },
           {
             "value": "preview_comercial",
-            "label": "PREVIEW_COMERCIAL (venta visible, compra desactivada)"
+            "label": "PREVIEW_COMERCIAL (compra desactivada)"
           },
           {
             "value": "live",
@@ -74,7 +74,7 @@
           },
           {
             "value": "eu",
-            "label": "Unión Europea / España (metacampos compliance.* UE)"
+            "label": "Unión Europea / España (compliance UE)"
           }
         ],
         "info": "Decide qué documentación exige la compuerta. Los campos de un mercado NUNCA sirven para el otro."
